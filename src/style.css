@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-heading: "Space Grotesk", sans-serif;
+  
+  --color-brand-primary: #3b82f6;
+  --color-brand-dark: #0f172a;
+  --color-brand-accent: #60a5fa;
+  --color-brand-deep: #020617;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-brand-deep text-slate-200 font-sans overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl transition-all duration-500;
+  }
+
+  .glass-card:hover {
+    @apply border-blue-500/40 shadow-2xl shadow-blue-500/10 -translate-y-1;
+  }
+
+  .btn-primary {
+    @apply px-8 py-4 bg-blue-500 hover:bg-blue-400 text-white rounded-2xl font-bold transition-all duration-300 transform active:scale-95 shadow-lg shadow-blue-500/20;
+  }
+
+  .btn-outline {
+    @apply px-8 py-4 glass-card hover:bg-white/5 text-white font-bold;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-linear-to-r from-white via-blue-100 to-blue-500 font-extrabold;
+  }
+}
+
+/* Custom Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes mesh-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.mesh-bg {
+  background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
+  background-size: 200% 200%;
+  animation: mesh-gradient 20s ease infinite;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Bento Grid Specifics */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, minmax(200px, auto));
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
