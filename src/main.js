@@ -1,91 +1,99 @@
 import './style.css'
 
-// Intersection Observer for Reveal Animations
-const revealElements = () => {
-  const observer = new IntersectionObserver((entries) => {
+// Dark Mode Toggle Logic
+const themeToggleBtn = document.getElementById('theme-toggle');
+const htmlElement = document.documentElement;
+
+// Check for saved theme preference or OS default
+if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  htmlElement.classList.add('dark');
+} else {
+  htmlElement.classList.remove('dark');
+}
+
+themeToggleBtn.addEventListener('click', () => {
+  htmlElement.classList.toggle('dark');
+  
+  if (htmlElement.classList.contains('dark')) {
+    localStorage.setItem('theme', 'dark');
+  } else {
+    localStorage.setItem('theme', 'light');
+  }
+});
+
+// Scroll animations via Intersection Observer
+document.addEventListener('DOMContentLoaded', () => {
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        // Unobserve after animation if desired, or keep for repeat
-        // observer.unobserve(entry.target);
+        observer.unobserve(entry.target);
       }
     });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
+  }, observerOptions);
 
-  document.querySelectorAll('.reveal').forEach(el => {
+  document.querySelectorAll('.reveal').forEach((el) => {
     observer.observe(el);
   });
-};
 
-// Navbar Scroll Effect
-const handleNavbarScroll = () => {
+  // Dynamic Navbar Styling
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
-      nav.classList.add('bg-brand-deep/80', 'backdrop-blur-xl', 'shadow-2xl', 'py-4', 'border-b', 'border-white/5');
+      nav.classList.add('bg-brand-surface/80', 'backdrop-blur-xl', 'shadow-lg', 'py-4', 'border-b', 'border-brand-secondary');
       nav.classList.remove('py-6');
     } else {
-      nav.classList.remove('bg-brand-deep/80', 'backdrop-blur-xl', 'shadow-2xl', 'py-4', 'border-b', 'border-white/5');
+      nav.classList.remove('bg-brand-surface/80', 'backdrop-blur-xl', 'shadow-lg', 'py-4', 'border-b', 'border-brand-secondary');
       nav.classList.add('py-6');
     }
   });
-};
 
-// Smooth Scroll for Navigation Links
-const initSmoothScroll = () => {
+  // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       const targetId = this.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
+      if (targetId === '#') return;
       
+      const targetElement = document.querySelector(targetId);
       if (targetElement) {
-        const offset = 80; // Navbar height
-        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
-        
         window.scrollTo({
-          top: targetPosition,
+          top: targetElement.offsetTop,
           behavior: 'smooth'
         });
       }
     });
   });
-};
 
-// Form Interaction (Simple placeholder logic)
-const initForm = () => {
-  const form = document.querySelector('form');
-  if (form) {
-    form.addEventListener('submit', (e) => {
+  // Form Submission Logic
+  const contactForm = document.querySelector('form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const btn = form.querySelector('button');
-      const originalText = btn.textContent;
+      const btn = contactForm.querySelector('button[type="submit"]');
+      const originalText = btn.innerHTML;
       
-      btn.disabled = true;
-      btn.textContent = 'Transmitting...';
+      btn.innerHTML = 'Sending... <span class="material-symbols-outlined animate-spin">refresh</span>';
+      btn.classList.add('opacity-80', 'cursor-not-allowed');
       
       setTimeout(() => {
-        btn.textContent = 'Transmission Received';
-        btn.classList.replace('bg-blue-600', 'bg-green-600');
-        form.reset();
+        btn.innerHTML = 'Message Received <span class="material-symbols-outlined">check_circle</span>';
+        btn.classList.remove('opacity-80', 'cursor-not-allowed', 'bg-gradient-to-r', 'from-teal-500', 'to-sky-500');
+        btn.classList.add('bg-green-500');
+        contactForm.reset();
         
         setTimeout(() => {
-          btn.disabled = false;
-          btn.textContent = originalText;
-          btn.classList.replace('bg-green-600', 'bg-blue-600');
+          btn.innerHTML = originalText;
+          btn.classList.add('bg-gradient-to-r', 'from-teal-500', 'to-sky-500');
+          btn.classList.remove('bg-green-500');
         }, 3000);
       }, 1500);
     });
   }
-};
-
-// Initialize everything
-document.addEventListener('DOMContentLoaded', () => {
-  revealElements();
-  handleNavbarScroll();
-  initSmoothScroll();
-  initForm();
 });

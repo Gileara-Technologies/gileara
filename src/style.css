@@ -1,48 +1,92 @@
-@import "tailwindcss";
-
-@theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-heading: "Space Grotesk", sans-serif;
-  
-  --color-brand-primary: #3b82f6;
-  --color-brand-dark: #0f172a;
-  --color-brand-accent: #60a5fa;
-  --color-brand-deep: #020617;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   :root {
+    /* Light Mode Variables - RGB channels for Tailwind opacity support */
+    color-scheme: light;
+    --color-background: 248 250 252; /* #f8fafc */
+    --color-surface: 255 255 255; /* #ffffff */
+    --color-text: 15 23 42; /* #0f172a */
+    --color-muted: 100 116 139; /* #64748b */
+    --color-primary: 14 165 233; /* #0ea5e9 */
+    --color-secondary: 226 232 240; /* #e2e8f0 */
+    
+    --hero-mesh-bg: radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.08) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.08) 0%, transparent 40%);
+    --scroll-behavior: smooth;
+  }
+
+  .dark {
+    /* Dark Mode Variables - RGB channels */
     color-scheme: dark;
+    --color-background: 15 23 42; /* #0f172a */
+    --color-surface: 30 41 59; /* #1e293b */
+    --color-text: 248 250 252; /* #f8fafc */
+    --color-muted: 148 163 184; /* #94a3b8 */
+    --color-primary: 56 189 248; /* #38bdf8 */
+    --color-secondary: 51 65 85; /* #334155 */
+
+    --hero-mesh-bg: radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.15) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.15) 0%, transparent 40%);
   }
 
   body {
-    @apply bg-brand-deep text-slate-200 font-sans overflow-x-hidden;
+    @apply bg-brand-background text-brand-text font-sans overflow-x-hidden transition-colors duration-300;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading tracking-tight;
+    @apply font-heading tracking-tight text-brand-text;
   }
 }
 
 @layer components {
+  /* UI/UX Fixes: Clearer visibility for glass cards, adjusting based on theme */
   .glass-card {
-    @apply bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl transition-all duration-500;
+    @apply bg-brand-surface/80 backdrop-blur-xl border border-brand-secondary rounded-3xl transition-all duration-500 shadow-sm;
   }
 
   .glass-card:hover {
-    @apply border-blue-500/40 shadow-2xl shadow-blue-500/10 -translate-y-1;
+    @apply border-brand-primary/50 shadow-xl shadow-brand-primary/10 -translate-y-1;
   }
 
   .btn-primary {
-    @apply px-8 py-4 bg-blue-500 hover:bg-blue-400 text-white rounded-2xl font-bold transition-all duration-300 transform active:scale-95 shadow-lg shadow-blue-500/20;
+    @apply px-8 py-4 bg-gradient-to-r from-teal-500 to-sky-500 hover:scale-105 text-white rounded-2xl font-bold transition-all duration-300 transform active:scale-95 shadow-lg shadow-sky-500/20;
   }
 
   .btn-outline {
-    @apply px-8 py-4 glass-card hover:bg-white/5 text-white font-bold;
+    @apply px-8 py-4 glass-card hover:bg-brand-secondary/50 text-brand-text font-bold;
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-linear-to-r from-white via-blue-100 to-blue-500 font-extrabold;
+    @apply bg-clip-text text-transparent font-extrabold;
+    background-image: linear-gradient(to right, rgb(var(--color-text)), #0d9488, rgb(var(--color-primary)));
+  }
+  
+  /* Feature cards with background images */
+  .image-card {
+    @apply relative overflow-hidden rounded-3xl transition-all duration-500 shadow-sm border border-brand-secondary;
+  }
+  
+  .image-card-bg {
+    @apply absolute inset-0 bg-cover bg-center transition-transform duration-700;
+  }
+  
+  .image-card:hover .image-card-bg {
+    @apply scale-110;
+  }
+  
+  .image-card-overlay {
+    @apply absolute inset-0 bg-brand-background/80 backdrop-blur-[2px] transition-all duration-500;
+  }
+  
+  .image-card:hover .image-card-overlay {
+    @apply bg-brand-background/60;
+  }
+  
+  .image-card-content {
+    @apply relative z-10 p-10 h-full flex flex-col;
   }
 }
 
@@ -64,8 +108,7 @@
 }
 
 .mesh-bg {
-  background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
-              radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
+  background: var(--hero-mesh-bg);
   background-size: 200% 200%;
   animation: mesh-gradient 20s ease infinite;
 }
@@ -85,7 +128,7 @@
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, minmax(200px, auto));
+  grid-template-rows: repeat(2, minmax(280px, auto));
   gap: 1.5rem;
 }
 
