@@ -1,0 +1,11 @@
+# Global owners
+* @thehiddendeveloper
+
+# Frontend
+/src/app/ @thehiddendeveloper
+/src/components/ @thehiddendeveloper
+*.tsx @thehiddendeveloper
+*.css @thehiddendeveloper
+
+# Infrastructure
+/.github/ @thehiddendeveloper

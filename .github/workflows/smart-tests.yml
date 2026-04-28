@@ -1,0 +1,57 @@
+name: Smart Test Selection
+
+on:
+  pull_request:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    outputs:
+      test_suites: ${{ steps.analyze.outputs.suites }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Analyze changes
+        id: analyze
+        run: |
+          changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          suites="[]"
+
+          if echo "$changed" | grep -q "^src/app/"; then
+            suites=$(echo $suites | jq '. + ["frontend"]')
+          fi
+
+          if echo "$changed" | grep -q "^src/components/"; then
+            suites=$(echo $suites | jq '. + ["components"]')
+          fi
+
+          if [ "$suites" = "[]" ]; then
+            suites='["all"]'
+          fi
+
+          echo "suites=$suites" >> $GITHUB_OUTPUT
+
+  test:
+    needs: analyze
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        suite: ${{ fromJson(needs.analyze.outputs.test_suites) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build

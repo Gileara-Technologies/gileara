@@ -88,6 +88,51 @@
   .image-card-content {
     @apply relative z-10 p-10 h-full flex flex-col;
   }
+
+  /* Glassmorphism 2.0 - Multi-layered border effect */
+  .glass-premium {
+    @apply relative overflow-hidden bg-brand-surface/70 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1), 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-premium::before {
+    content: '';
+    @apply absolute inset-0 -z-10 bg-gradient-to-br from-brand-primary/10 via-transparent to-teal-500/10 opacity-0 transition-opacity duration-500;
+  }
+
+  .glass-premium:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Marquee Animation */
+  .marquee-container {
+    @apply flex overflow-hidden select-none gap-10 py-10;
+  }
+
+  .marquee-content {
+    @apply flex shrink-0 justify-around min-w-full gap-10 animate-marquee;
+  }
+}
+
+/* Custom Animations */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.scanline {
+  @apply absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-brand-primary/30 to-transparent z-20 pointer-events-none;
+  animation: scanline 3s linear infinite;
 }
 
 /* Custom Animations */
