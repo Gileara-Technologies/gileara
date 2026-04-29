@@ -11,9 +11,9 @@ export default function Footer() {
               <Image
                 src="/assets/logo-full.png"
                 alt="Gileara Logo"
-                width={224}
-                height={56}
-                className="h-14 w-auto dark:brightness-0 dark:invert transition-all"
+                width={300}
+                height={75}
+                className="w-56 md:w-72 h-auto filter dark:brightness-0 dark:invert transition-all"
               />
             </div>
             <p className="text-brand-muted max-w-sm mb-10 leading-relaxed">

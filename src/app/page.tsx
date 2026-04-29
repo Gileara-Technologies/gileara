@@ -1,12 +1,10 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import TrustStrip from "@/components/TrustStrip";
-import TechMarquee from "@/components/TechMarquee";
-import About from "@/components/About";
+import CinematicStory from "@/components/CinematicStory";
 import BentoGrid from "@/components/BentoGrid";
 import Pricing from "@/components/Pricing";
-import Deployments from "@/components/Deployments";
 import Approach from "@/components/Approach";
+import Founders from "@/components/Founders";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 
@@ -16,13 +14,11 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <TrustStrip />
-        <TechMarquee />
-        <About />
+        <CinematicStory />
         <BentoGrid />
         <Pricing />
-        <Deployments />
         <Approach />
+        <Founders />
         <ContactCTA />
       </main>
       <Footer />

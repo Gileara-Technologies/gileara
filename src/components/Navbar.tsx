@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,8 +23,8 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed w-full z-50 transition-all duration-300 py-4 ${
-        isScrolled ? "bg-brand-surface/80 backdrop-blur-md border-b border-brand-secondary/50 shadow-lg" : ""
+      className={`fixed w-full z-50 transition-all duration-300 py-2.5 bg-brand-surface/30 backdrop-blur-xl border-b border-brand-secondary/20 shadow-sm ${
+        isScrolled ? "bg-brand-surface/60 border-brand-secondary/40 shadow-lg" : ""
       }`}
       id="navbar"
     >
@@ -44,9 +45,10 @@ export default function Navbar() {
           <Link href="#approach" className="hover:text-brand-primary transition-colors">Approach</Link>
         </div>
         <div className="flex items-center space-x-4">
+          <ThemeToggle />
           <Link
             href="#contact"
-            className="hidden sm:inline-block px-6 py-3 bg-brand-primary hover:bg-teal-500 rounded-full text-sm font-bold text-white transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-brand-primary/20"
+            className="hidden sm:inline-block px-5 py-2 bg-brand-primary hover:bg-teal-500 rounded-full text-xs font-bold text-white transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-brand-primary/20"
           >
             Book a Call
           </Link>

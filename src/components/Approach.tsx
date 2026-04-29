@@ -7,102 +7,77 @@ export default function Approach() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.2 }
+      transition: {
+        staggerChildren: 0.1
+      }
     }
   };
 
   const item = {
-    hidden: { opacity: 0, x: -20 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
 
-  const gridItem = {
-    hidden: { opacity: 0, scale: 0.9 },
-    show: { opacity: 1, scale: 1, transition: { duration: 0.6 } }
-  };
+  const values = [
+    {
+      title: "Integrity",
+      desc: "Uncompromising standards in every line of code.",
+      icon: "verified_user",
+      color: "text-brand-primary"
+    },
+    {
+      title: "Velocity",
+      desc: "Rapid deployment optimized for global scaling.",
+      icon: "rocket_launch",
+      color: "text-teal-500"
+    },
+    {
+      title: "Excellence",
+      desc: "Mastering the craft of digital engineering.",
+      icon: "diamond",
+      color: "text-sky-500"
+    },
+    {
+      title: "Defense",
+      desc: "Security-first mindset in all architecture.",
+      icon: "admin_panel_settings",
+      color: "text-indigo-500"
+    }
+  ];
 
   return (
-    <section id="approach" className="py-32">
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-        >
-          <h3 className="text-brand-primary font-bold uppercase tracking-widest text-sm mb-4">The Gileara Way</h3>
-          <h2 className="text-5xl font-bold mb-12 leading-tight text-brand-text">A Systematic Approach to Excellence</h2>
-          
-          <div className="space-y-12">
-            <motion.div variants={item} className="flex gap-8 group">
-              <div className="w-12 h-12 rounded-2xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center font-bold text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">1</div>
-              <div>
-                <h4 className="text-xl font-bold mb-2 text-brand-text">Deep Discovery</h4>
-                <p className="text-brand-muted leading-relaxed">We don't just take orders. We map your entire operational landscape to find hidden efficiencies.</p>
-              </div>
-            </motion.div>
-            <motion.div variants={item} className="flex gap-8 group">
-              <div className="w-12 h-12 rounded-2xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center font-bold text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">2</div>
-              <div>
-                <h4 className="text-xl font-bold mb-2 text-brand-text">Architectural Blueprint</h4>
-                <p className="text-brand-muted leading-relaxed">A clear, secure, and scalable design is drafted before a single line of code is written.</p>
-              </div>
-            </motion.div>
-            <motion.div variants={item} className="flex gap-8 group">
-              <div className="w-12 h-12 rounded-2xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center font-bold text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">3</div>
-              <div>
-                <h4 className="text-xl font-bold mb-2 text-brand-text">Precision Execution</h4>
-                <p className="text-brand-muted leading-relaxed">Hardened development with security protocols integrated at every phase of the lifecycle.</p>
-              </div>
-            </motion.div>
+    <section id="approach" className="py-32 bg-brand-surface/10">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-10">
+          <div className="max-w-2xl">
+            <h3 className="text-brand-primary font-bold uppercase tracking-[0.3em] text-xs mb-4">The Gileara Way</h3>
+            <h2 className="text-5xl font-bold text-brand-text leading-tight">A Symmetrical Approach to Excellence</h2>
           </div>
-        </motion.div>
+          <p className="text-brand-muted text-lg max-w-sm mb-2">Eliminating chaos through rigorous structure and architectural discipline.</p>
+        </div>
 
         <motion.div
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          className="lg:pl-10"
+          viewport={{ once: true }}
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
-          <div className="grid grid-cols-2 gap-6">
-            <motion.div variants={gridItem} className="glass-card p-8 aspect-square flex flex-col justify-between">
-              <div className="w-12 h-12 bg-brand-primary/10 rounded-xl flex items-center justify-center text-brand-primary">
-                <span className="material-symbols-outlined text-3xl">verified_user</span>
+          {values.map((value, index) => (
+            <motion.div 
+              key={index} 
+              variants={item}
+              className="glass-card group p-8 flex flex-col items-center text-center hover:border-brand-primary/50 transition-colors duration-500"
+            >
+              <div className={`w-16 h-16 mb-8 rounded-2xl bg-brand-surface border border-brand-secondary/50 flex items-center justify-center ${value.color} group-hover:scale-110 transition-transform duration-500 shadow-xl`}>
+                <span className="material-symbols-outlined text-4xl">{value.icon}</span>
               </div>
-              <div>
-                <h5 className="font-bold mb-1 text-brand-text">Integrity</h5>
-                <p className="text-xs text-brand-muted">Uncompromising standards in every build.</p>
-              </div>
+              <h4 className="text-2xl font-bold mb-4 text-brand-text">{value.title}</h4>
+              <p className="text-brand-muted text-sm leading-relaxed">{value.desc}</p>
+              
+              <div className="mt-8 w-12 h-0.5 bg-brand-secondary/30 group-hover:w-full group-hover:bg-brand-primary transition-all duration-700" />
             </motion.div>
-            <motion.div variants={gridItem} className="glass-card p-8 aspect-square flex flex-col justify-between mt-10">
-              <div className="w-12 h-12 bg-teal-500/10 rounded-xl flex items-center justify-center text-teal-500">
-                <span className="material-symbols-outlined text-3xl">rocket_launch</span>
-              </div>
-              <div>
-                <h5 className="font-bold mb-1 text-brand-text">Velocity</h5>
-                <p className="text-xs text-brand-muted">Rapid deployment without quality loss.</p>
-              </div>
-            </motion.div>
-            <motion.div variants={gridItem} className="glass-card p-8 aspect-square flex flex-col justify-between -mt-10">
-              <div className="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center text-sky-500">
-                <span className="material-symbols-outlined text-3xl">diamond</span>
-              </div>
-              <div>
-                <h5 className="font-bold mb-1 text-brand-text">Excellence</h5>
-                <p className="text-xs text-brand-muted">Masters of the digital craft.</p>
-              </div>
-            </motion.div>
-            <motion.div variants={gridItem} className="glass-card p-8 aspect-square flex flex-col justify-between">
-              <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-500">
-                <span className="material-symbols-outlined text-3xl">admin_panel_settings</span>
-              </div>
-              <div>
-                <h5 className="font-bold mb-1 text-brand-text">Defense</h5>
-                <p className="text-xs text-brand-muted">Security-first mindset by default.</p>
-              </div>
-            </motion.div>
-          </div>
+          ))}
         </motion.div>
       </div>
     </section>

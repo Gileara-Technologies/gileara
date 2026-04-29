@@ -24,7 +24,7 @@ export default function ContactCTA() {
           </p>
           
           <a 
-            href="https://cal.com/gileara-tech/discovery" 
+            href="https://calendar.google.com/calendar/appointments/schedules/" 
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary inline-flex items-center gap-3 text-lg px-8 py-4 focus-visible:ring-4 focus-visible:ring-brand-primary focus:outline-none"

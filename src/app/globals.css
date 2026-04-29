@@ -14,8 +14,22 @@
     --color-secondary: 226 232 240; /* #e2e8f0 */
     
     --hero-mesh-bg: radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.08) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.08) 0%, transparent 40%);
+                    radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
+                    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
     --scroll-behavior: smooth;
+  }
+
+  .noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    filter: contrast(150%) brightness(100%);
   }
 
   .dark {
@@ -29,7 +43,8 @@
     --color-secondary: 51 65 85; /* #334155 */
 
     --hero-mesh-bg: radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.15) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.15) 0%, transparent 40%);
+                    radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.15) 0%, transparent 40%),
+                    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
   }
 
   body {
