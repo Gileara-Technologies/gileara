@@ -7,9 +7,9 @@ async function getAccessToken(clientEmail: string, privateKey: string) {
   const now = Math.floor(Date.now() / 1000);
   
   const formattedKey = privateKey
-    .trim()
-    .replace(/^["']|["']$/g, '')
-    .replace(/\\n/g, '\n');
+    .replace(/^['"]|['"]$/g, '') // Remove wrapping quotes
+    .split('\\n').join('\n')     // Handle literal \n strings
+    .trim();
 
   try {
     const jwt = await new jose.SignJWT({
@@ -50,6 +50,9 @@ export async function POST(request: Request) {
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
     const privateKey = process.env.GOOGLE_PRIVATE_KEY;
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
+
+    console.log("Debug: API Request received", { hasEmail: !!clientEmail, hasKey: !!privateKey, hasCalendar: !!calendarId });
+    if (privateKey) console.log("Debug: Key length:", privateKey.length, "First 20 chars:", privateKey.substring(0, 20));
 
     if (!clientEmail || !privateKey || !calendarId) {
       return NextResponse.json({ 

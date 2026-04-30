@@ -5,7 +5,9 @@ main = ".open-next/worker.js"
 assets = { directory = ".open-next/assets" }
 
 [vars]
-# Add your non-secret environment variables here
+# Add non-secret env vars here
+CONTACT_EMAIL="tech.gileara@gmail.com"
 
 [env.production.vars]
-# Non-secret env vars for production
+# Production secrets should be set in the Cloudflare Dashboard
+CONTACT_EMAIL="tech.gileara@gmail.com"
