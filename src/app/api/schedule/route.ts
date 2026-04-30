@@ -47,36 +47,43 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, email, goal, message, date, time } = body;
 
+    // Standard Next.js process.env should work with OpenNext
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
     const privateKey = process.env.GOOGLE_PRIVATE_KEY;
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
-    console.log("Debug: API Request received", { hasEmail: !!clientEmail, hasKey: !!privateKey, hasCalendar: !!calendarId });
-    if (privateKey) console.log("Debug: Key length:", privateKey.length, "First 20 chars:", privateKey.substring(0, 20));
+    console.log("Debug Info:", {
+      hasEmail: !!clientEmail,
+      hasKey: !!privateKey,
+      keyLength: privateKey?.length,
+      hasCalendar: !!calendarId,
+      payload: { date, time }
+    });
 
     if (!clientEmail || !privateKey || !calendarId) {
-      return NextResponse.json({ 
+      return new Response(JSON.stringify({ 
         success: false, 
-        message: "Credentials missing, please contact support." 
-      }, { status: 500 });
+        message: "Server configuration missing (Check Environment Variables)" 
+      }), { 
+        status: 500, 
+        headers: { 'Content-Type': 'application/json' } 
+      });
     }
 
     const accessToken = await getAccessToken(clientEmail, privateKey);
 
     const startDateTime = new Date(`${date}T${time}:00`);
+    if (isNaN(startDateTime.getTime())) {
+      throw new Error(`Invalid meeting date/time provided: ${date} ${time}`);
+    }
+
     const endDateTime = new Date(startDateTime.getTime() + 45 * 60000);
 
     const event = {
-      summary: `Meeting Request: ${name} (${goal})`,
-      description: `Name: ${name}\nEmail: ${email}\nGoal: ${goal}\n\nMessage:\n${message}\n\n(Created via gileara.com)`,
-      start: {
-        dateTime: startDateTime.toISOString(),
-      },
-      end: {
-        dateTime: endDateTime.toISOString(),
-      },
-      // Note: Attendees removed because Service Accounts cannot invite external guests 
-      // without Domain-Wide Delegation. You can invite them manually during triage.
+      summary: `Meeting: ${name} (${goal})`,
+      description: `Name: ${name}\nEmail: ${email}\nGoal: ${goal}\n\nMessage:\n${message}`,
+      start: { dateTime: startDateTime.toISOString() },
+      end: { dateTime: endDateTime.toISOString() },
     };
 
     const calendarResponse = await fetch(
@@ -93,15 +100,23 @@ export async function POST(request: Request) {
 
     if (!calendarResponse.ok) {
       const errorData = await calendarResponse.json();
-      throw new Error(`Calendar API Error: ${JSON.stringify(errorData)}`);
+      throw new Error(`Google Calendar API Error: ${JSON.stringify(errorData)}`);
     }
 
-    return NextResponse.json({ success: true });
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+
   } catch (error: any) {
-    console.error("Scheduling error:", error);
-    return NextResponse.json({ 
+    console.error("FATAL CRASH:", error);
+    return new Response(JSON.stringify({ 
       success: false, 
-      message: error.message || "Failed to schedule meeting" 
-    }, { status: 500 });
+      message: error.message || "Internal system error",
+      debug: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    }), { 
+      status: 500, 
+      headers: { 'Content-Type': 'application/json' } 
+    });
   }
 }
