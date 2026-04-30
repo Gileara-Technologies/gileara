@@ -1,10 +1,11 @@
 name = "gileara"
-compatibility_date = "2024-04-03"
-pages_build_output_dir = ".next"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+main = ".open-next/worker.js"
+assets = { directory = ".open-next/assets" }
 
 [vars]
-# Add your environment variables here for local development if needed
-# Better to manage them in the Cloudflare Dashboard for production
+# Add your non-secret environment variables here
 
 [env.production.vars]
-# Production secrets should be set in the Cloudflare Dashboard
+# Non-secret env vars for production

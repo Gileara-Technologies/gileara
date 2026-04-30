@@ -6,33 +6,40 @@ export const runtime = 'edge';
 async function getAccessToken(clientEmail: string, privateKey: string) {
   const now = Math.floor(Date.now() / 1000);
   
-  // Prepare the private key - handle newlines if they come from env
-  const formattedKey = privateKey.replace(/\\n/g, '\n');
+  const formattedKey = privateKey
+    .trim()
+    .replace(/^["']|["']$/g, '')
+    .replace(/\\n/g, '\n');
 
-  const jwt = await new jose.SignJWT({
-    iss: clientEmail,
-    scope: 'https://www.googleapis.com/auth/calendar.events',
-    aud: 'https://oauth2.googleapis.com/token',
-    exp: now + 3600,
-    iat: now,
-  })
-    .setProtectedHeader({ alg: 'RS256' })
-    .sign(await jose.importPKCS8(formattedKey, 'RS256'));
+  try {
+    const jwt = await new jose.SignJWT({
+      iss: clientEmail,
+      scope: 'https://www.googleapis.com/auth/calendar.events',
+      aud: 'https://oauth2.googleapis.com/token',
+      exp: now + 3600,
+      iat: now,
+    })
+      .setProtectedHeader({ alg: 'RS256' })
+      .sign(await jose.importPKCS8(formattedKey, 'RS256'));
 
-  const response = await fetch('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-      assertion: jwt,
-    }),
-  });
+    const response = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+        assertion: jwt,
+      }).toString(),
+    });
 
-  const data = await response.json();
-  if (!data.access_token) {
-    throw new Error(`Failed to get access token: ${JSON.stringify(data)}`);
+    const data = await response.json();
+    if (!data.access_token) {
+      throw new Error(`Failed to get access token: ${JSON.stringify(data)}`);
+    }
+    return data.access_token;
+  } catch (err: any) {
+    console.error("Token fetch error detail:", err);
+    throw err;
   }
-  return data.access_token;
 }
 
 export async function POST(request: Request) {
@@ -45,8 +52,6 @@ export async function POST(request: Request) {
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
     if (!clientEmail || !privateKey || !calendarId) {
-      console.error("Missing Google credentials");
-      // Fallback: In a real scenario, you'd send an email here
       return NextResponse.json({ 
         success: false, 
         message: "Credentials missing, please contact support." 
@@ -55,30 +60,20 @@ export async function POST(request: Request) {
 
     const accessToken = await getAccessToken(clientEmail, privateKey);
 
-    // Construct meeting time
-    // Assuming date is YYYY-MM-DD and time is HH:mm
     const startDateTime = new Date(`${date}T${time}:00`);
-    const endDateTime = new Date(startDateTime.getTime() + 45 * 60000); // 45 min duration
+    const endDateTime = new Date(startDateTime.getTime() + 45 * 60000);
 
     const event = {
       summary: `Meeting Request: ${name} (${goal})`,
-      description: `
-        Name: ${name}
-        Email: ${email}
-        Goal: ${goal}
-        
-        Message:
-        ${message}
-        
-        (Created via gileara.com)
-      `,
+      description: `Name: ${name}\nEmail: ${email}\nGoal: ${goal}\n\nMessage:\n${message}\n\n(Created via gileara.com)`,
       start: {
         dateTime: startDateTime.toISOString(),
       },
       end: {
         dateTime: endDateTime.toISOString(),
       },
-      attendees: [{ email }],
+      // Note: Attendees removed because Service Accounts cannot invite external guests 
+      // without Domain-Wide Delegation. You can invite them manually during triage.
     };
 
     const calendarResponse = await fetch(
