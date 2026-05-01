@@ -3,8 +3,30 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Gileara Technologies | Smart, Secure & Scalable Systems",
-  description: "Digital Transformation Partners. We architect intelligent digital ecosystems that empower high-growth businesses with clarity, defense-grade security, and extreme efficiency.",
+  title: "Gileara Technologies | Systems for Growing Businesses",
+  description: "Gileara builds the custom software and digital systems that power modern businesses. We are your technology partners for growth, security, and scale.",
+  metadataBase: new URL("https://gileara.tech"),
+  openGraph: {
+    title: "Gileara Technologies | Systems for Growing Businesses",
+    description: "Custom software, workflow automation, and digital strategy for startups and SMEs.",
+    url: "https://gileara.tech",
+    siteName: "Gileara Technologies",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png", // Ensure this exists or fallback to logo
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gileara Technologies | Systems for Growing Businesses",
+    description: "Custom software and digital systems for modern businesses.",
+    images: ["/og-image.png"],
+  },
   icons: {
     icon: "/assets/logo-icon.png",
   },

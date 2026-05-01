@@ -90,8 +90,8 @@ export default function ContactStepper() {
                 <input
                   required
                   type="text"
-                  placeholder="Commander"
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-brand-text focus:outline-none focus:border-brand-primary transition-colors"
+                  placeholder="e.g. John Doe"
+                  className="w-full bg-brand-background border border-brand-secondary/50 focus:border-brand-primary rounded-2xl p-4 text-brand-text focus:outline-none transition-colors"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
@@ -102,7 +102,7 @@ export default function ContactStepper() {
                   required
                   type="email"
                   placeholder="name@company.com"
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-brand-text focus:outline-none focus:border-brand-primary transition-colors"
+                  className="w-full bg-brand-background border border-brand-secondary/50 focus:border-brand-primary rounded-2xl p-4 text-brand-text focus:outline-none transition-colors"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
@@ -113,25 +113,26 @@ export default function ContactStepper() {
               <label className="text-sm font-medium text-brand-muted uppercase tracking-wider ml-1">Primary Objective</label>
               <select
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-brand-text focus:outline-none focus:border-brand-primary transition-colors appearance-none"
+                className="w-full bg-brand-background border border-brand-secondary/50 focus:border-brand-primary rounded-2xl p-4 text-brand-text focus:outline-none transition-colors appearance-none"
                 value={formData.goal}
                 onChange={(e) => setFormData({ ...formData, goal: e.target.value })}
               >
-                <option value="" disabled>Select your goal</option>
-                <option value="scaling">Performance & Scaling</option>
-                <option value="security">System Security Audit</option>
-                <option value="modernization">Legacy Modernization</option>
-                <option value="ai">AI Integration</option>
+                <option value="" disabled>Select your primary goal</option>
+                <option value="software">Custom Software Development</option>
+                <option value="platforms">E-Commerce & Platforms</option>
+                <option value="automation">CRM & Workflow Automation</option>
+                <option value="strategy">Digital Strategy & Advisory</option>
+                <option value="other">Other Technical Challenge</option>
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-brand-muted uppercase tracking-wider ml-1">Message Context</label>
+              <label className="text-sm font-medium text-brand-muted uppercase tracking-wider ml-1">Project Details</label>
               <textarea
                 required
                 rows={4}
-                placeholder="Briefly describe your current situation..."
-                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-brand-text focus:outline-none focus:border-brand-primary transition-colors resize-none"
+                placeholder="Briefly describe your current situation or what you're looking to build..."
+                className="w-full bg-brand-background border border-brand-secondary/50 focus:border-brand-primary rounded-2xl p-4 text-brand-text focus:outline-none transition-colors resize-none"
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               />

@@ -19,39 +19,60 @@ export default function Hero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
             </span>
-            Digital Transformation Partners
+            Technology Partners for Growing Businesses
           </motion.div>
           
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-6xl md:text-8xl font-extrabold leading-tight text-brand-text tracking-tight"
+            className="text-5xl md:text-8xl font-extrabold leading-tight text-brand-text tracking-tight"
           >
-            We Build the <span className="gradient-text">Digital Core</span> for Startups
+            We Build the <span className="gradient-text">Systems</span> Your Business Runs On
           </motion.h1>
           
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-xl text-brand-muted max-w-xl leading-relaxed"
+            className="text-lg md:text-xl text-brand-muted max-w-xl leading-relaxed"
           >
-            We engineer secure, scalable, and high-performance digital ecosystems that accelerate your path from Seed to Series A and beyond.
+            From custom software to digital strategy — we design and build technology solutions that help startups and growing businesses operate smarter, move faster, and scale with confidence.
           </motion.p>
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-5"
+            className="flex flex-col sm:flex-row gap-5 items-center"
           >
-            <Link href="#solutions" className="btn-primary text-center">
-              Explore Solutions
+            <Link href="#services" className="btn-primary text-center w-full sm:w-auto">
+              See Our Services
             </Link>
-            <Link href="#about" className="btn-outline text-center">
-              Our Philosophy
+            <Link href="#founders" className="btn-outline text-center w-full sm:w-auto">
+              Meet the Team
             </Link>
+          </motion.div>
+
+          {/* Stats Strip */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="pt-10 flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-4 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-muted"
+          >
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-1.5 bg-brand-primary rounded-full"></span>
+              <span>3 Founders</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-1.5 bg-brand-primary rounded-full"></span>
+              <span>Serving Ghana & Beyond</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-1.5 bg-brand-primary rounded-full"></span>
+              <span>Built for Business</span>
+            </div>
           </motion.div>
         </div>
         
@@ -65,7 +86,7 @@ export default function Hero() {
             <div className="glass-card p-2 border-brand-secondary overflow-hidden group">
               <Image
                 src="/assets/hero.png"
-                alt="Futuristic Tech Visualization"
+                alt="Digital System Visualization"
                 width={800}
                 height={600}
                 priority
