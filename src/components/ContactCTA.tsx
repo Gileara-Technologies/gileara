@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import ContactStepper from "@/components/scheduling/ContactStepper";
 
 export default function ContactCTA() {
   return (
@@ -20,45 +20,12 @@ export default function ContactCTA() {
                 </div>
               </div>
             </div>
-            <div className="mt-8 p-8 bg-surface-container-high rounded-2xl border border-primary/20">
-              <h4 className="font-display text-xl font-bold mb-2 text-on-surface">Book a Discovery Call</h4>
-              <p className="text-on-surface-variant mb-6">Find a time that works for you in our calendar.</p>
-              <button className="teal-gradient-btn w-full py-4 rounded-lg font-bold text-white dark:text-on-primary">Schedule Now</button>
-            </div>
           </div>
-          <div className="bg-surface-container-high p-10 rounded-2xl shadow-xl border border-outline-variant/10">
-            <h3 className="font-display text-2xl font-bold mb-8 text-on-surface">The Mission Profile</h3>
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block font-mono text-xs text-on-surface-variant mb-2 uppercase">Your Name</label>
-                  <input className="w-full bg-surface border border-outline-variant/20 rounded-lg p-3 text-on-surface focus:ring-primary focus:border-primary" type="text" />
-                </div>
-                <div>
-                  <label className="block font-mono text-xs text-on-surface-variant mb-2 uppercase">Email Address</label>
-                  <input className="w-full bg-surface border border-outline-variant/20 rounded-lg p-3 text-on-surface focus:ring-primary focus:border-primary" type="email" />
-                </div>
-              </div>
-              <div>
-                <label className="block font-mono text-xs text-on-surface-variant mb-2 uppercase">Objective</label>
-                <select className="w-full bg-surface border border-outline-variant/20 rounded-lg p-3 text-on-surface focus:ring-primary focus:border-primary">
-                  <option>Select your primary goal</option>
-                  <option>Custom Software</option>
-                  <option>E-Commerce</option>
-                  <option>Workflow Automation</option>
-                  <option>Strategy & Advisory</option>
-                </select>
-              </div>
-              <div>
-                <label className="block font-mono text-xs text-on-surface-variant mb-2 uppercase">Project Details</label>
-                <textarea className="w-full bg-surface border border-outline-variant/20 rounded-lg p-3 text-on-surface focus:ring-primary focus:border-primary" rows={4}></textarea>
-              </div>
-              <button className="teal-gradient-btn w-full py-4 rounded-lg font-bold text-white dark:text-on-primary" type="submit">Submit Inquiry</button>
-            </form>
+          <div className="bg-surface-container-high p-8 md:p-10 rounded-2xl shadow-xl border border-outline-variant/10">
+            <ContactStepper />
           </div>
         </div>
       </div>
     </section>
   );
 }
-

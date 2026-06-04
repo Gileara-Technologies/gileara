@@ -12,13 +12,13 @@ export function ThemeToggle() {
   }, []);
 
   if (!mounted) {
-    return <div className="w-10 h-10 rounded-xl bg-brand-surface border border-brand-secondary"></div>;
+    return <div className="w-10 h-10 rounded-xl bg-surface border border-outline-variant"></div>;
   }
 
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="w-10 h-10 rounded-xl bg-brand-surface border border-brand-secondary flex items-center justify-center text-brand-muted hover:text-brand-primary hover:border-brand-primary transition-all focus-visible:ring-2 focus-visible:ring-brand-primary focus:outline-none"
+      className="w-10 h-10 rounded-xl bg-surface border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-all focus-visible:ring-2 focus-visible:ring-primary focus:outline-none"
       aria-label="Toggle Theme"
     >
       <span className="material-symbols-outlined text-[20px]">

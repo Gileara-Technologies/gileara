@@ -9,11 +9,11 @@
   :root {
     color-scheme: light;
     
-    --primary: #001c38;
+    --primary: 0 28 56;
     --on-primary: #ffffff;
     --primary-container: #0d3156;
     --on-primary-container: #7c9ac4;
-    --secondary: #00696e;
+    --secondary: 0 105 110;
     --on-secondary: #ffffff;
     --secondary-container: #71f2fa;
     --on-secondary-container: #006e72;
@@ -54,11 +54,11 @@
   .dark {
     color-scheme: dark;
     
-    --primary: #44ddc1;
+    --primary: 68 221 193;
     --on-primary: #00382f;
     --primary-container: #00bfa5;
     --on-primary-container: #00473c;
-    --secondary: #bbc6e2;
+    --secondary: 187 198 226;
     --on-secondary: #263046;
     --secondary-container: #3e4960;
     --on-secondary-container: #adb8d3;
@@ -123,7 +123,7 @@
   }
 
   .teal-gradient-btn {
-    background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+    background: linear-gradient(135deg, rgb(var(--secondary)) 0%, rgb(var(--primary)) 100%);
     transition: all 0.3s ease;
     @apply text-white font-semibold shadow-md;
   }
@@ -152,7 +152,7 @@
 
   .gradient-text {
     @apply bg-clip-text text-transparent font-extrabold;
-    background-image: linear-gradient(to right, var(--on-background), var(--secondary), var(--primary));
+    background-image: linear-gradient(to right, var(--on-background), rgb(var(--secondary)), rgb(var(--primary)));
   }
 }
 

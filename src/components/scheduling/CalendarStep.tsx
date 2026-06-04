@@ -26,7 +26,6 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-  // Generate next 14 days
   const days = [...Array(14)].map((_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + i + 1);
@@ -43,13 +42,12 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
   return (
     <div className="space-y-8 w-full max-w-2xl">
       <div className="text-center space-y-2">
-        <h3 className="text-2xl font-bold text-brand-text">Select a time</h3>
-        <p className="text-brand-muted">Propose a slot that works best for you.</p>
+        <h3 className="text-2xl font-bold text-on-surface">Select a time</h3>
+        <p className="text-on-surface-variant">Propose a slot that works best for you.</p>
       </div>
 
-      {/* Date Picker */}
       <div className="space-y-4">
-        <div className="flex items-center gap-2 text-sm font-medium text-brand-muted uppercase tracking-wider">
+        <div className="flex items-center gap-2 text-sm font-medium text-on-surface-variant uppercase tracking-wider">
           <CalendarIcon size={16} />
           <span>Pick a Date</span>
         </div>
@@ -63,8 +61,8 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
                 className={cn(
                   "flex-shrink-0 w-20 py-4 rounded-2xl border transition-all duration-300 snap-start",
                   isSelected 
-                    ? "bg-brand-primary border-brand-primary text-white shadow-lg shadow-brand-primary/20 scale-105" 
-                    : "bg-white/5 border-white/10 text-brand-muted hover:border-brand-primary/50"
+                    ? "bg-primary border-primary text-on-primary shadow-lg shadow-primary/30 scale-105" 
+                    : "bg-surface-container border-outline-variant/20 text-on-surface-variant hover:border-primary/50"
                 )}
               >
                 <div className="text-xs uppercase opacity-70 mb-1">
@@ -79,13 +77,12 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
         </div>
       </div>
 
-      {/* Time Picker */}
       <motion.div 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: selectedDate ? 1 : 0, y: selectedDate ? 0 : 10 }}
         className="space-y-6"
       >
-        <div className="flex items-center gap-2 text-sm font-medium text-brand-muted uppercase tracking-wider">
+        <div className="flex items-center gap-2 text-sm font-medium text-on-surface-variant uppercase tracking-wider">
           <Clock size={16} />
           <span>Select Time Block</span>
         </div>
@@ -93,7 +90,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
         <div className="space-y-6">
           {TIME_SLOTS.map((group) => (
             <div key={group.label} className="space-y-3">
-              <div className="text-xs font-semibold text-brand-muted/60 uppercase">{group.label}</div>
+              <div className="text-xs font-semibold text-on-surface-variant/60 uppercase">{group.label}</div>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                 {group.times.map((time) => (
                   <button
@@ -102,8 +99,8 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
                     className={cn(
                       "py-2 rounded-xl border text-sm font-medium transition-all duration-300",
                       selectedTime === time
-                        ? "bg-brand-primary/20 border-brand-primary text-brand-primary"
-                        : "bg-white/5 border-white/10 text-brand-text hover:border-white/30"
+                        ? "bg-primary/10 border-primary text-primary"
+                        : "bg-surface-container border-outline-variant/20 text-on-surface hover:border-outline-variant/60"
                     )}
                   >
                     {time}
@@ -115,11 +112,10 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
         </div>
       </motion.div>
 
-      {/* Actions */}
-      <div className="flex items-center justify-between pt-8 border-t border-white/10">
+      <div className="flex items-center justify-between pt-8 border-t border-outline-variant/20">
         <button
           onClick={onBack}
-          className="text-brand-muted hover:text-brand-text transition-colors flex items-center gap-2"
+          className="text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2"
         >
           <ChevronLeft size={20} />
           <span>Back</span>
@@ -133,7 +129,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
           )}
         >
           {isSubmitting ? (
-            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <div className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
           ) : (
             <>
               <span>Lock in Proposal</span>
