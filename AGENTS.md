@@ -44,7 +44,7 @@ GOOGLE_CALENDAR_ID=
 CONTACT_EMAIL=tech.gileara@gmail.com
 ```
 
-> `.env*.local` is gitignored. Google private key is expected with literal `\n` (not real newlines). Do **not** commit service account keys (`giltech-keys.json` is gitignored).
+> `.env*.local` is gitignored. The Google private key is stored directly in `wrangler.toml` `[vars]` (single-quoted TOML literal string to preserve `\n` literals). Do **not** commit service account key files (`giltech-keys.json` is gitignored).
 
 ## Notable
 
