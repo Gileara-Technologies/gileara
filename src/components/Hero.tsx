@@ -15,7 +15,7 @@ export default function Hero() {
           width={800}
           height={800}
           priority
-          className="w-[400px] md:w-[700px] h-auto opacity-25 filter dark:brightness-0 dark:invert"
+          className="w-[90%] md:w-[700px] h-auto opacity-25 filter dark:brightness-0 dark:invert"
         />
       </div>
 

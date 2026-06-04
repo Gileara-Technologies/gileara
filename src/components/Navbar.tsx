@@ -64,7 +64,7 @@ export default function Navbar() {
             <ThemeToggle />
             <Link
               href="#contact"
-              className="hidden sm:inline-block px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn"
+              className="hidden md:inline-block px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn"
             >
               Get Started
             </Link>
@@ -91,7 +91,7 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[45] bg-surface/95 backdrop-blur-2xl md:hidden pt-32 px-6"
+            className="fixed inset-0 z-[45] bg-surface/95 backdrop-blur-2xl md:hidden pt-20 md:pt-32 px-6"
           >
             <div className="flex flex-col space-y-8">
               {navLinks.map((link) => (

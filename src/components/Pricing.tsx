@@ -20,8 +20,8 @@ export default function Pricing() {
   };
 
   return (
-    <section id="why-gileara" className="py-32 bg-secondary/10">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="why-gileara" className="py-16 md:py-24 lg:py-32 bg-secondary/10">
+      <div className="max-w-7xl mx-auto px-4 md:px-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -29,7 +29,7 @@ export default function Pricing() {
           className="text-center mb-20"
         >
           <h3 className="text-primary font-bold uppercase tracking-[0.3em] text-xs mb-4">Positioning</h3>
-          <h2 className="text-5xl font-bold mb-6 text-on-surface">Why Gileara?</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-on-surface">Why Gileara?</h2>
           <p className="text-on-surface-variant text-lg max-w-2xl mx-auto">We don't just build apps. We build the technical foundation that allows your business to grow without friction.</p>
         </motion.div>
 
@@ -38,7 +38,7 @@ export default function Pricing() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid lg:grid-cols-3 gap-8 md:gap-10"
+          className="grid lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10"
         >
           <motion.div variants={item} className="glass-card p-8 md:p-12">
             <div className="w-12 h-12 mb-6 rounded-xl bg-primary/10 flex items-center justify-center text-primary">

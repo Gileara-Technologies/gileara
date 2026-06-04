@@ -95,7 +95,7 @@ export async function POST(request: Request) {
 
     const event = {
       summary: `Meeting Request: ${name} (${goal})`,
-      description: `Name: ${name}\nEmail: ${email}\nGoal: ${goal}\n\nMessage:\n${message}\n\nCreated via gileara.com`,
+      description: `Name: ${name}\nEmail: ${email}\nGoal: ${goal}\n\nMessage:\n${message}\n\nCreated via Website`,
       start: { dateTime: start.toISOString() },
       end: { dateTime: end.toISOString() },
     };

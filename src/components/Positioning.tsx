@@ -57,13 +57,13 @@ export default function Positioning() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-8"
+          className="grid md:grid-cols-3 gap-6 md:gap-8"
         >
           {segments.map((segment, index) => (
             <motion.div
               key={index}
               variants={item}
-              className={`p-10 rounded-2xl flex flex-col shadow-sm relative overflow-hidden border ${
+                             className={`p-6 md:p-10 rounded-2xl flex flex-col shadow-sm relative overflow-hidden border ${
                 segment.highlight
                   ? "bg-surface dark:bg-surface-container-high border-secondary dark:border-primary/45 shadow-lg"
                   : "bg-surface dark:bg-surface-container-high border-outline-variant/30 dark:border-outline-variant/10"
