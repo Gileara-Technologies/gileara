@@ -5,9 +5,15 @@ main = ".open-next/worker.js"
 assets = { directory = ".open-next/assets" }
 
 [vars]
-# Add non-secret env vars here
 CONTACT_EMAIL="tech.gileara@gmail.com"
+GOOGLE_CLIENT_EMAIL="homepage@giltech-494822.iam.gserviceaccount.com"
+GOOGLE_CALENDAR_ID="3427f035226a2b0d863450f06f2ee268ba3b2f0992e42e21b6296355baf1abe6@group.calendar.google.com"
 
 [env.production.vars]
-# Production secrets should be set in the Cloudflare Dashboard
 CONTACT_EMAIL="tech.gileara@gmail.com"
+GOOGLE_CLIENT_EMAIL="homepage@giltech-494822.iam.gserviceaccount.com"
+GOOGLE_CALENDAR_ID="3427f035226a2b0d863450f06f2ee268ba3b2f0992e42e21b6296355baf1abe6@group.calendar.google.com"
+
+# GOOGLE_PRIVATE_KEY must be set as a Cloudflare secret:
+#   npx wrangler secret put GOOGLE_PRIVATE_KEY
+# Use the same value from .env.local (with literal \n, no wrapping quotes).

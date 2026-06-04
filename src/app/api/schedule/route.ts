@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import * as jose from 'jose';
 
 export const runtime = 'edge';

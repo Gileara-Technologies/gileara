@@ -4,12 +4,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import CalendarStep from './CalendarStep';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 
 type Step = 'details' | 'calendar' | 'success';
 
@@ -60,12 +54,12 @@ export default function ContactStepper() {
       }
     } catch (err: any) {
       setError(err.message);
-      // Even if calendar fails, we can tell them we received their info via email fallback (if implemented in API)
-      // For now, just show the error.
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const inputClass = "w-full bg-surface border border-outline-variant/20 focus:border-primary rounded-2xl p-4 text-on-surface focus:outline-none transition-colors";
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -80,29 +74,29 @@ export default function ContactStepper() {
             className="w-full max-w-2xl space-y-6"
           >
             <div className="text-center space-y-2 mb-8">
-              <h3 className="text-3xl font-bold text-brand-text">The Mission Profile</h3>
-              <p className="text-brand-muted text-lg">Tell us about your technical challenges.</p>
+              <h3 className="text-3xl font-bold text-on-surface">The Mission Profile</h3>
+              <p className="text-on-surface-variant text-lg">Tell us about your technical challenges.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-brand-muted uppercase tracking-wider ml-1">Your Name</label>
+                <label className="text-sm font-medium text-on-surface-variant uppercase tracking-wider ml-1">Your Name</label>
                 <input
                   required
                   type="text"
                   placeholder="e.g. John Doe"
-                  className="w-full bg-brand-background border border-brand-secondary/50 focus:border-brand-primary rounded-2xl p-4 text-brand-text focus:outline-none transition-colors"
+                  className={inputClass}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-brand-muted uppercase tracking-wider ml-1">Email Address</label>
+                <label className="text-sm font-medium text-on-surface-variant uppercase tracking-wider ml-1">Email Address</label>
                 <input
                   required
                   type="email"
                   placeholder="name@company.com"
-                  className="w-full bg-brand-background border border-brand-secondary/50 focus:border-brand-primary rounded-2xl p-4 text-brand-text focus:outline-none transition-colors"
+                  className={inputClass}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
@@ -110,10 +104,10 @@ export default function ContactStepper() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-brand-muted uppercase tracking-wider ml-1">Primary Objective</label>
+              <label className="text-sm font-medium text-on-surface-variant uppercase tracking-wider ml-1">Primary Objective</label>
               <select
                 required
-                className="w-full bg-brand-background border border-brand-secondary/50 focus:border-brand-primary rounded-2xl p-4 text-brand-text focus:outline-none transition-colors appearance-none"
+                className={`${inputClass} appearance-none`}
                 value={formData.goal}
                 onChange={(e) => setFormData({ ...formData, goal: e.target.value })}
               >
@@ -127,12 +121,12 @@ export default function ContactStepper() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-brand-muted uppercase tracking-wider ml-1">Project Details</label>
+              <label className="text-sm font-medium text-on-surface-variant uppercase tracking-wider ml-1">Project Details</label>
               <textarea
                 required
                 rows={4}
                 placeholder="Briefly describe your current situation or what you're looking to build..."
-                className="w-full bg-brand-background border border-brand-secondary/50 focus:border-brand-primary rounded-2xl p-4 text-brand-text focus:outline-none transition-colors resize-none"
+                className={`${inputClass} resize-none`}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               />
@@ -180,13 +174,13 @@ export default function ContactStepper() {
             <div className="w-24 h-24 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 size={48} />
             </div>
-            <h3 className="text-3xl font-bold text-brand-text">Objective Locked.</h3>
-            <p className="text-brand-muted text-lg">
+            <h3 className="text-3xl font-bold text-on-surface">Objective Locked.</h3>
+            <p className="text-on-surface-variant text-lg">
               Your consultation request has been received. We'll review the technical profile and confirm the meeting in your calendar within 24 hours.
             </p>
             <button
               onClick={() => setStep('details')}
-              className="text-brand-primary hover:underline font-medium"
+              className="text-primary hover:underline font-medium"
             >
               Back to gileara.tech
             </button>

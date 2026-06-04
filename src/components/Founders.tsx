@@ -1,99 +1,65 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function Founders() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  };
-
   const founders = [
     {
       name: "Amos Frederick Hughes",
       role: "Founder & CEO",
-      bio: "Amos leads Gileara's strategic direction, focusing on business architecture and high-level partnerships. He ensures that every project we take on aligns with our clients' long-term business goals.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAiRm8Uf7edKkLSjEOdlyZ_qNNYRKTzmigC3Y7UIndsmAb6NNumXs-EaeGT_UVu_935A7V39IxP8YSYwqR-TQORaLOnP_ZK-UWmSJTGYiGsB9B3LImhXnnFplc2Gtkdwk5IBdZsElpx6bl9TIK0BePt3nwXutiGQ0INFj5hpEG5SuUCj_C9Y6IaKqsCoKxnfAeEaXFQZpAQrZ4gav1FTG9dsVpkbCVI1hKB9ojBrFpwRyxMbbn-vo4HfrsjTPkFeAKzXgSCPp0vwjI",
       linkedin: "https://linkedin.com/in/amos-frederick-hughes-01570b22a"
     },
     {
       name: "Julian Hagan",
       role: "Co-Founder & COO",
-      bio: "Julian manages Gileara's day-to-day operations and project delivery. With a background in technical project management, he ensures that our builds stay on track, on budget, and up to standard.",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCadEIwgceSuBLAldazfAfTBDLc-NwgNzCULBjofrjLnDjgjJVRK0neQv3D4wB6QA0cjGOhwWhd1fgX3mz2Y51ZFvowqRTFXj-k66bUVydwLf_yaUOounGrr6J-caJ0SNQ-L-_kqVAfOmudzM-EhLU7IVW6UmdCc70f1b4ikJ-OJUgF3OWYYfR4M_trKA27S6YNBELsSS1XRFrRhxJTmyiicWQ7BHld1LC2SN5RKYInnsNTqCZ7_7lLNYjWicuTILmahEEA-_BzkX4",
       linkedin: "https://linkedin.com/in/julian-hagan-441b18228"
     },
     {
       name: "Rodney Hagan",
       role: "Co-Founder & CTO",
-      bio: "Rodney is the engineering heart of the firm. He leads our technical design and systems engineering, ensuring that everything we build is secure, scalable, and built on a foundation of clean code.",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDuMwJ8rfbibIw0kQ6BWAZv8SB8ptNh0U1qYaJhgi1wrPcfgLpIRHXVZV6JNf6OEBAH-KDPeFU4q7v15PaqQT4RTYerhsyT6Bp3qdlklYNGI5ldQnd6I6ZQBlJucY-vVmqttKq8DPyefSUUcdJkuvD0E0Tad8dXJUGPq5ioXo-yD-IlWC2QyewKG68l5fmCJiXZXDw-U4EGsXjByTOKe9BVXvcwjw709M_tBek0Xb6IsxM4Xw5MyYIsv7WNTVom7CfFmVGD0wJwL34",
       linkedin: "https://linkedin.com/in/rodney-hagan-249a15233"
     }
   ];
 
   return (
-    <section id="founders" className="py-32 bg-brand-surface/30">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
-        >
-          <h3 className="text-brand-primary font-bold uppercase tracking-widest text-sm mb-4">Leadership</h3>
-          <h2 className="text-5xl font-bold mb-6 text-brand-text">The Team Behind the Systems</h2>
-          <p className="text-brand-muted text-lg max-w-2xl mx-auto">We are a small, dedicated team of engineers and operators. When you work with Gileara, you work directly with the founders.</p>
-        </motion.div>
+    <section id="founders" className="py-24 bg-surface-container px-4 md:px-10">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-16">
+          <span className="font-mono text-xs text-secondary uppercase tracking-widest">Leadership</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary">The Team Behind the Systems</h2>
+          <p className="mt-6 text-on-surface-variant text-lg max-w-2xl">When you work with Gileara, you work directly with the founders.</p>
+        </div>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid md:grid-cols-3 gap-10"
-        >
+        <div className="grid md:grid-cols-3 gap-12">
           {founders.map((founder, index) => (
-            <motion.div key={index} variants={item} className="glass-card group p-8 flex flex-col items-center text-center">
-              <div className="w-40 h-40 rounded-full overflow-hidden mb-6 relative border-4 border-brand-secondary group-hover:border-brand-primary transition-colors duration-500">
-                <Image
+            <div key={index} className="group">
+              <div className="aspect-[4/5] bg-surface-container-high rounded-2xl mb-6 overflow-hidden relative shadow-md border border-outline-variant/5">
+                <img
                   src={founder.image}
                   alt={founder.name}
-                  width={160}
-                  height={160}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
                 />
+                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <a 
+                    className="w-10 h-10 bg-on-surface rounded-full flex items-center justify-center shadow-lg" 
+                    href={founder.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img className="w-5 h-5 invert dark:invert-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP8_q7sEI3aDVcJcDUhxnJdJKheIhU4NUwsLbUCERqdmFwYfbn7rqagBUDcAZhq1iNcXm2GUY_3gGO_iFWghguB1VzNpWmWraQs6hDxqtF0OrdyFfUbIroXhqNrUcyxmQjBOXbC236M4kcpjE05a4lAbyRbIAbQAOQF0PQpF-JTqMkWoUmXM_v2O12BkNkzdTLb3uino_E37EsR5Bsbk2ukDBqIBo6yMlDcdsDzPwkyazJuzePFeDFGELKxUkGtwv3ynU12dVzpU0" alt="LinkedIn" />
+                  </a>
+                </div>
               </div>
-              <h4 className="text-2xl font-bold mb-1 text-brand-text">{founder.name}</h4>
-              <p className="text-brand-primary text-sm font-bold uppercase tracking-widest mb-4">{founder.role}</p>
-              <p className="text-brand-muted text-sm leading-relaxed mb-6 flex-grow">{founder.bio}</p>
-              
-              <div className="flex items-center space-x-4 mt-auto">
-                <a 
-                  href={founder.linkedin} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 rounded-full bg-brand-surface border border-brand-secondary flex items-center justify-center text-brand-muted hover:text-[#0077b5] hover:border-[#0077b5] transition-all focus-visible:ring-2 focus-visible:ring-brand-primary focus:outline-none"
-                  aria-label={`${founder.name} LinkedIn`}
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                </a>
-              </div>
-            </motion.div>
+              <h3 className="font-display text-2xl font-semibold text-on-surface">{founder.name}</h3>
+              <p className="text-primary font-semibold font-mono text-xs uppercase tracking-wider mt-2">{founder.role}</p>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
+
