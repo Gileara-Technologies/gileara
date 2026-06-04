@@ -20,7 +20,7 @@ export default function Pricing() {
   };
 
   return (
-    <section id="why-gileara" className="py-32 bg-brand-secondary/20">
+    <section id="why-gileara" className="py-32 bg-secondary/10">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -28,9 +28,9 @@ export default function Pricing() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h3 className="text-brand-primary font-bold uppercase tracking-[0.3em] text-xs mb-4">Positioning</h3>
-          <h2 className="text-5xl font-bold mb-6 text-brand-text">Why Gileara?</h2>
-          <p className="text-brand-muted text-lg max-w-2xl mx-auto">We don't just build apps. We build the technical foundation that allows your business to grow without friction.</p>
+          <h3 className="text-primary font-bold uppercase tracking-[0.3em] text-xs mb-4">Positioning</h3>
+          <h2 className="text-5xl font-bold mb-6 text-on-surface">Why Gileara?</h2>
+          <p className="text-on-surface-variant text-lg max-w-2xl mx-auto">We don't just build apps. We build the technical foundation that allows your business to grow without friction.</p>
         </motion.div>
 
         <motion.div
@@ -40,51 +40,48 @@ export default function Pricing() {
           viewport={{ once: true, margin: "-50px" }}
           className="grid lg:grid-cols-3 gap-8 md:gap-10"
         >
-          {/* Card 1: Startups */}
           <motion.div variants={item} className="glass-card p-8 md:p-12">
-            <div className="w-12 h-12 mb-6 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+            <div className="w-12 h-12 mb-6 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
               <span className="material-symbols-outlined text-2xl">rocket_launch</span>
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-brand-text">For Startups</h3>
-            <p className="text-brand-muted leading-relaxed mb-8">
+            <h3 className="text-2xl font-bold mb-4 text-on-surface">For Startups</h3>
+            <p className="text-on-surface-variant leading-relaxed mb-8">
               You have a vision but need the tech to make it real. We act as your external CTO and engineering team, building a scalable MVP that can grow into a market leader.
             </p>
-            <ul className="space-y-4 mb-8 text-sm text-brand-muted font-medium">
-              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-brand-primary text-lg">check</span>Rapid MVP Development</li>
-              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-brand-primary text-lg">check</span>Scalable Architecture</li>
-              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-brand-primary text-lg">check</span>CTO-level Advisory</li>
+            <ul className="space-y-4 mb-8 text-sm text-on-surface-variant font-medium">
+              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-primary text-lg">check</span>Rapid MVP Development</li>
+              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-primary text-lg">check</span>Scalable Architecture</li>
+              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-primary text-lg">check</span>CTO-level Advisory</li>
             </ul>
           </motion.div>
 
-          {/* Card 2: SMEs (Highlighted) */}
-          <motion.div variants={item} className="glass-card p-8 md:p-12 border-brand-primary/40 dark:border-brand-primary/30 relative overflow-hidden shadow-2xl shadow-brand-primary/5 group bg-brand-primary/[0.03] dark:bg-brand-primary/5">
-            <div className="w-12 h-12 mb-6 rounded-xl bg-brand-primary flex items-center justify-center text-white shadow-lg shadow-brand-primary/20">
+          <motion.div variants={item} className="glass-card p-8 md:p-12 border-primary/40 dark:border-primary/30 relative overflow-hidden shadow-2xl shadow-primary/5 group bg-primary/[0.03] dark:bg-primary/5">
+            <div className="w-12 h-12 mb-6 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
               <span className="material-symbols-outlined text-2xl">corporate_fare</span>
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-brand-text">For Growing SMEs</h3>
-            <p className="text-brand-text/90 dark:text-brand-text/80 leading-relaxed mb-8">
+            <h3 className="text-2xl font-bold mb-4 text-on-surface">For Growing SMEs</h3>
+            <p className="text-on-surface/90 dark:text-on-surface/80 leading-relaxed mb-8">
               Your existing tools are slowing you down. We audit your workflows and build custom systems that automate manual work and connect your operations.
             </p>
-            <ul className="space-y-4 mb-8 text-sm text-brand-text font-bold">
+            <ul className="space-y-4 mb-8 text-sm text-on-surface font-bold">
               <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-teal-600 dark:text-teal-400 text-lg">verified</span>Workflow Automation</li>
               <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-teal-600 dark:text-teal-400 text-lg">verified</span>Legacy System Upgrades</li>
               <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-teal-600 dark:text-teal-400 text-lg">verified</span>Business Process Design</li>
             </ul>
           </motion.div>
 
-          {/* Card 3: Enterprise/Everyone Else */}
           <motion.div variants={item} className="glass-card p-8 md:p-12">
-            <div className="w-12 h-12 mb-6 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+            <div className="w-12 h-12 mb-6 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
               <span className="material-symbols-outlined text-2xl">all_inclusive</span>
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-brand-text">For Everyone Else</h3>
-            <p className="text-brand-muted leading-relaxed mb-8">
+            <h3 className="text-2xl font-bold mb-4 text-on-surface">For Everyone Else</h3>
+            <p className="text-on-surface-variant leading-relaxed mb-8">
               Whether you need a high-end web presence, a secure internal tool, or help with a specific technical challenge — we bring the same engineering rigor to every project.
             </p>
-            <ul className="space-y-4 mb-8 text-sm text-brand-muted font-medium">
-              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-brand-primary text-lg">check</span>Custom Web Applications</li>
-              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-brand-primary text-lg">check</span>Security & Performance Audits</li>
-              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-brand-primary text-lg">check</span>Technical Support</li>
+            <ul className="space-y-4 mb-8 text-sm text-on-surface-variant font-medium">
+              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-primary text-lg">check</span>Custom Web Applications</li>
+              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-primary text-lg">check</span>Security & Performance Audits</li>
+              <li className="flex items-start"><span className="material-symbols-outlined mr-2 text-primary text-lg">check</span>Technical Support</li>
             </ul>
           </motion.div>
         </motion.div>

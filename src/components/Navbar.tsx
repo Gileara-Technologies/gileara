@@ -29,31 +29,31 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
+        initial={{ y: -100, x: "-50%" }}
+        animate={{ y: 0, x: "-50%" }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed w-full z-50 transition-all duration-300 py-2.5 bg-brand-surface/30 backdrop-blur-xl border-b border-brand-secondary/20 shadow-sm ${
-          isScrolled ? "bg-brand-surface/60 border-brand-secondary/40 shadow-lg" : ""
+        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[92%] max-w-5xl rounded-full bg-surface/75 dark:bg-surface-container/75 backdrop-blur-xl border border-outline-variant shadow-lg px-6 py-3 flex justify-between items-center ${
+          isScrolled ? "top-2 py-2.5 bg-surface/90 dark:bg-surface-container/90" : ""
         }`}
         id="navbar"
       >
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <Link href="/" className="flex items-center group cursor-pointer focus-visible:ring-2 focus-visible:ring-brand-primary focus:outline-none rounded-sm">
+        <div className="flex justify-between items-center w-full">
+          <Link href="/" className="flex items-center group cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus:outline-none rounded-sm">
             <Image
               src="/assets/logo-full.png"
               alt="Gileara Logo"
-              width={224}
-              height={56}
-              className="w-40 md:w-56 h-auto group-hover:scale-[1.02] transition-transform duration-300 filter dark:brightness-0 dark:invert"
+              width={160}
+              height={40}
+              className="w-32 md:w-40 h-auto group-hover:scale-[1.02] transition-transform duration-300 filter dark:brightness-0 dark:invert"
             />
           </Link>
           
-          <div className="hidden md:flex items-center space-x-10 text-sm font-semibold text-brand-muted">
+          <div className="hidden md:flex items-center space-x-10 text-sm font-semibold text-on-surface-variant">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="hover:text-brand-primary transition-colors"
+                className="hover:text-primary transition-colors"
               >
                 {link.name}
               </Link>
@@ -64,14 +64,14 @@ export default function Navbar() {
             <ThemeToggle />
             <Link
               href="#contact"
-              className="hidden sm:inline-block px-5 py-2 bg-brand-primary hover:bg-teal-500 rounded-full text-xs font-bold text-white transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-brand-primary/20"
+              className="hidden sm:inline-block px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn"
             >
-              Book a Call
+              Get Started
             </Link>
             
             {/* Hamburger Button */}
             <button 
-              className="md:hidden p-2 text-brand-text focus:outline-none"
+              className="md:hidden p-2 text-on-surface focus:outline-none"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle mobile menu"
             >
@@ -91,14 +91,14 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[45] bg-brand-surface/95 backdrop-blur-2xl md:hidden pt-32 px-6"
+            className="fixed inset-0 z-[45] bg-surface/95 backdrop-blur-2xl md:hidden pt-32 px-6"
           >
             <div className="flex flex-col space-y-8">
               {navLinks.map((link) => (
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="text-3xl font-bold text-brand-text hover:text-brand-primary transition-colors"
+                  className="text-3xl font-bold text-on-surface hover:text-primary transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
@@ -106,10 +106,10 @@ export default function Navbar() {
               ))}
               <Link
                 href="#contact"
-                className="inline-block w-full py-4 bg-brand-primary text-center rounded-2xl text-xl font-bold text-white"
+                className="inline-block w-full py-4 text-center rounded-2xl text-xl font-bold teal-gradient-btn"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Book a Call
+                Get Started
               </Link>
             </div>
           </motion.div>
