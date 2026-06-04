@@ -6,36 +6,32 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-        <div className="space-y-10">
+    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-4 md:px-10 bg-background overflow-hidden">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div className="space-y-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-bold uppercase tracking-widest"
+            className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono font-medium tracking-wide uppercase"
           >
-            <span className="relative flex h-2 w-2 mr-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-            </span>
-            Technology Partners for Growing Businesses
+            TECHNOLOGY PARTNERS FOR GROWTH
           </motion.div>
           
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-8xl font-extrabold leading-tight text-brand-text tracking-tight"
+            className="font-display text-4xl md:text-6xl font-bold leading-tight text-on-background tracking-tight"
           >
-            We Build the <span className="gradient-text">Systems</span> Your Business Runs On
+            We Build the Systems Your Business Runs On
           </motion.h1>
           
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-lg md:text-xl text-brand-muted max-w-xl leading-relaxed"
+            className="font-sans text-lg text-on-surface-variant max-w-xl leading-relaxed"
           >
             From custom software to digital strategy — we design and build technology solutions that help startups and growing businesses operate smarter, move faster, and scale with confidence.
           </motion.p>
@@ -44,12 +40,12 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-5 items-center"
+            className="flex flex-col sm:flex-row gap-4 pt-4"
           >
-            <Link href="#services" className="btn-primary text-center w-full sm:w-auto">
+            <Link href="#services" className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary">
               See Our Services
             </Link>
-            <Link href="#founders" className="btn-outline text-center w-full sm:w-auto">
+            <Link href="#founders" className="border border-outline-variant px-8 py-4 rounded-lg text-center font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors">
               Meet the Team
             </Link>
           </motion.div>
@@ -59,19 +55,19 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="pt-10 flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-4 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-muted"
+            className="pt-8 flex items-center gap-8 text-on-surface-variant font-mono text-xs uppercase"
           >
-            <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-1.5 bg-brand-primary rounded-full"></span>
-              <span>3 Founders</span>
+            <div className="flex flex-col">
+              <span className="text-2xl font-bold text-primary font-display">3</span>
+              FOUNDERS
             </div>
-            <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-1.5 bg-brand-primary rounded-full"></span>
-              <span>Serving Ghana & Beyond</span>
+            <div className="flex flex-col">
+              <span className="text-2xl font-bold text-primary font-display">GH</span>
+              NATIONWIDE
             </div>
-            <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-1.5 bg-brand-primary rounded-full"></span>
-              <span>Built for Business</span>
+            <div className="flex flex-col">
+              <span className="text-2xl font-bold text-primary font-display">PRO</span>
+              BUILT FOR BUSINESS
             </div>
           </motion.div>
         </div>
@@ -80,22 +76,23 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-          className="relative hidden lg:block"
+          className="relative"
         >
-          <div className="relative z-10 animate-float">
-            <div className="glass-card p-2 border-brand-secondary overflow-hidden group">
-              <Image
-                src="/assets/hero.png"
-                alt="Digital System Visualization"
-                width={800}
-                height={600}
-                priority
-                className="rounded-2xl w-full h-auto grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
-              />
-            </div>
+          <div className="absolute -inset-4 bg-primary/10 rounded-3xl blur-3xl opacity-60"></div>
+          <div className="relative z-10">
+            <Image
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5au7EekU0tyV5bzY8IE3YlVCuIELWElUCvfYU1N47Vg0qwhlJRWsreomdq-lAYlA19D2acw4Fwgt8T-yp8Cr1Qy89RNzLCC9NmqMGP1c_6FrBBB9uf7IpksXkIog2gbEDk7RJhk75F2vy16xwI-eRlJRCa8fLTD6HOWaEVKzTeQp5ZBqtZv8HIRMiXxIQZVB0k9xt-NyF-MQHI9A4UqEreXFDMYBNkrnhrn_eNU6vcexu7yuek4mYrzbioMIfgEdDoGts-_UXoS4"
+              alt="Professional office setting with modern technology"
+              width={800}
+              height={600}
+              priority
+              unoptimized
+              className="rounded-2xl w-full h-auto shadow-2xl border border-outline-variant/10"
+            />
           </div>
         </motion.div>
       </div>
     </section>
   );
 }
+

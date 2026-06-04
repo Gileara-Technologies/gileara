@@ -3,67 +3,72 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="py-20 bg-brand-surface border-t border-brand-secondary">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-16 mb-20">
-          <div className="col-span-2">
-            <div className="flex items-center mb-8">
+    <footer className="bg-surface-container-high dark:bg-surface-container-lowest pt-24 pb-12 px-4 md:px-10 text-on-surface">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-12 gap-12 mb-20">
+          <div className="md:col-span-4">
+            <div className="flex items-center gap-2 mb-8">
               <Image
                 src="/assets/logo-full.png"
                 alt="Gileara Logo"
-                width={300}
-                height={75}
-                className="w-56 md:w-72 h-auto filter dark:brightness-0 dark:invert transition-all"
+                width={224}
+                height={56}
+                className="w-40 md:w-56 h-auto filter dark:brightness-0 dark:invert transition-all"
               />
             </div>
-            <p className="text-brand-muted max-w-sm mb-10 leading-relaxed">
-              We design and build the digital systems that power modern businesses. From custom software to operational strategy — we are your technology partners for growth.
+            <p className="text-on-surface-variant text-sm mb-8 max-w-sm">
+              Technology partners for growth. Precision innovation for enterprise and startup scaling.
             </p>
-            <div className="flex space-x-5">
+            <div className="flex gap-4">
               <a 
-                href="https://www.linkedin.com/company/gileara" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl bg-brand-background border border-brand-secondary flex items-center justify-center hover:bg-brand-primary hover:text-white hover:border-brand-primary text-brand-muted transition-all"
-                aria-label="LinkedIn"
+                className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all" 
+                href="https://www.linkedin.com/company/gileara"
+                target="_blank"
+                rel="noreferrer"
               >
-                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                <img className="w-5 h-5 opacity-70 invert dark:invert-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjPKSdAi2c4E_KkZKICGrusu_y65_d7QVhiFEiftZVV_tZHQk0RIZhjdrbX5NkfPfj0-8qogsvk2pLwWbjt3DYmsIgjz1FFSSnVuKOvc-OqWaFAPWisj5ICviWXsoqFU_jjjJbNcitUADhPNiQXSe_JSVxOubizjfmamrW9ksQm5UYY5KtjyPm9o1khvHy3I-op-USySGYXiFN7NhgnujX6fOK8QUhlCHbZPHt4dz6I5RYwS3BbR45ZxRWTCZkYwo81cfRz93oDj8" alt="LinkedIn" />
               </a>
               <a 
-                href="mailto:tech.gileara@gmail.com" 
-                className="w-10 h-10 rounded-xl bg-brand-background border border-brand-secondary flex items-center justify-center hover:bg-brand-primary hover:text-white hover:border-brand-primary text-brand-muted transition-all"
-                aria-label="Email"
+                className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all" 
+                href="mailto:tech.gileara@gmail.com"
               >
-                <span className="material-symbols-outlined text-[20px]">mail</span>
+                <span className="material-symbols-outlined text-sm">mail</span>
               </a>
             </div>
           </div>
-          <div>
-            <h5 className="font-black uppercase tracking-widest text-xs mb-8 text-brand-muted">Navigation</h5>
-            <ul className="space-y-4 text-sm font-semibold">
-              <li><Link href="#services" className="text-brand-text hover:text-brand-primary transition-colors">Services</Link></li>
-              <li><Link href="#approach" className="text-brand-text hover:text-brand-primary transition-colors">How We Work</Link></li>
-              <li><Link href="#founders" className="text-brand-text hover:text-brand-primary transition-colors">About Us</Link></li>
-              <li><Link href="#contact" className="text-brand-text hover:text-brand-primary transition-colors">Contact</Link></li>
+          <div className="md:col-span-2 md:col-start-6">
+            <h5 className="font-display text-lg mb-6 text-primary dark:text-on-surface">Navigation</h5>
+            <ul className="space-y-4 text-sm text-on-surface-variant">
+              <li><Link href="#services" className="hover:text-primary transition-colors">Services</Link></li>
+              <li><Link href="#approach" className="hover:text-primary transition-colors">How We Work</Link></li>
+              <li><Link href="#founders" className="hover:text-primary transition-colors">About Us</Link></li>
             </ul>
           </div>
-          <div>
-            <h5 className="font-black uppercase tracking-widest text-xs mb-8 text-brand-muted">Legal</h5>
-            <ul className="space-y-4 text-sm font-semibold">
-              <li><Link href="/privacy" className="text-brand-text hover:text-brand-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="text-brand-text hover:text-brand-primary transition-colors">Terms of Service</Link></li>
-              <li><Link href="/security" className="text-brand-text hover:text-brand-primary transition-colors">Security Disclosure</Link></li>
+          <div className="md:col-span-2">
+            <h5 className="font-display text-lg mb-6 text-primary dark:text-on-surface">Legal</h5>
+            <ul className="space-y-4 text-sm text-on-surface-variant">
+              <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link></li>
+              <li><Link href="/terms" className="hover:text-primary transition-colors">Terms</Link></li>
             </ul>
+          </div>
+          <div className="md:col-span-3">
+            <div className="bg-surface dark:bg-surface-container-high p-6 rounded-xl border border-outline-variant/30 dark:border-outline-variant/10">
+              <span className="flex items-center gap-2 text-secondary dark:text-primary font-semibold mb-2">
+                <span className="w-2 h-2 rounded-full bg-secondary dark:bg-primary animate-pulse"></span>
+                Consultancy Active
+              </span>
+              <p className="text-on-surface-variant text-sm italic">Precision Innovation for Enterprise Growth.</p>
+            </div>
           </div>
         </div>
-        <div className="pt-10 border-t border-brand-secondary flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-bold text-brand-muted">
-          <p>&copy; {new Date().getFullYear()} Gileara Technologies. All rights reserved.</p>
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            <span>Consultancy Active</span>
+        <div className="pt-8 border-t border-outline-variant/30 dark:border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4 text-on-surface-variant text-sm">
+          <p>© {new Date().getFullYear()} Gileara Technologies. All rights reserved.</p>
+          <div className="flex items-center gap-2">
+            Built with <span className="material-symbols-outlined text-secondary dark:text-primary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span> in Ghana &amp; Beyond
           </div>
         </div>
       </div>
     </footer>
   );
 }
+

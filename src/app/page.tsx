@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import CinematicStory from "@/components/CinematicStory";
 import BentoGrid from "@/components/BentoGrid";
-import Pricing from "@/components/Pricing";
+import Positioning from "@/components/Positioning";
 import Approach from "@/components/Approach";
 import Founders from "@/components/Founders";
 import ContactCTA from "@/components/ContactCTA";
@@ -16,7 +16,7 @@ export default function Home() {
         <Hero />
         <CinematicStory />
         <BentoGrid />
-        <Pricing />
+        <Positioning />
         <Approach />
         <Founders />
         <ContactCTA />
@@ -25,3 +25,4 @@ export default function Home() {
     </>
   );
 }
+
