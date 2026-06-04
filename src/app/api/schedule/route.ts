@@ -1,5 +1,3 @@
-export const runtime = 'edge';
-
 function base64url(buffer: ArrayBuffer): string {
   return btoa(String.fromCharCode(...new Uint8Array(buffer)))
     .replace(/=/g, '')
@@ -14,8 +12,8 @@ function pemToArrayBuffer(pem: string): ArrayBuffer {
     .trim();
 
   const base64 = cleaned
-    .replace(/-----BEGIN [\w\s]+ PRIVATE KEY-----/g, '')
-    .replace(/-----END [\w\s]+ PRIVATE KEY-----/g, '')
+    .replace(/-----BEGIN[\s\S]*?KEY-----/g, '')
+    .replace(/-----END[\s\S]*?KEY-----/g, '')
     .replace(/\s/g, '');
 
   const binary = atob(base64);
@@ -24,7 +22,7 @@ function pemToArrayBuffer(pem: string): ArrayBuffer {
   return bytes.buffer;
 }
 
-async function getAccessToken(clientEmail: string, privateKey: string) {
+async function getAccessToken(clientEmail: string, keyData: ArrayBuffer) {
   const now = Math.floor(Date.now() / 1000);
   const encoder = new TextEncoder();
 
@@ -41,9 +39,10 @@ async function getAccessToken(clientEmail: string, privateKey: string) {
   const payloadB64 = base64url(encoder.encode(JSON.stringify(payload)).buffer);
   const signingInput = `${headerB64}.${payloadB64}`;
 
+  const crypto = globalThis.crypto;
   const key = await crypto.subtle.importKey(
     'pkcs8',
-    pemToArrayBuffer(privateKey),
+    keyData,
     { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
     false,
     ['sign'],
@@ -81,13 +80,14 @@ export async function POST(request: Request) {
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
     if (!clientEmail || !privateKey || !calendarId) {
-      return Response.json(
-        { success: false, message: 'Server configuration incomplete' },
-        { status: 500 },
+      return new Response(
+        JSON.stringify({ success: false, message: 'Server configuration incomplete' }),
+        { status: 500, headers: { 'content-type': 'application/json' } },
       );
     }
 
-    const accessToken = await getAccessToken(clientEmail, privateKey);
+    const keyData = pemToArrayBuffer(privateKey);
+    const accessToken = await getAccessToken(clientEmail, keyData);
 
     const start = new Date(`${date}T${time}:00`);
     if (isNaN(start.getTime())) throw new Error(`Invalid date/time: ${date} ${time}`);
@@ -113,13 +113,19 @@ export async function POST(request: Request) {
     );
 
     if (!calRes.ok) {
-      const err = await calRes.json();
+      const err: any = await calRes.json();
       throw new Error(`Calendar API error: ${JSON.stringify(err)}`);
     }
 
-    return Response.json({ success: true });
+    return new Response(
+      JSON.stringify({ success: true }),
+      { headers: { 'content-type': 'application/json' } },
+    );
   } catch (error: any) {
     console.error('Schedule error:', error);
-    return Response.json({ success: false, message: error.message }, { status: 500 });
+    return new Response(
+      JSON.stringify({ success: false, message: error.message }),
+      { status: 500, headers: { 'content-type': 'application/json' } },
+    );
   }
 }
