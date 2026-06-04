@@ -7,7 +7,7 @@
 - **Deployment**: Cloudflare Workers via OpenNext (`open-next.config.ts`)
 - **Animations**: Framer Motion (`"use client"`), Google Material Symbols (class `material-symbols-outlined`)
 - **Fonts**: Inter (sans), Hanken Grotesk (display), JetBrains Mono (mono) — loaded in `globals.css`; Plus Jakarta Sans & Space Grotesk loaded in `layout.tsx`
-- **Auth/API**: `jose` for JWT, Google Calendar API v3 (service account)
+- **Auth/API**: Native Web Crypto API (`crypto.subtle`) for JWT assertion, Google Calendar API v3 (service account), zero external auth dependencies.
 
 ## Commands
 
@@ -26,7 +26,7 @@
 - `/` — Section-scroll homepage: Navbar, Hero, CinematicStory, BentoGrid, Positioning, Approach, Founders, ContactCTA, Footer
 - `/privacy`, `/terms`, `/security` — Static legal pages (Navbar + Footer layout)
 - `/api/contact` — `POST` only, reads `formData`, returns redirect
-- `/api/schedule` — `POST` only, Edge Runtime, JSON body, creates Google Calendar event via service account JWT
+- `/api/schedule` — `POST` only, Edge Runtime, JSON body, creates Google Calendar event via service account (native `crypto.subtle` JWT)
 
 ### Key conventions
 - **Path alias**: `@/*` maps to `./src/*`
@@ -44,7 +44,7 @@ GOOGLE_CALENDAR_ID=
 CONTACT_EMAIL=tech.gileara@gmail.com
 ```
 
-> `.env*.local` is gitignored. Google private key is expected with literal `\n` (not real newlines). Do **not** commit `giltech-keys.json` (gitignored).
+> `.env*.local` is gitignored. Google private key is expected with literal `\n` (not real newlines). Do **not** commit service account keys (`giltech-keys.json` is gitignored).
 
 ## Notable
 
