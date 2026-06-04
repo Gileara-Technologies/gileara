@@ -51,7 +51,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
           <CalendarIcon size={16} />
           <span>Pick a Date</span>
         </div>
-        <div className="flex overflow-x-auto gap-3 pb-4 scrollbar-hide snap-x">
+        <div className="flex overflow-x-auto gap-3 pb-4 snap-x scrollbar-hide">
           {days.map((day, i) => {
             const isSelected = selectedDate?.toDateString() === day.toDateString();
             return (

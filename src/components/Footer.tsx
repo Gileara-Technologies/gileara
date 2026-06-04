@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-surface-container-high dark:bg-surface-container-lowest pt-24 pb-12 px-4 md:px-10 text-on-surface">
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-12 gap-12 mb-20">
+        <div className="grid md:grid-cols-12 gap-8 md:gap-12 mb-20">
           <div className="md:col-span-4">
             <div className="flex items-center gap-2 mb-8">
               <Image

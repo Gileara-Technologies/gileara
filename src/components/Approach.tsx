@@ -54,7 +54,7 @@ export default function Approach() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid md:grid-cols-4 gap-8"
+          className="grid md:grid-cols-4 gap-6 md:gap-8"
         >
           {steps.map((step, index) => (
             <motion.div 
@@ -66,7 +66,7 @@ export default function Approach() {
                 <span className="material-symbols-outlined text-secondary text-3xl">{step.icon}</span>
               </div>
               <h4 className="font-display text-xl font-bold mb-2 text-primary">{step.title}</h4>
-              <p className="text-on-surface-variant text-sm max-w-xs">{step.desc}</p>
+              <p className="text-on-surface-variant text-sm">{step.desc}</p>
             </motion.div>
           ))}
         </motion.div>

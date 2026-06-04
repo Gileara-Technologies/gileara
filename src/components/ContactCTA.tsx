@@ -6,7 +6,7 @@ export default function ContactCTA() {
   return (
     <section id="contact" className="py-24 bg-background px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <div>
             <span className="font-mono text-xs text-secondary uppercase tracking-widest">Discovery</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary leading-tight">Let's Talk About Your Project</h2>

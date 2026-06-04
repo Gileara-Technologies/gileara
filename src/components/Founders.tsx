@@ -33,7 +33,7 @@ export default function Founders() {
           <p className="mt-6 text-on-surface-variant text-lg max-w-2xl">When you work with Gileara, you work directly with the founders.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-12">
+        <div className="grid md:grid-cols-3 gap-8 md:gap-12">
           {founders.map((founder, index) => (
             <div key={index} className="group">
               <div className="aspect-[4/5] bg-surface-container-high rounded-2xl mb-6 overflow-hidden relative shadow-md border border-outline-variant/5">

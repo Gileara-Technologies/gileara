@@ -53,7 +53,7 @@ export default function CinematicStory() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8"
+          className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6 md:gap-8"
         >
           {items.map((card, index) => (
             <motion.div

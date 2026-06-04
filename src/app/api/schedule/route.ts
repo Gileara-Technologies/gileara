@@ -70,6 +70,18 @@ async function getAccessToken(clientEmail: string, keyData: ArrayBuffer) {
   return data.access_token;
 }
 
+export async function GET() {
+  return new Response(
+    JSON.stringify({
+      ok: true,
+      email: !!process.env.GOOGLE_CLIENT_EMAIL,
+      key: !!process.env.GOOGLE_PRIVATE_KEY,
+      cal: !!process.env.GOOGLE_CALENDAR_ID,
+    }),
+    { headers: { 'content-type': 'application/json' } },
+  );
+}
+
 export async function POST(request: Request) {
   try {
     const body: any = await request.json();
@@ -95,7 +107,7 @@ export async function POST(request: Request) {
 
     const event = {
       summary: `Meeting Request: ${name} (${goal})`,
-      description: `Name: ${name}\nEmail: ${email}\nGoal: ${goal}\n\nMessage:\n${message}\n\nCreated via gileara.com`,
+      description: `Name: ${name}\nEmail: ${email}\nGoal: ${goal}\n\nMessage:\n${message}\n\nCreated via Website`,
       start: { dateTime: start.toISOString() },
       end: { dateTime: end.toISOString() },
     };

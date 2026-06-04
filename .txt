@@ -1,0 +1,3 @@
+curl -X POST https://gileara-homepage.gileara.workers.dev/api/schedule \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test","email":"test@test.com","goal":"software","message":"test","date":"2026-06-10","time":"14:00"}'
