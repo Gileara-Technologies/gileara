@@ -35,9 +35,9 @@ export default function ContactStepper() {
   const handleScheduleSubmit = async (date: string, time: string) => {
     setIsSubmitting(true);
     setError(null);
-    
+
     const finalData = { ...formData, date, time };
-    
+
     try {
       const response = await fetch('/api/schedule', {
         method: 'POST',
@@ -84,7 +84,7 @@ export default function ContactStepper() {
                 <input
                   required
                   type="text"
-                  placeholder="e.g. John Doe"
+                  placeholder="e.g. Kofi Joe"
                   className={inputClass}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -95,7 +95,7 @@ export default function ContactStepper() {
                 <input
                   required
                   type="email"
-                  placeholder="name@company.com"
+                  placeholder="name@example.com"
                   className={inputClass}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -150,8 +150,8 @@ export default function ContactStepper() {
             exit={{ opacity: 0, x: 20 }}
             className="w-full"
           >
-            <CalendarStep 
-              onSelect={handleScheduleSubmit} 
+            <CalendarStep
+              onSelect={handleScheduleSubmit}
               onBack={() => setStep('details')}
               isSubmitting={isSubmitting}
             />

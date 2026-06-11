@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { HiBars3, HiXMark } from "react-icons/hi2";
+import { FaArrowRight } from "react-icons/fa6";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -48,7 +50,7 @@ export default function Navbar() {
             />
           </Link>
           
-          <div className="hidden md:flex items-center space-x-10 text-sm font-semibold text-on-surface-variant">
+          <div className="hidden md:flex items-center space-x-10 text-base font-semibold text-on-surface-variant">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
@@ -64,20 +66,23 @@ export default function Navbar() {
             <ThemeToggle />
             <Link
               href="#contact"
-              className="hidden md:inline-block px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn"
+              className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn group"
             >
               Get Started
+              <FaArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
             </Link>
             
             {/* Hamburger Button */}
             <button 
-              className="md:hidden p-2 text-on-surface focus:outline-none"
+              className="md:hidden p-2 text-on-surface hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle mobile menu"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
-              <span className="material-symbols-outlined text-3xl">
-                {isMobileMenuOpen ? "close" : "menu"}
-              </span>
+              {isMobileMenuOpen ? (
+                <HiXMark className="w-7 h-7" />
+              ) : (
+                <HiBars3 className="w-7 h-7" />
+              )}
             </button>
           </div>
         </div>
@@ -106,10 +111,11 @@ export default function Navbar() {
               ))}
               <Link
                 href="#contact"
-                className="inline-block w-full py-4 text-center rounded-2xl text-xl font-bold teal-gradient-btn"
+                className="inline-flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-xl font-bold teal-gradient-btn"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Get Started
+                <FaArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </motion.div>

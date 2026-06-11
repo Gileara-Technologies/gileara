@@ -2,6 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { HiSun, HiMoon } from "react-icons/hi2";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -21,9 +22,11 @@ export function ThemeToggle() {
       className="w-10 h-10 rounded-xl bg-surface border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-all focus-visible:ring-2 focus-visible:ring-primary focus:outline-none"
       aria-label="Toggle Theme"
     >
-      <span className="material-symbols-outlined text-[20px]">
-        {theme === "dark" ? "light_mode" : "dark_mode"}
-      </span>
+      {theme === "dark" ? (
+        <HiSun className="w-5 h-5" />
+      ) : (
+        <HiMoon className="w-5 h-5" />
+      )}
     </button>
   );
 }
