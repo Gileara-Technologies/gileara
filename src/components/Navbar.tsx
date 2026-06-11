@@ -50,7 +50,7 @@ export default function Navbar() {
             />
           </Link>
           
-          <div className="hidden md:flex items-center space-x-10 text-sm font-semibold text-on-surface-variant">
+          <div className="hidden md:flex items-center space-x-10 text-base font-semibold text-on-surface-variant">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 

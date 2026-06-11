@@ -71,7 +71,7 @@ export default function CareersNavbar() {
             </span>
           </Link>
           
-          <div className="hidden md:flex items-center space-x-8 text-sm font-semibold text-on-surface-variant relative">
+          <div className="hidden md:flex items-center space-x-8 text-base font-semibold text-on-surface-variant relative">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
