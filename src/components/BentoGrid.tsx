@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa6";
 
 export default function BentoGrid() {
   const container = {
@@ -83,8 +84,8 @@ export default function BentoGrid() {
                 <p className="text-on-surface-variant mb-6 text-sm">
                   {service.desc}
                 </p>
-                <Link href="#contact" className="flex items-center gap-2 text-secondary dark:text-primary font-semibold hover:gap-4 transition-all">
-                  Discuss Project <span className="material-symbols-outlined">arrow_forward</span>
+                <Link href="#contact" className="flex items-center gap-2 text-secondary dark:text-primary font-semibold hover:gap-4 transition-all group">
+                  Discuss Project <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                 </Link>
               </div>
             </motion.div>

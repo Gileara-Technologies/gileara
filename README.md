@@ -50,8 +50,10 @@ src/
 │   │   ├── contact/route.ts    # Contact form handler (POST, formData)
 │   │   └── schedule/route.ts   # Calendar booking (POST, JSON + GET healthcheck)
 │   ├── globals.css             # CSS custom properties, component classes, animations
-│   ├── layout.tsx              # Root layout (fonts, theme, metadata)
+│   ├── layout.tsx              # Root layout (fonts, theme, metadata, global footer)
 │   ├── page.tsx                # Homepage (section-scroll)
+│   ├── careers/
+│   │   └── page.tsx            # Careers portal
 │   ├── privacy/page.tsx
 │   ├── terms/page.tsx
 │   └── security/page.tsx
@@ -59,7 +61,9 @@ src/
 │   ├── Approach.tsx
 │   ├── BentoGrid.tsx
 │   ├── CinematicStory.tsx
+│   ├── CollaborationFooter.tsx
 │   ├── ContactCTA.tsx
+│   ├── CareersCTA.tsx
 │   ├── Footer.tsx
 │   ├── Founders.tsx
 │   ├── Hero.tsx
@@ -68,6 +72,12 @@ src/
 │   ├── Pricing.tsx
 │   ├── ThemeProvider.tsx
 │   ├── ThemeToggle.tsx
+│   ├── careers/
+│   │   ├── ApplicationForm.tsx
+│   │   ├── CareersHero.tsx
+│   │   ├── CareersNavbar.tsx
+│   │   ├── OpenRoles.tsx
+│   │   └── WhyJoinUs.tsx
 │   └── scheduling/
 │       ├── CalendarStep.tsx
 │       └── ContactStepper.tsx
@@ -101,6 +111,17 @@ The homepage is a single-scroll page composed of these sections (in order):
 7. **Founders** — Team/leadership section
 8. **ContactCTA** — Call-to-action with scheduling
 9. **Footer** — Links to privacy, terms, security pages
+10. **CollaborationFooter** — Global partnership logos
+
+### Careers Page
+
+The dedicated careers portal `/careers` uses a specialized navigation flow:
+
+1. **CareersNavbar** — Isolated recruitment navigation with intersection observer active-state tracking
+2. **CareersHero** — Culture and vision statement
+3. **OpenRoles** — Listed positions with required skills
+4. **WhyJoinUs** — Benefits and culture highlights
+5. **ApplicationForm** — Client-side validated multi-step application simulation
 
 ### API Endpoints
 
@@ -109,6 +130,7 @@ The homepage is a single-scroll page composed of these sections (in order):
 | `/api/contact` | POST | `formData` (name, email, goal, message) | Submits contact form; returns redirect |
 | `/api/schedule` | POST | JSON (name, email, goal, message, date, time) | Creates Google Calendar event via service account JWT |
 | `/api/schedule` | GET | – | Healthcheck (returns env var presence) |
+| `/api/apply` | POST | `formData` (name, email, resume file, etc) | Mock endpoint for processing job applications |
 
 ### Theme
 
