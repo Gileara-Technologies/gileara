@@ -7,14 +7,14 @@ export default function CollaborationFooter() {
         <div className="text-center md:text-right">
           <p className="text-xs font-mono text-on-surface-variant uppercase tracking-widest mb-4">In Partnership With</p>
           <Image
-            src="/assets/wg_darkinwhite_full.jpg"
+            src="/assets/workforce/wg_darkinwhite_full-removebg-preview.png"
             alt="Workforce Global logo"
             width={320}
             height={100}
             className="h-16 md:h-24 w-auto object-contain block dark:hidden mx-auto md:ml-auto md:mr-0"
           />
           <Image
-            src="/assets/wg_whiteindarkfull.jpg"
+            src="/assets/workforce/wg_whiteindarkfull-removebg-preview.png"
             alt="Workforce Global logo"
             width={320}
             height={100}
@@ -30,7 +30,7 @@ export default function CollaborationFooter() {
         <div className="text-center md:text-left">
           <p className="text-xs font-mono text-on-surface-variant uppercase tracking-widest mb-4">Powered By</p>
           <Image
-            src="/assets/logo-full.png"
+            src="/assets/gileara/logo-full.png"
             alt="Gileara logo"
             width={320}
             height={80}

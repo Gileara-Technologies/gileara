@@ -60,7 +60,7 @@ export default function CareersNavbar() {
         <div className="flex justify-between items-center w-full">
           <Link href="/" className="flex items-center gap-3 group cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus:outline-none rounded-sm">
             <Image
-              src="/assets/logo-full.png"
+              src="/assets/gileara/logo-full.png"
               alt="Gileara Logo"
               width={140}
               height={35}

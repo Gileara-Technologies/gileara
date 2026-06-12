@@ -9,20 +9,20 @@ export default function Founders() {
     {
       name: "Julian Hagan",
       role: "Co-Founder & COO",
-      image: "https://res.cloudinary.com/dq8tqcjfz/image/upload/v1781124276/julian_hagan_qlnvoo.jpg",
-      linkedin: "https://linkedin.com/in/julian-hagan-441b18228"
+      image: "/assets/images/julian_hagan.jpg",
+      linkedin: "https://www.linkedin.com/in/julian-hagan/"
     },
     {
       name: "Amos Frederick Hughes",
       role: "Founder & CEO",
-      image: "https://res.cloudinary.com/dq8tqcjfz/image/upload/v1781124275/amos_ymuu6e.jpg",
+      image: "/assets/images/amos.jpg",
       linkedin: "https://linkedin.com/in/amos-frederick-hughes-01570b22a"
     },
     {
       name: "Rodney Hagan",
       role: "Co-Founder & CTO",
-      image: "https://res.cloudinary.com/dq8tqcjfz/image/upload/v1781125531/rodney_hagan_xo60ni3.jpg",
-      linkedin: "https://linkedin.com/in/rodney-hagan-249a15233"
+      image: "/assets/images/rodney_hagan.jpg",
+      linkedin: "https://www.linkedin.com/in/haganrodney/"
     }
   ];
 
