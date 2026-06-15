@@ -25,25 +25,25 @@ export default function BentoGrid() {
       title: "Custom Software",
       desc: "Web and mobile applications tailored to how your business actually operates — not off-the-shelf.",
       icon: "code_blocks",
-      image: "/assets/gileara/software.png"
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDsgWl0VXrYQ6LVUJqOkLT7DyFCzHdnvGwVE8faZstsyAdWVCN33UnQTczYyg90DrTzeGX5dIr6rdb8yVC5_zqU0PD8p1nsGGgUyngHQ7Xg3YPobEK8rq_udNLad3TAsI6X9ePP7FIE_mrTR_v45dN8DX6ijfOVHn1bm9UfCkNPuHIk0PMDXhQE6M5qqahvowZKUmIdh4XsOOH1-yDOrRzL6SeUmtP6eau094f-auXspgKC3d_f3ldioe6paBy09EBXYDVjzQ5wnlg"
     },
     {
       title: "E-Commerce",
       desc: "From stores to booking systems and portals — we build the digital infrastructure for growth.",
       icon: "shopping_cart",
-      image: "/assets/gileara/hero.png"
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCGjEV108cGripoFozV281pqw4fL9RviYy4VFot4t96gq9JXfKlt2nXZ6uwlKx9HyGAk55lhJ4_HRUCn5oMRDUccdwcEia8XYESH0GkdWVgp6iozr5GBLrHAFwk-HCGFRBpO8zkGmjuVJZZqoUxItZjkFpkuOy1DYL5QTOQ6mfz2Buj97KmdVpINbsNL9ZnqWP2Jn_NgjjYzHAhUDGzu0KLtgurFhGDeLW6NReEHBnWAIc98n3ZwbwzvpFFQkEYaANfgKt21I2UhUU"
     },
     {
       title: "Workflow Automation",
       desc: "Replace manual, repetitive processes with smart systems — so your team spends time growing.",
       icon: "rebase_edit",
-      image: "/assets/gileara/software.png"
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAqqfzE14GHEDuj-n-CFLlI3NXi3YZ9pSQubtoyjtD8K_VIWBfiG6pmClT2vtN5ixUNrsoihBtJH_MVdDShDyZEcNZMEjPcTi-tBVtnDymJdjSwt_9AD5JJRtzKtEit2w05bLFknvIMdPASV5fJ1csj0GUpikhewUW9SB1nw-Ly80hNizCX9Wa3GLmeoGIlgA0yiGCtSU5BLbDEPaFJ-Xxq9LSBiVY_CiPbZvTNCtcgsOIMbPQEJ-mSDXss89C8mo8Fhm0R8IZj404"
     },
     {
       title: "Strategy & Advisory",
       desc: "Not sure where to start? We help you map the right technology path and manage the build start to finish.",
       icon: "insights",
-      image: "/assets/gileara/security.png"
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD9bkD706uHTh6rmuD2j5EOLpFwbHx1Wx7j2GZpO4j421J5xBqao2IaeKuJQTpDIJDxeXca8nEnl5C0RupR237HF9jHdI_2MYRRMXxFvYcmsghxzRqjpVDvx1aUGDc_JqX2CiLMwXLj_30ME_cw4efxaDswUazkwSPMiBLXvSOlMK6Z6e8flzVTevvqUOSRiVMaeUc2XaSOdpio1diUpuFQKXT1Is_bhqwlrq-q2NrQ3uTux6CMRVC22_s-ICvH6R5SXUFmo6ZWXHw"
     }
   ];
 
@@ -66,15 +66,15 @@ export default function BentoGrid() {
           className="grid md:grid-cols-2 gap-6 md:gap-8"
         >
           {services.map((service, index) => (
-            <motion.div 
-              key={index} 
-              variants={item} 
+            <motion.div
+              key={index}
+              variants={item}
               className="bg-surface-container-low dark:bg-surface-container p-2 rounded-2xl border border-outline-variant/30 dark:border-outline-variant/10 group hover:border-secondary dark:hover:border-primary/50 transition-colors overflow-hidden"
             >
-              <img 
-                alt={service.title} 
-                className="w-full h-40 md:h-48 lg:h-56 object-cover rounded-xl mb-6 opacity-90 group-hover:opacity-100 transition-opacity" 
-                src={service.image} 
+              <img
+                alt={service.title}
+                className="w-full h-40 md:h-48 lg:h-56 object-cover rounded-xl mb-6 opacity-90 group-hover:opacity-100 transition-opacity"
+                src={service.image}
               />
               <div className="px-6 pb-6">
                 <div className="flex items-center gap-3 mb-4">
