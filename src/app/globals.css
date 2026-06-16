@@ -165,6 +165,157 @@
   display: none;
 }
 
+.gileara-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(68, 221, 193, 0.1), transparent 38%),
+    linear-gradient(135deg, var(--surface-container-lowest), var(--background));
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 420ms ease-in-out, visibility 420ms ease-in-out;
+}
+
+.gileara-loader--global {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gileara-loader--global[data-visible="true"] {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.gileara-loader__mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(11.25rem, 24vw, 17.5rem);
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+@media (max-width: 767px) {
+  .gileara-loader__mark {
+    width: clamp(9.75rem, 52vw, 13.5rem);
+  }
+}
+
+.gileara-loader__mark::before,
+.gileara-loader__mark::after {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border-radius: 999px;
+  background: rgba(68, 221, 193, 0.5);
+  opacity: 0.24;
+  transform: translateZ(0) scale(0.82);
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+  animation: loader-glow 3s ease-in-out infinite;
+}
+
+.gileara-loader__mark::before {
+  filter: blur(26px);
+}
+
+.gileara-loader__mark::after {
+  inset: 12%;
+  background: rgba(71, 191, 255, 0.34);
+  filter: blur(54px);
+  opacity: 0.2;
+  animation-name: loader-glow-ambient;
+}
+
+.gileara-loader__mark img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.85;
+  transform: translateZ(0) scale(0.8);
+  filter:
+    drop-shadow(0 1rem 1.75rem rgba(68, 221, 193, 0.22))
+    drop-shadow(0 2rem 4.5rem rgba(71, 191, 255, 0.12));
+  animation: loader-mark 3s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes loader-glow {
+  0% {
+    opacity: 0.24;
+    filter: blur(26px);
+    transform: translateZ(0) scale(0.82);
+  }
+  42%,
+  58% {
+    opacity: 0.64;
+    filter: blur(68px);
+    transform: translateZ(0) scale(1.32);
+  }
+  100% {
+    opacity: 0.24;
+    filter: blur(26px);
+    transform: translateZ(0) scale(0.82);
+  }
+}
+
+@keyframes loader-glow-ambient {
+  0% {
+    opacity: 0.2;
+    filter: blur(44px);
+    transform: translateZ(0) scale(0.9);
+  }
+  42%,
+  58% {
+    opacity: 0.46;
+    filter: blur(80px);
+    transform: translateZ(0) scale(1.44);
+  }
+  100% {
+    opacity: 0.2;
+    filter: blur(44px);
+    transform: translateZ(0) scale(0.9);
+  }
+}
+
+@keyframes loader-mark {
+  0% {
+    opacity: 0.85;
+    transform: translateZ(0) scale(0.8);
+  }
+  42%,
+  58% {
+    opacity: 1;
+    transform: translateZ(0) scale(1.25);
+  }
+  100% {
+    opacity: 0.85;
+    transform: translateZ(0) scale(0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gileara-loader,
+  .gileara-loader__mark::before,
+  .gileara-loader__mark::after,
+  .gileara-loader__mark img {
+    animation: none;
+    transition-duration: 1ms;
+  }
+
+  .gileara-loader__mark img {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Custom Animations */
 @keyframes float {
   0% { transform: translateY(0px); }

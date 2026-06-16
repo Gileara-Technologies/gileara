@@ -16,6 +16,36 @@ The format adheres to [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), 
 
 ---
 
+## 2026-06-11 — Sprint: Careers portal & UI polish
+
+### Added
+
+- **Careers Portal** (`/careers`) — dedicated route with CareersNavbar, CareersHero, WhyJoinUs, OpenRoles, and ApplicationForm components
+- `POST /api/apply` route for job application submissions (FormData with resume file upload)
+- `OpenRoles` component listing 5 positions: Frontend, Backend, QA, DevOps, and UI/UX Designer with skill tags
+- `ApplicationForm` component with full client-side validation, file upload (PDF/DOC/DOCX, 5MB limit), experience level selector with descriptions, and success/error states
+- `CareersNavbar` with sticky design, active section highlighting via IntersectionObserver, and mobile drawer overlay
+- `WhyJoinUs` section highlighting 6 culture benefits (career growth, learning, collaboration, modern tech stack, flexibility, meaningful impact)
+- Work group images (`public/assets/wg_*.jpg`)
+- `react-icons` dependency for Heroicons v2 and Font Awesome 6 icon sets
+
+### Changed
+
+- **Navbar** — replaced Material Symbols with `react-icons` (HiBars3/HiXMark), improved mobile menu UX, added arrow icons to CTA buttons with hover animation, increased font size to `text-base`
+- **Hero** — added arrow icons to CTA buttons with translate/opacity hover animations
+- **ThemeToggle** — replaced Material Symbols with `react-icons` (HiSun/HiMoon)
+- **Founders** — replaced LinkedIn image URL with `FaLinkedin` icon from react-icons, added `aria-label` for accessibility
+- **Footer** — removed newsletter signup form, updated layout
+- **ContactStepper** — updated placeholder text, formatting cleanup
+- `layout.tsx` — responsive spacing adjustments
+- `page.tsx` — added careers link integration
+
+### Documentation
+
+- Updated README with careers portal structure, component breakdown, and API route documentation
+
+---
+
 ## 2026-06-04 — Sprint: Cloudflare deployment & JWT auth
 
 ### Merged

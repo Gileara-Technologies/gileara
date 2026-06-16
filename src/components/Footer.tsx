@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="md:col-span-4">
             <div className="flex items-center gap-2 mb-8">
               <Image
-                src="/assets/logo-full.png"
+                src="/assets/gileara/logo-full.png"
                 alt="Gileara Logo"
                 width={224}
                 height={56}
@@ -21,8 +21,8 @@ export default function Footer() {
               Technology partners for growth. Precision innovation for enterprise and startup scaling.
             </p>
             <div className="flex gap-4">
-              <a 
-                className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group" 
+              <a
+                className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group"
                 href="https://www.linkedin.com/company/gileara"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -30,17 +30,9 @@ export default function Footer() {
               >
                 <FaLinkedin className="w-5 h-5 text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" />
               </a>
-              <a 
-                className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group" 
-                href="https://github.com/Gileara-Technologies"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Gileara on GitHub"
-              >
-                <FaGithub className="w-5 h-5 text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" />
-              </a>
-              <a 
-                className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group" 
+
+              <a
+                className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group"
                 href="mailto:tech.gileara@gmail.com"
                 aria-label="Email Gileara"
               >
@@ -62,6 +54,7 @@ export default function Footer() {
             <ul className="space-y-4 text-sm text-on-surface-variant">
               <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link></li>
               <li><Link href="/terms" className="hover:text-primary transition-colors">Terms</Link></li>
+              <li><Link href="/security" className="hover:text-primary transition-colors">Security</Link></li>
             </ul>
           </div>
           <div className="md:col-span-3">

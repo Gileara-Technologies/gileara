@@ -7,8 +7,47 @@ import ApplicationForm from "@/components/careers/ApplicationForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Careers | Gileara Technologies",
-  description: "Join Gileara Technologies and help us build innovative solutions. Explore open roles in frontend, backend, QA, DevOps, and Design.",
+  title: "Join Gileara | Careers in Technology and Innovation",
+  description:
+    "Explore careers, jobs, and growth-focused opportunities at Gileara. Join exceptional talent building innovative technology across remote and on-site roles.",
+  alternates: {
+    canonical: "/careers",
+  },
+  keywords: [
+    "Gileara careers",
+    "Join Gileara",
+    "technology jobs",
+    "innovation careers",
+    "remote technology opportunities",
+    "on-site technology roles",
+    "software engineering jobs",
+    "product design jobs",
+    "growth-focused culture",
+    "Gileara Technologies jobs",
+  ],
+  openGraph: {
+    title: "Join Gileara | Careers in Technology and Innovation",
+    description:
+      "Discover remote and on-site opportunities at Gileara and help build the future with exceptional technology talent.",
+    url: "/careers",
+    siteName: "Gileara Technologies",
+    type: "website",
+    images: [
+      {
+        url: "/assets/gileara/hero.png",
+        width: 1200,
+        height: 630,
+        alt: "Careers at Gileara Technologies",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Join Gileara | Careers in Technology and Innovation",
+    description:
+      "Explore careers, jobs, and growth-focused opportunities with Gileara's technology and innovation teams.",
+    images: ["/assets/gileara/hero.png"],
+  },
 };
 
 export default function CareersPage() {

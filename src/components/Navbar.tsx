@@ -42,7 +42,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center w-full">
           <Link href="/" className="flex items-center group cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus:outline-none rounded-sm">
             <Image
-              src="/assets/logo-full.png"
+              src="/assets/gileara/logo-full.png"
               alt="Gileara Logo"
               width={160}
               height={40}
