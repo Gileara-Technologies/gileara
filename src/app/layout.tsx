@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import CollaborationFooter from "@/components/CollaborationFooter";
 import GlobalLoading from "@/components/GlobalLoading";
 import BackToTop from "@/components/BackToTop";
 
@@ -67,7 +66,6 @@ export default function RootLayout({
             <div className="flex-grow">
               {children}
             </div>
-            <CollaborationFooter />
           </div>
           <BackToTop />
         </ThemeProvider>

@@ -4,8 +4,21 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa6";
+import UnderMaintenance from "./UnderMaintenance";
 
 export default function Hero() {
+  const isMaintenance = false;
+
+  if (isMaintenance) {
+    return (
+      <section className="relative min-h-screen flex items-center bg-background overflow-hidden">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-10 pt-32 pb-20 md:pt-48 md:pb-32">
+          <UnderMaintenance fullPage={false} />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="relative min-h-screen flex items-center bg-background overflow-hidden">
       {/* Logo watermark — always visible, light-on-dark treatment */}

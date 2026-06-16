@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import UnderMaintenance from "./UnderMaintenance";
 
 export default function Positioning() {
+  const isMaintenance = false;
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -42,6 +45,22 @@ export default function Positioning() {
     }
   ];
 
+  if (isMaintenance) {
+    return (
+      <section id="positioning" className="py-24 bg-surface-container px-4 md:px-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Why Gileara?</span>
+            <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background leading-tight">
+              We build technical foundations, not just applications.
+            </h2>
+          </div>
+          <UnderMaintenance fullPage={false} />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="positioning" className="py-24 bg-surface-container px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
@@ -63,11 +82,10 @@ export default function Positioning() {
             <motion.div
               key={index}
               variants={item}
-                             className={`p-6 md:p-10 rounded-2xl flex flex-col shadow-sm relative overflow-hidden border ${
-                segment.highlight
+              className={`p-6 md:p-10 rounded-2xl flex flex-col shadow-sm relative overflow-hidden border ${segment.highlight
                   ? "bg-surface dark:bg-surface-container-high border-secondary dark:border-primary/45 shadow-lg"
                   : "bg-surface dark:bg-surface-container-high border-outline-variant/30 dark:border-outline-variant/10"
-              }`}
+                }`}
             >
               {segment.highlight && (
                 <div className="absolute -right-10 -top-10 w-40 h-40 bg-secondary/5 dark:bg-primary/10 rounded-full blur-3xl pointer-events-none" />
