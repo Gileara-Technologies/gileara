@@ -36,17 +36,6 @@ export default function Hero() {
       {/* Subtle background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] via-transparent to-secondary/[0.02]" />
 
-      {/* Mobile: hero image behind the content */}
-      <div className="md:hidden absolute inset-0">
-        <Image
-          src="/assets/gileara/hero.png"
-          alt=""
-          fill
-          className="object-cover opacity-25"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background/90" />
-      </div>
 
       <div className="relative z-10 w-full">
         <div className="max-w-4xl mx-auto px-4 md:px-10 pt-32 pb-20 md:pt-48 md:pb-32 text-center">
