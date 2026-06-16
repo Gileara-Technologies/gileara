@@ -38,7 +38,8 @@ export const metadata: Metadata = {
       { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/assets/gileara/favicon-32x32.png", type: "image/png", sizes: "32x32" },
       { url: "/assets/gileara/icon-192.png", type: "image/png", sizes: "192x192" },
-      { url: "/assets/gileara/icon-512.png", type: "image/png", sizes: "512x512" },
+      { url: "/assets/gileara/icon-512.png", type: "image/png", sizes: "256x256" },
+      { url: "/assets/gileara/icon-512.png", type: "image/png", sizes: "64x64" },
     ],
     shortcut: "/favicon.svg",
     apple: [
