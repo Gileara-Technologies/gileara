@@ -150,7 +150,7 @@ export const metadata: Metadata = {
     type: "article",
     images: [
       {
-        url: "/assets/gileara/hero.png",
+        url: "/assets/gileara/logo-full.png",
         width: 1200,
         height: 630,
         alt: "Gileara Technologies legal terms",
@@ -162,7 +162,7 @@ export const metadata: Metadata = {
     title: "Legal Terms | Gileara Technologies",
     description:
       "Website terms, acceptable use, intellectual property notices, and legal contact details for Gileara Technologies.",
-    images: ["/assets/gileara/hero.png"],
+    images: ["/assets/gileara/logo-full.png"],
   },
 };
 
