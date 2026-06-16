@@ -1,10 +1,10 @@
-import Navbar from "@/components/Navbar";
+import LegalNavbar from "@/components/legal/LegalNavbar";
 import Footer from "@/components/Footer";
 
 export default function SecurityPage() {
   return (
     <>
-      <Navbar />
+      <LegalNavbar page="security" />
       <main className="pt-32 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6">
           <h1 className="text-4xl md:text-5xl font-bold mb-10 text-on-surface">Security Disclosure</h1>

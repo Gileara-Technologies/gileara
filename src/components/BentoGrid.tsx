@@ -66,15 +66,15 @@ export default function BentoGrid() {
           className="grid md:grid-cols-2 gap-6 md:gap-8"
         >
           {services.map((service, index) => (
-            <motion.div 
-              key={index} 
-              variants={item} 
+            <motion.div
+              key={index}
+              variants={item}
               className="bg-surface-container-low dark:bg-surface-container p-2 rounded-2xl border border-outline-variant/30 dark:border-outline-variant/10 group hover:border-secondary dark:hover:border-primary/50 transition-colors overflow-hidden"
             >
-              <img 
-                alt={service.title} 
-                className="w-full h-40 md:h-48 lg:h-56 object-cover rounded-xl mb-6 opacity-90 group-hover:opacity-100 transition-opacity" 
-                src={service.image} 
+              <img
+                alt={service.title}
+                className="w-full h-40 md:h-48 lg:h-56 object-cover rounded-xl mb-6 opacity-90 group-hover:opacity-100 transition-opacity"
+                src={service.image}
               />
               <div className="px-6 pb-6">
                 <div className="flex items-center gap-3 mb-4">

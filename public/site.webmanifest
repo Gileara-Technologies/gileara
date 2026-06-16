@@ -1,0 +1,24 @@
+{
+  "name": "Gileara Technologies",
+  "short_name": "Gileara",
+  "description": "Custom software, workflow automation, and digital strategy for growing businesses.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#081420",
+  "theme_color": "#44ddc1",
+  "icons": [
+    {
+      "src": "/assets/gileara/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/gileara/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
