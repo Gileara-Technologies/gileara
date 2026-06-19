@@ -31,8 +31,8 @@ export default function UnderMaintenance({ fullPage = true }: UnderMaintenancePr
   };
 
   const spinTransition = {
-    loop: Infinity,
-    ease: "linear",
+    repeat: Infinity,
+    ease: "linear" as const,
     duration: 3,
   };
 
