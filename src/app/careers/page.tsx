@@ -50,9 +50,29 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Join Gileara | Careers in Technology and Innovation",
+  description:
+    "Explore careers, jobs, and growth-focused opportunities at Gileara. Join exceptional talent building innovative technology across remote and on-site roles.",
+  url: "https://gileara.org/careers",
+  dateModified: new Date().toISOString().split("T")[0],
+  publisher: {
+    "@type": "Organization",
+    name: "Gileara Technologies",
+    url: "https://gileara.org",
+    logo: "https://gileara.org/assets/gileara/logo-icon.png",
+  },
+};
+
 export default function CareersPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <CareersNavbar />
       <main>
         <CareersHero />

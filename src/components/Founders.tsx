@@ -55,10 +55,12 @@ export default function Founders() {
           {founders.map((founder, index) => (
             <div key={index} className="group">
               <div className="aspect-[4/5] bg-surface-container-high rounded-2xl mb-6 overflow-hidden relative shadow-md border border-outline-variant/5">
-                <img
+                <Image
                   src={founder.image}
                   alt={founder.name}
-                  className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
                 />
                 <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <a
