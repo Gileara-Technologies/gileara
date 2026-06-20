@@ -3,6 +3,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { HiSun, HiMoon } from "react-icons/hi2";
+import UnderMaintenance from "./UnderMaintenance";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();

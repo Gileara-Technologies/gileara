@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import UnderMaintenance from "./UnderMaintenance";
 
 export default function Pricing() {
+  const isMaintenance = false;
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -18,6 +21,20 @@ export default function Pricing() {
     hidden: { opacity: 0, y: 30 },
     show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
+
+  if (isMaintenance) {
+    return (
+      <section id="why-gileara" className="py-16 md:py-24 lg:py-32 bg-secondary/10">
+        <div className="max-w-7xl mx-auto px-4 md:px-10">
+          <div className="text-center mb-20">
+            <h3 className="text-primary font-bold uppercase tracking-[0.3em] text-xs mb-4">Positioning</h3>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-on-surface">Why Gileara?</h2>
+          </div>
+          <UnderMaintenance fullPage={false} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="why-gileara" className="py-16 md:py-24 lg:py-32 bg-secondary/10">
@@ -85,7 +102,7 @@ export default function Pricing() {
             </ul>
           </motion.div>
         </motion.div>
-        
+
         <div className="mt-20 text-center">
           <Link href="#contact" className="btn-primary">
             Start a Conversation

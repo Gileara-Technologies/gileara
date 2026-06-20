@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import CollaborationFooter from "@/components/CollaborationFooter";
 import GlobalLoading from "@/components/GlobalLoading";
 import BackToTop from "@/components/BackToTop";
 
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/assets/gileara/hero.png",
+        url: "/assets/gileara/logo-full.png",
         width: 1200,
         height: 630,
       },
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Gileara Technologies | Systems for Growing Businesses",
     description: "Custom software and digital systems for modern businesses.",
-    images: ["/assets/gileara/hero.png"],
+    images: ["/assets/gileara/logo-full.png"],
   },
   icons: {
     icon: [
@@ -67,7 +66,6 @@ export default function RootLayout({
             <div className="flex-grow">
               {children}
             </div>
-            <CollaborationFooter />
           </div>
           <BackToTop />
         </ThemeProvider>

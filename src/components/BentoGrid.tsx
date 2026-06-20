@@ -3,8 +3,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
+import UnderMaintenance from "./UnderMaintenance";
 
 export default function BentoGrid() {
+  const isMaintenance = false;
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -46,6 +49,22 @@ export default function BentoGrid() {
       image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD9bkD706uHTh6rmuD2j5EOLpFwbHx1Wx7j2GZpO4j421J5xBqao2IaeKuJQTpDIJDxeXca8nEnl5C0RupR237HF9jHdI_2MYRRMXxFvYcmsghxzRqjpVDvx1aUGDc_JqX2CiLMwXLj_30ME_cw4efxaDswUazkwSPMiBLXvSOlMK6Z6e8flzVTevvqUOSRiVMaeUc2XaSOdpio1diUpuFQKXT1Is_bhqwlrq-q2NrQ3uTux6CMRVC22_s-ICvH6R5SXUFmo6ZWXHw"
     }
   ];
+
+  if (isMaintenance) {
+    return (
+      <section id="services" className="py-24 bg-background px-4 md:px-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="max-w-2xl">
+              <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">What We Do</span>
+              <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background leading-tight">Solutions Built Around Your Business</h2>
+            </div>
+          </div>
+          <UnderMaintenance fullPage={false} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="services" className="py-24 bg-background px-4 md:px-10">
