@@ -11,6 +11,7 @@ export default function CollaborationFooter() {
             alt="Workforce Global logo"
             width={320}
             height={100}
+            sizes="(max-width: 768px) 320px, 320px"
             className="h-16 md:h-24 w-auto object-contain block dark:hidden mx-auto md:ml-auto md:mr-0"
           />
           <Image
@@ -18,6 +19,7 @@ export default function CollaborationFooter() {
             alt="Workforce Global logo"
             width={320}
             height={100}
+            sizes="(max-width: 768px) 320px, 320px"
             className="h-16 md:h-24 w-auto object-contain hidden dark:block mx-auto md:ml-auto md:mr-0"
           />
         </div>
@@ -34,6 +36,7 @@ export default function CollaborationFooter() {
             alt="Gileara logo"
             width={320}
             height={80}
+            sizes="(max-width: 768px) 320px, 320px"
             className="h-14 md:h-20 w-auto object-contain filter dark:brightness-0 dark:invert mx-auto md:mr-auto md:ml-0"
           />
         </div>

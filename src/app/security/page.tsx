@@ -1,9 +1,68 @@
+import type { Metadata } from "next";
 import LegalNavbar from "@/components/legal/LegalNavbar";
 import Footer from "@/components/Footer";
 
+export const metadata: Metadata = {
+  title: "Security Disclosure | Gileara Technologies",
+  description:
+    "Gileara Technologies takes security seriously. Learn how to report vulnerabilities, our commitment to responsible disclosure, and how to contact our security team.",
+  alternates: {
+    canonical: "/security",
+  },
+  keywords: [
+    "Gileara security",
+    "vulnerability disclosure",
+    "security reporting",
+    "responsible disclosure",
+    "Gileara Technologies security",
+  ],
+  openGraph: {
+    title: "Security Disclosure | Gileara Technologies",
+    description:
+      "Security is at the core of everything we build. Report vulnerabilities and learn about our security practices.",
+    url: "/security",
+    siteName: "Gileara Technologies",
+    type: "website",
+    images: [
+      {
+        url: "/assets/gileara/logo-full.png",
+        width: 1200,
+        height: 630,
+        alt: "Gileara Technologies security disclosure",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Security Disclosure | Gileara Technologies",
+    description:
+      "Security vulnerability reporting and responsible disclosure at Gileara Technologies.",
+    images: ["/assets/gileara/logo-full.png"],
+  },
+};
+
 export default function SecurityPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Security Disclosure | Gileara Technologies",
+    description: metadata.description,
+    url: "https://gileara.org/security",
+    dateModified: "2026-05-01",
+    publisher: {
+      "@type": "Organization",
+      name: "Gileara Technologies",
+      url: "https://gileara.org",
+      logo: "https://gileara.org/assets/gileara/logo-icon.png",
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <LegalNavbar page="security" />
       <main className="pt-32 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6">

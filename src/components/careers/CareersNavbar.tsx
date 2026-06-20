@@ -64,6 +64,8 @@ export default function CareersNavbar() {
               alt="Gileara Logo"
               width={140}
               height={35}
+              priority
+              sizes="(max-width: 768px) 112px, 128px"
               className="w-28 md:w-32 h-auto group-hover:scale-[1.02] transition-transform duration-300 filter dark:brightness-0 dark:invert"
             />
             <span className="hidden md:inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-widest uppercase bg-primary/10 text-primary border border-primary/20">

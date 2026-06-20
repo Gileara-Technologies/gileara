@@ -21,6 +21,7 @@ export default function Footer() {
                       alt="Gileara Logo"
                       width={224}
                       height={56}
+                      sizes="(max-width: 768px) 160px, 224px"
                       className="w-40 md:w-56 h-auto filter dark:brightness-0 dark:invert transition-all"
                     />
                   </div>
@@ -38,6 +39,7 @@ export default function Footer() {
                       alt="Workforce Global"
                       width={320}
                       height={100}
+                      sizes="(max-width: 768px) 160px, 224px"
                       className="w-40 md:w-56 h-auto object-contain block dark:hidden"
                     />
                     <Image
@@ -45,6 +47,7 @@ export default function Footer() {
                       alt="Workforce Global"
                       width={320}
                       height={100}
+                      sizes="(max-width: 768px) 160px, 224px"
                       className="w-40 md:w-56 h-auto object-contain hidden dark:block"
                     />
                   </div>
@@ -55,7 +58,7 @@ export default function Footer() {
             {/* Right: Links */}
             <div className="flex flex-col sm:flex-row gap-12 sm:gap-24 lg:gap-32">
               <div>
-                <h5 className="font-display text-lg font-semibold mb-5 text-on-surface tracking-tight">Navigation</h5>
+                <h3 className="font-display text-lg font-semibold mb-5 text-on-surface tracking-tight">Navigation</h3>
                 <ul className="space-y-3 text-base text-on-surface-variant">
                   <li><Link href="#services" className="hover:text-primary transition-colors">Services</Link></li>
                   <li><Link href="#approach" className="hover:text-primary transition-colors">How We Work</Link></li>
@@ -64,7 +67,7 @@ export default function Footer() {
                 </ul>
               </div>
               <div>
-                <h5 className="font-display text-lg font-semibold mb-5 text-on-surface tracking-tight">Legal</h5>
+                <h3 className="font-display text-lg font-semibold mb-5 text-on-surface tracking-tight">Legal</h3>
                 <ul className="space-y-3 text-base text-on-surface-variant">
                   <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link></li>
                   <li><Link href="/terms" className="hover:text-primary transition-colors">Terms</Link></li>

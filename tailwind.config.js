@@ -45,9 +45,9 @@ export default {
         'on-error-container': 'var(--on-error-container)',
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        display: ["Hanken Grotesk", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        sans: ["var(--font-inter)", "sans-serif"],
+        display: ["var(--font-hanken-grotesk)", "sans-serif"],
+        mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

@@ -29,6 +29,7 @@ export default function Hero() {
           width={800}
           height={800}
           priority
+          sizes="(max-width: 768px) 90vw, 700px"
           className="w-[90%] md:w-[700px] h-auto opacity-25 filter dark:brightness-0 dark:invert"
         />
       </div>

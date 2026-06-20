@@ -1,20 +1,39 @@
 import type { Metadata } from "next";
+import { Inter, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import GlobalLoading from "@/components/GlobalLoading";
 import BackToTop from "@/components/BackToTop";
 
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-inter",
+});
+
+const hankenGrotesk = Hanken_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-hanken-grotesk",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: "500",
+  variable: "--font-jetbrains-mono",
+});
+
 export const metadata: Metadata = {
   title: "Gileara Technologies | Systems for Growing Businesses",
   description: "Gileara builds the custom software and digital systems that power modern businesses. We are your technology partners for growth, security, and scale.",
-  metadataBase: new URL("https://gileara.tech"),
+  metadataBase: new URL("https://gileara.org"),
   alternates: {
-    canonical: "/",
+    canonical: "https://gileara.org",
   },
   openGraph: {
     title: "Gileara Technologies | Systems for Growing Businesses",
     description: "Custom software, workflow automation, and digital strategy for startups and SMEs.",
-    url: "https://gileara.tech",
+    url: "https://gileara.org",
     siteName: "Gileara Technologies",
     locale: "en_US",
     type: "website",
@@ -54,12 +73,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className={`scroll-smooth ${inter.variable} ${hankenGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
+        <link rel="preload" href="/assets/gileara/logo-full.png" as="image" />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <GlobalLoading />
           <div className="flex flex-col min-h-screen">
