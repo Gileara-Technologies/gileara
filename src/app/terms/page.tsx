@@ -9,7 +9,7 @@ const legalSections = [
     id: "introduction",
     title: "Introduction",
     body: [
-      "These Legal Terms describe the rules that apply when you access the Gileara Technologies website, review our materials, contact our team, or use digital experiences made available through gileara.tech.",
+      "These Legal Terms describe the rules that apply when you access the Gileara Technologies website, review our materials, contact our team, or use digital experiences made available through gileara.org.",
       "Gileara Technologies provides software engineering, automation, digital strategy, and technology consulting services for growing organizations. These terms apply to website use only unless a signed service agreement, statement of work, or other written contract says otherwise.",
     ],
   },
@@ -148,9 +148,11 @@ export const metadata: Metadata = {
     url: "/terms",
     siteName: "Gileara Technologies",
     type: "article",
+    publishedTime: "2026-06-12",
+    modifiedTime: "2026-06-12",
     images: [
       {
-        url: "/assets/gileara/hero.png",
+        url: "/assets/gileara/logo-full.png",
         width: 1200,
         height: 630,
         alt: "Gileara Technologies legal terms",
@@ -162,7 +164,7 @@ export const metadata: Metadata = {
     title: "Legal Terms | Gileara Technologies",
     description:
       "Website terms, acceptable use, intellectual property notices, and legal contact details for Gileara Technologies.",
-    images: ["/assets/gileara/hero.png"],
+    images: ["/assets/gileara/logo-full.png"],
   },
 };
 
@@ -172,13 +174,13 @@ export default function TermsPage() {
     "@type": "WebPage",
     name: "Legal Terms | Gileara Technologies",
     description: metadata.description,
-    url: "https://gileara.tech/terms",
+    url: "https://gileara.org/terms",
     dateModified: "2026-06-12",
     publisher: {
       "@type": "Organization",
       name: "Gileara Technologies",
-      url: "https://gileara.tech",
-      logo: "https://gileara.tech/assets/gileara/logo-icon.png",
+      url: "https://gileara.org",
+      logo: "https://gileara.org/assets/gileara/logo-icon.png",
     },
   };
 

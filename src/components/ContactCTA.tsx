@@ -2,8 +2,25 @@
 
 import ContactStepper from "@/components/scheduling/ContactStepper";
 import { FaEnvelope } from "react-icons/fa6";
+import UnderMaintenance from "./UnderMaintenance";
 
 export default function ContactCTA() {
+  const isMaintenance = false;
+
+  if (isMaintenance) {
+    return (
+      <section id="contact" className="py-24 bg-background px-4 md:px-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 text-center">
+            <span className="font-mono text-xs text-secondary uppercase tracking-widest">Discovery</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary leading-tight">Let's Talk About Your Project</h2>
+          </div>
+          <UnderMaintenance fullPage={false} />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="contact" className="py-24 bg-background px-4 md:px-10">
       <div className="max-w-7xl mx-auto">

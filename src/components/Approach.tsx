@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import UnderMaintenance from "./UnderMaintenance";
 
 export default function Approach() {
+  const isMaintenance = false;
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -41,6 +44,20 @@ export default function Approach() {
     }
   ];
 
+  if (isMaintenance) {
+    return (
+      <section id="approach" className="py-24 bg-background">
+        <div className="max-w-7xl mx-auto px-4 md:px-10">
+          <div className="mb-20 text-center">
+            <span className="font-mono text-xs text-secondary uppercase tracking-widest">Our Process</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary">How We Work With You</h2>
+          </div>
+          <UnderMaintenance fullPage={false} />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="approach" className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 md:px-10">
@@ -57,8 +74,8 @@ export default function Approach() {
           className="grid md:grid-cols-4 gap-6 md:gap-8"
         >
           {steps.map((step, index) => (
-            <motion.div 
-              key={index} 
+            <motion.div
+              key={index}
               variants={item}
               className="flex flex-col items-center text-center"
             >

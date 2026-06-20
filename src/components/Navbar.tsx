@@ -46,6 +46,8 @@ export default function Navbar() {
               alt="Gileara Logo"
               width={160}
               height={40}
+              priority
+              sizes="(max-width: 768px) 128px, 160px"
               className="w-32 md:w-40 h-auto group-hover:scale-[1.02] transition-transform duration-300 filter dark:brightness-0 dark:invert"
             />
           </Link>

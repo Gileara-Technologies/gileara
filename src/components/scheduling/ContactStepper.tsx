@@ -182,7 +182,7 @@ export default function ContactStepper() {
               onClick={() => setStep('details')}
               className="text-primary hover:underline font-medium"
             >
-              Back to gileara.tech
+              Back to gileara.org
             </button>
           </motion.div>
         )}

@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import { FaLinkedin } from "react-icons/fa6";
+import UnderMaintenance from "./UnderMaintenance";
 
 export default function Founders() {
-  const founders = [
+  const isMaintenance = false;
 
+  const founders = [
     {
       name: "Julian Hagan",
       role: "Co-Founder & COO",
@@ -26,6 +28,20 @@ export default function Founders() {
     }
   ];
 
+  if (isMaintenance) {
+    return (
+      <section id="founders" className="py-24 bg-surface-container px-4 md:px-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-12">
+            <span className="font-mono text-xs text-secondary uppercase tracking-widest">Leadership</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary">The Team Behind the Systems</h2>
+          </div>
+          <UnderMaintenance fullPage={false} />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="founders" className="py-24 bg-surface-container px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
@@ -39,10 +55,12 @@ export default function Founders() {
           {founders.map((founder, index) => (
             <div key={index} className="group">
               <div className="aspect-[4/5] bg-surface-container-high rounded-2xl mb-6 overflow-hidden relative shadow-md border border-outline-variant/5">
-                <img
+                <Image
                   src={founder.image}
                   alt={founder.name}
-                  className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
                 />
                 <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <a
@@ -65,4 +83,3 @@ export default function Founders() {
     </section>
   );
 }
-

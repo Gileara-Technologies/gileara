@@ -189,12 +189,14 @@ export const metadata: Metadata = {
     url: "/privacy",
     siteName: "Gileara Technologies",
     type: "article",
+    publishedTime: "2026-06-12",
+    modifiedTime: "2026-06-12",
     images: [
       {
-        url: "/assets/gileara/security.png",
+        url: "/assets/gileara/logo-full.png",
         width: 1200,
         height: 630,
-        alt: "Gileara Technologies privacy and security",
+        alt: "Gileara Technologies privacy policy",
       },
     ],
   },
@@ -203,7 +205,7 @@ export const metadata: Metadata = {
     title: "Privacy Policy | Gileara Technologies",
     description:
       "How Gileara handles information, security, retention, user rights, GDPR, and CCPA privacy considerations.",
-    images: ["/assets/gileara/security.png"],
+    images: ["/assets/gileara/logo-full.png"],
   },
 };
 
@@ -213,13 +215,13 @@ export default function PrivacyPage() {
     "@type": "PrivacyPolicy",
     name: "Privacy Policy | Gileara Technologies",
     description: metadata.description,
-    url: "https://gileara.tech/privacy",
+    url: "https://gileara.org/privacy",
     dateModified: "2026-06-12",
     publisher: {
       "@type": "Organization",
       name: "Gileara Technologies",
-      url: "https://gileara.tech",
-      logo: "https://gileara.tech/assets/gileara/logo-icon.png",
+      url: "https://gileara.org",
+      logo: "https://gileara.org/assets/gileara/logo-icon.png",
     },
   };
 

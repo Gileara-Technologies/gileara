@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/assets/gileara/hero.png",
+        url: "/assets/gileara/logo-full.png",
         width: 1200,
         height: 630,
         alt: "Careers at Gileara Technologies",
@@ -46,13 +46,33 @@ export const metadata: Metadata = {
     title: "Join Gileara | Careers in Technology and Innovation",
     description:
       "Explore careers, jobs, and growth-focused opportunities with Gileara's technology and innovation teams.",
-    images: ["/assets/gileara/hero.png"],
+    images: ["/assets/gileara/logo-full.png"],
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Join Gileara | Careers in Technology and Innovation",
+  description:
+    "Explore careers, jobs, and growth-focused opportunities at Gileara. Join exceptional talent building innovative technology across remote and on-site roles.",
+  url: "https://gileara.org/careers",
+  dateModified: new Date().toISOString().split("T")[0],
+  publisher: {
+    "@type": "Organization",
+    name: "Gileara Technologies",
+    url: "https://gileara.org",
+    logo: "https://gileara.org/assets/gileara/logo-icon.png",
   },
 };
 
 export default function CareersPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <CareersNavbar />
       <main>
         <CareersHero />
