@@ -24,7 +24,7 @@ function apiUnavailable() {
   );
 }
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const fullSiteMode = process.env.MAINTENANCE_MODE;
   const bypassSecret = process.env.MAINTENANCE_BYPASS_SECRET;
   const { pathname, searchParams } = request.nextUrl;
