@@ -1,10 +1,31 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import maintenanceRoutes from "@/maintenance-routes";
+
+function isRouteUnderMaintenance(pathname: string): boolean {
+  for (const route of maintenanceRoutes) {
+    if (pathname === route || pathname.startsWith(route + "/")) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function rewriteToMaintenance(request: NextRequest) {
+  const response = NextResponse.rewrite(new URL("/maintenance", request.url));
+  response.headers.set("X-Robots-Tag", "noindex");
+  return response;
+}
+
+function apiUnavailable() {
+  return NextResponse.json(
+    { error: "Service temporarily unavailable due to scheduled maintenance" },
+    { status: 503 },
+  );
+}
 
 export function proxy(request: NextRequest) {
-  const maintenanceMode = process.env.MAINTENANCE_MODE;
-  if (!maintenanceMode) return NextResponse.next();
-
+  const fullSiteMode = process.env.MAINTENANCE_MODE;
   const bypassSecret = process.env.MAINTENANCE_BYPASS_SECRET;
   const { pathname, searchParams } = request.nextUrl;
 
@@ -36,16 +57,21 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.json(
-      { error: "Service temporarily unavailable due to scheduled maintenance" },
-      { status: 503 },
-    );
+  if (fullSiteMode) {
+    if (pathname.startsWith("/api/")) {
+      return apiUnavailable();
+    }
+    return rewriteToMaintenance(request);
   }
 
-  const response = NextResponse.rewrite(new URL("/maintenance", request.url));
-  response.headers.set("X-Robots-Tag", "noindex");
-  return response;
+  if (isRouteUnderMaintenance(pathname)) {
+    if (pathname.startsWith("/api/")) {
+      return apiUnavailable();
+    }
+    return rewriteToMaintenance(request);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
