@@ -19,54 +19,51 @@ jobs:
       - name: Get changed files
         id: changed
         run: |
-          files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
-          echo "files<<DIFF_EOF" >> $GITHUB_OUTPUT
-          echo "$files" >> $GITHUB_OUTPUT
-          echo "DIFF_EOF" >> $GITHUB_OUTPUT
+          git diff --name-only origin/${{ github.base_ref }}...HEAD > /tmp/changed_files.txt
+          echo "count=$(wc -l < /tmp/changed_files.txt)" >> $GITHUB_OUTPUT
 
       - name: Get diff
-        id: diff
         run: |
-          diff=$(git diff origin/${{ github.base_ref }}...HEAD)
-          echo "diff<<DIFF_EOF" >> $GITHUB_OUTPUT
-          echo "$diff" >> $GITHUB_OUTPUT
-          echo "DIFF_EOF" >> $GITHUB_OUTPUT
+          git diff origin/${{ github.base_ref }}...HEAD > /tmp/pr_diff.txt
 
       - name: AI Review
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { Anthropic } = require('@anthropic-ai/sdk');
-            const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
-            const response = await client.messages.create({
+        id: review
+        run: |
+          jq -n \
+            --rawfile files /tmp/changed_files.txt \
+            --rawfile diff /tmp/pr_diff.txt \
+            '{
               model: "claude-3-sonnet-20240229",
               max_tokens: 4096,
               messages: [{
                 role: "user",
-                content: `Review this PR diff and provide feedback:
-                
-                Changed files: ${{ steps.changed.outputs.files }}
-                
-                Diff:
-                ${{ steps.diff.outputs.diff }}
-                
-                Provide:
-                1. Summary of changes
-                2. Potential issues or bugs
-                3. Suggestions for improvement
-                4. Security concerns if any
-                
-                Format as GitHub markdown.`
+                content: "Review this PR diff and provide feedback:\n\nChanged files:\n\($files)\n\nDiff:\n\($diff)\n\nProvide:\n1. Summary of changes\n2. Potential issues or bugs\n3. Suggestions for improvement\n4. Security concerns if any\n\nFormat as GitHub markdown."
               }]
-            });
+            }' > /tmp/payload.json
 
+          curl -s https://api.anthropic.com/v1/messages \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: ${{ secrets.ANTHROPIC_API_KEY }}" \
+            -H "anthropic-version: 2023-06-01" \
+            -d @/tmp/payload.json \
+            -o /tmp/review_response.json
+
+          review_body=$(jq -r '.content[0].text // .error.message' /tmp/review_response.json)
+
+          echo "body<<REVIEW_EOF" >> $GITHUB_OUTPUT
+          echo "$review_body" >> $GITHUB_OUTPUT
+          echo "REVIEW_EOF" >> $GITHUB_OUTPUT
+
+      - name: Post Review
+        uses: actions/github-script@v7
+        env:
+          BODY: ${{ steps.review.outputs.body }}
+        with:
+          script: |
             await github.rest.pulls.createReview({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number,
-              body: response.content[0].text,
+              body: process.env.BODY,
               event: 'COMMENT'
             });
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
