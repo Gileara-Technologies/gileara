@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/insights",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: "Insights | Gileara Technologies",
     description:
@@ -18,7 +22,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/assets/gileara/logo-full.png",
+        url: "/assets/gileara/og-insights.svg",
         width: 1200,
         height: 630,
         alt: "Gileara Technologies insights",
@@ -29,13 +33,45 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Insights | Gileara Technologies",
     description: "Technical insights from the team at Gileara.",
-    images: ["/assets/gileara/logo-full.png"],
+    images: ["/assets/gileara/og-insights.svg"],
   },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://gileara.org/insights/#webpage",
+      name: "Insights | Gileara Technologies",
+      description:
+        "Technical insights, engineering perspectives, and strategic thinking from the team at Gileara Technologies.",
+      url: "https://gileara.org/insights",
+      publisher: {
+        "@type": "Organization",
+        name: "Gileara Technologies",
+        url: "https://gileara.org",
+        logo: "https://gileara.org/assets/gileara/logo-icon.png",
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://gileara.org/insights/#breadcrumb",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
+        { "@type": "ListItem", position: 2, name: "Insights", item: "https://gileara.org/insights" },
+      ],
+    },
+  ],
 };
 
 export default function InsightsPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <main className="min-h-screen bg-background pt-32 pb-20 text-on-surface">
         <div className="max-w-4xl mx-auto px-6">

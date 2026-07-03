@@ -94,6 +94,10 @@ export default function BentoGrid() {
                 alt={service.title}
                 className="w-full h-40 md:h-48 lg:h-56 object-cover rounded-xl mb-6 opacity-90 group-hover:opacity-100 transition-opacity"
                 src={service.image}
+                width="1200"
+                height="675"
+                loading="lazy"
+                decoding="async"
               />
               <div className="px-6 pb-6">
                 <div className="flex items-center gap-3 mb-4">

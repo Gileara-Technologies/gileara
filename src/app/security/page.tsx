@@ -44,17 +44,31 @@ export const metadata: Metadata = {
 export default function SecurityPage() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Security Disclosure | Gileara Technologies",
-    description: metadata.description,
-    url: "https://gileara.org/security",
-    dateModified: "2026-05-01",
-    publisher: {
-      "@type": "Organization",
-      name: "Gileara Technologies",
-      url: "https://gileara.org",
-      logo: "https://gileara.org/assets/gileara/logo-icon.png",
-    },
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://gileara.org/security/#webpage",
+        name: "Security Disclosure | Gileara Technologies",
+        description: metadata.description,
+        url: "https://gileara.org/security",
+        dateModified: "2026-05-01",
+        publisher: {
+          "@type": "Organization",
+          name: "Gileara Technologies",
+          url: "https://gileara.org",
+          logo: "https://gileara.org/assets/gileara/logo-icon.png",
+        },
+        breadcrumb: { "@id": "https://gileara.org/security/#breadcrumb" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://gileara.org/security/#breadcrumb",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
+          { "@type": "ListItem", position: 2, name: "Security Disclosure", item: "https://gileara.org/security" },
+        ],
+      },
+    ],
   };
 
   return (

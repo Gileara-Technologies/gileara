@@ -1,7 +1,8 @@
 "use client";
 
 import ContactStepper from "@/components/scheduling/ContactStepper";
-import { FaEnvelope } from "react-icons/fa6";
+import { FaEnvelope, FaLock } from "react-icons/fa6";
+import Link from "next/link";
 import UnderMaintenance from "./UnderMaintenance";
 
 export default function ContactCTA() {
@@ -36,6 +37,19 @@ export default function ContactCTA() {
                   <p className="font-mono text-xs text-outline uppercase tracking-wider">Send an Email</p>
                   <a className="text-xl font-semibold text-on-surface hover:text-primary transition-colors" href="mailto:tech.gileara@gmail.com">tech.gileara@gmail.com</a>
                 </div>
+              </div>
+              <div className="flex gap-4 text-sm text-on-surface-variant">
+                <Link href="/privacy" className="hover:text-primary transition-colors">
+                  Privacy Policy
+                </Link>
+                <span className="text-outline-variant">·</span>
+                <Link href="/security" className="hover:text-primary transition-colors">
+                  Security Disclosure
+                </Link>
+                <span className="text-outline-variant">·</span>
+                <Link href="/terms" className="hover:text-primary transition-colors">
+                  Legal Terms
+                </Link>
               </div>
             </div>
           </div>

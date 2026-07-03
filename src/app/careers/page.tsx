@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/careers",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
   keywords: [
     "Gileara careers",
     "Join Gileara",
@@ -34,7 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/assets/gileara/logo-full.png",
+        url: "/assets/gileara/og-careers.svg",
         width: 1200,
         height: 630,
         alt: "Careers at Gileara Technologies",
@@ -46,24 +50,104 @@ export const metadata: Metadata = {
     title: "Join Gileara | Careers in Technology and Innovation",
     description:
       "Explore careers, jobs, and growth-focused opportunities with Gileara's technology and innovation teams.",
-    images: ["/assets/gileara/logo-full.png"],
+    images: ["/assets/gileara/og-careers.svg"],
   },
 };
 
+const currentDate = new Date().toISOString().split("T")[0];
+
+const jobPostings = [
+  {
+    title: "Frontend Developer",
+    description:
+      "Build beautiful, highly interactive, and performant user interfaces for our clients' web applications.",
+    skills: "TypeScript, HTML, CSS, Responsive web design, Modern JavaScript (ES6+)",
+    employmentType: "FULL_TIME",
+  },
+  {
+    title: "Backend Developer",
+    description: "Design and implement robust, scalable APIs and database architectures.",
+    skills: "Node.js, SQL/NoSQL databases, REST APIs, JWT Authentication",
+    employmentType: "FULL_TIME",
+  },
+  {
+    title: "QA Engineer",
+    description:
+      "Ensure the highest quality of our deliverables through rigorous automated and manual testing.",
+    skills: "Cypress/Playwright, Jest/Vitest, Manual testing, CI/CD integration",
+    employmentType: "FULL_TIME",
+  },
+  {
+    title: "DevOps Engineer",
+    description:
+      "Streamline our deployment pipelines and manage our cloud infrastructure securely.",
+    skills: "Docker/Kubernetes, GitHub Actions, Infrastructure as Code, Linux Admin",
+    employmentType: "FULL_TIME",
+  },
+  {
+    title: "UI/UX Designer",
+    description:
+      "Craft intuitive, engaging, and accessible user experiences for complex systems.",
+    skills: "User-centered design, Prototyping, HTML/CSS, Accessibility standards",
+    employmentType: "FULL_TIME",
+  },
+];
+
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "WebPage",
-  name: "Join Gileara | Careers in Technology and Innovation",
-  description:
-    "Explore careers, jobs, and growth-focused opportunities at Gileara. Join exceptional talent building innovative technology across remote and on-site roles.",
-  url: "https://gileara.org/careers",
-  dateModified: new Date().toISOString().split("T")[0],
-  publisher: {
-    "@type": "Organization",
-    name: "Gileara Technologies",
-    url: "https://gileara.org",
-    logo: "https://gileara.org/assets/gileara/logo-icon.png",
-  },
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://gileara.org/careers/#webpage",
+      name: "Join Gileara | Careers in Technology and Innovation",
+      description:
+        "Explore careers, jobs, and growth-focused opportunities at Gileara. Join exceptional talent building innovative technology across remote and on-site roles.",
+      url: "https://gileara.org/careers",
+      dateModified: currentDate,
+      publisher: {
+        "@type": "Organization",
+        name: "Gileara Technologies",
+        url: "https://gileara.org",
+        logo: "https://gileara.org/assets/gileara/logo-icon.png",
+      },
+      breadcrumb: { "@id": "https://gileara.org/careers/#breadcrumb" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://gileara.org/careers/#breadcrumb",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
+        { "@type": "ListItem", position: 2, name: "Careers", item: "https://gileara.org/careers" },
+      ],
+    },
+    ...jobPostings.map((job) => ({
+      "@type": "JobPosting",
+      title: job.title,
+      description: job.description,
+      datePosted: currentDate,
+      hiringOrganization: {
+        "@type": "Organization",
+        name: "Gileara Technologies",
+        sameAs: "https://www.linkedin.com/company/gileara",
+      },
+      jobLocation: {
+        "@type": "Place",
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: "GH",
+          addressLocality: "Accra",
+        },
+      },
+      employmentType: job.employmentType,
+      applicantLocationRequirements: {
+        "@type": "Country",
+        name: "GH",
+      },
+      skills: job.skills,
+      directApply: true,
+      url: `https://gileara.org/careers#${job.title.toLowerCase().replace(/\s+/g, "-")}`,
+    })),
+  ],
 };
 
 export default function CareersPage() {
