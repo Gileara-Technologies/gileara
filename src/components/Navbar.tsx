@@ -23,8 +23,10 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Services", href: "#services" },
-    { name: "How We Work", href: "#approach" }, // Using existing anchor #approach for now, will update if needed
-    { name: "About Us", href: "#founders" }, // Mapping About Us to #founders
+    { name: "How We Work", href: "#approach" },
+    { name: "About Us", href: "/about" },
+    { name: "Insights", href: "/insights" },
+    { name: "Careers", href: "/careers" },
     { name: "Contact", href: "#contact" },
   ];
 
@@ -34,13 +36,13 @@ export default function Navbar() {
         initial={{ y: -100, x: "-50%" }}
         animate={{ y: 0, x: "-50%" }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[92%] max-w-5xl rounded-full bg-surface/75 dark:bg-surface-container/75 backdrop-blur-xl border border-outline-variant shadow-lg px-6 py-3 flex justify-between items-center ${
+        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[94%] max-w-6xl rounded-full bg-surface/75 dark:bg-surface-container/75 backdrop-blur-xl border border-outline-variant shadow-lg px-4 md:px-6 py-3 flex justify-between items-center ${
           isScrolled ? "top-2 py-2.5 bg-surface/90 dark:bg-surface-container/90" : ""
         }`}
         id="navbar"
       >
-        <div className="flex justify-between items-center w-full">
-          <Link href="/" className="flex items-center group cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus:outline-none rounded-sm">
+        <div className="flex justify-between items-center w-full gap-2">
+          <Link href="/" className="flex items-center shrink-0 group cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus:outline-none rounded-sm">
             <Image
               src="/assets/gileara/logo-full.png"
               alt="Gileara Logo"
@@ -48,16 +50,16 @@ export default function Navbar() {
               height={40}
               priority
               sizes="(max-width: 768px) 128px, 160px"
-              className="w-32 md:w-40 h-auto group-hover:scale-[1.02] transition-transform duration-300 filter dark:brightness-0 dark:invert"
+              className="w-28 lg:w-36 h-auto group-hover:scale-[1.02] transition-transform duration-300 filter dark:brightness-0 dark:invert"
             />
           </Link>
           
-          <div className="hidden md:flex items-center space-x-10 text-base font-semibold text-on-surface-variant">
+          <div className="hidden md:flex items-center justify-center gap-1 lg:gap-3 text-sm lg:text-base font-semibold text-on-surface-variant">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="hover:text-primary transition-colors"
+                className="px-2 lg:px-3 py-1.5 rounded-lg hover:text-primary hover:bg-primary/5 transition-all whitespace-nowrap"
               >
                 {link.name}
               </Link>

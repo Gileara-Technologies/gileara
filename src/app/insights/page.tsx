@@ -1,33 +1,22 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import InsightsListClient from "./InsightsListClient";
 
 export const metadata: Metadata = {
   title: "Insights | Gileara Technologies",
   description:
     "Technical insights, engineering perspectives, and strategic thinking from the team at Gileara Technologies.",
-  alternates: {
-    canonical: "/insights",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  alternates: { canonical: "/insights" },
+  robots: { index: true, follow: true },
   openGraph: {
     title: "Insights | Gileara Technologies",
-    description:
-      "Technical insights, engineering perspectives, and strategic thinking from the team at Gileara.",
+    description: "Technical insights, engineering perspectives, and strategic thinking from the team at Gileara.",
     url: "/insights",
     siteName: "Gileara Technologies",
     type: "website",
-    images: [
-      {
-        url: "/assets/gileara/og-insights.svg",
-        width: 1200,
-        height: 630,
-        alt: "Gileara Technologies insights",
-      },
-    ],
+    images: [{ url: "/assets/gileara/og-insights.svg", width: 1200, height: 630, alt: "Gileara Technologies insights" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -37,6 +26,30 @@ export const metadata: Metadata = {
   },
 };
 
+const posts = [
+  {
+    slug: "building-scalable-mvps",
+    title: "Building MVPs That Actually Scale",
+    excerpt: "How to go from idea to production without painting yourself into a corner.",
+    date: "2026-06-15",
+    author: "Amos Frederick Hughes",
+  },
+  {
+    slug: "automating-sme-workflows",
+    title: "Where to Start With Workflow Automation",
+    excerpt: "A practical guide for SMEs drowning in manual processes.",
+    date: "2026-05-28",
+    author: "Julian Hagan",
+  },
+  {
+    slug: "choosing-tech-stack",
+    title: "How We Choose a Tech Stack",
+    excerpt: "Our framework for picking the right tools for each project.",
+    date: "2026-04-10",
+    author: "Rodney Hagan",
+  },
+];
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -44,15 +57,9 @@ const jsonLd = {
       "@type": "WebPage",
       "@id": "https://gileara.org/insights/#webpage",
       name: "Insights | Gileara Technologies",
-      description:
-        "Technical insights, engineering perspectives, and strategic thinking from the team at Gileara Technologies.",
+      description: "Technical insights, engineering perspectives, and strategic thinking from the team at Gileara Technologies.",
       url: "https://gileara.org/insights",
-      publisher: {
-        "@type": "Organization",
-        name: "Gileara Technologies",
-        url: "https://gileara.org",
-        logo: "https://gileara.org/assets/gileara/logo-icon.png",
-      },
+      publisher: { "@type": "Organization", name: "Gileara Technologies", url: "https://gileara.org", logo: "https://gileara.org/assets/gileara/logo-icon.png" },
     },
     {
       "@type": "BreadcrumbList",
@@ -62,34 +69,26 @@ const jsonLd = {
         { "@type": "ListItem", position: 2, name: "Insights", item: "https://gileara.org/insights" },
       ],
     },
+    ...posts.map((p, i) => ({
+      "@type": "BlogPosting",
+      "@id": `https://gileara.org/insights/${p.slug}/#post`,
+      headline: p.title,
+      description: p.excerpt,
+      datePublished: p.date,
+      author: { "@type": "Person", name: p.author },
+      publisher: { "@type": "Organization", name: "Gileara Technologies" },
+      url: `https://gileara.org/insights/${p.slug}`,
+    })),
   ],
 };
 
 export default function InsightsPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
-      <main className="min-h-screen bg-background pt-32 pb-20 text-on-surface">
-        <div className="max-w-4xl mx-auto px-6">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-primary">
-            Insights
-          </p>
-          <h1 className="text-4xl md:text-6xl font-bold text-on-surface mb-6">
-            Engineering perspectives for growing businesses.
-          </h1>
-          <p className="text-lg leading-8 text-on-surface-variant max-w-2xl">
-            Technical deep-dives, architecture decisions, and strategy notes from the
-            team building production systems for startups and SMEs.
-          </p>
-          <hr className="my-16 border-outline-variant/20" />
-          <p className="text-on-surface-variant text-center py-16">
-            Articles coming soon.
-          </p>
-        </div>
+      <main>
+        <InsightsListClient posts={posts} />
       </main>
       <Footer />
     </>

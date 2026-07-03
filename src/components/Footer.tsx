@@ -60,10 +60,12 @@ export default function Footer() {
               <div>
                 <h3 className="font-display text-lg font-semibold mb-5 text-on-surface tracking-tight">Navigation</h3>
                 <ul className="space-y-3 text-base text-on-surface-variant">
-                  <li><Link href="#services" className="hover:text-primary transition-colors">Services</Link></li>
-                  <li><Link href="#approach" className="hover:text-primary transition-colors">How We Work</Link></li>
-                  <li><Link href="#founders" className="hover:text-primary transition-colors">About Us</Link></li>
+                  <li><Link href="/services" className="hover:text-primary transition-colors">Services</Link></li>
+                  <li><Link href="/case-studies" className="hover:text-primary transition-colors">Case Studies</Link></li>
+                  <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+                  <li><Link href="/insights" className="hover:text-primary transition-colors">Insights</Link></li>
                   <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
+                  <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
                 </ul>
               </div>
               <div>
