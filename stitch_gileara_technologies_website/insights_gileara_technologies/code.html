@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blog &amp; Insights | Gileara Technologies</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #081420;
+            color: #d8e3f5;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(13, 27, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(65, 90, 119, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: #00bfa5;
+            transform: translateY(-4px);
+        }
+        .teal-glow {
+            box-shadow: 0 0 20px rgba(0, 191, 165, 0.15);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #081420;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1B263B;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#1f2b38",
+                        "surface-dim": "#081420",
+                        "inverse-surface": "#d8e3f5",
+                        "secondary-fixed-dim": "#bbc6e2",
+                        "outline": "#85948f",
+                        "tertiary-fixed": "#d1e4ff",
+                        "tertiary": "#afc9ea",
+                        "secondary-fixed": "#d7e2ff",
+                        "outline-variant": "#3c4a46",
+                        "on-tertiary": "#17324d",
+                        "primary-container": "#00bfa5",
+                        "on-secondary-fixed": "#101b30",
+                        "tertiary-fixed-dim": "#afc9ea",
+                        "surface-container-highest": "#2a3643",
+                        "on-tertiary-fixed-variant": "#2f4865",
+                        "inverse-primary": "#006b5c",
+                        "on-secondary-container": "#adb8d3",
+                        "surface-bright": "#2f3a47",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#001d36",
+                        "on-primary-fixed-variant": "#005145",
+                        "on-error-container": "#ffdad6",
+                        "surface-tint": "#44ddc1",
+                        "surface-container-lowest": "#040f1b",
+                        "surface-container": "#15202d",
+                        "on-primary-container": "#00473c",
+                        "inverse-on-surface": "#26313e",
+                        "secondary-container": "#3e4960",
+                        "primary": "#44ddc1",
+                        "on-primary-fixed": "#00201a",
+                        "secondary": "#bbc6e2",
+                        "surface-variant": "#2a3643",
+                        "primary-fixed-dim": "#44ddc1",
+                        "on-surface-variant": "#bbcac4",
+                        "surface-container-low": "#111c29",
+                        "primary-fixed": "#68fadd",
+                        "on-primary": "#00382f",
+                        "surface": "#081420",
+                        "background": "#081420",
+                        "on-surface": "#d8e3f5",
+                        "on-secondary-fixed-variant": "#3c475d",
+                        "on-background": "#d8e3f5",
+                        "on-tertiary-container": "#26405c",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "on-secondary": "#263046",
+                        "tertiary-container": "#92accc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "md": "24px",
+                        "xl": "80px",
+                        "lg": "48px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="custom-scrollbar overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<nav class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-md max-w-[1440px] mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary">
+                Gileara Technologies
+            </div>
+<div class="hidden md:flex gap-gutter items-center">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Services</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">About</a>
+<a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1" href="#">Blog</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Contact</a>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-lg font-label-md hover:bg-primary transition-all active:scale-95">
+                Get Started
+            </button>
+</div>
+</nav>
+<main class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Hero Section: Featured Article -->
+<section class="py-xl relative">
+<div class="absolute -top-20 -right-20 w-96 h-96 bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="grid lg:grid-cols-2 gap-lg items-center">
+<div class="relative group cursor-pointer overflow-hidden rounded-xl h-[400px] lg:h-[500px]">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent z-10"></div>
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A high-tech digital workspace featuring advanced modular servers with glowing teal fiber optic cables. The environment is dark and atmospheric, with subtle blue and charcoal tonal layering. High-speed data streams are represented by faint light trails in the background, creating a sense of futuristic engineering and extreme scalability. The overall style is clean, corporate modern, and technically focused." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAAkV1Cn0j6W-gza2VcX_c7niE05YCfva9qaI1IhNZP_P8_xsReM67UWkXnroQ-w15Jf15NlIEMSBYhPn5dqFshPERtxjhGuHB9srCPu-hGzoK_hkUdZA0ah9x2ozpqARCxPkeYeADUj8Lja-ct7Pp7I35wqnnbJ-2Lx8ze98_2LzG-dLkDRWILwuiP_w6Dbh06HA-BdpX54i-HpNb9gT-X6wYWxfoFNxaSbCPvg9kqTsu6ToXwz9tp')"></div>
+<div class="absolute bottom-6 left-6 z-20">
+<span class="bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded-full text-label-sm font-label-sm mb-4 inline-block backdrop-blur-md">
+                            Featured
+                        </span>
+</div>
+</div>
+<div class="flex flex-col gap-sm">
+<div class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md">
+<span>Oct 24, 2023</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span>12 min read</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl md:text-headline-xl text-on-surface leading-tight tracking-tight">
+                        Building Scalable Systems for 2026: The <span class="text-primary">Next Frontier</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        Explore the shift toward autonomous infrastructure and zero-latency distribution models as we prepare for the next decade of digital growth. Discover how Gileara's modular approach is redefining scalability.
+                    </p>
+<div class="mt-base flex gap-base">
+<button class="bg-primary-container text-on-primary-container px-8 py-3 rounded-lg font-label-md flex items-center gap-2 hover:teal-glow transition-all">
+                            Read Full Insight
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Filter -->
+<section class="py-md flex flex-wrap gap-sm items-center border-y border-outline-variant/20 mb-lg">
+<span class="font-label-md text-on-surface-variant mr-base">Filter by:</span>
+<button class="px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/40 font-label-md">All Insights</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant border border-outline-variant/30 font-label-md transition-colors">Engineering</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant border border-outline-variant/30 font-label-md transition-colors">Strategy</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant border border-outline-variant/30 font-label-md transition-colors">E-Commerce</button>
+<button class="px-4 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant border border-outline-variant/30 font-label-md transition-colors">Productivity</button>
+</section>
+<!-- Article Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter pb-xl">
+<!-- Card 1 -->
+<article class="glass-card rounded-xl p-base flex flex-col h-full group">
+<div class="h-48 rounded-lg overflow-hidden mb-sm relative">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A macro shot of a sleek, dark-themed motherboard with glowing teal circuitry patterns. The lighting is low-key, emphasizing the technical precision and advanced hardware design. Deep charcoal and navy surfaces create a sophisticated background for the vibrant teal data pathways. Minimalist and professional corporate photography style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAP70ndDjEyVmH0kR4B7_wlOFuBbRhHTUn_6szYGS-JQtQLbOiFbY8hPo9CtdYC2sDGZYgxpzdqRCfzk5DrsgroB98Nv7lr9Fju8JTG2jA_CEcKK8AajETSPc4dzs7nvmMJxKTpzwmUzUCwA2eSpJnrUtge0y3QKvzjOdJp-lraLoJZlEYXPFfBqtejDsnxpp0l-Vz-evwkQDv-h1zAWrNE5TRfKOxzf_Vx64zJiU49vjLN7QyFgTw2')"></div>
+<div class="absolute top-2 right-2">
+<span class="bg-surface-dim/80 backdrop-blur-sm text-on-surface text-label-sm px-2 py-1 rounded border border-outline-variant/30">Engineering</span>
+</div>
+</div>
+<div class="px-xs flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-xs">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 20, 2023</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">8 min read</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">Microservices vs. Serverless: The Real Cost</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-base">
+                        A deep dive into the operational overhead and long-term maintenance costs of modern backend architectures for high-traffic platforms.
+                    </p>
+<div class="mt-auto pt-sm flex items-center text-primary font-label-md group/link">
+                        Read More
+                        <span class="material-symbols-outlined text-[16px] ml-1 transition-transform group-hover/link:translate-x-1">chevron_right</span>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="glass-card rounded-xl p-base flex flex-col h-full group">
+<div class="h-48 rounded-lg overflow-hidden mb-sm relative">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A minimalist abstract visualization of global supply chains, featuring interconnected glowing nodes on a dark globe backdrop. The color palette uses deep navy levels for depth and sharp teal highlights for the major connections. The atmosphere is strategic, authoritative, and clean, representing complex e-commerce systems." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAaCDFLQr9zjnu2D5yC0Jm5KcYAkUsDlX9S0USCyiDnDS1eW3q5ZaHQJDRJWYom2D0AvHaCtAIUCE-T4dhAlD0PjSeRIqhqpdRib4nLLQhZ84VrQDTwBYK3l7IrYSOy0TnQ5bYfRXWqcjNoPzppHJb0I7ZOOujjhG1LAm8NYwt12xgtojE0kvBVNuBRbFHsCmwyiAIdKwvPOsyTOkH00PUfCCyqFci45NLx7WXTOxaoBmhVi8qKtGp_')"></div>
+<div class="absolute top-2 right-2">
+<span class="bg-surface-dim/80 backdrop-blur-sm text-on-surface text-label-sm px-2 py-1 rounded border border-outline-variant/30">E-Commerce</span>
+</div>
+</div>
+<div class="px-xs flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-xs">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 18, 2023</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">6 min read</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">Optimizing Checkout Flow for 99.9% Reliability</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-base">
+                        How we helped a global retailer eliminate transaction failures during peak holiday traffic through distributed locking mechanisms.
+                    </p>
+<div class="mt-auto pt-sm flex items-center text-primary font-label-md group/link">
+                        Read More
+                        <span class="material-symbols-outlined text-[16px] ml-1 transition-transform group-hover/link:translate-x-1">chevron_right</span>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="glass-card rounded-xl p-base flex flex-col h-full group">
+<div class="h-48 rounded-lg overflow-hidden mb-sm relative">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A clean top-down view of a modern conference room table with translucent digital tablets displaying business growth charts. The environment is high-contrast dark, with teal-accented data visualizations. The lighting is soft and focused, creating a mood of professional strategy and high-stakes decision-making in a nocturnal office setting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuByk8GSAIzoHa_Ekwmh4r29SmaQjM8ohgIrxXVqBCl9yBEWf2eexr8yWQzJgEI-q9nUYqFfqUUgHByigMA0zJd86Mnsr4uTBfrBbMFIHl2H44jYpekFItb_uUiq9pA4fFee9eoLgbqZG3b_RadE5OIkBfqvC0Mn0aSjPHngiFWwgUFJJn5NmPC7zQ1Tfl6U9ZGmQyG_Qs5P8Z6unPekTHKHcH-ZqzMKVbZXM2DwRC8aeTqX1-7Ad9U-')"></div>
+<div class="absolute top-2 right-2">
+<span class="bg-surface-dim/80 backdrop-blur-sm text-on-surface text-label-sm px-2 py-1 rounded border border-outline-variant/30">Strategy</span>
+</div>
+</div>
+<div class="px-xs flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-xs">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 15, 2023</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">10 min read</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">The 2024 Tech Roadmap: Where to Invest</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-base">
+                        Prioritizing digital transformation initiatives in a volatile market. Learn why observability and security are the foundations of long-term growth.
+                    </p>
+<div class="mt-auto pt-sm flex items-center text-primary font-label-md group/link">
+                        Read More
+                        <span class="material-symbols-outlined text-[16px] ml-1 transition-transform group-hover/link:translate-x-1">chevron_right</span>
+</div>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="glass-card rounded-xl p-base flex flex-col h-full group">
+<div class="h-48 rounded-lg overflow-hidden mb-sm relative">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A stylized illustration of a high-performance database cluster with glowing teal 'heat' patterns indicating peak efficiency. The scene is dark and technical, using charcoal and deep navy tones to create depth and separation. Minimalist isometric design style with focused, sharp lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCUmbb2_artWw4o_D12EJpaOxuG_FDm9VBkW_cyPOTvIXkjmv1eCz7V5FnwgDkkg768ZLtWfk32_9cEnv2mKK1To0Oau7_BPOp8_7cGuGP0pkqEu2bSxW3-WW0OveiS2aHOODwCM8ouiCuLJN_hpLHHUgWvNYYm5IRfNebRU0JgsifZUsFdxpxcAhhBmRhmKusw09bCxfDgvRtDAgD9Uti9zkhBpt5Ot3jCBESn79U_Mx-wkiTG5HSY')"></div>
+<div class="absolute top-2 right-2">
+<span class="bg-surface-dim/80 backdrop-blur-sm text-on-surface text-label-sm px-2 py-1 rounded border border-outline-variant/30">Engineering</span>
+</div>
+</div>
+<div class="px-xs flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-xs">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 12, 2023</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">5 min read</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">Solving the Database Bottleneck</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-base">
+                        How intelligent caching strategies can reduce read latency by 85% for high-concurrency applications. Practical examples inside.
+                    </p>
+<div class="mt-auto pt-sm flex items-center text-primary font-label-md group/link">
+                        Read More
+                        <span class="material-symbols-outlined text-[16px] ml-1 transition-transform group-hover/link:translate-x-1">chevron_right</span>
+</div>
+</div>
+</article>
+<!-- Card 5 -->
+<article class="glass-card rounded-xl p-base flex flex-col h-full group">
+<div class="h-48 rounded-lg overflow-hidden mb-sm relative">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A conceptual digital art piece showing a network of teal geometric prisms floating in a dark, infinite space. The composition is asymmetrical and modern, representing the fluid nature of modern strategy and corporate adaptability. The lighting is atmospheric with soft blue glows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBjGRAPmhRjFw449VCzRfEGhOBAgpl4SybbkLAm716mZ9iLQ6k7bOOz4AQ1enLN2NS2w2Y_pj7Tc4kv1h-1k786Nhu4u82GRVK-8kDOEPfw2FiHXJSgygujr-Lpx2g3XIjZ-URNQk-bbGCrm9T0QcnrYoLrEpZZOg1qmHJVrL8jwcrfryG5W6Zq_Oyx79D0x2_wYQZ5PmwEy4Efkop2_CEg9A2Fuuvd3Zr3n6ScAWE8pa04yYsoea-J')"></div>
+<div class="absolute top-2 right-2">
+<span class="bg-surface-dim/80 backdrop-blur-sm text-on-surface text-label-sm px-2 py-1 rounded border border-outline-variant/30">Strategy</span>
+</div>
+</div>
+<div class="px-xs flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-xs">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 09, 2023</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">7 min read</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">Navigating Technical Debt: A Guide</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-base">
+                        Technical debt is inevitable, but unmanaged debt is fatal. We outline a systematic approach to auditing and refactoring critical systems.
+                    </p>
+<div class="mt-auto pt-sm flex items-center text-primary font-label-md group/link">
+                        Read More
+                        <span class="material-symbols-outlined text-[16px] ml-1 transition-transform group-hover/link:translate-x-1">chevron_right</span>
+</div>
+</div>
+</article>
+<!-- Card 6 -->
+<article class="glass-card rounded-xl p-base flex flex-col h-full group">
+<div class="h-48 rounded-lg overflow-hidden mb-sm relative">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="A high-contrast photo of a sleek terminal window with teal command lines on a dark monitor. In the blurred background, a modern technical studio with cool blue lighting is visible. This shot captures the essence of deep-focus engineering and high-performance software development." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDrzHnAajDjFuM_gLPUIDaDWBB206_dz9SbbZhD88mB6Imbljh5nsTFj49x1Ez_riog3WgjOjb74M2wMrkkgRIT96MC_ac_fHrD5B5oVv9_SsCd2tkukFoYb1qeGZFxpl1Es-91P7iLf65uP5VvGqx2lThFaDBHN4Sd3z35lVBQtMVw8BCdwyScYEfpaylYVPzITrT8Lu3HPMunIz_3y5laJZXEt1jCRfBDSz7w7MUmxyFcEMB23av5')"></div>
+<div class="absolute top-2 right-2">
+<span class="bg-surface-dim/80 backdrop-blur-sm text-on-surface text-label-sm px-2 py-1 rounded border border-outline-variant/30">Productivity</span>
+</div>
+</div>
+<div class="px-xs flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-xs">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Oct 05, 2023</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">4 min read</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm group-hover:text-primary transition-colors">Developer Experience: The Secret ROI</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-base">
+                        Why investing in internal tools and streamlined workflows leads to faster delivery times and higher quality software.
+                    </p>
+<div class="mt-auto pt-sm flex items-center text-primary font-label-md group/link">
+                        Read More
+                        <span class="material-symbols-outlined text-[16px] ml-1 transition-transform group-hover/link:translate-x-1">chevron_right</span>
+</div>
+</div>
+</article>
+</section>
+<!-- Newsletter Section -->
+<section class="py-xl">
+<div class="bg-surface-container rounded-3xl p-lg md:p-xl flex flex-col md:flex-row items-center justify-between gap-lg relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+<div class="relative z-10 max-w-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Stay at the Forefront</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Join 20,000+ industry leaders who receive our bi-weekly deep dives into engineering excellence and digital strategy.
+                    </p>
+</div>
+<div class="relative z-10 w-full md:w-auto flex flex-col sm:flex-row gap-xs">
+<input class="bg-surface-dim border border-outline-variant/40 rounded-lg px-6 py-3 text-on-surface focus:border-primary focus:ring-0 w-full sm:w-80 transition-all font-body-md" placeholder="Enter your business email" type="email"/>
+<button class="bg-primary-container text-on-primary-container px-8 py-3 rounded-lg font-label-md hover:bg-primary transition-all whitespace-nowrap">
+                        Subscribe Now
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-surface-container-lowest border-t border-outline-variant/10">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-xl max-w-[1440px] mx-auto gap-md">
+<div class="flex flex-col gap-xs items-center md:items-start">
+<div class="font-headline-md text-headline-md font-bold text-primary">
+                    Gileara Technologies
+                </div>
+<p class="font-label-md text-label-md text-on-surface-variant">© 2024 Gileara Technologies. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-gutter">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline transition-all" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline transition-all" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline transition-all" href="#">Security</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline transition-all" href="#">Status</a>
+</div>
+<div class="flex gap-sm">
+<a class="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-primary/20 text-on-surface-variant hover:text-primary transition-all" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+</a>
+<a class="w-10 h-10 rounded-full flex items-center justify-center bg-surface hover:bg-primary/20 text-on-surface-variant hover:text-primary transition-all" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.599 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for smooth scroll or hover effects
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add an intersection observer for reveal animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('article').forEach(el => {
+            el.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700');
+            observer.observe(el);
+        });
+    </script>
+</body></html>

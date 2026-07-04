@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import TeamOrgChartWrapper from "@/components/about/TeamOrgChartWrapper";
+import AboutPageClient from "./AboutPageClient";
 
 export const metadata: Metadata = {
   title: "About Us | Gileara Technologies",
   description:
-    "Meet the team at Gileara Technologies — a lean group of engineers, designers, and strategists building technology that moves businesses forward.",
+    "Engineering the future of high-performance digital ecosystems. Meet the leadership and engineering teams at Gileara Technologies.",
   alternates: {
     canonical: "/about",
   },
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About Us | Gileara Technologies",
     description:
-      "Meet the people behind Gileara — engineers, designers, and strategists building production systems for startups and SMEs.",
+      "The visionary leadership steering Gileara's technological dominance. Meet Amos, Julian, and Rodney.",
     url: "/about",
     siteName: "Gileara Technologies",
     type: "website",
@@ -75,7 +75,7 @@ export default function AboutPage() {
       />
       <Navbar />
       <main>
-        <TeamOrgChartWrapper />
+        <AboutPageClient />
       </main>
       <Footer />
     </>

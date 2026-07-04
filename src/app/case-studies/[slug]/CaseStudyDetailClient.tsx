@@ -137,7 +137,7 @@ export default function CaseStudyDetailClient({ study }: { study: CaseStudy }) {
               Let&apos;s talk about how we can help your business.
             </p>
             <Link
-              href="#contact"
+              href="/#contact"
               className="inline-flex items-center gap-3 px-6 py-3 rounded-xl text-sm font-bold teal-gradient-btn group"
             >
               Start a Conversation

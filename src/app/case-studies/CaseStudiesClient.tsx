@@ -52,8 +52,7 @@ export default function CaseStudiesClient() {
           <motion.div
             variants={container}
             initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+            animate="show"
             className="space-y-6"
           >
             {caseStudies.map((study) => (

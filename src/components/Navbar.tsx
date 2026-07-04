@@ -22,12 +22,12 @@ export default function Navbar() {
   });
 
   const navLinks = [
-    { name: "Services", href: "#services" },
-    { name: "How We Work", href: "#approach" },
+    { name: "Services", href: "/services" },
+    { name: "How We Work", href: "/#approach" },
     { name: "About Us", href: "/about" },
     { name: "Insights", href: "/insights" },
     { name: "Careers", href: "/careers" },
-    { name: "Contact", href: "#contact" },
+    { name: "Contact", href: "/#contact" },
   ];
 
   return (
@@ -69,7 +69,7 @@ export default function Navbar() {
           <div className="flex items-center space-x-4">
             <ThemeToggle />
             <Link
-              href="#contact"
+              href="/#contact"
               className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn group"
             >
               Get Started
@@ -114,7 +114,7 @@ export default function Navbar() {
                 </Link>
               ))}
               <Link
-                href="#contact"
+                href="/#contact"
                 className="inline-flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-xl font-bold teal-gradient-btn"
                 onClick={() => setIsMobileMenuOpen(false)}
               >

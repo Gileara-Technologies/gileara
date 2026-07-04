@@ -107,12 +107,28 @@ export default function BentoGrid() {
                 <p className="text-on-surface-variant mb-6 text-sm">
                   {service.desc}
                 </p>
-                <Link href="#contact" className="flex items-center gap-2 text-secondary dark:text-primary font-semibold hover:gap-4 transition-all group">
+                <Link href="/#contact" className="flex items-center gap-2 text-secondary dark:text-primary font-semibold hover:gap-4 transition-all group">
                   Discuss Project <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                 </Link>
               </div>
             </motion.div>
           ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="flex justify-center mt-12"
+        >
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-bold teal-gradient-btn group"
+          >
+            View All Services
+            <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+          </Link>
         </motion.div>
       </div>
     </section>

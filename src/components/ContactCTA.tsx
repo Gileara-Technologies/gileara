@@ -38,15 +38,15 @@ export default function ContactCTA() {
                   <a className="text-xl font-semibold text-on-surface hover:text-primary transition-colors" href="mailto:tech.gileara@gmail.com">tech.gileara@gmail.com</a>
                 </div>
               </div>
-              <div className="flex gap-4 text-sm text-on-surface-variant">
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-on-surface-variant">
                 <Link href="/privacy" className="hover:text-primary transition-colors">
                   Privacy Policy
                 </Link>
-                <span className="text-outline-variant">·</span>
+                <span className="text-outline-variant hidden sm:inline">·</span>
                 <Link href="/security" className="hover:text-primary transition-colors">
                   Security Disclosure
                 </Link>
-                <span className="text-outline-variant">·</span>
+                <span className="text-outline-variant hidden sm:inline">·</span>
                 <Link href="/terms" className="hover:text-primary transition-colors">
                   Legal Terms
                 </Link>

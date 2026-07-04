@@ -33,6 +33,8 @@ const posts = [
     excerpt: "How to go from idea to production without painting yourself into a corner.",
     date: "2026-06-15",
     author: "Amos Frederick Hughes",
+    category: "Engineering",
+    readTime: "8 min read",
   },
   {
     slug: "automating-sme-workflows",
@@ -40,6 +42,8 @@ const posts = [
     excerpt: "A practical guide for SMEs drowning in manual processes.",
     date: "2026-05-28",
     author: "Julian Hagan",
+    category: "Strategy",
+    readTime: "6 min read",
   },
   {
     slug: "choosing-tech-stack",
@@ -47,8 +51,11 @@ const posts = [
     excerpt: "Our framework for picking the right tools for each project.",
     date: "2026-04-10",
     author: "Rodney Hagan",
+    category: "Engineering",
+    readTime: "10 min read",
   },
 ];
+
 
 const jsonLd = {
   "@context": "https://schema.org",
