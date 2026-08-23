@@ -14,7 +14,7 @@ const roles = [
       "Optimize components for maximum performance across a vast array of web-capable devices and browsers.",
       "Collaborate with backend developers to integrate APIs."
     ],
-    requiredSkills: [, "TypeScript", "HTML", "CSS", "Responsive web design",
+    requiredSkills: ["TypeScript", "HTML", "CSS", "Responsive web design",
       "Modern JavaScript (ES6+)",
     ],
     niceToHave: ["React/Nextjs", "Tailwind CSS", "Git and GitHub"]

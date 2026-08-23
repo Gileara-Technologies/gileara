@@ -212,17 +212,31 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "PrivacyPolicy",
-    name: "Privacy Policy | Gileara Technologies",
-    description: metadata.description,
-    url: "https://gileara.org/privacy",
-    dateModified: "2026-06-12",
-    publisher: {
-      "@type": "Organization",
-      name: "Gileara Technologies",
-      url: "https://gileara.org",
-      logo: "https://gileara.org/assets/gileara/logo-icon.png",
-    },
+    "@graph": [
+      {
+        "@type": "PrivacyPolicy",
+        "@id": "https://gileara.org/privacy/#privacy-policy",
+        name: "Privacy Policy | Gileara Technologies",
+        description: metadata.description,
+        url: "https://gileara.org/privacy",
+        dateModified: "2026-06-12",
+        publisher: {
+          "@type": "Organization",
+          name: "Gileara Technologies",
+          url: "https://gileara.org",
+          logo: "https://gileara.org/assets/gileara/logo-icon.png",
+        },
+        breadcrumb: { "@id": "https://gileara.org/privacy/#breadcrumb" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://gileara.org/privacy/#breadcrumb",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
+          { "@type": "ListItem", position: 2, name: "Privacy Policy", item: "https://gileara.org/privacy" },
+        ],
+      },
+    ],
   };
 
   return (

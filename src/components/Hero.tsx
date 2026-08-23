@@ -30,7 +30,7 @@ export default function Hero() {
           height={800}
           priority
           sizes="(max-width: 768px) 90vw, 700px"
-          className="w-[90%] md:w-[700px] h-auto opacity-25 filter dark:brightness-0 dark:invert"
+          className="w-[60%] sm:w-[70%] md:w-[700px] h-auto opacity-25 filter dark:brightness-0 dark:invert"
         />
       </div>
 
@@ -74,11 +74,11 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 pt-4 justify-center"
             >
-              <Link href="#services" className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group">
+              <Link href="/services" className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group">
                 See Our Services
                 <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
-              <Link href="#founders" className="border border-outline-variant px-8 py-4 rounded-lg text-center font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors inline-flex items-center justify-center gap-2 group">
+              <Link href="/about" className="border border-outline-variant px-8 py-4 rounded-lg text-center font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors inline-flex items-center justify-center gap-2 group">
                 Meet the Team
                 <FaArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
               </Link>
@@ -88,7 +88,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.6 }}
-              className="pt-8 flex items-center justify-center gap-8 md:gap-16 text-on-surface-variant font-mono text-xs uppercase"
+              className="pt-8 flex items-center justify-center gap-4 sm:gap-8 md:gap-16 text-on-surface-variant font-mono text-xs uppercase"
             >
               <div className="flex flex-col items-center">
                 <span className="text-2xl md:text-3xl font-bold text-primary font-display">3</span>

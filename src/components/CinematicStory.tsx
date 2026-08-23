@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa6";
 import UnderMaintenance from "./UnderMaintenance";
 
 export default function CinematicStory() {
@@ -93,6 +95,22 @@ export default function CinematicStory() {
               </p>
             </motion.div>
           ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center mt-12"
+        >
+          <Link
+            href="/insights"
+            className="inline-flex items-center gap-2 text-sm text-on-surface-variant hover:text-primary transition-colors font-medium"
+          >
+            Explore our engineering insights
+            <FaArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </motion.div>
       </div>
     </section>

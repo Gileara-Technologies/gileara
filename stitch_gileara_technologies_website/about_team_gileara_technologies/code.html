@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Us | Gileara Technologies</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(13, 27, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(65, 90, 119, 0.2);
+        }
+        .tonal-layer-1 { background-color: #0D1B2A; }
+        .tonal-layer-2 { background-color: #1B263B; }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#1f2b38",
+                      "surface-dim": "#081420",
+                      "inverse-surface": "#d8e3f5",
+                      "secondary-fixed-dim": "#bbc6e2",
+                      "outline": "#85948f",
+                      "tertiary-fixed": "#d1e4ff",
+                      "tertiary": "#afc9ea",
+                      "secondary-fixed": "#d7e2ff",
+                      "outline-variant": "#3c4a46",
+                      "on-tertiary": "#17324d",
+                      "primary-container": "#00bfa5",
+                      "on-secondary-fixed": "#101b30",
+                      "tertiary-fixed-dim": "#afc9ea",
+                      "surface-container-highest": "#2a3643",
+                      "on-tertiary-fixed-variant": "#2f4865",
+                      "inverse-primary": "#006b5c",
+                      "on-secondary-container": "#adb8d3",
+                      "surface-bright": "#2f3a47",
+                      "error": "#ffb4ab",
+                      "on-tertiary-fixed": "#001d36",
+                      "on-primary-fixed-variant": "#005145",
+                      "on-error-container": "#ffdad6",
+                      "surface-tint": "#44ddc1",
+                      "surface-container-lowest": "#040f1b",
+                      "surface-container": "#15202d",
+                      "on-primary-container": "#00473c",
+                      "inverse-on-surface": "#26313e",
+                      "secondary-container": "#3e4960",
+                      "primary": "#44ddc1",
+                      "on-primary-fixed": "#00201a",
+                      "secondary": "#bbc6e2",
+                      "surface-variant": "#2a3643",
+                      "primary-fixed-dim": "#44ddc1",
+                      "on-surface-variant": "#bbcac4",
+                      "surface-container-low": "#111c29",
+                      "primary-fixed": "#68fadd",
+                      "on-primary": "#00382f",
+                      "surface": "#081420",
+                      "background": "#081420",
+                      "on-surface": "#d8e3f5",
+                      "on-secondary-fixed-variant": "#3c475d",
+                      "on-background": "#d8e3f5",
+                      "on-tertiary-container": "#26405c",
+                      "error-container": "#93000a",
+                      "on-error": "#690005",
+                      "on-secondary": "#263046",
+                      "tertiary-container": "#92accc"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "md": "24px",
+                      "xl": "80px",
+                      "lg": "48px",
+                      "xs": "4px",
+                      "sm": "12px",
+                      "base": "Base"
+              },
+              "fontFamily": {
+                      "label-sm": ["Hanken Grotesk"],
+                      "label-md": ["Hanken Grotesk"],
+                      "headline-xl": ["Hanken Grotesk"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "headline-lg-mobile": ["Hanken Grotesk"],
+                      "body-lg": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<nav class="bg-surface sticky top-0 z-50 w-full">
+<div class="flex justify-between items-center w-full px-margin-desktop py-md max-w-[1440px] mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary">Gileara Technologies</div>
+<div class="hidden md:flex items-center gap-lg">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Services</a>
+<a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1" href="#">About</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Blog</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Contact</a>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-lg hover:opacity-80 transition-all">Get Started</button>
+</div>
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary">menu</span>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-[614px] flex items-center justify-center px-margin-mobile md:px-margin-desktop py-xl overflow-hidden">
+
+<div class="relative z-10 text-center max-w-4xl mx-auto">
+<span class="text-primary font-label-md text-label-md tracking-widest uppercase mb-base block">Since 2024</span>
+<h1 class="font-headline-xl text-headline-xl md:text-6xl mb-md leading-tight">Engineering the future of <span class="text-primary">high-performance</span> digital ecosystems.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">At Gileara Technologies, we transform complex technical challenges into streamlined, scalable reality.</p>
+</div>
+</section>
+<!-- Mission & Values (Bento Style) -->
+<section class="py-xl px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
+<div class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg mb-base">Our Core Philosophy</h2>
+<div class="h-1 w-24 bg-primary rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Innovation -->
+<div class="md:col-span-8 tonal-layer-1 p-lg rounded-xl border border-outline-variant/30 group hover:border-primary/50 transition-all duration-300">
+<div class="flex flex-col h-full justify-between">
+<div>
+<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary" data-icon="lightbulb">lightbulb</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-base">Innovation</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">We don't just follow industry standards; we define them. Our research-driven approach ensures your technical architecture remains ahead of the curve.</p>
+</div>
+<div class="mt-xl h-48 rounded-lg overflow-hidden relative">
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10"></div>
+<div class="w-full h-full bg-cover bg-center" data-alt="A futuristic laboratory setting with holographic data visualizations and ethereal blue and teal lighting. Scientists in minimalist tech-wear are interacting with floating digital interfaces in a dark, professional corporate environment. The atmosphere is one of high-tech research and breakthrough innovation." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_geAK1LtoT4a5iibAbMmmpiCu3E3LoQh86Y8untOnByVk-OpXFbY_rHvQtwlPaEWwF2p5hGs4JDnG9NY4_eWk6V7TquA7UJNM5PVWKcTMplP6lVHSPkingE4H8o2OSY48Kg6b_lHvsMWJBakTlCFSyL0qmcQkkUMrboq1xdfk1Il1x2Lb6PVV3c9xb8tLtajktJyzg0MCD9AiHhVXQCSfUo9Kt6plQkYVpyWioVHEWMbtnOuz1nZp')"></div>
+</div>
+</div>
+</div>
+<!-- Reliability -->
+<div class="md:col-span-4 tonal-layer-1 p-lg rounded-xl border border-outline-variant/30 flex flex-col justify-center items-center text-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-md border border-primary/20">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="verified_user">verified_user</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-base">Reliability</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">99.9% uptime isn't just a metric; it's a promise. We build systems that endure the most demanding workloads.</p>
+</div>
+<!-- Scale -->
+<div class="md:col-span-12 tonal-layer-2 p-lg rounded-xl border border-outline-variant/30 relative overflow-hidden group">
+<div class="relative z-10 flex flex-col md:flex-row gap-lg items-center">
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md mb-base">Scale</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">From startup foundations to global enterprise infrastructure. Our architecture is designed to grow as rapidly as your ambitions, handling millions of concurrent users without breaking stride.</p>
+</div>
+<div class="flex-shrink-0 grid grid-cols-3 gap-base">
+<div class="w-16 h-24 bg-primary/10 rounded-lg animate-pulse"></div>
+<div class="w-16 h-32 bg-primary/20 rounded-lg animate-pulse" style="animation-delay: 0.2s"></div>
+<div class="w-16 h-40 bg-primary/30 rounded-lg animate-pulse" style="animation-delay: 0.4s"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Leadership Hierarchy -->
+<section class="py-xl bg-surface-container-lowest">
+<div class="px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
+<div class="text-center mb-xl">
+<h2 class="font-headline-lg text-headline-lg mb-base">The Architects</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">The visionary leadership steering Gileara's technological dominance.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<!-- Amos Frederick Hughes -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-md border border-outline-variant/20 group-hover:border-primary/40 transition-colors">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A professional portrait of Amos Frederick Hughes, a distinguished man in his late 30s with an air of strategic authority. He is wearing a dark, high-quality charcoal turtleneck against a minimalist dark grey studio background. The lighting is cinematic and dramatic, highlighting his focused expression, symbolizing strategic leadership and corporate vision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9pZIJTjfyoAHqENCwOQJGQezzyyDk1uEtfkSlAvc6pH1YG51PZbhUt1GtKpHnM1cbg5phMf7ZZ26O1XaYv4eklpWQ8u-NvaV-3NrC7wUMFbmReNykXE00yK6OQ94etNhG4QsG3bgukbTtF6asqW6f-FzM3vsQvhz8LPL-IIegwZi2Jhe0gsO2IxJXfoevl8JElGumsypX8A1iszHeyQv3G3bHcktOocCLe_WuQuvRjDpl8Zn0eIQ9"/>
+<div class="absolute bottom-md left-md z-20">
+<div class="bg-primary text-on-primary text-[10px] uppercase font-bold px-sm py-xs rounded mb-xs inline-block">CEO</div>
+</div>
+</div>
+<h4 class="font-headline-md text-headline-md mb-xs">Amos Frederick Hughes</h4>
+<p class="text-primary font-label-md text-label-md mb-sm">Founder &amp; CEO</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Leading our strategic direction and long-term expansion into emerging global markets.</p>
+</div>
+<!-- Julian Hagan -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-md border border-outline-variant/20 group-hover:border-primary/40 transition-colors">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A professional portrait of Julian Hagan, a confident executive in his early 40s. He is dressed in a crisp black tailored blazer with a subtle textured finish. The setting is a modern architectural space with glass and steel elements visible in the soft-focus background. His expression is one of operational expertise and calm authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOzkBB_E35iCikazoUPxU6ydw_UWVbakESgqM36iJXL8hEikYCAIX7IkbAW-hPe2waeeIV3uyJgcfs051miKizQpGSto0p_0xn_akOizIVWbZ8khia7WWh2W11n9rMKib9VXxFls5QbJmFXTj9TFc8wOgH_XMLOHx7tSTuYoy4mp-uLyJYc7UpF0Z00twy4G88qy_PTO5FcG1qe6FsGxeuxg6x7SsupqBgZ6o584aEDKu607bllNDD"/>
+<div class="absolute bottom-md left-md z-20">
+<div class="bg-secondary-container text-on-secondary-container text-[10px] uppercase font-bold px-sm py-xs rounded mb-xs inline-block">COO</div>
+</div>
+</div>
+<h4 class="font-headline-md text-headline-md mb-xs">Julian Hagan</h4>
+<p class="text-primary font-label-md text-label-md mb-sm">Co-Founder &amp; COO</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Driving operational excellence and ensuring our engineering teams deliver at peak efficiency.</p>
+</div>
+<!-- Rodney Hagan -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-md border border-outline-variant/20 group-hover:border-primary/40 transition-colors">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A professional portrait of Rodney Hagan, a brilliant engineering leader. He is pictured in a high-tech server room environment with soft teal server rack lights glowing in the dark background. He is wearing a dark tech-style zip-up jacket. His look is one of intense focus and technical brilliance, representing the heart of engineering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ5kwNOINzETQseUwlbPCwgMxyqE2w27XuOw9lkB36znDd8-9VUv9mFP1bcMeEhwuT57xX4Zc44zKVTeglyVXR2kXX0cOJNHNBNhxRPm4tTvV2GA3_RXGyYJLzfr2wNAand0N6w-II0J_vaN659PogHWN45VdntlnSzMKtjSs_N2FgdQJMrih06536vr9k0QyHYJzhO_Ae7GU0UifOqxeV8DSC2bEbaQG89HN36DzRU21QtSq9JJiu"/>
+<div class="absolute bottom-md left-md z-20">
+<div class="bg-tertiary-container text-on-tertiary-container text-[10px] uppercase font-bold px-sm py-xs rounded mb-xs inline-block">CTO</div>
+</div>
+</div>
+<h4 class="font-headline-md text-headline-md mb-xs">Rodney Hagan</h4>
+<p class="text-primary font-label-md text-label-md mb-sm">Co-Founder &amp; CTO</p>
+<p class="font-body-md text-body-md text-on-surface-variant">The engineering heart of Gileara, overseeing system architecture and technical innovation.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Engineering Departments -->
+<section class="py-xl px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-xl gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-base">Engineering Departments</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Specialized units working in synergy to build the impossible.</p>
+</div>
+<div class="flex gap-sm">
+<span class="w-12 h-1 bg-primary"></span>
+<span class="w-12 h-1 bg-outline-variant"></span>
+<span class="w-12 h-1 bg-outline-variant"></span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Web -->
+<div class="tonal-layer-1 p-lg rounded-xl border border-outline-variant/30 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary mb-md" data-icon="language">language</span>
+<h3 class="font-headline-md text-headline-md mb-sm">Web Engineering</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">Crafting highly responsive, ultra-fast web applications using the latest distributed rendering technologies.</p>
+<ul class="space-y-sm">
+<li class="flex items-center gap-base text-label-md font-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check_circle">check_circle</span> React/Next.js Ecosystems
+                        </li>
+<li class="flex items-center gap-base text-label-md font-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check_circle">check_circle</span> WebAssembly Optimization
+                        </li>
+</ul>
+</div>
+<!-- Mobile -->
+<div class="tonal-layer-1 p-lg rounded-xl border border-outline-variant/30 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary mb-md" data-icon="smartphone">smartphone</span>
+<h3 class="font-headline-md text-headline-md mb-sm">Mobile Ecosystems</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">Developing native-performance cross-platform solutions for iOS and Android with seamless integration.</p>
+<ul class="space-y-sm">
+<li class="flex items-center gap-base text-label-md font-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check_circle">check_circle</span> Flutter &amp; React Native
+                        </li>
+<li class="flex items-center gap-base text-label-md font-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check_circle">check_circle</span> Swift/Kotlin Bridges
+                        </li>
+</ul>
+</div>
+<!-- Systems Architecture -->
+<div class="tonal-layer-1 p-lg rounded-xl border border-outline-variant/30 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary mb-md" data-icon="hub">hub</span>
+<h3 class="font-headline-md text-headline-md mb-sm">Systems Architecture</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">Designing the backbone of complex digital infrastructure with high-availability microservices.</p>
+<ul class="space-y-sm">
+<li class="flex items-center gap-base text-label-md font-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check_circle">check_circle</span> Cloud-Native Infrastructure
+                        </li>
+<li class="flex items-center gap-base text-label-md font-label-md text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check_circle">check_circle</span> Real-time Data Pipelines
+                        </li>
+</ul>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-xl px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+<div class="max-w-5xl mx-auto glass-card p-xl rounded-2xl relative z-10 text-center border-primary/20">
+<h2 class="font-headline-xl text-headline-xl mb-md">Ready to build the future?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-lg max-w-2xl mx-auto">We're always looking for brilliant minds to join our mission. If you're passionate about engineering excellence, we want to hear from you.</p>
+<div class="flex flex-col sm:flex-row gap-md justify-center">
+<button class="bg-primary text-on-primary px-xl py-md rounded-lg font-headline-md text-headline-md hover:opacity-90 transition-all shadow-lg shadow-primary/20">Join the Mission</button>
+<button class="border border-outline-variant text-on-surface px-xl py-md rounded-lg font-headline-md text-headline-md hover:bg-surface-variant transition-all">View Openings</button>
+</div>
+</div>
+<!-- Background Glow -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full -z-0"></div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-xl max-w-[1440px] mx-auto border-t border-outline-variant/10">
+<div class="mb-lg md:mb-0">
+<div class="font-headline-md text-headline-md font-bold text-primary mb-xs">Gileara Technologies</div>
+<p class="text-on-surface-variant font-label-md text-label-md">© 2024 Gileara Technologies. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline transition-all" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline transition-all" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline transition-all" href="#">Security</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline transition-all" href="#">Status</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for scrolling
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section > div').forEach(el => {
+                el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+                observer.observe(el);
+            });
+        });
+    </script>
+</body></html>
