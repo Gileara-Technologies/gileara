@@ -3,13 +3,21 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import Link from 'next/link';
 import CalendarStep from './CalendarStep';
+import { servicePackages } from '@/content/packages';
+
+const GOAL_OPTIONS = [
+  ...servicePackages.map((p) => ({ value: p.id, label: p.name })),
+  { value: 'unsure', label: "Not sure yet — help me choose" },
+];
 
 type Step = 'details' | 'calendar' | 'success';
 
 interface FormData {
   name: string;
   email: string;
+  phone?: string;
   goal: string;
   message: string;
   date?: string;
@@ -21,6 +29,7 @@ export default function ContactStepper() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
+    phone: '',
     goal: '',
     message: '',
   });
@@ -30,6 +39,19 @@ export default function ContactStepper() {
   const handleDetailsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setStep('calendar');
+  };
+
+  // Fallback: hand-compiled mailto so a Calendar-API outage never loses the lead.
+  const fallbackMailto = () => {
+    const params = new URLSearchParams({
+      subject: `Consultation request — ${formData.name}`,
+      body:
+        `Name: ${formData.name}\nEmail: ${formData.email}\n` +
+        (formData.phone ? `Phone/WhatsApp: ${formData.phone}\n` : '') +
+        `Goal: ${GOAL_OPTIONS.find((g) => g.value === formData.goal)?.label ?? formData.goal}\n\n${formData.message}` +
+        (formData.date ? `\nPreferred slot: ${formData.date} ${formData.time} (GMT)` : ''),
+    });
+    return `mailto:tech.gileara@gmail.com?${params.toString()}`;
   };
 
   const handleScheduleSubmit = async (date: string, time: string) => {
@@ -60,6 +82,7 @@ export default function ContactStepper() {
   };
 
   const inputClass = "w-full bg-surface border border-outline-variant/20 focus:border-primary rounded-2xl p-4 text-on-surface focus:outline-none transition-colors";
+  const labelClass = "text-sm font-medium text-on-surface-variant uppercase tracking-wider ml-1";
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -74,25 +97,27 @@ export default function ContactStepper() {
             className="w-full max-w-2xl space-y-6"
           >
             <div className="text-center space-y-2 mb-8">
-              <h3 className="text-3xl font-bold text-on-surface">The Mission Profile</h3>
-              <p className="text-on-surface-variant text-lg">Tell us about your technical challenges.</p>
+              <h3 className="text-3xl font-bold text-on-surface">Tell us about your business</h3>
+              <p className="text-on-surface-variant text-lg">Thirty minutes, free — we&apos;ll come prepared.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-on-surface-variant uppercase tracking-wider ml-1">Your Name</label>
+                <label htmlFor="booking-name" className={labelClass}>Your Name</label>
                 <input
+                  id="booking-name"
                   required
                   type="text"
-                  placeholder="e.g. Kofi Joe"
+                  placeholder="e.g. Abena Mensah"
                   className={inputClass}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-on-surface-variant uppercase tracking-wider ml-1">Email Address</label>
+                <label htmlFor="booking-email" className={labelClass}>Email Address</label>
                 <input
+                  id="booking-email"
                   required
                   type="email"
                   placeholder="name@example.com"
@@ -104,28 +129,42 @@ export default function ContactStepper() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-on-surface-variant uppercase tracking-wider ml-1">Primary Objective</label>
+              <label htmlFor="booking-goal" className={labelClass}>What do you need most right now?</label>
               <select
+                id="booking-goal"
                 required
                 className={`${inputClass} appearance-none`}
                 value={formData.goal}
                 onChange={(e) => setFormData({ ...formData, goal: e.target.value })}
               >
-                <option value="" disabled>Select your primary goal</option>
-                <option value="software">Custom Software Development</option>
-                <option value="platforms">E-Commerce & Platforms</option>
-                <option value="automation">CRM & Workflow Automation</option>
-                <option value="strategy">Digital Strategy & Advisory</option>
-                <option value="other">Other Technical Challenge</option>
+                <option value="" disabled>Select a package or goal</option>
+                {GOAL_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-on-surface-variant uppercase tracking-wider ml-1">Project Details</label>
+              <label htmlFor="booking-phone" className={labelClass}>
+                Phone / WhatsApp <span className="normal-case text-outline">(optional)</span>
+              </label>
+              <input
+                id="booking-phone"
+                type="tel"
+                placeholder="+233 …"
+                className={inputClass}
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="booking-message" className={labelClass}>Where does it hurt today?</label>
               <textarea
+                id="booking-message"
                 required
                 rows={4}
-                placeholder="Briefly describe your current situation or what you're looking to build..."
+                placeholder="Roughly where's the pain — spreadsheets, stock tracking, customer follow-ups, reporting…"
                 className={`${inputClass} resize-none`}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -136,7 +175,7 @@ export default function ContactStepper() {
               type="submit"
               className="w-full btn-primary py-5 text-lg font-bold flex items-center justify-center gap-3 mt-4"
             >
-              <span>Next: Select Time</span>
+              <span>Next: Pick a Time</span>
               <Send size={20} />
             </button>
           </motion.form>
@@ -156,9 +195,18 @@ export default function ContactStepper() {
               isSubmitting={isSubmitting}
             />
             {error && (
-              <div className="mt-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-500 text-sm">
-                <AlertCircle size={20} />
-                <span>{error}</span>
+              <div className="mt-6 p-5 bg-red-500/10 border border-red-500/20 rounded-2xl text-sm space-y-3">
+                <div className="flex items-center gap-3 text-red-500">
+                  <AlertCircle size={20} />
+                  <span>Booking system hiccup — your details are safe.</span>
+                </div>
+                <a
+                  href={fallbackMailto()}
+                  className="inline-flex items-center gap-2 font-semibold text-primary hover:underline"
+                >
+                  Email us this instead
+                  <Send size={16} />
+                </a>
               </div>
             )}
           </motion.div>
@@ -174,16 +222,13 @@ export default function ContactStepper() {
             <div className="w-24 h-24 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 size={48} />
             </div>
-            <h3 className="text-3xl font-bold text-on-surface">Objective Locked.</h3>
+            <h3 className="text-3xl font-bold text-on-surface">You&apos;re booked!</h3>
             <p className="text-on-surface-variant text-lg">
-              Your consultation request has been received. We&apos;ll review the technical profile and confirm the meeting in your calendar within 24 hours.
+              Your request is in. We&apos;ll confirm the slot in your calendar within 24 hours — and you&apos;ll hear from a real person, not a robot.
             </p>
-            <button
-              onClick={() => setStep('details')}
-              className="text-primary hover:underline font-medium"
-            >
+            <Link href="/" className="text-primary hover:underline font-medium">
               Back to gileara.org
-            </button>
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>

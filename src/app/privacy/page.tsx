@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import LegalNavbar from "@/components/legal/LegalNavbar";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const lastUpdated = "June 12, 2026";
@@ -241,7 +241,7 @@ export default function PrivacyPage() {
 
   return (
     <>
-      <LegalNavbar page="privacy" />
+      <Navbar variant="legal" page="privacy" />
       <main className="min-h-screen bg-background pt-32 pb-20 text-on-surface">
         <script
           type="application/ld+json"
@@ -375,3 +375,4 @@ export default function PrivacyPage() {
     </>
   );
 }
+

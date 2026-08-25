@@ -1,187 +1,302 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowRight, FaCheck } from "react-icons/fa6";
+import {
+  servicePackages,
+  customServices,
+  customerJourney,
+  MANAGED_SERVICES_NOTE,
+  type ServicePackage,
+} from "@/content/packages";
+import { siteConfig } from "@/content/site-config";
 
-const serviceSections = [
-  {
-    id: "custom-software",
-    title: "Custom Software Development",
-    tag: "Engineering Excellence",
-    icon: "code",
-    desc: "Architecting robust backends and fluid frontends that endure heavy usage and rapid scaling. We design and build full-stack web applications, mobile apps, internal tools, and APIs that integrate with your existing workflows.",
-    features: [
-      "Scalable Microservices Architecture",
-      "Cloud-Native Deployment",
-      "Legacy System Modernization",
-      "Full-stack Web Applications",
-      "REST & GraphQL APIs",
-    ],
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
-    alt: "Developer writing code on dual monitors",
-  },
-  {
-    id: "ecommerce",
-    title: "E-Commerce & Business Platforms",
-    tag: "Growth Engines",
-    icon: "shopping_cart",
-    desc: "Custom digital storefronts designed for high conversion and seamless global logistics. From booking systems to client portals, we build the digital infrastructure that drives revenue and scales with your growth.",
-    features: [
-      "Custom Storefronts & Marketplaces",
-      "Booking & Reservation Systems",
-      "Payment Gateway Integration",
-      "Inventory & Order Management",
-      "Subscription & Membership Portals",
-    ],
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
-    alt: "E-commerce shopping on mobile device",
-  },
-  {
-    id: "crm-automation",
-    title: "CRM & Workflow Automation",
-    tag: "Operational Logic",
-    icon: "hub",
-    desc: "Eliminate friction with intelligent workflows and deep API integrations between your core tools. We audit your operations, identify bottlenecks, and build automation that frees your team to focus on growth.",
-    features: [
-      "Business Process Audits",
-      "Automated Reporting & Dashboards",
-      "Document & Approval Workflows",
-      "CRM & ERP Integrations",
-      "Data Migration & Synchronization",
-    ],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-    alt: "Data dashboard and analytics charts",
-  },
-  {
-    id: "strategy-advisory",
-    title: "Digital Strategy & Advisory",
-    tag: "Visionary Guidance",
-    icon: "insights",
-    desc: "Navigating the complex tech landscape with data-driven roadmaps and architectural audits. Not sure where to start? We help you map the right technology path, evaluate build-vs-buy decisions, and manage the entire delivery from concept to launch.",
-    features: [
-      "Technology Roadmap Planning",
-      "Architecture & Stack Selection",
-      "Security & Performance Audits",
-      "MVP Scoping for Startups",
-      "Fractional CTO Advisory",
-    ],
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80",
-    alt: "Business team discussing strategy",
-  },
-];
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+};
 
-const partners = [
-  "AWS Cloud", "Google Cloud", "Microsoft Azure",
-  "Stripe Payments", "Salesforce CRM", "Shopify Plus",
-];
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+function StatusChip({ pkg }: { pkg: ServicePackage }) {
+  return (
+    <span
+      className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider ${
+        pkg.status === "available"
+          ? "bg-secondary/15 dark:bg-primary/20 text-secondary dark:text-primary"
+          : "bg-surface-container-high text-on-surface-variant"
+      }`}
+    >
+      {pkg.status === "available" ? "Available now" : "Rolling out Q4 2026"}
+    </span>
+  );
+}
+
+function Cell({ value }: { value?: string }) {
+  if (value === undefined) {
+    return <span className="text-outline-variant/60" aria-label="Not included">—</span>;
+  }
+  if (value === "Yes") {
+    return (
+      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-secondary/15 dark:bg-primary/20">
+        <FaCheck className="w-3 h-3 text-secondary dark:text-primary" aria-label="Included" />
+      </span>
+    );
+  }
+  return <span>{value}</span>;
+}
+
+const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
 export default function ServicesPageClient() {
   return (
-    <>
-      {/* HERO */}
-      <section className="py-20 md:py-28 flex flex-col items-center text-center px-4 md:px-10 bg-background">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6 text-on-surface">
-          Technological Precision for{" "}
-          <span className="text-primary">Power Users</span>
-        </h1>
-        <p className="max-w-2xl text-on-surface-variant text-lg">
-          We engineer high-performance digital ecosystems. From microservices to
-          market-disrupting platforms, Gileara delivers speed, security, and
-          scalability.
-        </p>
-      </section>
+    <div className="bg-background">
+      {/* ── Page hero + overview table ─────────────────────────────── */}
+      <section className="py-20 md:py-28 px-4 md:px-10">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
+          >
+            <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Packages &amp; Services</span>
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mt-4 mb-6 text-primary dark:text-on-background leading-tight tracking-tight">
+              Five ways to transform your business.
+            </h1>
+            <p className="text-lg md:text-xl text-on-surface-variant leading-relaxed">
+              Every package is all-inclusive — managed services built in from day one, priced in clear USD tiers you can
+              compare on this page. Start where it hurts most; grow along the ladder when you&apos;re ready.
+            </p>
+          </motion.div>
 
-      {/* SERVICE SECTIONS */}
-      {serviceSections.map((s, i) => (
-        <section
-          key={s.id}
-          id={s.id}
-          className={`py-16 md:py-24 px-4 md:px-10 ${
-            i % 2 === 0 ? "bg-background" : "bg-surface-container-lowest"
-          }`}
-        >
-          <div className="max-w-[1200px] mx-auto">
-            <div className={`flex flex-col ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} gap-8 md:gap-16 items-center`}>
-              <div className="w-full md:w-1/2">
-                <div className="relative overflow-hidden rounded-xl aspect-[4/3]">
-                  <img
-                    src={s.image}
-                    alt={s.alt}
-                    className="w-full h-full object-cover"
-                    loading={i === 0 ? "eager" : "lazy"}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
-                </div>
-              </div>
-              <div className="w-full md:w-1/2">
-                <div className="flex items-center gap-2 text-primary mb-3">
-                  <span className="material-symbols-outlined">{s.icon}</span>
-                  <span className="text-sm font-semibold uppercase tracking-wider">
-                    {s.tag}
-                  </span>
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold font-display mb-4 text-on-surface">
-                  {s.title}
-                </h2>
-                <p className="text-on-surface-variant text-base mb-6 leading-relaxed">
-                  {s.desc}
-                </p>
-                <ul className="space-y-3 mb-8">
-                  {s.features.map((f) => (
-                    <li key={f} className="flex items-center gap-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                      <span className="text-sm text-on-surface-variant">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/#contact"
-                  className="inline-flex items-center gap-2 border border-outline-variant px-6 py-3 rounded-full text-sm font-semibold hover:border-primary hover:text-primary transition-all"
-                >
-                  Discuss This Service
-                  <FaArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      ))}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mt-12 overflow-x-auto rounded-2xl border border-outline-variant/25 dark:border-outline-variant/10"
+          >
+            <table className="w-full min-w-[720px] text-sm">
+              <thead>
+                <tr className="bg-surface-container dark:bg-surface-container-high text-left font-mono text-[11px] uppercase tracking-wider text-outline">
+                  <th className="px-5 py-4">Package</th>
+                  <th className="px-5 py-4">Built for</th>
+                  <th className="px-5 py-4">From</th>
+                  <th className="px-5 py-4">Status</th>
+                  <th className="px-5 py-4" aria-label="Details link" />
+                </tr>
+              </thead>
+              <tbody>
+                {servicePackages.map((pkg) => (
+                  <tr key={pkg.id} className="border-t border-outline-variant/15 dark:border-outline-variant/10 hover:bg-surface-container/60 transition-colors">
+                    <td className="px-5 py-4 font-display font-bold text-on-surface">{pkg.name}</td>
+                    <td className="px-5 py-4 text-on-surface-variant">{pkg.targetCustomers.slice(0, 2).join(" · ")}</td>
+                    <td className="px-5 py-4 whitespace-nowrap text-on-surface">{usd(pkg.tiers[0].monthlyFeeUsd)}/mo</td>
+                    <td className="px-5 py-4"><StatusChip pkg={pkg} /></td>
+                    <td className="px-5 py-4 text-right">
+                      <a href={`#${pkg.id}`} className="font-semibold text-primary hover:underline whitespace-nowrap">
+                        Details ↓
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </motion.div>
 
-      {/* INTEGRATION MARQUEE */}
-      <section className="py-20 border-t border-outline-variant/20 overflow-hidden bg-background">
-        <p className="text-center text-sm font-semibold text-on-surface-variant mb-8 uppercase tracking-[0.2em]">
-          Seamlessly Integrated Ecosystems
-        </p>
-        <div className="flex gap-10 justify-center opacity-40 grayscale hover:grayscale-0 transition-all duration-500 overflow-x-auto pb-4 flex-wrap">
-          {partners.map((p) => (
-            <span key={p} className="font-bold whitespace-nowrap text-on-surface text-lg">
-              {p}
-            </span>
-          ))}
+          <p className="mt-6 text-sm text-on-surface-variant max-w-3xl">
+            {MANAGED_SERVICES_NOTE}
+          </p>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-4 md:px-10 relative overflow-hidden bg-surface-container-lowest">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
-        <div className="max-w-3xl mx-auto text-center relative z-10">
-          <span className="material-symbols-outlined text-5xl text-primary mb-4 block">handshake</span>
-          <h2 className="text-3xl md:text-4xl font-bold font-display text-on-surface mb-4">
-            Not sure what you need?
+      {/* ── Per-package sections ───────────────────────────────────── */}
+      <section className="pb-24 px-4 md:px-10">
+        <div className="max-w-6xl mx-auto space-y-16">
+          {servicePackages.map((pkg, idx) => {
+            const basic = pkg.tiers[0];
+            const isAutomation = pkg.id === "automation-efficiency";
+            return (
+              <motion.section
+                key={pkg.id}
+                id={pkg.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6 }}
+                className={`scroll-mt-24 rounded-3xl border p-6 md:p-10 ${
+                  idx % 2 === 0
+                    ? "bg-surface-container dark:bg-surface-container-high border-outline-variant/20 dark:border-outline-variant/10"
+                    : "bg-surface-container-high dark:bg-surface-container-lowest border-outline-variant/25 dark:border-outline-variant/10"
+                }`}
+              >
+                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
+                  <div className="max-w-2xl">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <h2 className="font-display text-3xl font-bold text-primary dark:text-on-background">{pkg.name}</h2>
+                      <StatusChip pkg={pkg} />
+                    </div>
+                    <p className="mt-3 text-on-surface-variant text-lg">{pkg.tagline}</p>
+                    <p className="mt-2 text-sm text-outline">
+                      Goal: <span className="text-on-surface">{pkg.primaryGoal}</span> · For{" "}
+                      <span className="text-on-surface">{pkg.targetCustomers.join(", ").toLowerCase()}</span>
+                    </p>
+                  </div>
+                  <Link
+                    href="/contact"
+                    className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
+                  >
+                    Discuss this package
+                    <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+                  </Link>
+                </div>
+
+                {/* Tier comparison */}
+                <div className="overflow-x-auto rounded-2xl border border-outline-variant/20 dark:border-outline-variant/10 bg-surface dark:bg-surface-container">
+                  <table className="w-full min-w-[640px] text-sm">
+                    <thead>
+                      <tr className="border-b border-outline-variant/15 dark:border-outline-variant/10 text-left">
+                        <th className="px-5 py-4 font-mono text-[11px] uppercase tracking-wider text-outline">What you get</th>
+                        {pkg.tiers.map((t) => (
+                          <th key={t.name} className="px-5 py-4">
+                            <span className="font-display font-bold text-on-surface">{t.name}</span>
+                            <span className="block mt-1 text-on-surface-variant font-normal">
+                              {usd(t.setupFeeUsd)} setup · {usd(t.monthlyFeeUsd)}/mo
+                            </span>
+                            <span className="block text-xs text-outline font-normal mt-0.5">{t.deliveryTime}</span>
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {isAutomation
+                        ? pkg.solutions?.map((s) => (
+                            <tr key={s} className="border-b border-outline-variant/10 dark:border-outline-variant/5 last:border-0">
+                              <td className="px-5 py-3.5 text-on-surface" colSpan={4}>
+                                <span className="inline-flex items-center gap-3">
+                                  <Cell value="Yes" /> {s}
+                                </span>
+                              </td>
+                            </tr>
+                          ))
+                        : pkg.features?.map((row) => (
+                            <tr key={row.feature} className="border-b border-outline-variant/10 dark:border-outline-variant/5 last:border-0">
+                              <td className="px-5 py-3.5 text-on-surface">{row.feature}</td>
+                              <td className="px-5 py-3.5"><Cell value={row.basic} /></td>
+                              <td className="px-5 py-3.5"><Cell value={row.professional} /></td>
+                              <td className="px-5 py-3.5"><Cell value={row.enterprise} /></td>
+                            </tr>
+                          ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <p className="mt-4 text-xs text-outline">
+                  Entry point: {usd(basic.setupFeeUsd)} setup + {usd(basic.monthlyFeeUsd)}/mo · all-inclusive.
+                </p>
+              </motion.section>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── Growth ladder ──────────────────────────────────────────── */}
+      <section className="py-20 bg-surface-container dark:bg-surface-container-high px-4 md:px-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14 max-w-2xl mx-auto">
+            <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">The growth ladder</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 text-primary dark:text-on-background">
+              Start small. Scale when ready.
+            </h2>
+            <p className="mt-4 text-on-surface-variant">
+              Most MSMEs climb in stages — each step builds on the last, and nothing you own gets thrown away.
+            </p>
+          </div>
+          <motion.ol
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4"
+          >
+            {customerJourney.map((stage) => (
+              <motion.li
+                key={stage.stage}
+                variants={item}
+                className="rounded-2xl bg-surface dark:bg-surface-container p-6 border border-outline-variant/20 dark:border-outline-variant/10 flex flex-col"
+              >
+                <span className="font-mono text-[11px] uppercase tracking-widest text-secondary dark:text-primary mb-3">
+                  Stage {stage.stage}
+                </span>
+                <a href={`#${stage.packageId}`} className="font-display font-bold text-on-surface hover:text-primary transition-colors">
+                  {stage.packageName}
+                </a>
+                <span className="mt-auto pt-4 text-sm text-on-surface-variant">
+                  from {usd(stage.setupFeeUsd)} + {usd(stage.monthlyFeeUsd)}/mo
+                </span>
+              </motion.li>
+            ))}
+          </motion.ol>
+        </div>
+      </section>
+
+      {/* ── Ghana rails + beyond packages ──────────────────────────── */}
+      <section className="py-20 px-4 md:px-10">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
+          <div>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-primary dark:text-on-background">Rails Ghanaian businesses trust</h2>
+            <p className="mt-4 text-on-surface-variant leading-relaxed">
+              We integrate the platforms your customers already use — and we&apos;ll tell you plainly what we build on and why.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {["MTN MoMo payments & reconciliation", "Paystack / Hubtel card & bank rails", "WhatsApp Business messaging", "Google Workspace & email"].map((rail) => (
+                <li key={rail} className="flex items-center gap-3 text-on-surface">
+                  <Cell value="Yes" /> {rail}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-primary dark:text-on-background">Beyond packages</h2>
+            <p className="mt-4 text-on-surface-variant leading-relaxed">
+              Need something the packages don&apos;t cover? We take a small number of bespoke engagements each quarter.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {customServices.map((s) => (
+                <li key={s.name} className="flex items-center justify-between gap-4 p-4 rounded-xl bg-surface-container dark:bg-surface-container-high border border-outline-variant/15 dark:border-outline-variant/10">
+                  <span className="font-medium text-on-surface">{s.name}</span>
+                  <span className="font-mono text-sm text-secondary dark:text-primary whitespace-nowrap">from {usd(s.startingPriceUsd)}</span>
+                </li>
+              ))}
+            </ul>
+            <Link href="/contact" className="mt-6 inline-flex items-center gap-2 font-semibold text-primary hover:underline">
+              Ask about a custom build
+              <FaArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="max-w-3xl mx-auto mt-16 text-center">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-primary dark:text-on-background">
+            Not sure which package fits?
           </h2>
-          <p className="text-on-surface-variant text-lg mb-8 max-w-xl mx-auto">
-            We&apos;ll start with a free discovery call to understand your business
-            and recommend the right approach.
+          <p className="mt-4 text-on-surface-variant">
+            Book a free consultation — we&apos;ll recommend one based on your goals, honestly.
           </p>
           <Link
-            href="/#contact"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl text-sm font-bold teal-gradient-btn group"
+            href="/contact"
+            className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold teal-gradient-btn text-white dark:text-on-primary shadow-lg group"
           >
             Book a Free Consultation
-            <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
           </Link>
+          <p className="mt-4 text-xs text-outline">{siteConfig.location} · {siteConfig.timezone}</p>
         </div>
       </section>
-    </>
+    </div>
   );
 }

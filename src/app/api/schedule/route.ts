@@ -85,7 +85,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as Record<string, string>;
-    const { name, email, goal, message, date, time } = body;
+    const { name, email, phone, goal, message, date, time } = body;
 
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
     const privateKey = process.env.GOOGLE_PRIVATE_KEY;
@@ -106,8 +106,9 @@ export async function POST(request: Request) {
     const end = new Date(start.getTime() + 45 * 60000);
 
     const event = {
-      summary: `Meeting Request: ${name} (${goal})`,
-      description: `Name: ${name}\nEmail: ${email}\nGoal: ${goal}\n\nMessage:\n${message}\n\nCreated via Website`,
+      summary: `Consultation: ${name} (${goal})`,
+      description:
+        `Name: ${name}\nEmail: ${email}\nPhone/WhatsApp: ${phone || '—'}\nGoal: ${goal}\n\nMessage:\n${message}\n\nCreated via Website`,
       start: { dateTime: start.toISOString() },
       end: { dateTime: end.toISOString() },
     };

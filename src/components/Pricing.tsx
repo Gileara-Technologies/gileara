@@ -100,7 +100,7 @@ export default function Pricing() {
                 </p>
 
                 <Link
-                  href="/#contact"
+                  href="/contact"
                   className={`mt-6 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-semibold transition-colors ${
                     anchor
                       ? "teal-gradient-btn text-white dark:text-on-primary"
