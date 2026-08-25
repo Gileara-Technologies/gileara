@@ -1,45 +1,48 @@
 "use client";
 
-import ContactStepper from "@/components/scheduling/ContactStepper";
-import { FaEnvelope } from "react-icons/fa6";
 import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa6";
+import { motion } from "framer-motion";
+import { siteConfig } from "@/content/site-config";
 
+/**
+ * Slim conversion band — the full booking experience lives on /contact.
+ * Keeps id="contact" so legacy /#contact anchors still land somewhere sensible.
+ */
 export default function ContactCTA() {
   return (
     <section id="contact" className="py-24 bg-background px-4 md:px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-          <div>
-            <span className="font-mono text-xs text-secondary uppercase tracking-widest">Get Started</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary leading-tight">Let&apos;s talk about your business</h2>
-            <p className="mt-6 text-on-surface-variant text-lg mb-12">Thirty minutes, free. We&apos;ll map your goals to the right package — even if you don&apos;t buy.</p>
-            <div className="space-y-6">
-              <div className="flex items-start gap-4 p-6 bg-surface-container rounded-xl border border-outline-variant/10 hover:border-primary/30 transition-colors group">
-                <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors"><FaEnvelope className="w-5 h-5 text-primary" /></div>
-                <div>
-                  <p className="font-mono text-xs text-outline uppercase tracking-wider">Send an Email</p>
-                  <a className="text-xl font-semibold text-on-surface hover:text-primary transition-colors" href="mailto:tech.gileara@gmail.com">tech.gileara@gmail.com</a>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-on-surface-variant">
-                <Link href="/privacy" className="hover:text-primary transition-colors">
-                  Privacy Policy
-                </Link>
-                <span className="text-outline-variant hidden sm:inline">·</span>
-                <Link href="/security" className="hover:text-primary transition-colors">
-                  Security Disclosure
-                </Link>
-                <span className="text-outline-variant hidden sm:inline">·</span>
-                <Link href="/terms" className="hover:text-primary transition-colors">
-                  Legal Terms
-                </Link>
-              </div>
-            </div>
+      <div className="max-w-3xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="space-y-6"
+        >
+          <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Get Started</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-primary dark:text-on-background leading-tight">
+            Let&apos;s talk about your business
+          </h2>
+          <p className="text-on-surface-variant text-lg">
+            Thirty minutes, free. We&apos;ll map your goals to the right package — even if you don&apos;t buy.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+            <Link
+              href="/contact"
+              className="teal-gradient-btn px-8 py-4 rounded-lg font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group"
+            >
+              Book a Free Consultation
+              <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+            </Link>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="border border-outline-variant px-8 py-4 rounded-lg font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors inline-flex items-center justify-center gap-2"
+            >
+              Email us instead
+            </a>
           </div>
-          <div className="bg-surface-container-high p-8 md:p-10 rounded-2xl shadow-xl border border-outline-variant/10">
-            <ContactStepper />
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

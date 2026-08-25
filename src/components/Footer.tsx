@@ -68,7 +68,7 @@ export default function Footer() {
                   <li><Link href="/insights" className="hover:text-primary transition-colors">Insights</Link></li>
                   <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
                   <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
-                  <li><Link href="/#contact" className="hover:text-primary transition-colors text-primary font-semibold">Contact</Link></li>
+                  <li><Link href="/contact" className="hover:text-primary transition-colors text-primary font-semibold">Contact</Link></li>
                 </ul>
               </div>
               <div>
@@ -130,12 +130,12 @@ export default function Footer() {
         <div className="py-8 border-t border-outline-variant/30 dark:border-outline-variant/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-on-surface-variant text-center sm:text-left">
             Ready to transform?{" "}
-            <Link href="/#contact" className="text-primary font-semibold hover:underline">
+            <Link href="/contact" className="text-primary font-semibold hover:underline">
               Book a free consultation
             </Link>
           </p>
           <Link
-            href="/#contact"
+            href="/contact"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold teal-gradient-btn group shrink-0"
           >
             Book a Free Consultation
