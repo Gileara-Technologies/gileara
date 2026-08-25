@@ -4,14 +4,14 @@ import Footer from "@/components/Footer";
 import ServicesPageClient from "./ServicesPageClient";
 
 export const metadata: Metadata = {
-  title: "Services | Gileara Technologies",
+  title: "Packages & Services | Gileara Technologies",
   description:
-    "Custom software development, e-commerce platforms, workflow automation, and technology strategy for startups and SMEs.",
+    "Five all-inclusive digital transformation packages for Ghanaian MSMEs — full tier pricing, feature matrices, and managed services included from day one.",
   alternates: { canonical: "/services" },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "Services | Gileara Technologies",
-    description: "Solutions built around your business — not off-the-shelf.",
+    title: "Packages & Services | Gileara Technologies",
+    description: "Five transformation packages with transparent USD tier pricing.",
     url: "/services",
     siteName: "Gileara Technologies",
     type: "website",
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Services | Gileara Technologies",
-    description: "Solutions built around your business.",
+    title: "Packages & Services | Gileara Technologies",
+    description: "Five transformation packages with transparent USD tier pricing.",
     images: ["/assets/gileara/og-services.svg"],
   },
 };
