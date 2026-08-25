@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import LegalNavbar from "@/components/legal/LegalNavbar";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -77,7 +77,7 @@ export default function SecurityPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <LegalNavbar page="security" />
+      <Navbar variant="legal" page="security" />
       <main className="pt-32 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6">
           <h1 className="text-4xl md:text-5xl font-bold mb-10 text-on-surface">Security Disclosure</h1>
@@ -105,3 +105,4 @@ export default function SecurityPage() {
     </>
   );
 }
+

@@ -1,4 +1,4 @@
-import CareersNavbar from "@/components/careers/CareersNavbar";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CareersHero from "@/components/careers/CareersHero";
 import OpenRoles from "@/components/careers/OpenRoles";
@@ -157,7 +157,7 @@ export default function CareersPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <CareersNavbar />
+      <Navbar variant="careers" />
       <main>
         <CareersHero />
         <OpenRoles />
@@ -168,3 +168,4 @@ export default function CareersPage() {
     </>
   );
 }
+
