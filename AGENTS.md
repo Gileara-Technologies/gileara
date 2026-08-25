@@ -27,7 +27,7 @@
 ## Architecture
 
 ### Routes (`src/app/`)
-- `/` — Section-scroll homepage: Navbar, Hero, CinematicStory, BentoGrid, Positioning, Approach, Founders, ContactCTA, Footer
+- `/` — Section-scroll homepage: Navbar, Hero, TrustStrip, CinematicStory (MSME pains → package links), Pricing (five packages rendered from `src/content/packages.ts`), Approach, Positioning ("Why Gileara"), Founders, ContactCTA, Footer; JSON-LD generated from the same content modules
 - `/about`, `/services`, `/faq` — Static marketing pages
 - `/careers` — Careers portal: CareersNavbar, CareersHero, WhyJoinUs, OpenRoles, ApplicationForm
 - `/case-studies` (+ `/case-studies/[slug]`) — List and detail pages from static data in `src/app/case-studies/data.ts`
@@ -46,7 +46,7 @@ Security headers (HSTS, nosniff, DENY framing, referrer policy) are applied via 
 ### Key conventions
 - **Path alias**: `@/*` maps to `./src/*`
 - **Client components**: Marked `"use client"` when using Framer Motion, React state, or browser APIs
-- **Theme**: `next-themes` with `attribute="class" defaultTheme="dark" enableSystem={false}` — default is always dark
+- **Theme**: `next-themes` with `attribute="class" defaultTheme="light" enableSystem={false}` — light is the default; the navbar `ThemeToggle` switches to dark (user choice persists via localStorage)
 - **CSS**: Tailwind utility classes + CSS custom properties in `globals.css` (light/dark `:root` / `.dark` blocks)
 - **Tests live in `tests/`**, mirror `src/` layout, use the `@/` alias; no DOM environment needed yet
 
