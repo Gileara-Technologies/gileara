@@ -2,15 +2,17 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FaqClient from "./FaqClient";
+import { faqs } from "@/content/faqs";
 
 export const metadata: Metadata = {
   title: "FAQ | Gileara Technologies",
-  description: "Frequently asked questions about Gileara's services, process, pricing, and how we work with startups and SMEs.",
+  description:
+    "Pricing, MTN MoMo billing, managed services, contracts and data ownership, spreadsheet migration — straight answers about Gileara's transformation packages.",
   alternates: { canonical: "/faq" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "FAQ | Gileara Technologies",
-    description: "Common questions about working with Gileara.",
+    description: "Straight answers about working with Gileara.",
     url: "/faq",
     siteName: "Gileara Technologies",
     type: "website",
@@ -19,14 +21,29 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "FAQ | Gileara Technologies",
-    description: "Common questions about working with Gileara.",
+    description: "Straight answers about working with Gileara.",
     images: ["/assets/gileara/og-faq.svg"],
   },
+};
+
+// Schema generated from the same module the accordion renders — always in sync.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
 };
 
 export default function FaqPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <Navbar />
       <main>
         <FaqClient />
