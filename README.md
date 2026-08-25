@@ -141,12 +141,16 @@ The dedicated careers portal `/careers` uses a specialized navigation flow:
 
 ## Deployment
 
+Production deploys automatically: Cloudflare's git integration builds and ships every merge into `main`. The usual flow is feature branch → PR → `dev`, then PR `dev` → `main` to release.
+
+Manual fallback (requires local Cloudflare auth):
+
 ```bash
 # Deploy to Cloudflare Workers
 npm run deploy:worker
 ```
 
-Uses the `open-next.config.ts` config and requires `wrangler.toml` with the appropriate variables set. For detailed deployment instructions, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Uses the `open-next.config.ts` config and requires `wrangler.toml` with the appropriate variables set. For detailed deployment instructions — including live URLs and the middleware constraint — see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## GitHub Workflows
 

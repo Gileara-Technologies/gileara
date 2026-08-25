@@ -68,6 +68,10 @@ MAINTENANCE_BYPASS_SECRET= # enables the ?__mbp= bypass cookie exchange
 
 > `.env*.local` is gitignored. The Google private key is stored directly in `wrangler.toml` `[vars]` (single-quoted TOML literal string to preserve `\n` literals). Do **not** commit service account key files (`giltech-keys.json` is gitignored).
 
+## Deployment
+
+Cloudflare's git integration auto-deploys **every merge into `main`** (worker `v1`: https://v1.gileara.workers.dev, also served at https://gileara.org). Branch flow: feature branch → PR → `dev`; shipping = PR `dev` → `main`. Manual `npm run deploy:worker` needs local Cloudflare auth and is a fallback only. A proxy/middleware file in the tree breaks the Cloudflare build — see the note in `docs/DEPLOYMENT.md` and `src/lib/request-proxy.ts`.
+
 ## Notable
 
 - **Tests cover** the request proxy (headers, maintenance modes, bypass flow), all three API routes' validation/error branches, and the maintenance-routes list shape. Component rendering is not tested yet.
