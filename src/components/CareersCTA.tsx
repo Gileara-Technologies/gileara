@@ -3,25 +3,8 @@
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
-import UnderMaintenance from "./UnderMaintenance";
 
 export default function CareersCTA() {
-  const isMaintenance = false;
-
-  if (isMaintenance) {
-    return (
-      <section className="py-24 bg-surface-container px-4 md:px-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Careers</span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 mb-6 text-primary dark:text-on-background">
-            Join Our Team
-          </h2>
-          <UnderMaintenance fullPage={false} />
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section className="py-24 bg-surface-container px-4 md:px-10">
       <div className="max-w-4xl mx-auto text-center">

@@ -1,11 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import UnderMaintenance from "./UnderMaintenance";
 
 export default function Approach() {
-  const isMaintenance = false;
-
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -44,26 +41,12 @@ export default function Approach() {
     }
   ];
 
-  if (isMaintenance) {
-    return (
-      <section id="approach" className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-4 md:px-10">
-          <div className="mb-20 text-center">
-            <span className="font-mono text-xs text-secondary uppercase tracking-widest">Our Process</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary">How We Work With You</h2>
-          </div>
-          <UnderMaintenance fullPage={false} />
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section id="approach" className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 md:px-10">
         <div className="mb-20 text-center">
-          <span className="font-mono text-xs text-secondary uppercase tracking-widest">Our Process</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary">How We Work With You</h2>
+          <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Our Process</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background">How We Work With You</h2>
         </div>
 
         <motion.div
@@ -82,7 +65,7 @@ export default function Approach() {
               <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-secondary text-3xl">{step.icon}</span>
               </div>
-              <h4 className="font-display text-xl font-bold mb-2 text-primary">{step.title}</h4>
+              <h4 className="font-display text-xl font-bold mb-2 text-primary dark:text-on-background">{step.title}</h4>
               <p className="text-on-surface-variant text-sm">{step.desc}</p>
             </motion.div>
           ))}
