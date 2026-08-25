@@ -34,7 +34,7 @@ export default function CareersHero() {
         >
           <h2 className="font-display text-2xl font-bold text-primary mb-4">Who We Are</h2>
           <p className="text-on-surface-variant leading-relaxed">
-            Gileara Technologies is built on a foundation of innovation, collaboration, and continuous learning. We don't just write code; we design robust systems that power modern businesses. Our culture values excellence, creative problem-solving, and the drive to tackle complex technical challenges in a supportive environment.
+            Gileara Technologies is built on a foundation of innovation, collaboration, and continuous learning. We don&apos;t just write code; we design robust systems that power modern businesses. Our culture values excellence, creative problem-solving, and the drive to tackle complex technical challenges in a supportive environment.
           </p>
         </motion.div>
       </div>

@@ -218,7 +218,7 @@ export default function TermsPage() {
               </h1>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-on-surface-variant">
                 These terms explain how visitors, prospects, clients, and partners may use
-                Gileara's website, public materials, and brand resources.
+                Gileara&apos;s website, public materials, and brand resources.
               </p>
               <div className="mt-8 flex flex-wrap gap-3 text-sm text-on-surface-variant">
                 <span className="rounded-full border border-outline-variant/30 bg-surface-container px-4 py-2">

@@ -73,7 +73,7 @@ export default function BentoGrid() {
           <div className="max-w-2xl">
             <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">What We Do</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background leading-tight">Solutions Built Around Your Business</h2>
-            <p className="mt-6 text-on-surface-variant text-lg">We don't sell software packages. We build what your business actually needs.</p>
+            <p className="mt-6 text-on-surface-variant text-lg">We don&apos;t sell software packages. We build what your business actually needs.</p>
           </div>
         </div>
 

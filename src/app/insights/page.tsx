@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InsightsListClient from "./InsightsListClient";
@@ -76,7 +75,7 @@ const jsonLd = {
         { "@type": "ListItem", position: 2, name: "Insights", item: "https://gileara.org/insights" },
       ],
     },
-    ...posts.map((p, i) => ({
+    ...posts.map((p) => ({
       "@type": "BlogPosting",
       "@id": `https://gileara.org/insights/${p.slug}/#post`,
       headline: p.title,

@@ -52,8 +52,8 @@ export default function ContactStepper() {
       } else {
         throw new Error(result.message || 'Something went wrong');
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
       setIsSubmitting(false);
     }
@@ -176,7 +176,7 @@ export default function ContactStepper() {
             </div>
             <h3 className="text-3xl font-bold text-on-surface">Objective Locked.</h3>
             <p className="text-on-surface-variant text-lg">
-              Your consultation request has been received. We'll review the technical profile and confirm the meeting in your calendar within 24 hours.
+              Your consultation request has been received. We&apos;ll review the technical profile and confirm the meeting in your calendar within 24 hours.
             </p>
             <button
               onClick={() => setStep('details')}
