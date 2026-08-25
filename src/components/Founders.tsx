@@ -9,18 +9,21 @@ export default function Founders() {
     {
       name: "Julian Hagan",
       role: "Co-Founder & COO",
+      cred: "Runs delivery and client operations.",
       image: "/assets/images/julian_hagan.jpg",
       linkedin: "https://www.linkedin.com/in/julian-hagan/"
     },
     {
       name: "Amos Frederick Hughes",
       role: "Founder & CEO",
+      cred: "Leads strategy and client success.",
       image: "/assets/images/amos.jpg",
       linkedin: "https://linkedin.com/in/amos-frederick-hughes-01570b22a"
     },
     {
       name: "Rodney Hagan",
       role: "Co-Founder & CTO",
+      cred: "Leads platform engineering — MoMo and WhatsApp integrations.",
       image: "/assets/images/rodney_hagan.jpg",
       linkedin: "https://www.linkedin.com/in/haganrodney/"
     }
@@ -46,9 +49,9 @@ export default function Founders() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
                 />
-                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300">
                   <a
-                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200"
+                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200 focus-visible:ring-2 focus-visible:ring-secondary dark:focus-visible:ring-primary focus-visible:outline-none"
                     href={founder.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -60,6 +63,7 @@ export default function Founders() {
               </div>
               <h3 className="font-display text-2xl font-semibold text-on-surface">{founder.name}</h3>
               <p className="text-primary font-semibold font-mono text-xs uppercase tracking-wider mt-2">{founder.role}</p>
+              <p className="text-on-surface-variant text-sm mt-2">{founder.cred}</p>
             </div>
           ))}
         </div>

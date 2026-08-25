@@ -20,24 +20,24 @@ export default function Approach() {
 
   const steps = [
     {
-      title: "Discovery",
-      desc: "Deep dive into goals and bottlenecks.",
-      icon: "search_insights"
+      title: "Diagnose",
+      desc: "We map how your business actually works — sales, stock, customers, cashflow.",
+      icon: "troubleshoot"
     },
     {
-      title: "Strategy",
-      desc: "Map exact solution and scope.",
-      icon: "architecture"
+      title: "Implement",
+      desc: "We configure and build your package around your operations, not the other way round.",
+      icon: "construction"
     },
     {
-      title: "Build",
-      desc: "Iterative, transparent delivery phases.",
-      icon: "handyman"
+      title: "Run",
+      desc: "Managed from day one: IT support, backups, security monitoring and SLA-backed response.",
+      icon: "support_agent"
     },
     {
-      title: "Deploy",
-      desc: "Launch and ongoing support.",
-      icon: "rocket_launch"
+      title: "Grow",
+      desc: "Quarterly reviews and package upgrades as your business scales to the next stage.",
+      icon: "trending_up"
     }
   ];
 
@@ -65,11 +65,22 @@ export default function Approach() {
               <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-secondary text-3xl">{step.icon}</span>
               </div>
-              <h4 className="font-display text-xl font-bold mb-2 text-primary dark:text-on-background">{step.title}</h4>
+              <h3 className="font-display text-xl font-bold mb-2 text-primary dark:text-on-background">{step.title}</h3>
               <p className="text-on-surface-variant text-sm">{step.desc}</p>
             </motion.div>
           ))}
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-14 max-w-3xl mx-auto text-center rounded-xl border border-secondary/25 dark:border-primary/20 bg-surface dark:bg-surface-container-high px-6 py-5 text-sm md:text-base text-on-surface-variant"
+        >
+          <span className="font-semibold text-primary dark:text-on-background">Every package includes managed services from day one</span> — IT
+          support, software updates, backups, security monitoring (tier-based) and SLA support. No hidden costs.
+        </motion.p>
       </div>
     </section>
   );

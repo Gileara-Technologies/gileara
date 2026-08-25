@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaLinkedin, FaEnvelope, FaHeart, FaArrowRight } from "react-icons/fa6";
+import { siteConfig } from "@/content/site-config";
 
 export default function Footer() {
   return (
@@ -60,6 +61,7 @@ export default function Footer() {
               <div>
                 <h3 className="font-display text-lg font-semibold mb-5 text-on-surface tracking-tight">Navigation</h3>
                 <ul className="space-y-3 text-base text-on-surface-variant">
+                  <li><Link href="/#packages" className="hover:text-primary transition-colors">Packages</Link></li>
                   <li><Link href="/services" className="hover:text-primary transition-colors">Services</Link></li>
                   <li><Link href="/case-studies" className="hover:text-primary transition-colors">Case Studies</Link></li>
                   <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
@@ -85,7 +87,7 @@ export default function Footer() {
             {/* Left: Tagline & Socials */}
             <div>
               <p className="text-on-surface-variant text-base leading-relaxed mb-6 max-w-md">
-                Technology partners for growth. Precision innovation for enterprise and startup scaling.
+                {siteConfig.positioningLine}
               </p>
               <div className="flex gap-4">
                 <a
@@ -108,30 +110,35 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Right: Consultancy Box */}
+            {/* Right: Status Box */}
             <div className="w-full lg:w-80 shrink-0">
               <div className="bg-surface dark:bg-surface-container-high p-6 rounded-xl border border-outline-variant/30 dark:border-outline-variant/10">
                 <span className="flex items-center gap-2 text-primary font-medium mb-3 text-sm">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                  Consultancy Active
+                  <span className="w-2 h-2 rounded-full bg-secondary dark:bg-primary animate-pulse"></span>
+                  Now accepting new clients
                 </span>
-                <p className="text-on-surface-variant text-base leading-relaxed">Precision Innovation for Enterprise Growth.</p>
+                <p className="text-on-surface-variant text-base leading-relaxed">
+                  Book a free discovery call — we&apos;ll recommend the right package for your business.
+                </p>
+                <p className="text-on-surface-variant text-sm mt-4">
+                  {siteConfig.location} · {siteConfig.timezone}
+                </p>
               </div>
             </div>
           </div>
         </div>
         <div className="py-8 border-t border-outline-variant/30 dark:border-outline-variant/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-on-surface-variant text-center sm:text-left">
-            Ready to scale?{" "}
+            Ready to transform?{" "}
             <Link href="/#contact" className="text-primary font-semibold hover:underline">
-              Start a conversation
+              Book a free consultation
             </Link>
           </p>
           <Link
             href="/#contact"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold teal-gradient-btn group shrink-0"
           >
-            Get Started
+            Book a Free Consultation
             <FaArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
           </Link>
         </div>

@@ -34,7 +34,7 @@ export default function Hero() {
             className="space-y-8"
           >
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono font-medium tracking-wide uppercase">
-              TECHNOLOGY PARTNERS FOR GROWTH
+              DIGITAL TRANSFORMATION FOR GHANAIAN MSMEs
             </div>
 
             <motion.h1
@@ -52,7 +52,7 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="font-sans text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed"
             >
-              From custom software to digital strategy — we design and build technology solutions that help startups and growing businesses operate smarter, move faster, and scale with confidence.
+              All-inclusive monthly packages that replace spreadsheets and manual work with systems built for Ghana — WhatsApp-ready, MTN MoMo-ready, managed from day one.
             </motion.p>
 
             <motion.div
@@ -61,12 +61,12 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 pt-4 justify-center"
             >
-              <Link href="/services" className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group">
-                See Our Services
+              <Link href="/#packages" className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group">
+                Explore Packages
                 <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
-              <Link href="/about" className="border border-outline-variant px-8 py-4 rounded-lg text-center font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors inline-flex items-center justify-center gap-2 group">
-                Meet the Team
+              <Link href="/#contact" className="border border-outline-variant px-8 py-4 rounded-lg text-center font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors inline-flex items-center justify-center gap-2 group">
+                Book a Free Consultation
                 <FaArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
               </Link>
             </motion.div>
@@ -78,16 +78,16 @@ export default function Hero() {
               className="pt-8 flex items-center justify-center gap-4 sm:gap-8 md:gap-16 text-on-surface-variant font-mono text-xs uppercase"
             >
               <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-bold text-primary font-display">3</span>
-                FOUNDERS
+                <span className="text-2xl md:text-3xl font-bold text-primary font-display">5</span>
+                TRANSFORMATION PACKAGES
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-2xl md:text-3xl font-bold text-primary font-display">Day 1</span>
+                MANAGED SERVICES INCLUDED
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-2xl md:text-3xl font-bold text-primary font-display">GH</span>
-                NATIONWIDE
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-bold text-primary font-display">PRO</span>
-                BUILT FOR BUSINESS
+                BUILT FOR MSMEs
               </div>
             </motion.div>
           </motion.div>
