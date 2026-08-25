@@ -27,9 +27,10 @@
 ## Architecture
 
 ### Routes (`src/app/`)
-- `/` — Section-scroll homepage: Navbar, Hero, TrustStrip, CinematicStory (MSME pains → package links), Pricing (five packages rendered from `src/content/packages.ts`), Approach, Positioning ("Why Gileara"), Founders, ContactCTA, Footer; JSON-LD generated from the same content modules
-- `/about`, `/services`, `/faq` — Static marketing pages
-- `/careers` — Careers portal: CareersNavbar, CareersHero, WhyJoinUs, OpenRoles, ApplicationForm
+- `/` — Section-scroll homepage: Navbar, Hero, TrustStrip, CinematicStory (MSME pains → package links), Pricing (five packages rendered from `src/content/packages.ts`), Approach, Positioning ("Why Gileara"), Founders, ContactCTA (slim band → `/contact`), Footer; JSON-LD generated from the same content modules
+- `/about`, `/services`, `/faq` — Static marketing pages; `/services` renders all five packages with full tier tables from `src/content/packages.ts` (anchored sections per package); `/faq` renders `src/content/faqs.ts` + matching FAQPage JSON-LD
+- `/contact` — Dedicated booking page hosting the ContactStepper; canonical target for every "Book a Free Consultation" CTA
+- `/careers` — Careers portal: `Navbar variant="careers"`, CareersHero, WhyJoinUs, OpenRoles, ApplicationForm
 - `/case-studies` (+ `/case-studies/[slug]`) — List and detail pages from static data in `src/app/case-studies/data.ts`
 - `/insights` (+ `/insights/[slug]`) — Articles list and detail pages
 - `/privacy`, `/terms`, `/security` — Static legal pages (Navbar + Footer layout)
