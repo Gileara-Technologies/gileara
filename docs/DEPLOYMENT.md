@@ -2,18 +2,30 @@
 
 Deployed to **Cloudflare Workers** via [OpenNext](https://opennext.js.org).
 
+Production is deployed automatically by Cloudflare's git integration — **merging to `main` ships to production**. Manual `wrangler` commands are a fallback, not the normal path.
+
 ---
 
-## Prerequisites
+## How deploys happen
+
+1. Work lands on a feature branch and is merged into `dev` via PR
+2. When ready to ship, open a PR from `dev` → `main`
+3. Merging that PR triggers Cloudflare's build of `main` (OpenNext) and deploys the worker
+
+- **Worker**: `v1` (see `name` in `wrangler.toml`)
+- **Live URLs**: <https://v1.gileara.workers.dev> · <https://gileara.org>
+- A failed build on `main` means production did not update — fix and re-merge
+
+## Prerequisites (manual deploys only)
 
 - Node.js 20+
 - A Cloudflare account with Workers enabled
-- `wrangler.toml` configured (see below)
+- Authenticated `wrangler` (`npx wrangler login`, or set `CLOUDFLARE_API_TOKEN` in non-interactive environments)
 
 ## wrangler.toml
 
 ```toml
-name = "gileara-homepage"
+name = "v1"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 main = ".open-next/worker.js"
@@ -34,7 +46,9 @@ GOOGLE_PRIVATE_KEY='-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\
 
 > **Important**: The `GOOGLE_PRIVATE_KEY` must be a single-quoted TOML literal string with literal `\n` sequences (not actual newlines). This preserves the PEM format for the Workers runtime.
 
-## Deploy Commands
+> **Note**: The config defines both a top-level environment and `[env.production]`. When deploying manually, target one explicitly (`npm run deploy:worker` uses top-level; pass `-e production` for the named environment) — otherwise Wrangler warns about ambiguity.
+
+## Deploy Commands (fallback)
 
 ```bash
 # Full build + deploy
@@ -47,12 +61,15 @@ npm run preview
 npm run build:cf
 ```
 
+These require local Cloudflare auth and duplicate what the git integration does on `main`. Prefer merging to ship.
+
 ## CI/CD
 
 GitHub Actions workflows are in `.github/workflows/`:
 
-- **smart-tests.yml** — Runs `npm run build` on PRs, automatically selecting relevant test suites based on changed files
+- **smart-tests.yml** — On PRs: unit tests (`npm test`), lint (`npm run lint`), and build (`npm run build`)
 - **ai-review.yml** — Automated code review via Claude API on PRs (requires `ANTHROPIC_API_KEY` secret)
+- **issue-triage.yml / stale.yml / branch-cleanup.yml / auto-rebase.yml** — Repo maintenance automation
 
 ## OpenNext Config
 
@@ -74,6 +91,10 @@ export default defineCloudflareConfig({
 });
 ```
 
+## Known constraint: no middleware
+
+Next 16 compiles `middleware.ts`/`proxy.ts` files to **Node.js middleware**, which `@opennextjs/cloudflare` cannot bundle yet ("Node.js middleware is not currently supported") — a proxy file in the tree breaks every deploy, including the git integration. Security headers therefore live in `next.config.mjs` `headers()`, and the request-routing logic (maintenance modes) is parked as a plain module at `src/lib/request-proxy.ts` until the adapter gains support.
+
 ## Environment Variables
 
 | Variable | Source | Required |
@@ -83,4 +104,4 @@ export default defineCloudflareConfig({
 | `GOOGLE_CALENDAR_ID` | Google Calendar settings → Integrate calendar | Yes |
 | `CONTACT_EMAIL` | Email address for contact form notifications | Yes |
 
-For local development, copy `.env.example` → `.env.local`. For Cloudflare, set in `wrangler.toml` `[vars]` (and `[env.production.vars]` for production environment).
+For local development, copy `.env.example` → `.env.local`. For Cloudflare, set in `wrangler.toml` `[vars]` (and `[env.production.vars]` for the production environment).
