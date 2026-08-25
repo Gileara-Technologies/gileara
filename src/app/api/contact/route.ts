@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     
     // For simplicity with vanilla HTML form submission:
     return NextResponse.redirect(new URL('/?success=true#contact', request.url));
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });
   }
 }

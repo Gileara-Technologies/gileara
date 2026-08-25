@@ -21,11 +21,11 @@ jobs:
           suites="[]"
 
           if echo "$changed" | grep -q "^src/app/"; then
-            suites=$(echo $suites | jq '. + ["frontend"]')
+            suites=$(echo "$suites" | jq -c '. + ["frontend"]')
           fi
 
           if echo "$changed" | grep -q "^src/components/"; then
-            suites=$(echo $suites | jq '. + ["components"]')
+            suites=$(echo "$suites" | jq -c '. + ["components"]')
           fi
 
           if [ "$suites" = "[]" ]; then
@@ -52,6 +52,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
 
       - name: Build project
         run: npm run build

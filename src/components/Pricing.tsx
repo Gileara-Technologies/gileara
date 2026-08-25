@@ -47,7 +47,7 @@ export default function Pricing() {
         >
           <h3 className="text-primary font-bold uppercase tracking-[0.3em] text-xs mb-4">Positioning</h3>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-on-surface">Why Gileara?</h2>
-          <p className="text-on-surface-variant text-lg max-w-2xl mx-auto">We don't just build apps. We build the technical foundation that allows your business to grow without friction.</p>
+          <p className="text-on-surface-variant text-lg max-w-2xl mx-auto">We don&apos;t just build apps. We build the technical foundation that allows your business to grow without friction.</p>
         </motion.div>
 
         <motion.div

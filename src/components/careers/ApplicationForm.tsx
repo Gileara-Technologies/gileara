@@ -219,7 +219,7 @@ export default function ApplicationForm() {
         setStatus("error");
         setServerMessage(data.error || "Something went wrong. Please try again.");
       }
-    } catch (err) {
+    } catch {
       setStatus("error");
       setServerMessage("A network error occurred. Please try again later.");
     }

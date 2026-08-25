@@ -171,17 +171,31 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Legal Terms | Gileara Technologies",
-    description: metadata.description,
-    url: "https://gileara.org/terms",
-    dateModified: "2026-06-12",
-    publisher: {
-      "@type": "Organization",
-      name: "Gileara Technologies",
-      url: "https://gileara.org",
-      logo: "https://gileara.org/assets/gileara/logo-icon.png",
-    },
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://gileara.org/terms/#webpage",
+        name: "Legal Terms | Gileara Technologies",
+        description: metadata.description,
+        url: "https://gileara.org/terms",
+        dateModified: "2026-06-12",
+        publisher: {
+          "@type": "Organization",
+          name: "Gileara Technologies",
+          url: "https://gileara.org",
+          logo: "https://gileara.org/assets/gileara/logo-icon.png",
+        },
+        breadcrumb: { "@id": "https://gileara.org/terms/#breadcrumb" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://gileara.org/terms/#breadcrumb",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
+          { "@type": "ListItem", position: 2, name: "Legal Terms", item: "https://gileara.org/terms" },
+        ],
+      },
+    ],
   };
 
   return (
@@ -204,7 +218,7 @@ export default function TermsPage() {
               </h1>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-on-surface-variant">
                 These terms explain how visitors, prospects, clients, and partners may use
-                Gileara's website, public materials, and brand resources.
+                Gileara&apos;s website, public materials, and brand resources.
               </p>
               <div className="mt-8 flex flex-wrap gap-3 text-sm text-on-surface-variant">
                 <span className="rounded-full border border-outline-variant/30 bg-surface-container px-4 py-2">

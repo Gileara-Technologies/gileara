@@ -11,6 +11,15 @@ function isRouteUnderMaintenance(pathname: string): boolean {
   return false;
 }
 
+function addSecurityHeaders(response: NextResponse) {
+  response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  return response;
+}
+
 function rewriteToMaintenance(request: NextRequest) {
   const response = NextResponse.rewrite(new URL("/maintenance", request.url));
   response.headers.set("X-Robots-Tag", "noindex");
@@ -24,7 +33,7 @@ function apiUnavailable() {
   );
 }
 
-export function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const fullSiteMode = process.env.MAINTENANCE_MODE;
   const bypassSecret = process.env.MAINTENANCE_BYPASS_SECRET;
   const { pathname, searchParams } = request.nextUrl;
@@ -36,12 +45,12 @@ export function middleware(request: NextRequest) {
     "/site.webmanifest",
   ];
   if (exemptPaths.some((p) => pathname === p || pathname.startsWith(p))) {
-    return NextResponse.next();
+    return addSecurityHeaders(NextResponse.next());
   }
 
   if (bypassSecret) {
     if (request.cookies.get("__maintenance_bypass")?.value === bypassSecret) {
-      return NextResponse.next();
+      return addSecurityHeaders(NextResponse.next());
     }
 
     if (searchParams.get("__mbp") === bypassSecret) {
@@ -53,7 +62,7 @@ export function middleware(request: NextRequest) {
         sameSite: "strict",
         maxAge: 86400,
       });
-      return response;
+      return addSecurityHeaders(response);
     }
   }
 
@@ -71,7 +80,7 @@ export function middleware(request: NextRequest) {
     return rewriteToMaintenance(request);
   }
 
-  return NextResponse.next();
+  return addSecurityHeaders(NextResponse.next());
 }
 
 export const config = {

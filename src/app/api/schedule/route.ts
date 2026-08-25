@@ -65,7 +65,7 @@ async function getAccessToken(clientEmail: string, keyData: ArrayBuffer) {
     }).toString(),
   });
 
-  const data: any = await res.json();
+  const data = (await res.json()) as { access_token?: string };
   if (!data.access_token) throw new Error(`OAuth2 error: ${JSON.stringify(data)}`);
   return data.access_token;
 }
@@ -84,7 +84,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const body: any = await request.json();
+    const body = (await request.json()) as Record<string, string>;
     const { name, email, goal, message, date, time } = body;
 
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
@@ -125,7 +125,7 @@ export async function POST(request: Request) {
     );
 
     if (!calRes.ok) {
-      const err: any = await calRes.json();
+      const err: unknown = await calRes.json();
       throw new Error(`Calendar API error: ${JSON.stringify(err)}`);
     }
 
@@ -133,10 +133,11 @@ export async function POST(request: Request) {
       JSON.stringify({ success: true }),
       { headers: { 'content-type': 'application/json' } },
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Schedule error:', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
     return new Response(
-      JSON.stringify({ success: false, message: error.message }),
+      JSON.stringify({ success: false, message }),
       { status: 500, headers: { 'content-type': 'application/json' } },
     );
   }

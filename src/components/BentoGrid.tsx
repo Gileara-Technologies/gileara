@@ -73,7 +73,7 @@ export default function BentoGrid() {
           <div className="max-w-2xl">
             <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">What We Do</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background leading-tight">Solutions Built Around Your Business</h2>
-            <p className="mt-6 text-on-surface-variant text-lg">We don't sell software packages. We build what your business actually needs.</p>
+            <p className="mt-6 text-on-surface-variant text-lg">We don&apos;t sell software packages. We build what your business actually needs.</p>
           </div>
         </div>
 
@@ -94,6 +94,10 @@ export default function BentoGrid() {
                 alt={service.title}
                 className="w-full h-40 md:h-48 lg:h-56 object-cover rounded-xl mb-6 opacity-90 group-hover:opacity-100 transition-opacity"
                 src={service.image}
+                width="1200"
+                height="675"
+                loading="lazy"
+                decoding="async"
               />
               <div className="px-6 pb-6">
                 <div className="flex items-center gap-3 mb-4">
@@ -103,12 +107,28 @@ export default function BentoGrid() {
                 <p className="text-on-surface-variant mb-6 text-sm">
                   {service.desc}
                 </p>
-                <Link href="#contact" className="flex items-center gap-2 text-secondary dark:text-primary font-semibold hover:gap-4 transition-all group">
+                <Link href="/#contact" className="flex items-center gap-2 text-secondary dark:text-primary font-semibold hover:gap-4 transition-all group">
                   Discuss Project <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                 </Link>
               </div>
             </motion.div>
           ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="flex justify-center mt-12"
+        >
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-bold teal-gradient-btn group"
+          >
+            View All Services
+            <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+          </Link>
         </motion.div>
       </div>
     </section>

@@ -2,6 +2,7 @@
 
 import ContactStepper from "@/components/scheduling/ContactStepper";
 import { FaEnvelope } from "react-icons/fa6";
+import Link from "next/link";
 import UnderMaintenance from "./UnderMaintenance";
 
 export default function ContactCTA() {
@@ -13,7 +14,7 @@ export default function ContactCTA() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-center">
             <span className="font-mono text-xs text-secondary uppercase tracking-widest">Discovery</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary leading-tight">Let's Talk About Your Project</h2>
+            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary leading-tight">Let&apos;s Talk About Your Project</h2>
           </div>
           <UnderMaintenance fullPage={false} />
         </div>
@@ -27,8 +28,8 @@ export default function ContactCTA() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <div>
             <span className="font-mono text-xs text-secondary uppercase tracking-widest">Discovery</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary leading-tight">Let's Talk About Your Project</h2>
-            <p className="mt-6 text-on-surface-variant text-lg mb-12">Whether you have a fully scoped project or just a problem that needs solving, we're here to help.</p>
+            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary leading-tight">Let&apos;s Talk About Your Project</h2>
+            <p className="mt-6 text-on-surface-variant text-lg mb-12">Whether you have a fully scoped project or just a problem that needs solving, we&apos;re here to help.</p>
             <div className="space-y-6">
               <div className="flex items-start gap-4 p-6 bg-surface-container rounded-xl border border-outline-variant/10 hover:border-primary/30 transition-colors group">
                 <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors"><FaEnvelope className="w-5 h-5 text-primary" /></div>
@@ -36,6 +37,19 @@ export default function ContactCTA() {
                   <p className="font-mono text-xs text-outline uppercase tracking-wider">Send an Email</p>
                   <a className="text-xl font-semibold text-on-surface hover:text-primary transition-colors" href="mailto:tech.gileara@gmail.com">tech.gileara@gmail.com</a>
                 </div>
+              </div>
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-on-surface-variant">
+                <Link href="/privacy" className="hover:text-primary transition-colors">
+                  Privacy Policy
+                </Link>
+                <span className="text-outline-variant hidden sm:inline">·</span>
+                <Link href="/security" className="hover:text-primary transition-colors">
+                  Security Disclosure
+                </Link>
+                <span className="text-outline-variant hidden sm:inline">·</span>
+                <Link href="/terms" className="hover:text-primary transition-colors">
+                  Legal Terms
+                </Link>
               </div>
             </div>
           </div>

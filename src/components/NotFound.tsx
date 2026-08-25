@@ -102,7 +102,7 @@ export default function NotFound() {
             variants={itemVariants}
             className="font-sans text-lg md:text-xl text-on-surface-variant max-w-xl mx-auto leading-relaxed"
           >
-            The page you're looking for doesn't exist, may have been moved, or the URL may be incorrect. Let's get you back on track.
+            The page you&apos;re looking for doesn&apos;t exist, may have been moved, or the URL may be incorrect. Let&apos;s get you back on track.
           </motion.p>
 
           {/* Action Buttons */}

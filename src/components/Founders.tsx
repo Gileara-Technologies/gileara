@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { FaLinkedin } from "react-icons/fa6";
+import Link from "next/link";
+import { FaLinkedin, FaArrowRight } from "react-icons/fa6";
 import UnderMaintenance from "./UnderMaintenance";
 
 export default function Founders() {
@@ -78,6 +79,16 @@ export default function Founders() {
               <p className="text-primary font-semibold font-mono text-xs uppercase tracking-wider mt-2">{founder.role}</p>
             </div>
           ))}
+        </div>
+
+        <div className="flex justify-center mt-16">
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-bold teal-gradient-btn group"
+          >
+            Meet the Full Team
+            <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+          </Link>
         </div>
       </div>
     </section>
