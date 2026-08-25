@@ -8,11 +8,22 @@ The format adheres to [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), 
 
 ## Unreleased
 
-- Add test framework (currently none exists)
-- Add ESLint configuration
-- Resolve Lighthouse performance issues (LCP: 34.9s, TBT: 6.5s)
-- Fix broken image references to local Gemini-generated assets
-- Remove duplicate `src/BentoGrid.tsx` (component import uses `src/components/BentoGrid.tsx`)
+### Added
+
+- **Test infrastructure** — Vitest suite (`npm test`, 22 tests) covering the request proxy (security headers, full-site and per-route maintenance modes, bypass cookie exchange), all three API routes' validation and error branches, and the maintenance-routes list shape
+- **ESLint 9 flat config** (`eslint.config.mjs`) with `next/core-web-vitals` + `next/typescript`; `npm run lint` works again on Next 16 (`next lint` was removed upstream)
+- Unit tests and lint wired into the smart-tests CI workflow
+
+### Changed
+
+- **Migrated `middleware.ts` → `proxy.ts`** for the Next 16 proxy convention (removes the build deprecation warning); function renamed accordingly, behavior unchanged
+- `tsconfig.json` target raised `es5` → `es2022` (ES5 is deprecated in TypeScript 6)
+- Fixed all ESLint errors: escaped JSX apostrophes across 8 files, replaced `any` types in `/api/schedule` and ContactStepper with proper typing, rewrote ThemeToggle's mount check with `useSyncExternalStore` (no setState-in-effect), removed unused imports
+- Bumped version to `0.1.0`
+
+### Removed
+
+- Stray `.txt` scratch file from repo root
 
 ---
 
