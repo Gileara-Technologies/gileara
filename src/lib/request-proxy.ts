@@ -1,3 +1,14 @@
+// Request-level routing logic (security headers + maintenance mode).
+//
+// NOTE: parked as a plain module on purpose. Next 16's middleware/proxy file
+// convention runs on the Node.js runtime, which @opennextjs/cloudflare cannot
+// bundle yet ("Node.js middleware is not currently supported"). Security
+// headers are replicated in next.config.mjs `headers()` for now. To activate
+// maintenance mode once the adapter gains support, create src/proxy.ts:
+//
+//   export { default } from "@/lib/request-proxy";
+//   export { config } from "@/lib/request-proxy"; // needs config re-export
+//
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import maintenanceRoutes from "@/maintenance-routes";

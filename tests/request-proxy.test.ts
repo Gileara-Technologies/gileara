@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
-import proxy from "@/proxy";
+import proxy from "@/lib/request-proxy";
 
 vi.mock("@/maintenance-routes", () => ({
   default: ["/insights"],

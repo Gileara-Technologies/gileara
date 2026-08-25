@@ -17,7 +17,7 @@
 ## Medium Term
 
 - [x] **SEO improvements** — JSON-LD structured data, `src/app/sitemap.ts`, `robots.txt` shipped.
-- [x] **Maintenance mode** — Full-site + per-route takedowns via `src/proxy.ts`, with secret bypass cookie.
+- [x] **Maintenance mode (logic)** — Full-site + per-route takedowns implemented in `src/lib/request-proxy.ts`, unit-tested. **Dormant**: Next 16 middleware runs on the Node.js runtime which `@opennextjs/cloudflare` can't bundle yet — re-activate when the adapter ships support.
 - [ ] **Contact form submission** — Implement email notification for `/api/contact` (currently logs to console and redirects)
 - [ ] **Booking confirmation email** — Send email confirmation to user when a calendar event is created
 - [ ] **Booking availability UI** — Show real-time availability in the scheduling stepper (fetch from Google Calendar free/busy API)

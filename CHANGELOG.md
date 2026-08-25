@@ -16,7 +16,8 @@ The format adheres to [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), 
 
 ### Changed
 
-- **Migrated `middleware.ts` → `proxy.ts`** for the Next 16 proxy convention (removes the build deprecation warning); function renamed accordingly, behavior unchanged
+- **Security headers moved to `next.config.mjs`** — Next 16's middleware/proxy file convention compiles to Node.js middleware, which `@opennextjs/cloudflare` cannot bundle ("Node.js middleware is not currently supported"); this made `deploy:worker` fail and had silently broken production deploys. The routing logic (maintenance modes + bypass cookie) survives as a fully unit-tested plain module at `src/lib/request-proxy.ts`, parked until the adapter gains support; re-activation instructions are in the file header
+- Upgraded `@opennextjs/cloudflare` 1.19.4 → 1.20.2
 - `tsconfig.json` target raised `es5` → `es2022` (ES5 is deprecated in TypeScript 6)
 - Fixed all ESLint errors: escaped JSX apostrophes across 8 files, replaced `any` types in `/api/schedule` and ContactStepper with proper typing, rewrote ThemeToggle's mount check with `useSyncExternalStore` (no setState-in-effect), removed unused imports
 - Bumped version to `0.1.0`

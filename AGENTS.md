@@ -39,11 +39,9 @@
 - `/api/schedule` — `POST` only, JSON body, creates Google Calendar event via service account (native `crypto.subtle` JWT); `GET` returns an env healthcheck
 - `/api/apply` — `POST` only, careers application `formData` with resume upload validation (5MB limit)
 
-### Request proxy (`src/proxy.ts`)
-Formerly `middleware.ts` (renamed for the Next 16 proxy convention). Applies security headers (HSTS, nosniff, DENY framing, referrer policy) to every matched request, enforces maintenance mode two ways:
-- `MAINTENANCE_MODE` env var — rewrites all pages to `/maintenance`, returns 503 for APIs
-- `maintenance-routes.ts` array — per-route takedowns (uncomment a route to take it down)
-Bypass: set `MAINTENANCE_BYPASS_SECRET`; visiting any URL with `?__mbp=<secret>` sets an httpOnly cookie valid for 24h.
+### Request routing (`src/lib/request-proxy.ts`)
+Security headers (HSTS, nosniff, DENY framing, referrer policy) are applied via `next.config.mjs` `headers()` — **not** middleware. Next 16's middleware/proxy convention runs on the Node.js runtime, which `@opennextjs/cloudflare` cannot bundle yet, so the request proxy is parked as a plain (fully unit-tested) module.
+- Maintenance mode (`MAINTENANCE_MODE` env var for full-site takedown, per-route takedowns via `maintenance-routes.ts`, secret bypass cookie) is implemented in that module but **dormant** until the adapter supports Node middleware — re-activate with a thin `src/proxy.ts` re-export (instructions at the top of the file).
 
 ### Key conventions
 - **Path alias**: `@/*` maps to `./src/*`
