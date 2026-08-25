@@ -3,11 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaLinkedin, FaArrowRight } from "react-icons/fa6";
-import UnderMaintenance from "./UnderMaintenance";
 
 export default function Founders() {
-  const isMaintenance = false;
-
   const founders = [
     {
       name: "Julian Hagan",
@@ -29,26 +26,12 @@ export default function Founders() {
     }
   ];
 
-  if (isMaintenance) {
-    return (
-      <section id="founders" className="py-24 bg-surface-container px-4 md:px-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12">
-            <span className="font-mono text-xs text-secondary uppercase tracking-widest">Leadership</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary">The Team Behind the Systems</h2>
-          </div>
-          <UnderMaintenance fullPage={false} />
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section id="founders" className="py-24 bg-surface-container px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
-          <span className="font-mono text-xs text-secondary uppercase tracking-widest">Leadership</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary">The Team Behind the Systems</h2>
+          <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Leadership</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background">The Team Behind the Systems</h2>
           <p className="mt-6 text-on-surface-variant text-lg max-w-2xl">When you work with Gileara, you work directly with the founders.</p>
         </div>
 
