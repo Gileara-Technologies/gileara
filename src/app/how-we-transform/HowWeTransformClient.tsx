@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import Tilt3D from "@/components/Tilt3D";
 
 import { scenarios, SCENARIO_STATUS_LEGEND, scenarioPackages, type ScenarioStatus } from "@/content/scenarios";
 
@@ -74,7 +75,8 @@ export default function HowWeTransformClient() {
           {scenarios.map((scenario) => {
             const pkgs = scenarioPackages(scenario);
             return (
-              <motion.article key={scenario.id} variants={item} className="group">
+              <motion.article key={scenario.id} variants={item} className="group h-full">
+                <Tilt3D maxDeg={4} className="h-full">
                 <Link
                   href={`/how-we-transform/${scenario.id}`}
                   className="flex flex-col h-full rounded-2xl p-8 bg-surface-container dark:bg-surface-container-high border border-outline-variant/25 dark:border-outline-variant/10 hover:border-primary/40 dark:hover:border-primary/30 transition-colors duration-300"
@@ -115,6 +117,7 @@ export default function HowWeTransformClient() {
                     <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
                   </span>
                 </Link>
+                </Tilt3D>
               </motion.article>
             );
           })}
