@@ -7,6 +7,7 @@ import Pricing from "@/components/Pricing";
 import Approach from "@/components/Approach";
 import Positioning from "@/components/Positioning";
 import Founders from "@/components/Founders";
+import FoundingClient from "@/components/FoundingClient";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 import { servicePackages, customServices, MANAGED_SERVICES_NOTE } from "@/content/packages";
@@ -160,6 +161,7 @@ export default function Home() {
         <Approach />
         <Positioning />
         <Founders />
+        <FoundingClient />
         <ContactCTA />
       </main>
       <Footer />
