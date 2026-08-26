@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { scenarios } from "@/content/scenarios";
+import { posts } from "@/content/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://gileara.org";
@@ -77,23 +78,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     },
-    {
-      url: `${base}/insights/building-scalable-mvps`,
-      lastModified: new Date("2026-06-15"),
-      changeFrequency: "monthly",
+    ...posts.map((p) => ({
+      url: `${base}/insights/${p.slug}`,
+      lastModified: new Date(p.date),
+      changeFrequency: "monthly" as const,
       priority: 0.6,
-    },
-    {
-      url: `${base}/insights/automating-sme-workflows`,
-      lastModified: new Date("2026-05-28"),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${base}/insights/choosing-tech-stack`,
-      lastModified: new Date("2026-04-10"),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
+    })),
   ];
 }
