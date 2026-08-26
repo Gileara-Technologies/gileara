@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import SceneBand from "@/components/three/SceneBand";
 import Footer from "@/components/Footer";
 import HowWeTransformClient from "./HowWeTransformClient";
 
@@ -31,6 +32,7 @@ export default function HowWeTransformPage() {
     <>
       <Navbar />
       <main>
+        <SceneBand />
         <HowWeTransformClient />
       </main>
       <Footer />

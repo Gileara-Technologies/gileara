@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import SceneBand from "@/components/three/SceneBand";
 import Footer from "@/components/Footer";
 import ContactStepper from "@/components/scheduling/ContactStepper";
 
@@ -38,6 +39,7 @@ export default function ContactPage() {
     <>
       <Navbar />
       <main>
+        <SceneBand />
         <section id="contact" className="py-24 bg-background px-4 md:px-10">
           <div className="max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">

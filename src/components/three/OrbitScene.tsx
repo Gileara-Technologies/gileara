@@ -2,18 +2,19 @@
 
 /**
  * Gileara signature effect (the ONE showpiece mechanic — fable-signature-effects):
- * the logo's "growth orbit" made physical. A luminous core with three tilted
- * teal orbit rings rotating at different rates, drifting particles, and the
- * whole group easing toward the pointer (LERP 0.1 per fable's physics rule).
+ * the logo's "growth orbit" made physical. A luminous core with halo shells,
+ * three tilted teal orbit rings precessing at their own rates, drifting
+ * particles, and the group easing toward the pointer (LERP 0.1).
  *
  * Degradation contract:
- * - prefers-reduced-motion → parent renders a single static frame (frameloop demand)
+ * - prefers-reduced-motion → SAME scene rendered as a single static frame
+ *   (never skipped — 3D-first means present everywhere, motion optional)
  * - no WebGL / load failure → parent keeps the gradient + watermark fallback
- * - canvas never gates content: pointer-events-none, z-indexed under hero text
+ * - canvas never gates content: pointer-events-none, z-indexed under text
  */
 
 import { useMemo, useRef } from "react";
-import { Canvas, useFrame, type ThreeElements } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { AdditiveBlending, Group, Mesh, Points, Vector3 } from "three";
 
 const TEAL = "#44ddc1";
@@ -23,59 +24,60 @@ const MIST = "#afc9ea";
 /** Pointer target shared by all parallax consumers; mutated outside React render. */
 const pointerTarget = { x: 0, y: 0 };
 
-function OrbitRings() {
+function OrbitRings({ intensity }: { intensity: "hero" | "band" }) {
   const group = useRef<Group>(null);
   const rings = useRef<Array<Mesh | null>>([]);
+  const scale = intensity === "hero" ? 1 : 0.72;
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     const g = group.current;
     if (!g) return;
-    // LERP toward pointer (factor 0.1 — fable LERP rule)
     g.rotation.y += (pointerTarget.x * 0.35 - g.rotation.y) * 0.1;
     g.rotation.x += (-pointerTarget.y * 0.22 - g.rotation.x) * 0.1;
-    // each ring precesses on its own axis at its own rate
     rings.current.forEach((ring, i) => {
       if (!ring) return;
-      ring.rotation.z = t * (0.12 + i * 0.07) * (i % 2 === 0 ? 1 : -1);
-      ring.rotation.y = Math.sin(t * 0.1 + i) * 0.18 + i * 0.9;
+      ring.rotation.z = t * (0.16 + i * 0.09) * (i % 2 === 0 ? 1 : -1);
+      ring.rotation.y = Math.sin(t * 0.12 + i) * 0.22 + i * 0.9;
     });
   });
 
-  const ringDefs: Array<{ r: number; tube: number; color: string; tilt: ThreeElements["mesh"]["rotation"] }> = [
-    { r: 2.05, tube: 0.012, color: TEAL, tilt: [Math.PI / 2.15, 0.3, 0] },
-    { r: 2.75, tube: 0.008, color: TEAL_DEEP, tilt: [Math.PI / 1.85, -0.5, 0.4] },
-    { r: 3.45, tube: 0.006, color: MIST, tilt: [Math.PI / 2.5, 0.8, -0.3] },
+  const defs = [
+    { r: 2.0, tube: 0.045, color: TEAL, opacity: 0.95, tilt: [Math.PI / 2.15, 0.3, 0] },
+    { r: 2.7, tube: 0.03, color: TEAL_DEEP, opacity: 0.8, tilt: [Math.PI / 1.85, -0.5, 0.4] },
+    { r: 3.4, tube: 0.02, color: MIST, opacity: 0.55, tilt: [Math.PI / 2.5, 0.8, -0.3] },
   ];
 
   return (
-    <group ref={group}>
-      {/* core */}
+    <group ref={group} scale={scale}>
+      {/* core + halo shells (glow without postprocessing) */}
       <mesh>
-        <sphereGeometry args={[0.55, 48, 48]} />
-        <meshStandardMaterial
-          color={TEAL}
-          emissive={TEAL}
-          emissiveIntensity={1.6}
-          toneMapped={false}
-        />
+        <sphereGeometry args={[0.5, 48, 48]} />
+        <meshStandardMaterial color={TEAL} emissive={TEAL} emissiveIntensity={2.2} toneMapped={false} />
       </mesh>
-      <pointLight position={[0, 0, 0]} intensity={6} distance={9} color={TEAL} />
-      {ringDefs.map((def, i) => (
-        <mesh key={i} ref={(m) => { rings.current[i] = m; }} rotation={def.tilt}>
-          <torusGeometry args={[def.r, def.tube, 16, 220]} />
-          <meshBasicMaterial color={def.color} transparent opacity={0.65 - i * 0.12} blending={AdditiveBlending} />
+      <mesh>
+        <sphereGeometry args={[0.85, 32, 32]} />
+        <meshBasicMaterial color={TEAL} transparent opacity={0.22} blending={AdditiveBlending} depthWrite={false} />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[1.35, 32, 32]} />
+        <meshBasicMaterial color={TEAL_DEEP} transparent opacity={0.1} blending={AdditiveBlending} depthWrite={false} />
+      </mesh>
+      <pointLight position={[0, 0, 0]} intensity={10} distance={12} color={TEAL} />
+      {defs.map((d, i) => (
+        <mesh key={i} ref={(m) => { rings.current[i] = m; }} rotation={d.tilt as [number, number, number]}>
+          <torusGeometry args={[d.r, d.tube, 20, 240]} />
+          <meshBasicMaterial color={d.color} transparent opacity={d.opacity} blending={AdditiveBlending} depthWrite={false} />
         </mesh>
       ))}
     </group>
   );
 }
 
-function ParticleField({ count = 550 }: { count?: number }) {
+function ParticleField({ count }: { count: number }) {
   const points = useRef<Points>(null);
   const positions = useMemo(() => {
-    // Deterministic PRNG (mulberry32) keeps render pure and the field
-    // identical across reloads — Math.random() is banned during render.
+    // Deterministic PRNG keeps render pure (no Math.random during render)
     let seed = 0x9e3779b9;
     const rand = () => {
       seed |= 0;
@@ -86,7 +88,6 @@ function ParticleField({ count = 550 }: { count?: number }) {
     };
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      // shell between the outermost ring and the frame edge
       const radius = 3.8 + rand() * 4.4;
       const theta = rand() * Math.PI * 2;
       const phi = Math.acos(2 * rand() - 1);
@@ -100,7 +101,7 @@ function ParticleField({ count = 550 }: { count?: number }) {
   useFrame((state) => {
     const p = points.current;
     if (!p) return;
-    p.rotation.y = state.clock.elapsedTime * 0.02;
+    p.rotation.y = state.clock.elapsedTime * 0.03;
     p.position.lerp(new Vector3(pointerTarget.x * 0.4, -pointerTarget.y * 0.3, 0), 0.03);
   });
 
@@ -109,18 +110,24 @@ function ParticleField({ count = 550 }: { count?: number }) {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.025} color={TEAL} transparent opacity={0.5} sizeAttenuation blending={AdditiveBlending} />
+      <pointsMaterial size={0.055} color={TEAL} transparent opacity={0.7} sizeAttenuation blending={AdditiveBlending} depthWrite={false} />
     </points>
   );
 }
 
-export default function OrbitScene({ reducedMotion = false }: { reducedMotion?: boolean }) {
+export default function OrbitScene({
+  reducedMotion = false,
+  intensity = "hero",
+}: {
+  reducedMotion?: boolean;
+  intensity?: "hero" | "band";
+}) {
   return (
     <div
       className="absolute inset-0 pointer-events-none"
       aria-hidden="true"
       onPointerMove={(e) => {
-        if (reducedMotion) return;
+        if (reducedMotion || intensity === "band") return;
         pointerTarget.x = (e.clientX / window.innerWidth) * 2 - 1;
         pointerTarget.y = (e.clientY / window.innerHeight) * 2 - 1;
       }}
@@ -132,9 +139,9 @@ export default function OrbitScene({ reducedMotion = false }: { reducedMotion?: 
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         style={{ background: "transparent" }}
       >
-        <ambientLight intensity={0.25} />
-        <OrbitRings />
-        {!reducedMotion && <ParticleField />}
+        <ambientLight intensity={0.3} />
+        <OrbitRings intensity={intensity} />
+        {!reducedMotion && <ParticleField count={intensity === "hero" ? 550 : 220} />}
       </Canvas>
     </div>
   );

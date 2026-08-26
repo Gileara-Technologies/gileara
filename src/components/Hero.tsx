@@ -33,7 +33,9 @@ function useWebGLAvailable() {
 export default function Hero() {
   const prefersReduced = useReducedMotion();
   const webgl = useWebGLAvailable();
-  const showScene = webgl && !prefersReduced;
+  // 3D-first: the scene renders even under reduced-motion (as a frozen frame);
+  // it only disappears entirely when WebGL itself is unavailable.
+  const showScene = webgl;
 
   return (
     <section className="relative min-h-screen flex items-center bg-background overflow-hidden">
@@ -54,7 +56,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] via-transparent to-secondary/[0.02]" />
 
       {/* Layer 2 — signature effect: growth-orbit WebGL scene */}
-      {showScene && <OrbitScene />}
+      {showScene && <OrbitScene reducedMotion={Boolean(prefersReduced)} />}
 
       <div className="relative z-10 w-full">
         <div className="max-w-4xl mx-auto px-4 md:px-10 pt-32 pb-20 md:pt-48 md:pb-32 text-center">

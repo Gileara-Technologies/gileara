@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Tilt3D from "@/components/Tilt3D";
 import { openRoles } from "@/content/roles";
 
 export default function OpenRoles() {
@@ -40,8 +41,10 @@ export default function OpenRoles() {
             <motion.div
               key={role.id}
               variants={item}
-              className="bg-surface-container-low dark:bg-surface-container rounded-2xl border border-outline-variant/20 overflow-hidden shadow-sm"
+              className="h-full"
             >
+              <Tilt3D maxDeg={4} className="h-full">
+              <div className="bg-surface-container-low dark:bg-surface-container rounded-2xl border border-outline-variant/20 overflow-hidden shadow-sm h-full">
               <div className="p-6 md:p-8 md:flex gap-8 items-start">
                 <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0 mb-6 md:mb-0">
                   <span className="material-symbols-outlined text-2xl" aria-hidden="true">
@@ -111,6 +114,8 @@ export default function OpenRoles() {
                   </div>
                 </div>
               </div>
+              </div>
+              </Tilt3D>
             </motion.div>
           ))}
         </motion.div>

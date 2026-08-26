@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Tilt3D from "@/components/Tilt3D";
 import { POST_TAGS, type PostTag } from "@/content/posts";
 
 interface PostMeta {
@@ -26,7 +27,8 @@ function formatDate(dateStr: string) {
 
 function ArticleCard({ post }: { post: PostMeta }) {
   return (
-    <div className="bg-surface-container-low/80 backdrop-blur-sm border border-outline-variant/20 rounded-xl p-4 flex flex-col h-full group hover:border-primary/40 transition-all duration-300">
+    <Tilt3D maxDeg={4} className="h-full">
+      <div className="bg-surface-container-low/80 backdrop-blur-sm border border-outline-variant/20 rounded-xl p-4 flex flex-col h-full group hover:border-primary/40 transition-colors duration-300">
       <Link href={`/insights/${post.slug}`} className="flex flex-col h-full">
         <div className="h-40 rounded-lg overflow-hidden mb-3 relative">
           {post.image ? (
@@ -64,6 +66,7 @@ function ArticleCard({ post }: { post: PostMeta }) {
         </div>
       </Link>
     </div>
+    </Tilt3D>
   );
 }
 
