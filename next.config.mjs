@@ -34,18 +34,24 @@ const nextConfig = {
             },
         ];
     },
+    // Fabricated case-study stories were replaced by /how-we-transform (D9);
+    // indexed URLs redirect so no visitor hits a 404.
+    async redirects() {
+        return [
+            {
+                source: '/case-studies',
+                destination: '/how-we-transform',
+                permanent: true,
+            },
+            {
+                source: '/case-studies/:slug',
+                destination: '/how-we-transform',
+                permanent: true,
+            },
+        ];
+    },
     images: {
         unoptimized: true,
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'api.dicebear.com',
-            },
-            {
-                protocol: 'https',
-                hostname: 'images.unsplash.com',
-            },
-        ],
     },
 };
 

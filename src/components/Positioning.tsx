@@ -1,11 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import UnderMaintenance from "./UnderMaintenance";
 
 export default function Positioning() {
-  const isMaintenance = false;
-
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -23,51 +20,35 @@ export default function Positioning() {
 
   const segments = [
     {
-      title: "For Startups",
-      desc: "Your external CTO and engineering team, building a scalable MVP that can grow into a market leader.",
-      icon: "rocket_launch",
-      bullets: ["Rapid MVP Development", "Scalable Architecture"],
-      highlight: false
-    },
-    {
-      title: "For Growing SMEs",
-      desc: "We audit your workflows and build custom systems that automate manual work and connect operations.",
-      icon: "corporate_fare",
-      bullets: ["Workflow Automation", "Legacy Upgrades"],
+      title: "Outcomes over code",
+      desc: "Every package ties technology to a business result — more revenue, lower costs, fewer hours lost to manual work. We advise on what your business needs, not the fanciest stack.",
+      icon: "track_changes",
+      bullets: ["Outcome-led packages", "Business-first advice"],
       highlight: true
     },
     {
-      title: "For Everyone Else",
-      desc: "Whether you need a high-end web presence or help with technical challenges, we bring the same rigor.",
-      icon: "all_inclusive",
-      bullets: ["Web Applications", "Security Audits"],
+      title: "Managed from day one",
+      desc: "IT support, software updates, backups and security monitoring are built into your monthly plan — with SLA-backed response. Nothing bolted on later.",
+      icon: "verified_user",
+      bullets: ["SLA-backed support", "Backups & monitoring included"],
+      highlight: false
+    },
+    {
+      title: "Ghana-ready by default",
+      desc: "WhatsApp integration, MTN MoMo payments and offline-tolerant builds come standard — because that's how Ghanaian businesses actually run.",
+      icon: "smartphone",
+      bullets: ["MTN MoMo & WhatsApp ready", "Built for low bandwidth"],
       highlight: false
     }
   ];
 
-  if (isMaintenance) {
-    return (
-      <section id="positioning" className="py-24 bg-surface-container px-4 md:px-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Why Gileara?</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background leading-tight">
-              We build technical foundations, not just applications.
-            </h2>
-          </div>
-          <UnderMaintenance fullPage={false} />
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section id="positioning" className="py-24 bg-surface-container px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
+        <div className="text-center mb-20 max-w-3xl mx-auto">
           <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Why Gileara?</span>
           <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background leading-tight">
-            We build technical foundations, not just applications.
+            Built for Ghanaian MSMEs.
           </h2>
         </div>
 
@@ -112,6 +93,19 @@ export default function Positioning() {
             </motion.div>
           ))}
         </motion.div>
+
+        <motion.blockquote
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mt-16 max-w-3xl mx-auto text-center"
+        >
+          <p className="font-display text-xl md:text-2xl font-semibold text-primary dark:text-on-background leading-relaxed">
+            &ldquo;The technology partner that helps Ghanaian MSMEs become efficient, digital, and scalable
+            businesses.&rdquo;
+          </p>
+        </motion.blockquote>
       </div>
     </section>
   );

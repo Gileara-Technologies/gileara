@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import LegalNavbar from "@/components/legal/LegalNavbar";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { siteConfig } from "@/content/site-config";
 
 const lastUpdated = "June 12, 2026";
 
@@ -121,7 +122,7 @@ const privacySections = [
     title: "User Rights and Choices",
     body: [
       "Depending on your location, you may have rights to request access, correction, deletion, portability, restriction, objection, withdrawal of consent, or information about how your personal data is handled.",
-      "To make a privacy request, contact us at tech.gileara@gmail.com. We may need to verify your identity and understand the scope of your request before responding.",
+      `To make a privacy request, contact us at ${siteConfig.email}. We may need to verify your identity and understand the scope of your request before responding.`,
     ],
   },
   {
@@ -130,6 +131,14 @@ const privacySections = [
     body: [
       "For individuals in the European Economic Area, United Kingdom, or similar jurisdictions, Gileara will consider applicable GDPR-style rights and obligations when handling personal data.",
       "You may have the right to lodge a complaint with a supervisory authority, although we encourage you to contact us first so we can try to resolve the issue directly.",
+    ],
+  },
+  {
+    id: "ghana-dpa",
+    title: "Ghana Data Protection Act, 2012 (Act 843)",
+    body: [
+      "Gileara Technologies operates in Ghana and handles personal data with the obligations of the Data Protection Act, 2012 (Act 843) in mind — including lawfulness of processing, purpose limitation, and appropriate security safeguards.",
+      `Data subjects in Ghana have rights under Act 843, including rights of access, correction, and deletion. To exercise them, contact ${siteConfig.email} and we will respond based on the Act and our operational context.`,
     ],
   },
   {
@@ -160,7 +169,7 @@ const privacySections = [
     id: "contact",
     title: "Contact Information",
     body: [
-      "For privacy questions, data requests, or concerns about how Gileara handles information, contact tech.gileara@gmail.com.",
+      `For privacy questions, data requests, or concerns about how Gileara handles information, contact ${siteConfig.email}.`,
       "Please include enough detail for us to understand your request, but avoid sending unnecessary sensitive information by email.",
     ],
   },
@@ -241,7 +250,7 @@ export default function PrivacyPage() {
 
   return (
     <>
-      <LegalNavbar page="privacy" />
+      <Navbar variant="legal" page="privacy" />
       <main className="min-h-screen bg-background pt-32 pb-20 text-on-surface">
         <script
           type="application/ld+json"
@@ -360,10 +369,10 @@ export default function PrivacyPage() {
                     based on applicable law and operational context.
                   </p>
                   <a
-                    href="mailto:tech.gileara@gmail.com"
+                    href={`mailto:${siteConfig.email}`}
                     className="mt-6 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-bold text-on-primary transition-transform hover:-translate-y-0.5"
                   >
-                    tech.gileara@gmail.com
+                    {siteConfig.email}
                   </a>
                 </section>
               </div>
@@ -375,3 +384,4 @@ export default function PrivacyPage() {
     </>
   );
 }
+

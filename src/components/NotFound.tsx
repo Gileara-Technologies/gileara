@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+
 
 export default function NotFound() {
   const router = useRouter();
@@ -115,7 +115,7 @@ export default function NotFound() {
               href="/"
               className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group"
             >
-              <FaArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
+              <span className="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_back</span>
               Back to Home
             </Link>
 
@@ -125,7 +125,7 @@ export default function NotFound() {
               className="border border-outline-variant px-8 py-4 rounded-lg text-center font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors inline-flex items-center justify-center gap-2 group"
             >
               View Careers
-              <FaArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+              <span className="material-symbols-outlined text-base opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" aria-hidden="true">arrow_forward</span>
             </Link>
           </motion.div>
 
@@ -136,7 +136,7 @@ export default function NotFound() {
               className="text-on-surface-variant hover:text-primary transition-colors font-semibold inline-flex items-center gap-2 group"
               aria-label="Go back to previous page"
             >
-              <FaArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
+              <span className="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_back</span>
               Or go back to the previous page
             </button>
           </motion.div>

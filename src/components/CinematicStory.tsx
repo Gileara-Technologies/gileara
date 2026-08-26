@@ -2,12 +2,9 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
-import UnderMaintenance from "./UnderMaintenance";
+
 
 export default function CinematicStory() {
-  const isMaintenance = false;
-
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -25,49 +22,40 @@ export default function CinematicStory() {
 
   const items = [
     {
-      title: "No tech team?",
-      desc: "We provide the technical expertise you lack to execute your vision.",
-      icon: "group_off"
+      title: "Stock in notebooks?",
+      desc: "Sales, expenses and inventory scattered across paper and spreadsheets — no single view of your day.",
+      icon: "inventory_2",
+      fix: "Business Operations"
     },
     {
-      title: "Outgrown tools?",
-      desc: "Replace manual processes with systems built to scale with your growth.",
-      icon: "trending_down"
+      title: "Orders lost in WhatsApp?",
+      desc: "Customer chats buried between personal messages — enquiries and follow-ups slip through.",
+      icon: "forum",
+      fix: "Customer Growth"
     },
     {
-      title: "Where to start?",
-      desc: "Our strategic advisory maps the right technology path for your goals.",
-      icon: "map"
+      title: "Reconciling by hand?",
+      desc: "MoMo statements matched against your books line by line, night after night.",
+      icon: "receipt_long",
+      fix: "Automation & Efficiency"
+    },
+    {
+      title: "Flying blind?",
+      desc: "No dashboard telling you what sold, what's owed, and what's actually profitable.",
+      icon: "monitoring",
+      fix: "Business Intelligence"
     }
   ];
 
-  if (isMaintenance) {
-    return (
-      <section className="py-20 bg-surface-container px-4 md:px-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">
-              The Reality for Most Businesses
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 text-primary dark:text-on-background">
-              Great ideas stall without the right systems.
-            </h2>
-          </div>
-          <UnderMaintenance fullPage={false} />
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section className="py-20 bg-surface-container px-4 md:px-10">
+    <section className="py-24 md:py-32 bg-surface-container px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">
-            The Reality for Most Businesses
+            The Daily Reality
           </span>
           <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 text-primary dark:text-on-background">
-            Great ideas stall without the right systems.
+            Great businesses are running on manual work.
           </h2>
         </div>
 
@@ -76,7 +64,7 @@ export default function CinematicStory() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6 md:gap-8"
+          className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
         >
           {items.map((card, index) => (
             <motion.div
@@ -87,30 +75,21 @@ export default function CinematicStory() {
               <span className="material-symbols-outlined text-secondary dark:text-primary text-4xl mb-4">
                 {card.icon}
               </span>
-              <h4 className="font-display text-lg font-bold mb-2 text-primary dark:text-on-surface">
+              <h3 className="font-display text-lg font-bold mb-2 text-primary dark:text-on-surface">
                 {card.title}
-              </h4>
+              </h3>
               <p className="text-on-surface-variant text-sm leading-relaxed">
                 {card.desc}
               </p>
+              <Link
+                href="/#packages"
+                className="mt-auto pt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-secondary dark:text-primary hover:underline"
+              >
+                Fixed by {card.fix}
+                <span className="material-symbols-outlined text-xs" aria-hidden="true">arrow_forward</span>
+              </Link>
             </motion.div>
           ))}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-12"
-        >
-          <Link
-            href="/insights"
-            className="inline-flex items-center gap-2 text-sm text-on-surface-variant hover:text-primary transition-colors font-medium"
-          >
-            Explore our engineering insights
-            <FaArrowRight className="w-3.5 h-3.5" />
-          </Link>
         </motion.div>
       </div>
     </section>

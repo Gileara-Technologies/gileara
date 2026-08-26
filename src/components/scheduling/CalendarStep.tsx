@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar as CalendarIcon, Clock, ChevronRight, ChevronLeft } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -26,11 +25,27 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-  const days = [...Array(14)].map((_, i) => {
+  // Next 14 business days (Ghana Time) — weekends excluded.
+  const days = (() => {
+    const out: Date[] = [];
     const d = new Date();
-    d.setDate(d.getDate() + i + 1);
-    return d;
-  });
+    while (out.length < 14) {
+      d.setDate(d.getDate() + 1);
+      const dow = d.getDay();
+      if (dow !== 0 && dow !== 6) out.push(new Date(d));
+    }
+    return out;
+  })();
+
+  // One-time render snapshot: slots must start at least 60 min from first paint.
+  const [slotCutoff] = useState(() => Date.now() + 60 * 60 * 1000);
+
+  // Disable slots that have already passed for same-day selections (60-min lead).
+  const isSlotPassed = (time: string) => {
+    if (!selectedDate) return false;
+    const slot = new Date(`${selectedDate.toISOString().split('T')[0]}T${time}:00`);
+    return slot.getTime() < slotCutoff;
+  };
 
   const handleConfirm = () => {
     if (selectedDate && selectedTime) {
@@ -42,13 +57,13 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
   return (
     <div className="space-y-8 w-full max-w-2xl">
       <div className="text-center space-y-2">
-        <h3 className="text-2xl font-bold text-on-surface">Select a time</h3>
-        <p className="text-on-surface-variant">Propose a slot that works best for you.</p>
+        <h3 className="text-2xl font-bold text-on-surface">Pick a time</h3>
+        <p className="text-on-surface-variant">All slots shown in Ghana Time (GMT).</p>
       </div>
 
       <div className="space-y-4">
         <div className="flex items-center gap-2 text-sm font-medium text-on-surface-variant uppercase tracking-wider">
-          <CalendarIcon size={16} />
+          <span className="material-symbols-outlined text-base" aria-hidden="true">calendar_month</span>
           <span>Pick a Date</span>
         </div>
         <div className="flex overflow-x-auto gap-3 pb-4 snap-x scrollbar-hide">
@@ -83,7 +98,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
         className="space-y-6"
       >
         <div className="flex items-center gap-2 text-sm font-medium text-on-surface-variant uppercase tracking-wider">
-          <Clock size={16} />
+          <span className="material-symbols-outlined text-base" aria-hidden="true">schedule</span>
           <span>Select Time Block</span>
         </div>
         
@@ -96,11 +111,13 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
                   <button
                     key={time}
                     onClick={() => setSelectedTime(time)}
+                    disabled={isSlotPassed(time)}
                     className={cn(
                       "py-2 rounded-xl border text-sm font-medium transition-all duration-300",
                       selectedTime === time
                         ? "bg-primary/10 border-primary text-primary"
-                        : "bg-surface-container border-outline-variant/20 text-on-surface hover:border-outline-variant/60"
+                        : "bg-surface-container border-outline-variant/20 text-on-surface hover:border-outline-variant/60",
+                      isSlotPassed(time) && "opacity-30 cursor-not-allowed line-through"
                     )}
                   >
                     {time}
@@ -117,7 +134,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
           onClick={onBack}
           className="text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2"
         >
-          <ChevronLeft size={20} />
+          <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_left</span>
           <span>Back</span>
         </button>
         <button
@@ -133,7 +150,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
           ) : (
             <>
               <span>Lock in Proposal</span>
-              <ChevronRight size={20} />
+              <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_right</span>
             </>
           )}
         </button>

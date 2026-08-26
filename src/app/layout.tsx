@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import GlobalLoading from "@/components/GlobalLoading";
+import { MotionProvider } from "@/components/MotionProvider";
 import BackToTop from "@/components/BackToTop";
 
 const inter = Inter({
@@ -24,15 +24,15 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Gileara Technologies | Systems for Growing Businesses",
-  description: "Gileara builds the custom software and digital systems that power modern businesses. We are your technology partners for growth, security, and scale.",
+  title: "Gileara Technologies | We Build the Systems Your Business Runs On",
+  description: "All-inclusive monthly digital transformation packages for Ghanaian MSMEs — WhatsApp-ready, MTN MoMo-ready, managed services included from day one.",
   metadataBase: new URL("https://gileara.org"),
   alternates: {
     canonical: "https://gileara.org",
   },
   openGraph: {
-    title: "Gileara Technologies | Systems for Growing Businesses",
-    description: "Custom software, workflow automation, and digital strategy for startups and SMEs.",
+    title: "Gileara Technologies | We Build the Systems Your Business Runs On",
+    description: "Digital transformation packages for Ghanaian MSMEs — managed from day one.",
     url: "https://gileara.org",
     siteName: "Gileara Technologies",
     locale: "en_US",
@@ -47,8 +47,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gileara Technologies | Systems for Growing Businesses",
-    description: "Custom software and digital systems for modern businesses.",
+    title: "Gileara Technologies | We Build the Systems Your Business Runs On",
+    description: "Digital transformation packages for Ghanaian MSMEs — managed from day one.",
     images: ["/assets/gileara/logo-full.png"],
   },
   icons: {
@@ -78,13 +78,14 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
         <link rel="preload" href="/assets/gileara/logo-full.png" as="image" />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <GlobalLoading />
-          <div className="flex flex-col min-h-screen">
-            <div className="flex-grow">
-              {children}
+          <MotionProvider>
+            <div className="flex flex-col min-h-screen">
+              <div className="flex-grow">
+                {children}
+              </div>
             </div>
-          </div>
-          <BackToTop />
+            <BackToTop />
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

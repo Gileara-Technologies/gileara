@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import KeywordMarquee from "@/components/KeywordMarquee";
+import TrustStrip from "@/components/TrustStrip";
 import CinematicStory from "@/components/CinematicStory";
-import BentoGrid from "@/components/BentoGrid";
-import Positioning from "@/components/Positioning";
+import Pricing from "@/components/Pricing";
 import Approach from "@/components/Approach";
+import Positioning from "@/components/Positioning";
 import Founders from "@/components/Founders";
-import CareersCTA from "@/components/CareersCTA";
+import FoundingClient from "@/components/FoundingClient";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
+import { servicePackages, customServices, MANAGED_SERVICES_NOTE } from "@/content/packages";
+import { siteConfig } from "@/content/site-config";
 
 export const metadata: Metadata = {
   alternates: {
@@ -20,13 +24,15 @@ export const metadata: Metadata = {
   },
   keywords: [
     "Gileara Technologies",
-    "custom software development",
-    "workflow automation",
-    "digital strategy",
-    "business technology systems",
-    "SME technology solutions",
-    "software engineering Ghana",
-    "startup technology partner",
+    "digital transformation Ghana",
+    "MSME technology packages",
+    "business automation Ghana",
+    "MTN MoMo integration",
+    "WhatsApp business systems",
+    "inventory management system Ghana",
+    "CRM for small business Ghana",
+    "business intelligence dashboards",
+    "managed IT services Accra",
   ],
   openGraph: {
     url: "https://gileara.org",
@@ -36,76 +42,20 @@ export const metadata: Metadata = {
   },
 };
 
-const services = [
-  {
-    name: "Custom Software Development",
-    description:
-      "Web and mobile applications tailored to how your business actually operates — not off-the-shelf.",
-    serviceType: "Custom Software Development",
-  },
-  {
-    name: "E-Commerce Development",
-    description:
-      "Digital storefronts, booking systems, and portals that build digital infrastructure for growth.",
-    serviceType: "E-Commerce Development",
-  },
-  {
-    name: "Workflow Automation",
-    description:
-      "Replace manual, repetitive processes with smart systems so your team spends time growing.",
-    serviceType: "Workflow Automation",
-  },
-  {
-    name: "Technology Strategy & Advisory",
-    description:
-      "Map the right technology path and manage the build from start to finish.",
-    serviceType: "Technology Consulting",
-  },
-];
-
-const faqs = [
-  {
-    question: "What types of businesses does Gileara work with?",
-    answer:
-      "We work with startups needing scalable MVPs, growing SMEs needing workflow automation and custom systems, and any organization with technical challenges that require expert software engineering.",
-  },
-  {
-    question: "What is Gileara's development process?",
-    answer:
-      "Our process follows four phases: Discovery (deep dive into goals and bottlenecks), Strategy (map exact solution and scope), Build (iterative, transparent delivery phases), and Deploy (launch and ongoing support).",
-  },
-  {
-    question: "Do you build MVPs for startups?",
-    answer:
-      "Yes. We act as your external CTO and engineering team, building scalable MVPs that can grow into market-leading products with solid technical foundations.",
-  },
-  {
-    question: "Can Gileara help automate our business workflows?",
-    answer:
-      "Yes. We audit your existing workflows and build custom systems that replace manual, repetitive processes with smart automation, so your team can focus on growth.",
-  },
-  {
-    question: "Do you provide ongoing support after launch?",
-    answer:
-      "Yes. The Deploy phase includes ongoing support to ensure your system runs smoothly, with iterative improvements as your business evolves.",
-  },
-];
-
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "Organization",
       "@id": "https://gileara.org/#organization",
-      name: "Gileara Technologies",
+      name: siteConfig.name,
       url: "https://gileara.org",
       logo: "https://gileara.org/assets/gileara/logo-icon.png",
-      description:
-        "Gileara builds the custom software and digital systems that power modern businesses.",
+      description: siteConfig.positioningLine,
       foundingDate: "2024",
       contactPoint: {
         "@type": "ContactPoint",
-        email: "tech.gileara@gmail.com",
+        email: siteConfig.email,
         contactType: "sales",
       },
       sameAs: ["https://www.linkedin.com/company/gileara"],
@@ -118,23 +68,23 @@ const jsonLd = {
     {
       "@type": "LocalBusiness",
       "@id": "https://gileara.org/#local-business",
-      name: "Gileara Technologies",
+      name: siteConfig.name,
       url: "https://gileara.org",
       logo: "https://gileara.org/assets/gileara/logo-icon.png",
       image: "https://gileara.org/assets/gileara/logo-full.png",
       description:
-        "Custom software, workflow automation, and digital strategy for startups and SMEs.",
+        "All-inclusive monthly digital transformation packages for Ghanaian MSMEs — managed services included from day one.",
       foundingDate: "2024",
-      email: "tech.gileara@gmail.com",
+      email: siteConfig.email,
       sameAs: ["https://www.linkedin.com/company/gileara"],
       address: {
         "@type": "PostalAddress",
         addressCountry: "GH",
-        addressLocality: "Accra",
+        addressLocality: siteConfig.location,
       },
       contactPoint: {
         "@type": "ContactPoint",
-        email: "tech.gileara@gmail.com",
+        email: siteConfig.email,
         contactType: "sales",
       },
     },
@@ -142,9 +92,8 @@ const jsonLd = {
       "@type": "WebPage",
       "@id": "https://gileara.org/#webpage",
       url: "https://gileara.org",
-      name: "Gileara Technologies | Systems for Growing Businesses",
-      description:
-        "Gileara builds the custom software and digital systems that power modern businesses.",
+      name: `${siteConfig.name} | We Build the Systems Your Business Runs On`,
+      description: siteConfig.positioningLine,
       about: { "@id": "https://gileara.org/#organization" },
       mainEntity: { "@id": "https://gileara.org/#organization" },
     },
@@ -152,7 +101,7 @@ const jsonLd = {
       "@type": "WebSite",
       "@id": "https://gileara.org/#website",
       url: "https://gileara.org",
-      name: "Gileara Technologies | Systems for Growing Businesses",
+      name: siteConfig.name,
       publisher: { "@id": "https://gileara.org/#organization" },
     },
     {
@@ -162,23 +111,36 @@ const jsonLd = {
         { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
       ],
     },
-    {
-      "@type": "FAQPage",
-      "@id": "https://gileara.org/#faq",
-      mainEntity: faqs.map((f) => ({
-        "@type": "Question",
-        name: f.question,
-        acceptedAnswer: { "@type": "Answer", text: f.answer },
-      })),
-    },
-    ...services.map((s) => ({
+    // Service schema generated from the same data the UI renders (packages.ts)
+    ...servicePackages.map((pkg) => ({
+      "@type": "Service",
+      "@id": `https://gileara.org/#package-${pkg.id}`,
+      name: `Gileara ${pkg.name}`,
+      description: `${pkg.tagline} ${MANAGED_SERVICES_NOTE}`,
+      serviceType: pkg.name,
+      provider: { "@id": "https://gileara.org/#organization" },
+      areaServed: { "@type": "Country", name: "Ghana" },
+      category: pkg.primaryGoal,
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "USD",
+        price: pkg.tiers[0].setupFeeUsd,
+        priceSpecification: {
+          "@type": "CompoundPriceSpecification",
+          price: pkg.tiers[0].setupFeeUsd,
+          priceCurrency: "USD",
+          valueAddedTaxIncluded: true,
+        },
+      },
+    })),
+    ...customServices.map((s) => ({
       "@type": "Service",
       "@id": `https://gileara.org/#service-${s.name.toLowerCase().replace(/\s+/g, "-")}`,
       name: s.name,
-      description: s.description,
-      serviceType: s.serviceType,
+      description: `Bespoke engagement starting at $${s.startingPriceUsd.toLocaleString("en-US")} USD.`,
+      serviceType: s.name,
       provider: { "@id": "https://gileara.org/#organization" },
-      areaServed: "Worldwide",
+      areaServed: { "@type": "Country", name: "Ghana" },
       category: "Technology Consulting",
     })),
   ],
@@ -194,12 +156,14 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <KeywordMarquee />
+        <TrustStrip />
         <CinematicStory />
-        <BentoGrid />
-        <Positioning />
+        <Pricing />
         <Approach />
+        <Positioning />
         <Founders />
-        <CareersCTA />
+        <FoundingClient />
         <ContactCTA />
       </main>
       <Footer />

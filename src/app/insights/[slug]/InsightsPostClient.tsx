@@ -2,23 +2,10 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa6";
 
-interface ContentBlock {
-  type: "paragraph" | "heading";
-  text: string;
-}
+import type { InsightPost } from "@/content/posts";
 
-interface Post {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  author: string;
-  content: ContentBlock[];
-}
-
-export default function InsightsPostClient({ post }: { post: Post }) {
+export default function InsightsPostClient({ post }: { post: InsightPost }) {
   return (
     <section className="pt-36 pb-24 md:pb-32 px-4 md:px-10 bg-background">
       <div className="max-w-3xl mx-auto">
@@ -27,7 +14,7 @@ export default function InsightsPostClient({ post }: { post: Post }) {
             href="/insights"
             className="inline-flex items-center gap-2 text-sm text-on-surface-variant hover:text-primary transition-colors mb-8"
           >
-            <FaArrowLeft className="w-3 h-3" />
+            <span className="material-symbols-outlined text-xs" aria-hidden="true">arrow_back</span>
             Back to Insights
           </Link>
 
@@ -58,6 +45,20 @@ export default function InsightsPostClient({ post }: { post: Post }) {
                 </h2>
               );
             }
+            if (block.type === "cta") {
+              return (
+                <div key={i} className="my-8 p-6 rounded-2xl bg-surface-container dark:bg-surface-container-high border border-outline-variant/20 dark:border-outline-variant/10">
+                  <p className="text-on-surface leading-relaxed mb-4">{block.text}</p>
+                  <Link
+                    href={block.href}
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
+                  >
+                    {block.label}
+                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
+                  </Link>
+                </div>
+              );
+            }
             return (
               <p key={i} className="text-on-surface leading-[1.8] text-[15px] md:text-base">
                 {block.text}
@@ -76,7 +77,7 @@ export default function InsightsPostClient({ post }: { post: Post }) {
             href="/insights"
             className="inline-flex items-center gap-2 text-sm text-primary hover:gap-3 transition-all font-semibold"
           >
-            <FaArrowLeft className="w-3 h-3" />
+            <span className="material-symbols-outlined text-xs" aria-hidden="true">arrow_back</span>
             View All Insights
           </Link>
         </motion.div>

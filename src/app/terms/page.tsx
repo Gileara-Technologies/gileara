@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import LegalNavbar from "@/components/legal/LegalNavbar";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { siteConfig } from "@/content/site-config";
 
 const lastUpdated = "June 12, 2026";
 
@@ -120,7 +121,7 @@ const legalSections = [
     id: "contact",
     title: "Contact Information",
     body: [
-      "Questions about these terms, brand permissions, website usage, or legal notices can be sent to tech.gileara@gmail.com.",
+      `Questions about these terms, brand permissions, website usage, or legal notices can be sent to ${siteConfig.email}.`,
       "For client engagements, please refer to your signed agreement or contact your Gileara project representative.",
     ],
   },
@@ -200,7 +201,7 @@ export default function TermsPage() {
 
   return (
     <>
-      <LegalNavbar page="terms" />
+      <Navbar variant="legal" page="terms" />
       <main className="min-h-screen bg-background pt-32 pb-20 text-on-surface">
         <script
           type="application/ld+json"
@@ -298,10 +299,10 @@ export default function TermsPage() {
                     terms, contact the Gileara team.
                   </p>
                   <a
-                    href="mailto:tech.gileara@gmail.com"
+                    href={`mailto:${siteConfig.email}`}
                     className="mt-6 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-bold text-on-primary transition-transform hover:-translate-y-0.5"
                   >
-                    tech.gileara@gmail.com
+                    {siteConfig.email}
                   </a>
                 </section>
               </div>
@@ -313,3 +314,4 @@ export default function TermsPage() {
     </>
   );
 }
+

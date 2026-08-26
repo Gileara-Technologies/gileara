@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FaLinkedin, FaEnvelope, FaHeart, FaArrowRight } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa6";
+import { siteConfig } from "@/content/site-config";
 
 export default function Footer() {
   return (
@@ -60,13 +61,14 @@ export default function Footer() {
               <div>
                 <h3 className="font-display text-lg font-semibold mb-5 text-on-surface tracking-tight">Navigation</h3>
                 <ul className="space-y-3 text-base text-on-surface-variant">
+                  <li><Link href="/#packages" className="hover:text-primary transition-colors">Packages</Link></li>
                   <li><Link href="/services" className="hover:text-primary transition-colors">Services</Link></li>
-                  <li><Link href="/case-studies" className="hover:text-primary transition-colors">Case Studies</Link></li>
+                  <li><Link href="/how-we-transform" className="hover:text-primary transition-colors">How We Transform</Link></li>
                   <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
                   <li><Link href="/insights" className="hover:text-primary transition-colors">Insights</Link></li>
                   <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
                   <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
-                  <li><Link href="/#contact" className="hover:text-primary transition-colors text-primary font-semibold">Contact</Link></li>
+                  <li><Link href="/contact" className="hover:text-primary transition-colors text-primary font-semibold">Contact</Link></li>
                 </ul>
               </div>
               <div>
@@ -85,7 +87,7 @@ export default function Footer() {
             {/* Left: Tagline & Socials */}
             <div>
               <p className="text-on-surface-variant text-base leading-relaxed mb-6 max-w-md">
-                Technology partners for growth. Precision innovation for enterprise and startup scaling.
+                {siteConfig.positioningLine}
               </p>
               <div className="flex gap-4">
                 <a
@@ -100,45 +102,50 @@ export default function Footer() {
 
                 <a
                   className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group"
-                  href="mailto:tech.gileara@gmail.com"
+                  href={`mailto:${siteConfig.email}`}
                   aria-label="Email Gileara"
                 >
-                  <FaEnvelope className="w-4 h-4 text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" />
+                  <span className="material-symbols-outlined text-base text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" aria-hidden="true">mail</span>
                 </a>
               </div>
             </div>
 
-            {/* Right: Consultancy Box */}
+            {/* Right: Status Box */}
             <div className="w-full lg:w-80 shrink-0">
               <div className="bg-surface dark:bg-surface-container-high p-6 rounded-xl border border-outline-variant/30 dark:border-outline-variant/10">
                 <span className="flex items-center gap-2 text-primary font-medium mb-3 text-sm">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                  Consultancy Active
+                  <span className="w-2 h-2 rounded-full bg-secondary dark:bg-primary animate-pulse"></span>
+                  Now accepting new clients
                 </span>
-                <p className="text-on-surface-variant text-base leading-relaxed">Precision Innovation for Enterprise Growth.</p>
+                <p className="text-on-surface-variant text-base leading-relaxed">
+                  Book a free discovery call — we&apos;ll recommend the right package for your business.
+                </p>
+                <p className="text-on-surface-variant text-sm mt-4">
+                  {siteConfig.location} · {siteConfig.timezone}
+                </p>
               </div>
             </div>
           </div>
         </div>
         <div className="py-8 border-t border-outline-variant/30 dark:border-outline-variant/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-on-surface-variant text-center sm:text-left">
-            Ready to scale?{" "}
-            <Link href="/#contact" className="text-primary font-semibold hover:underline">
-              Start a conversation
+            Ready to transform?{" "}
+            <Link href="/contact" className="text-primary font-semibold hover:underline">
+              Book a free consultation
             </Link>
           </p>
           <Link
-            href="/#contact"
+            href="/contact"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold teal-gradient-btn group shrink-0"
           >
-            Get Started
-            <FaArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
+            Book a Free Consultation
+            <span className="material-symbols-outlined text-xs group-hover:translate-x-0.5 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
           </Link>
         </div>
         <div className="pt-8 border-t border-outline-variant/30 dark:border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4 text-on-surface-variant text-sm">
           <p>© {new Date().getFullYear()} Gileara Technologies. All rights reserved.</p>
           <div className="flex items-center gap-2">
-            Built with <FaHeart className="text-secondary dark:text-primary text-sm inline-block" /> in Ghana &amp; Beyond
+            Built with <span className="material-symbols-outlined text-secondary dark:text-primary text-sm inline-block" aria-hidden="true">favorite</span> in Ghana &amp; Beyond
           </div>
         </div>
       </div>

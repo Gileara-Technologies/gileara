@@ -2,53 +2,39 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaLinkedin, FaArrowRight } from "react-icons/fa6";
-import UnderMaintenance from "./UnderMaintenance";
+import { FaLinkedin } from "react-icons/fa6";
 
 export default function Founders() {
-  const isMaintenance = false;
-
   const founders = [
     {
       name: "Julian Hagan",
       role: "Co-Founder & COO",
+      cred: "Runs delivery and client operations.",
       image: "/assets/images/julian_hagan.jpg",
       linkedin: "https://www.linkedin.com/in/julian-hagan/"
     },
     {
       name: "Amos Frederick Hughes",
       role: "Founder & CEO",
+      cred: "Leads strategy and client success.",
       image: "/assets/images/amos.jpg",
       linkedin: "https://linkedin.com/in/amos-frederick-hughes-01570b22a"
     },
     {
       name: "Rodney Hagan",
       role: "Co-Founder & CTO",
+      cred: "Leads platform engineering — MoMo and WhatsApp integrations.",
       image: "/assets/images/rodney_hagan.jpg",
       linkedin: "https://www.linkedin.com/in/haganrodney/"
     }
   ];
 
-  if (isMaintenance) {
-    return (
-      <section id="founders" className="py-24 bg-surface-container px-4 md:px-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12">
-            <span className="font-mono text-xs text-secondary uppercase tracking-widest">Leadership</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary">The Team Behind the Systems</h2>
-          </div>
-          <UnderMaintenance fullPage={false} />
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section id="founders" className="py-24 bg-surface-container px-4 md:px-10">
+    <section id="founders" className="py-24 md:py-32 bg-transparent border-y border-outline-variant/10 px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
-          <span className="font-mono text-xs text-secondary uppercase tracking-widest">Leadership</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary">The Team Behind the Systems</h2>
+          <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Leadership</span>
+          <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background">The Team Behind the Systems</h2>
           <p className="mt-6 text-on-surface-variant text-lg max-w-2xl">When you work with Gileara, you work directly with the founders.</p>
         </div>
 
@@ -63,9 +49,9 @@ export default function Founders() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
                 />
-                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300">
                   <a
-                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200"
+                    className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200 focus-visible:ring-2 focus-visible:ring-secondary dark:focus-visible:ring-primary focus-visible:outline-none"
                     href={founder.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -77,6 +63,7 @@ export default function Founders() {
               </div>
               <h3 className="font-display text-2xl font-semibold text-on-surface">{founder.name}</h3>
               <p className="text-primary font-semibold font-mono text-xs uppercase tracking-wider mt-2">{founder.role}</p>
+              <p className="text-on-surface-variant text-sm mt-2">{founder.cred}</p>
             </div>
           ))}
         </div>
@@ -87,7 +74,7 @@ export default function Founders() {
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-bold teal-gradient-btn group"
           >
             Meet the Full Team
-            <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+            <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
           </Link>
         </div>
       </div>
