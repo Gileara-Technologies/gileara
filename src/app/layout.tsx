@@ -3,7 +3,6 @@ import { Inter, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { MotionProvider } from "@/components/MotionProvider";
-import GlobalLoading from "@/components/GlobalLoading";
 import BackToTop from "@/components/BackToTop";
 
 const inter = Inter({
@@ -78,9 +77,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
         <link rel="preload" href="/assets/gileara/logo-full.png" as="image" />
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <MotionProvider>
-            <GlobalLoading />
             <div className="flex flex-col min-h-screen">
               <div className="flex-grow">
                 {children}

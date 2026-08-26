@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { HiArrowUp } from "react-icons/hi2";
+
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
@@ -34,7 +34,7 @@ export default function BackToTop() {
           : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >
-      <HiArrowUp className="h-5 w-5" />
+      <span className="material-symbols-outlined text-lg" aria-hidden="true">arrow_upward</span>
     </button>
   );
 }

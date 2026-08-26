@@ -33,6 +33,12 @@ export interface TransformationScenario {
   targetOutcomes: string[];
   ghanaContext: string;
   status: ScenarioStatus;
+  /**
+   * Optional local photo path (under /public), e.g. "/assets/gileara/photos/pharmacy.jpg".
+   * Renders as a card banner when present; omit until real photography of the
+   * actual business context exists (D15 — never Western/AI stock).
+   */
+  image?: string;
 }
 
 export const scenarios: TransformationScenario[] = [

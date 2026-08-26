@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
+import Image from "next/image";
+import Tilt3D from "@/components/Tilt3D";
+
 import { scenarios, SCENARIO_STATUS_LEGEND, scenarioPackages, type ScenarioStatus } from "@/content/scenarios";
 
 const container = {
@@ -73,11 +75,23 @@ export default function HowWeTransformClient() {
           {scenarios.map((scenario) => {
             const pkgs = scenarioPackages(scenario);
             return (
-              <motion.article key={scenario.id} variants={item} className="group">
+              <motion.article key={scenario.id} variants={item} className="group h-full">
+                <Tilt3D maxDeg={4} className="h-full">
                 <Link
                   href={`/how-we-transform/${scenario.id}`}
                   className="flex flex-col h-full rounded-2xl p-8 bg-surface-container dark:bg-surface-container-high border border-outline-variant/25 dark:border-outline-variant/10 hover:border-primary/40 dark:hover:border-primary/30 transition-colors duration-300"
                 >
+                  {scenario.image && (
+                    <div className="relative h-40 -mx-8 -mt-8 mb-6 rounded-t-2xl overflow-hidden">
+                      <Image
+                        src={scenario.image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
                   <div className="flex items-start justify-between gap-3 mb-4">
                     <span className="material-symbols-outlined text-secondary dark:text-primary text-4xl" aria-hidden>
                       {scenario.icon}
@@ -100,9 +114,10 @@ export default function HowWeTransformClient() {
                   </div>
                   <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
                     Read the playbook
-                    <FaArrowRight className="w-3.5 h-3.5" />
+                    <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
                   </span>
                 </Link>
+                </Tilt3D>
               </motion.article>
             );
           })}
@@ -127,7 +142,7 @@ export default function HowWeTransformClient() {
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
             >
               Ask about it
-              <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+              <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
             </Link>
           </motion.div>
         </motion.div>

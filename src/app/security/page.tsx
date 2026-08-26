@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { FaCheck } from "react-icons/fa6";
+
 import { siteConfig } from "@/content/site-config";
 
 export const metadata: Metadata = {
@@ -143,7 +143,7 @@ export default function SecurityPage() {
                             <span className="text-outline-variant/60" aria-label="Not included">—</span>
                           ) : cell === "Included" ? (
                             <span className="inline-flex items-center gap-1.5 text-on-surface">
-                              <FaCheck className="w-3.5 h-3.5 text-secondary dark:text-primary" aria-label="Included" />
+                              <span className="material-symbols-outlined text-base text-secondary dark:text-primary" role="img" aria-label="Included">check</span>
                               Included
                             </span>
                           ) : (
@@ -213,7 +213,7 @@ export default function SecurityPage() {
               className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
             >
               Compare packages
-              <FaCheck className="w-3.5 h-3.5 group-hover:scale-110 transition-transform duration-200" />
+              <span className="material-symbols-outlined text-sm group-hover:scale-110 transition-transform duration-200" aria-hidden="true">check</span>
             </Link>
           </div>
         </div>

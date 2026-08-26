@@ -30,7 +30,7 @@
 - `/` — Section-scroll homepage: Navbar, Hero, TrustStrip, CinematicStory (MSME pains → package links), Pricing (five packages rendered from `src/content/packages.ts`), Approach, Positioning ("Why Gileara"), Founders, ContactCTA (slim band → `/contact`), Footer; JSON-LD generated from the same content modules
 - `/about`, `/services`, `/faq` — Static marketing pages; `/services` renders all five packages with full tier tables from `src/content/packages.ts` (anchored sections per package); `/faq` renders `src/content/faqs.ts` + matching FAQPage JSON-LD
 - `/contact` — Dedicated booking page hosting the ContactStepper; canonical target for every "Book a Free Consultation" CTA
-- `/careers` — Careers portal: `Navbar variant="careers"`, CareersHero, WhyJoinUs, OpenRoles, ApplicationForm
+- `/careers` — Careers portal: `Navbar variant="careers"`, CareersHero, OpenRoles, WhyJoinUs, ApplicationForm; open roles render from `src/content/roles.ts` (Stage-1 plan: Full-Stack ×2, UI/UX, DevOps, PM; QA parked) and JobPosting JSON-LD derives from the same module
 - `/how-we-transform` (+ `/how-we-transform/[slug]`) — Vertical transformation playbooks rendered from `src/content/scenarios.ts`; every entry carries a status label (`scenario | pilot | case-study`) and goals-not-results framing. `/case-studies/*` permanently redirects here (fabricated stories removed)
 - `/insights` (+ `/insights/[slug]`) — Articles list and detail pages from `src/content/posts.ts`, with tag filter (Packages / Operations / Growth / Automation / Ghana-market)
 - `/privacy`, `/terms`, `/security` — Static legal pages (Navbar + Footer layout)
@@ -47,10 +47,14 @@ Security headers (HSTS, nosniff, DENY framing, referrer policy) are applied via 
 ### Key conventions
 - **Path alias**: `@/*` maps to `./src/*`
 - **Client components**: Marked `"use client"` when using Framer Motion, React state, or browser APIs
-- **Theme**: `next-themes` with `attribute="class" defaultTheme="light" enableSystem={false}` — light is the default; the navbar `ThemeToggle` switches to dark (user choice persists via localStorage)
+- **Theme**: `next-themes` with `attribute="class" defaultTheme="dark" enableSystem={false}` — **dark (Velocity Navy) is the brand-default** per `DESIGN.md`/`gileara_velocity_dark`; light mode remains as secondary toggle
+- **3-D system**: three tiers — CSS structural tilt (`src/components/Tilt3D.tsx`, max 6°, off for touch/reduced-motion), ONE WebGL signature effect (`src/components/three/OrbitScene.tsx`, lazy client-only, reduced-motion renders a single static frame, no-WebGL falls back to hero watermark/gradient), Framer Motion scroll reveals. Never add a second WebGL scene (fable-signature-effects rule); never let canvas intercept pointer events
 - **CSS**: Tailwind utility classes + CSS custom properties in `globals.css` (light/dark `:root` / `.dark` blocks)
 - **Tests live in `tests/`**, mirror `src/` layout, use the `@/` alias; no DOM environment needed yet
-- **Content modules** are the only sources for copy shown in UI or schema: `packages.ts`, `site-config.ts`, `faqs.ts`, `posts.ts`, `scenarios.ts` — never duplicate their data elsewhere; JSON-LD is generated from them
+- **Content modules** are the only sources for copy shown in UI or schema: `packages.ts`, `site-config.ts`, `faqs.ts`, `posts.ts`, `scenarios.ts`, `roles.ts` — never duplicate their data elsewhere; JSON-LD is generated from them
+- **Icons**: Material Symbols (`material-symbols-outlined`) is the single system for all UI glyphs — svg width/height classes don't apply to it (translate to `text-*` font sizes); react-icons remains ONLY for brand glyphs with no Material equivalent (`FaLinkedin`, `FaWhatsapp`). No other icon libraries (lucide-react removed)
+- **Imagery**: optional photo slots on playbook/insight cards come from content-module `image` fields with gradient fallbacks; see `docs/IMAGERY.md` (real Ghanaian contexts only — never Western/AI stock)
+- **Design references**: `DESIGN.md` (light) + `stitch_gileara_technologies_website/gileara_velocity_dark/DESIGN.md` (dark, authoritative for default theme); homepage follows Promise → Proof → Objection → Ask section order; keyword marquee after Hero; pricing uses numbered alternating-fill cards
 
 ## Environment
 
@@ -78,5 +82,5 @@ Cloudflare's git integration auto-deploys **every merge into `main`** (worker `v
 
 - **Tests cover** the request proxy (headers, maintenance modes, bypass flow), all three API routes' validation/error branches, and the maintenance-routes list shape. Component rendering is not tested yet.
 - **GitHub workflows** in `.github/workflows/`: AI review, stale cleanup, issue triage, branch cleanup, auto-rebase, and smart-tests (runs `npm test`, `npm run lint`, `npm run build` on PRs)
-- **Lighthouse report** in `lighthouse.json` is a static snapshot (2026-06-06), not maintained
+- **Performance**: no synthetic loading screens; capture Lighthouse baselines manually against production (no maintained snapshot in-repo)
 - **Single code owner**: `@thehiddendeveloper` per CODEOWNERS

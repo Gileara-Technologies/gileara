@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar as CalendarIcon, Clock, ChevronRight, ChevronLeft } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -64,7 +63,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
 
       <div className="space-y-4">
         <div className="flex items-center gap-2 text-sm font-medium text-on-surface-variant uppercase tracking-wider">
-          <CalendarIcon size={16} />
+          <span className="material-symbols-outlined text-base" aria-hidden="true">calendar_month</span>
           <span>Pick a Date</span>
         </div>
         <div className="flex overflow-x-auto gap-3 pb-4 snap-x scrollbar-hide">
@@ -99,7 +98,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
         className="space-y-6"
       >
         <div className="flex items-center gap-2 text-sm font-medium text-on-surface-variant uppercase tracking-wider">
-          <Clock size={16} />
+          <span className="material-symbols-outlined text-base" aria-hidden="true">schedule</span>
           <span>Select Time Block</span>
         </div>
         
@@ -135,7 +134,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
           onClick={onBack}
           className="text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2"
         >
-          <ChevronLeft size={20} />
+          <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_left</span>
           <span>Back</span>
         </button>
         <button
@@ -151,7 +150,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
           ) : (
             <>
               <span>Lock in Proposal</span>
-              <ChevronRight size={20} />
+              <span className="material-symbols-outlined text-xl" aria-hidden="true">chevron_right</span>
             </>
           )}
         </button>

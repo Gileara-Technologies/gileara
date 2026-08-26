@@ -1,14 +1,43 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { FaArrowRight } from "react-icons/fa6";
+
+/** Signature effect — lazy, client-only, never blocking first paint (kill-switch safe). */
+const OrbitScene = dynamic(() => import("@/components/three/OrbitScene"), {
+  ssr: false,
+  loading: () => null,
+});
+
+function useWebGLAvailable() {
+  const [ok, setOk] = useState(false);
+  useEffect(() => {
+    // defer past the synchronous effect pass (react-compiler rule);
+    // one frame of delay is invisible behind the fallback layer
+    const id = requestAnimationFrame(() => {
+      try {
+        const canvas = document.createElement("canvas");
+        setOk(Boolean(canvas.getContext("webgl2") || canvas.getContext("webgl")));
+      } catch {
+        setOk(false);
+      }
+    });
+    return () => cancelAnimationFrame(id);
+  }, []);
+  return ok;
+}
 
 export default function Hero() {
+  const prefersReduced = useReducedMotion();
+  const webgl = useWebGLAvailable();
+  const showScene = webgl && !prefersReduced;
+
   return (
     <section className="relative min-h-screen flex items-center bg-background overflow-hidden">
-      {/* Logo watermark — always visible, light-on-dark treatment */}
+      {/* Layer 0 — logo watermark: the kill-switch layer (site stays complete without the scene) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <Image
           src="/assets/gileara/logo-icon.png"
@@ -21,9 +50,11 @@ export default function Hero() {
         />
       </div>
 
-      {/* Subtle background gradient */}
+      {/* Layer 1 — ambient gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] via-transparent to-secondary/[0.02]" />
 
+      {/* Layer 2 — signature effect: growth-orbit WebGL scene */}
+      {showScene && <OrbitScene />}
 
       <div className="relative z-10 w-full">
         <div className="max-w-4xl mx-auto px-4 md:px-10 pt-32 pb-20 md:pt-48 md:pb-32 text-center">
@@ -42,6 +73,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="font-display text-4xl md:text-7xl font-bold leading-tight text-on-background tracking-tight"
+              style={{ letterSpacing: "-0.03em" }}
             >
               We Build the Systems Your Business Runs On
             </motion.h1>
@@ -63,11 +95,11 @@ export default function Hero() {
             >
               <Link href="/#packages" className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group">
                 Explore Packages
-                <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+                <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
               </Link>
               <Link href="/contact" className="border border-outline-variant px-8 py-4 rounded-lg text-center font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors inline-flex items-center justify-center gap-2 group">
                 Book a Free Consultation
-                <FaArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                <span className="material-symbols-outlined text-base opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" aria-hidden="true">arrow_forward</span>
               </Link>
             </motion.div>
 

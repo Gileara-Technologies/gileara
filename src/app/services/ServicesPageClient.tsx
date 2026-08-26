@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowRight, FaCheck } from "react-icons/fa6";
+
 import {
   servicePackages,
   customServices,
@@ -43,7 +43,7 @@ function Cell({ value }: { value?: string }) {
   if (value === "Yes") {
     return (
       <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-secondary/15 dark:bg-primary/20">
-        <FaCheck className="w-3 h-3 text-secondary dark:text-primary" aria-label="Included" />
+        <span className="material-symbols-outlined text-sm text-secondary dark:text-primary" role="img" aria-label="Included">check</span>
       </span>
     );
   }
@@ -151,7 +151,7 @@ export default function ServicesPageClient() {
                     className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
                   >
                     Discuss this package
-                    <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
                   </Link>
                 </div>
 
@@ -275,7 +275,7 @@ export default function ServicesPageClient() {
             </ul>
             <Link href="/contact" className="mt-6 inline-flex items-center gap-2 font-semibold text-primary hover:underline">
               Ask about a custom build
-              <FaArrowRight className="w-3.5 h-3.5" />
+              <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
             </Link>
           </div>
         </div>
@@ -292,7 +292,7 @@ export default function ServicesPageClient() {
             className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold teal-gradient-btn text-white dark:text-on-primary shadow-lg group"
           >
             Book a Free Consultation
-            <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+            <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
           </Link>
           <p className="mt-4 text-xs text-outline">{siteConfig.location} · {siteConfig.timezone}</p>
         </div>

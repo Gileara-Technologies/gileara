@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactStepper from "@/components/scheduling/ContactStepper";
-import { FaEnvelope } from "react-icons/fa6";
+
 import { FaWhatsapp } from "react-icons/fa6";
 import { siteConfig } from "@/content/site-config";
 
@@ -55,7 +55,7 @@ export default function ContactPage() {
 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4 p-6 bg-surface-container rounded-xl border border-outline-variant/10 hover:border-primary/30 transition-colors group">
-                    <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors"><FaEnvelope className="w-5 h-5 text-primary" /></div>
+                    <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors"><span className="material-symbols-outlined text-lg text-primary" aria-hidden="true">mail</span></div>
                     <div>
                       <p className="font-mono text-xs text-outline uppercase tracking-wider">Send an Email</p>
                       <a className="text-xl font-semibold text-on-surface hover:text-primary transition-colors" href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>

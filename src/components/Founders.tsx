@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaLinkedin, FaArrowRight } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa6";
 
 export default function Founders() {
   const founders = [
@@ -30,7 +30,7 @@ export default function Founders() {
   ];
 
   return (
-    <section id="founders" className="py-24 bg-surface-container px-4 md:px-10">
+    <section id="founders" className="py-24 md:py-32 bg-transparent border-y border-outline-variant/10 px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
           <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Leadership</span>
@@ -74,7 +74,7 @@ export default function Founders() {
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-bold teal-gradient-btn group"
           >
             Meet the Full Team
-            <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+            <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
           </Link>
         </div>
       </div>

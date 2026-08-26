@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaGraduationCap, FaHandshakeAngle, FaLaptopCode, FaChartLine, FaGlobe, FaLightbulb } from "react-icons/fa6";
+
 
 export default function WhyJoinUs() {
   const container = {
@@ -21,32 +21,32 @@ export default function WhyJoinUs() {
     {
       title: "Career Growth",
       desc: "Clear progression paths and mentorship from industry veterans to help you level up your skills.",
-      icon: <FaChartLine className="w-6 h-6" />
+      icon: <span className="material-symbols-outlined text-xl" aria-hidden="true">trending_up</span>
     },
     {
       title: "Learning Opportunities",
       desc: "Dedicated time for R&D, tech talks, and access to learning resources to stay ahead of the curve.",
-      icon: <FaGraduationCap className="w-6 h-6" />
+      icon: <span className="material-symbols-outlined text-xl" aria-hidden="true">school</span>
     },
     {
       title: "Collaborative Environment",
       desc: "A blameless culture where every voice matters and cross-functional teamwork is celebrated.",
-      icon: <FaHandshakeAngle className="w-6 h-6" />
+      icon: <span className="material-symbols-outlined text-xl" aria-hidden="true">handshake</span>
     },
     {
       title: "Modern Technologies",
       desc: "Work with a cutting-edge stack including Next.js, Cloudflare Workers, and modern tooling.",
-      icon: <FaLaptopCode className="w-6 h-6" />
+      icon: <span className="material-symbols-outlined text-xl" aria-hidden="true">code</span>
     },
     {
       title: "Flexible Work Culture",
       desc: "We focus on outcomes and deliverables, not micromanagement. Enjoy a healthy work-life balance.",
-      icon: <FaGlobe className="w-6 h-6" />
+      icon: <span className="material-symbols-outlined text-xl" aria-hidden="true">public</span>
     },
     {
       title: "Meaningful Impact",
       desc: "Build systems that solve real problems for real businesses. See the direct result of your work.",
-      icon: <FaLightbulb className="w-6 h-6" />
+      icon: <span className="material-symbols-outlined text-xl" aria-hidden="true">lightbulb</span>
     }
   ];
 

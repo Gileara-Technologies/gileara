@@ -21,6 +21,8 @@ export interface InsightPost {
   date: string; // ISO
   author: string;
   tag: PostTag;
+  /** Optional local cover photo (under /public); gradient fallback when absent (D15). */
+  image?: string;
   content: PostBlock[];
 }
 

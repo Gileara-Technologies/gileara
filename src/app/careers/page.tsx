@@ -4,6 +4,7 @@ import CareersHero from "@/components/careers/CareersHero";
 import OpenRoles from "@/components/careers/OpenRoles";
 import WhyJoinUs from "@/components/careers/WhyJoinUs";
 import ApplicationForm from "@/components/careers/ApplicationForm";
+import { openRoles } from "@/content/roles";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -56,42 +57,12 @@ export const metadata: Metadata = {
 
 const currentDate = new Date().toISOString().split("T")[0];
 
-const jobPostings = [
-  {
-    title: "Frontend Developer",
-    description:
-      "Build beautiful, highly interactive, and performant user interfaces for our clients' web applications.",
-    skills: "TypeScript, HTML, CSS, Responsive web design, Modern JavaScript (ES6+)",
-    employmentType: "FULL_TIME",
-  },
-  {
-    title: "Backend Developer",
-    description: "Design and implement robust, scalable APIs and database architectures.",
-    skills: "Node.js, SQL/NoSQL databases, REST APIs, JWT Authentication",
-    employmentType: "FULL_TIME",
-  },
-  {
-    title: "QA Engineer",
-    description:
-      "Ensure the highest quality of our deliverables through rigorous automated and manual testing.",
-    skills: "Cypress/Playwright, Jest/Vitest, Manual testing, CI/CD integration",
-    employmentType: "FULL_TIME",
-  },
-  {
-    title: "DevOps Engineer",
-    description:
-      "Streamline our deployment pipelines and manage our cloud infrastructure securely.",
-    skills: "Docker/Kubernetes, GitHub Actions, Infrastructure as Code, Linux Admin",
-    employmentType: "FULL_TIME",
-  },
-  {
-    title: "UI/UX Designer",
-    description:
-      "Craft intuitive, engaging, and accessible user experiences for complex systems.",
-    skills: "User-centered design, Prototyping, HTML/CSS, Accessibility standards",
-    employmentType: "FULL_TIME",
-  },
-];
+const jobPostings = openRoles.map((role) => ({
+  title: role.title,
+  description: role.description,
+  skills: role.requiredSkills.join(", "),
+  employmentType: "FULL_TIME",
+}));
 
 const jsonLd = {
   "@context": "https://schema.org",
