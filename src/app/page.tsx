@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import KeywordMarquee from "@/components/KeywordMarquee";
 import TrustStrip from "@/components/TrustStrip";
 import CinematicStory from "@/components/CinematicStory";
 import Pricing from "@/components/Pricing";
@@ -155,6 +156,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <KeywordMarquee />
         <TrustStrip />
         <CinematicStory />
         <Pricing />
