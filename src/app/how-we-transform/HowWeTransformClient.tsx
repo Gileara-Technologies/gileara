@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
+
 import { scenarios, SCENARIO_STATUS_LEGEND, scenarioPackages, type ScenarioStatus } from "@/content/scenarios";
 
 const container = {
@@ -100,7 +100,7 @@ export default function HowWeTransformClient() {
                   </div>
                   <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
                     Read the playbook
-                    <FaArrowRight className="w-3.5 h-3.5" />
+                    <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
                   </span>
                 </Link>
               </motion.article>
@@ -127,7 +127,7 @@ export default function HowWeTransformClient() {
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
             >
               Ask about it
-              <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+              <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
             </Link>
           </motion.div>
         </motion.div>

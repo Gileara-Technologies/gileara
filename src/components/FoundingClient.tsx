@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
+
 
 /**
  * Founding-client program block (D4 resolution): no discounts — the offer is
@@ -27,7 +27,7 @@ export default function FoundingClient() {
           className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold teal-gradient-btn text-white dark:text-on-primary shadow-lg group"
         >
           Ask about a founding slot
-          <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+          <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
         </Link>
       </div>
     </section>

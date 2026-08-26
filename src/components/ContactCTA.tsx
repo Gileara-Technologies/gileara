@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
+
 import { motion } from "framer-motion";
 import { siteConfig } from "@/content/site-config";
 
@@ -33,7 +33,7 @@ export default function ContactCTA() {
               className="teal-gradient-btn px-8 py-4 rounded-lg font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group"
             >
               Book a Free Consultation
-              <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+              <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
             </Link>
             <a
               href={`mailto:${siteConfig.email}`}

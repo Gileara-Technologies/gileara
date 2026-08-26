@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa6";
-import { FiTool } from "react-icons/fi";
+
+
 
 interface UnderMaintenanceProps {
   fullPage?: boolean;
@@ -73,7 +73,7 @@ export default function UnderMaintenance({ fullPage = true }: UnderMaintenancePr
                 transition={spinTransition}
                 className="text-primary dark:text-on-surface"
               >
-                <FiTool className="w-8 h-8" />
+                <span className="material-symbols-outlined text-3xl" aria-hidden="true">build</span>
               </motion.div>
             </div>
           </motion.div>
@@ -104,7 +104,7 @@ export default function UnderMaintenance({ fullPage = true }: UnderMaintenancePr
                 href="/"
                 className="px-6 py-3 rounded-lg text-center font-medium shadow-sm bg-primary text-white hover:bg-primary/90 dark:bg-on-surface dark:text-surface hover:dark:bg-on-surface/90 transition-colors inline-flex items-center justify-center gap-2 group"
               >
-                <FaArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
+                <span className="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_back</span>
                 Back to Home
               </Link>
             </motion.div>

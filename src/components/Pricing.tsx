@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
+
 import {
   servicePackages,
   customServices,
@@ -108,7 +108,7 @@ export default function Pricing() {
                   }`}
                 >
                   Discuss this package
-                  <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+                  <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
                 </Link>
               </motion.article>
             );

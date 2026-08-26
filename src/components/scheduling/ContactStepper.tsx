@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
+
 import Link from 'next/link';
 import CalendarStep from './CalendarStep';
 import { servicePackages } from '@/content/packages';
@@ -177,7 +177,7 @@ export default function ContactStepper() {
               className="w-full btn-primary py-5 text-lg font-bold flex items-center justify-center gap-3 mt-4"
             >
               <span>Next: Pick a Time</span>
-              <Send size={20} />
+              <span className="material-symbols-outlined text-xl" aria-hidden="true">send</span>
             </button>
           </motion.form>
         )}
@@ -198,7 +198,7 @@ export default function ContactStepper() {
             {error && (
               <div className="mt-6 p-5 bg-red-500/10 border border-red-500/20 rounded-2xl text-sm space-y-3">
                 <div className="flex items-center gap-3 text-red-500">
-                  <AlertCircle size={20} />
+                  <span className="material-symbols-outlined text-xl" aria-hidden="true">error</span>
                   <span>Booking system hiccup — your details are safe.</span>
                 </div>
                 <a
@@ -206,7 +206,7 @@ export default function ContactStepper() {
                   className="inline-flex items-center gap-2 font-semibold text-primary hover:underline"
                 >
                   Email us this instead
-                  <Send size={16} />
+                  <span className="material-symbols-outlined text-base" aria-hidden="true">send</span>
                 </a>
               </div>
             )}
@@ -221,7 +221,7 @@ export default function ContactStepper() {
             className="text-center space-y-6 max-w-md"
           >
             <div className="w-24 h-24 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle2 size={48} />
+              <span className="material-symbols-outlined text-5xl" aria-hidden="true">check_circle</span>
             </div>
             <h3 className="text-3xl font-bold text-on-surface">You&apos;re booked!</h3>
             <p className="text-on-surface-variant text-lg">

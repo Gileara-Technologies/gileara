@@ -2,7 +2,7 @@
 
 import { useState, useRef, ChangeEvent, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaPaperPlane, FaCircleCheck, FaCircleExclamation, FaCloudArrowUp, FaXmark } from "react-icons/fa6";
+
 
 const experienceLevels = [
   { value: "beginner", label: "Beginner (0-1 years)", desc: "Currently learning core concepts and building foundational skills through coursework, personal projects, or internships." },
@@ -240,7 +240,7 @@ export default function ApplicationForm() {
         className="bg-surface dark:bg-surface-container-high rounded-3xl p-10 md:p-16 border border-outline-variant/20 shadow-xl text-center max-w-2xl mx-auto"
       >
         <div className="w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
-          <FaCircleCheck className="w-10 h-10" />
+          <span className="material-symbols-outlined text-5xl" aria-hidden="true">check_circle</span>
         </div>
         <h3 className="font-display text-3xl font-bold text-on-surface mb-4">Application Submitted!</h3>
         <p className="text-on-surface-variant text-lg mb-8">
@@ -286,7 +286,7 @@ export default function ApplicationForm() {
                 exit={{ opacity: 0 }}
                 className="mb-8 p-4 bg-error-container border border-error/30 rounded-xl flex items-start gap-3"
               >
-                <FaCircleExclamation className="w-5 h-5 text-on-error-container mt-0.5 shrink-0" />
+                <span className="material-symbols-outlined text-lg text-on-error-container mt-0.5 shrink-0" aria-hidden="true">error</span>
                 <p className="text-on-error-container text-sm font-medium">{serverMessage}</p>
               </motion.div>
             )}
@@ -389,19 +389,19 @@ export default function ApplicationForm() {
                       accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     />
-                    <FaCloudArrowUp className={`w-10 h-10 mx-auto mb-3 ${errors.file ? 'text-error' : 'text-on-surface-variant'}`} />
+                    <span className={`material-symbols-outlined text-5xl mx-auto mb-3 ${errors.file ? 'text-error' : 'text-on-surface-variant'}`} aria-hidden="true">cloud_upload</span>
                     <p className="text-sm text-on-surface font-medium mb-1">Click to upload or drag and drop</p>
                     <p className="text-xs text-on-surface-variant">Max file size: 5MB</p>
                   </div>
                 ) : (
                   <div className="bg-surface border border-primary/30 rounded-xl p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <FaCircleCheck className="text-primary w-5 h-5 shrink-0" />
+                      <span className="material-symbols-outlined text-lg text-primary shrink-0" aria-hidden="true">check_circle</span>
                       <span className="text-sm font-medium text-on-surface truncate">{file.name}</span>
                       <span className="text-xs text-on-surface-variant shrink-0">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
                     </div>
                     <button type="button" onClick={clearFile} className="p-2 hover:bg-error/10 text-on-surface-variant hover:text-error rounded-lg transition-colors" aria-label="Remove file">
-                      <FaXmark />
+                      <span className="material-symbols-outlined" aria-hidden="true">close</span>
                     </button>
                   </div>
                 )}
@@ -420,19 +420,19 @@ export default function ApplicationForm() {
                       accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     />
-                    <FaCloudArrowUp className={`w-10 h-10 mx-auto mb-3 ${errors.coverLetterFile ? 'text-error' : 'text-on-surface-variant'}`} />
+                    <span className={`material-symbols-outlined text-5xl mx-auto mb-3 ${errors.coverLetterFile ? 'text-error' : 'text-on-surface-variant'}`} aria-hidden="true">cloud_upload</span>
                     <p className="text-sm text-on-surface font-medium mb-1">Click to upload or drag and drop</p>
                     <p className="text-xs text-on-surface-variant">Max file size: 5MB</p>
                   </div>
                 ) : (
                   <div className="bg-surface border border-primary/30 rounded-xl p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <FaCircleCheck className="text-primary w-5 h-5 shrink-0" />
+                      <span className="material-symbols-outlined text-lg text-primary shrink-0" aria-hidden="true">check_circle</span>
                       <span className="text-sm font-medium text-on-surface truncate">{coverLetterFile.name}</span>
                       <span className="text-xs text-on-surface-variant shrink-0">({(coverLetterFile.size / 1024 / 1024).toFixed(2)} MB)</span>
                     </div>
                     <button type="button" onClick={clearCoverLetter} className="p-2 hover:bg-error/10 text-on-surface-variant hover:text-error rounded-lg transition-colors" aria-label="Remove cover letter">
-                      <FaXmark />
+                      <span className="material-symbols-outlined" aria-hidden="true">close</span>
                     </button>
                   </div>
                 )}
@@ -454,7 +454,7 @@ export default function ApplicationForm() {
               ) : (
                 <>
                   <span>Submit Application</span>
-                  <FaPaperPlane className="w-4 h-4" />
+                  <span className="material-symbols-outlined text-base" aria-hidden="true">send</span>
                 </>
               )}
             </button>

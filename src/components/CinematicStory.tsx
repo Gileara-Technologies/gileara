@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa6";
+
 
 export default function CinematicStory() {
   const container = {
@@ -86,7 +86,7 @@ export default function CinematicStory() {
                 className="mt-auto pt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-secondary dark:text-primary hover:underline"
               >
                 Fixed by {card.fix}
-                <FaArrowRight className="w-3 h-3" />
+                <span className="material-symbols-outlined text-xs" aria-hidden="true">arrow_forward</span>
               </Link>
             </motion.div>
           ))}

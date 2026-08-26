@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { FaArrowRight, FaCheck } from "react-icons/fa6";
+
 import { scenarios, scenarioPackages } from "@/content/scenarios";
 
 interface PageProps {
@@ -131,7 +131,7 @@ export default async function ScenarioPage({ params }: PageProps) {
             <ul className="space-y-3">
               {scenario.targetOutcomes.map((outcome) => (
                 <li key={outcome} className="flex items-start gap-3 text-on-surface leading-relaxed">
-                  <FaCheck className="w-4 h-4 mt-1 text-secondary dark:text-primary shrink-0" aria-hidden />
+                  <span className="material-symbols-outlined text-base mt-1 text-secondary dark:text-primary shrink-0" aria-hidden="true">check</span>
                   {outcome}
                 </li>
               ))}
@@ -157,7 +157,7 @@ export default async function ScenarioPage({ params }: PageProps) {
               className="mt-6 inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold teal-gradient-btn text-white dark:text-on-primary shadow-lg group"
             >
               Book a Free Consultation
-              <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+              <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
             </Link>
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
-import { HiSun, HiMoon } from "react-icons/hi2";
+
 
 const emptySubscribe = () => () => {};
 
@@ -26,9 +26,9 @@ export function ThemeToggle() {
       aria-label="Toggle Theme"
     >
       {theme === "dark" ? (
-        <HiSun className="w-5 h-5" />
+        <span className="material-symbols-outlined text-lg" aria-hidden="true">light_mode</span>
       ) : (
-        <HiMoon className="w-5 h-5" />
+        <span className="material-symbols-outlined text-lg" aria-hidden="true">dark_mode</span>
       )}
     </button>
   );

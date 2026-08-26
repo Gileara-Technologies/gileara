@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FaLinkedin, FaEnvelope, FaHeart, FaArrowRight } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa6";
 import { siteConfig } from "@/content/site-config";
 
 export default function Footer() {
@@ -105,7 +105,7 @@ export default function Footer() {
                   href={`mailto:${siteConfig.email}`}
                   aria-label="Email Gileara"
                 >
-                  <FaEnvelope className="w-4 h-4 text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" />
+                  <span className="material-symbols-outlined text-base text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" aria-hidden="true">mail</span>
                 </a>
               </div>
             </div>
@@ -139,13 +139,13 @@ export default function Footer() {
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold teal-gradient-btn group shrink-0"
           >
             Book a Free Consultation
-            <FaArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
+            <span className="material-symbols-outlined text-xs group-hover:translate-x-0.5 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
           </Link>
         </div>
         <div className="pt-8 border-t border-outline-variant/30 dark:border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4 text-on-surface-variant text-sm">
           <p>© {new Date().getFullYear()} Gileara Technologies. All rights reserved.</p>
           <div className="flex items-center gap-2">
-            Built with <FaHeart className="text-secondary dark:text-primary text-sm inline-block" /> in Ghana &amp; Beyond
+            Built with <span className="material-symbols-outlined text-secondary dark:text-primary text-sm inline-block" aria-hidden="true">favorite</span> in Ghana &amp; Beyond
           </div>
         </div>
       </div>

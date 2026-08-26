@@ -6,8 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { HiBars3, HiXMark } from "react-icons/hi2";
-import { FaArrowRight, FaEnvelope, FaPaperPlane } from "react-icons/fa6";
+
+
 import { siteConfig } from "@/content/site-config";
 
 type NavbarVariant = "default" | "legal" | "careers";
@@ -190,7 +190,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
                 className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn group"
               >
                 Book Free Consultation
-                <FaArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
+                <span className="material-symbols-outlined text-xs group-hover:translate-x-0.5 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
               </Link>
             )}
             {legalDetails && (
@@ -199,7 +199,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
                 className="hidden md:inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-xs font-bold text-on-primary shadow-sm transition-colors hover:bg-primary-container hover:text-on-primary-container"
               >
                 {legalDetails.cta}
-                <FaEnvelope className="h-3 w-3" />
+                <span className="material-symbols-outlined text-xs" aria-hidden="true">mail</span>
               </a>
             )}
             {variant === "careers" && (
@@ -208,7 +208,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
                 className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn group"
               >
                 Apply Now
-                <FaPaperPlane className="w-3 h-3" />
+                <span className="material-symbols-outlined text-xs" aria-hidden="true">send</span>
               </a>
             )}
 
@@ -220,7 +220,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
               aria-expanded={isMobileMenuOpen}
               aria-controls={`${navId}-drawer`}
             >
-              {isMobileMenuOpen ? <HiXMark className="w-7 h-7" /> : <HiBars3 className="w-7 h-7" />}
+              {isMobileMenuOpen ? <span className="material-symbols-outlined text-2xl" aria-hidden="true">close</span> : <span className="material-symbols-outlined text-2xl" aria-hidden="true">menu</span>}
             </button>
           </div>
         </div>
@@ -266,7 +266,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Book Free Consultation
-                    <FaArrowRight className="w-4 h-4" />
+                    <span className="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
                   </Link>
                 )}
                 {legalDetails && (
@@ -276,7 +276,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {legalDetails.cta}
-                    <FaEnvelope className="h-4 w-4" />
+                    <span className="material-symbols-outlined text-base" aria-hidden="true">mail</span>
                   </a>
                 )}
                 {variant === "careers" && (
@@ -286,7 +286,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Apply Now
-                    <FaPaperPlane className="w-4 h-4" />
+                    <span className="material-symbols-outlined text-base" aria-hidden="true">send</span>
                   </a>
                 )}
               </div>

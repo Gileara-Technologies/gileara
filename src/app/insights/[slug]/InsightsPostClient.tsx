@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+
 import type { InsightPost } from "@/content/posts";
 
 export default function InsightsPostClient({ post }: { post: InsightPost }) {
@@ -14,7 +14,7 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
             href="/insights"
             className="inline-flex items-center gap-2 text-sm text-on-surface-variant hover:text-primary transition-colors mb-8"
           >
-            <FaArrowLeft className="w-3 h-3" />
+            <span className="material-symbols-outlined text-xs" aria-hidden="true">arrow_back</span>
             Back to Insights
           </Link>
 
@@ -54,7 +54,7 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
                     className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
                   >
                     {block.label}
-                    <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
                   </Link>
                 </div>
               );
@@ -77,7 +77,7 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
             href="/insights"
             className="inline-flex items-center gap-2 text-sm text-primary hover:gap-3 transition-all font-semibold"
           >
-            <FaArrowLeft className="w-3 h-3" />
+            <span className="material-symbols-outlined text-xs" aria-hidden="true">arrow_back</span>
             View All Insights
           </Link>
         </motion.div>
