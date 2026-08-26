@@ -102,7 +102,7 @@ export default function Footer() {
 
                 <a
                   className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group"
-                  href="mailto:tech.gileara@gmail.com"
+                  href={`mailto:${siteConfig.email}`}
                   aria-label="Email Gileara"
                 >
                   <FaEnvelope className="w-4 h-4 text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" />

@@ -6,6 +6,7 @@ import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import CalendarStep from './CalendarStep';
 import { servicePackages } from '@/content/packages';
+import { siteConfig } from '@/content/site-config';
 
 const GOAL_OPTIONS = [
   ...servicePackages.map((p) => ({ value: p.id, label: p.name })),
@@ -51,7 +52,7 @@ export default function ContactStepper() {
         `Goal: ${GOAL_OPTIONS.find((g) => g.value === formData.goal)?.label ?? formData.goal}\n\n${formData.message}` +
         (formData.date ? `\nPreferred slot: ${formData.date} ${formData.time} (GMT)` : ''),
     });
-    return `mailto:tech.gileara@gmail.com?${params.toString()}`;
+    return `mailto:${siteConfig.email}?${params.toString()}`;
   };
 
   const handleScheduleSubmit = async (date: string, time: string) => {
