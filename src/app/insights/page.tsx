@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InsightsListClient from "./InsightsListClient";
+import { posts, postReadTime } from "@/content/posts";
 
 export const metadata: Metadata = {
   title: "Insights | Gileara Technologies",
   description:
-    "Technical insights, engineering perspectives, and strategic thinking from the team at Gileara Technologies.",
+    "Practical insights for Ghanaian MSMEs — packages, operations, growth, automation, and the local market realities of going digital.",
   alternates: { canonical: "/insights" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "Insights | Gileara Technologies",
-    description: "Technical insights, engineering perspectives, and strategic thinking from the team at Gileara.",
+    description: "Practical insights for Ghanaian MSMEs going digital.",
     url: "/insights",
     siteName: "Gileara Technologies",
     type: "website",
@@ -20,41 +21,22 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Insights | Gileara Technologies",
-    description: "Technical insights from the team at Gileara.",
+    description: "Practical insights for Ghanaian MSMEs going digital.",
     images: ["/assets/gileara/og-insights.svg"],
   },
 };
 
-const posts = [
-  {
-    slug: "building-scalable-mvps",
-    title: "Building MVPs That Actually Scale",
-    excerpt: "How to go from idea to production without painting yourself into a corner.",
-    date: "2026-06-15",
-    author: "Amos Frederick Hughes",
-    category: "Engineering",
-    readTime: "8 min read",
-  },
-  {
-    slug: "automating-sme-workflows",
-    title: "Where to Start With Workflow Automation",
-    excerpt: "A practical guide for SMEs drowning in manual processes.",
-    date: "2026-05-28",
-    author: "Julian Hagan",
-    category: "Strategy",
-    readTime: "6 min read",
-  },
-  {
-    slug: "choosing-tech-stack",
-    title: "How We Choose a Tech Stack",
-    excerpt: "Our framework for picking the right tools for each project.",
-    date: "2026-04-10",
-    author: "Rodney Hagan",
-    category: "Engineering",
-    readTime: "10 min read",
-  },
-];
-
+const postMeta = [...posts]
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    excerpt: p.excerpt,
+    date: p.date,
+    author: p.author,
+    tag: p.tag,
+    readTime: postReadTime(p),
+  }));
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -63,7 +45,7 @@ const jsonLd = {
       "@type": "WebPage",
       "@id": "https://gileara.org/insights/#webpage",
       name: "Insights | Gileara Technologies",
-      description: "Technical insights, engineering perspectives, and strategic thinking from the team at Gileara Technologies.",
+      description: "Practical insights for Ghanaian MSMEs going digital.",
       url: "https://gileara.org/insights",
       publisher: { "@type": "Organization", name: "Gileara Technologies", url: "https://gileara.org", logo: "https://gileara.org/assets/gileara/logo-icon.png" },
     },
@@ -94,7 +76,7 @@ export default function InsightsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <main>
-        <InsightsListClient posts={posts} />
+        <InsightsListClient posts={postMeta} />
       </main>
       <Footer />
     </>

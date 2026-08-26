@@ -63,7 +63,7 @@ export default function Footer() {
                 <ul className="space-y-3 text-base text-on-surface-variant">
                   <li><Link href="/#packages" className="hover:text-primary transition-colors">Packages</Link></li>
                   <li><Link href="/services" className="hover:text-primary transition-colors">Services</Link></li>
-                  <li><Link href="/case-studies" className="hover:text-primary transition-colors">Case Studies</Link></li>
+                  <li><Link href="/how-we-transform" className="hover:text-primary transition-colors">How We Transform</Link></li>
                   <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
                   <li><Link href="/insights" className="hover:text-primary transition-colors">Insights</Link></li>
                   <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
@@ -102,7 +102,7 @@ export default function Footer() {
 
                 <a
                   className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group"
-                  href="mailto:tech.gileara@gmail.com"
+                  href={`mailto:${siteConfig.email}`}
                   aria-label="Email Gileara"
                 >
                   <FaEnvelope className="w-4 h-4 text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" />

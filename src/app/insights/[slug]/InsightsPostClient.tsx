@@ -2,23 +2,10 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import type { InsightPost } from "@/content/posts";
 
-interface ContentBlock {
-  type: "paragraph" | "heading";
-  text: string;
-}
-
-interface Post {
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  author: string;
-  content: ContentBlock[];
-}
-
-export default function InsightsPostClient({ post }: { post: Post }) {
+export default function InsightsPostClient({ post }: { post: InsightPost }) {
   return (
     <section className="pt-36 pb-24 md:pb-32 px-4 md:px-10 bg-background">
       <div className="max-w-3xl mx-auto">
@@ -56,6 +43,20 @@ export default function InsightsPostClient({ post }: { post: Post }) {
                 <h2 key={i} className="text-xl md:text-2xl font-bold text-on-surface pt-4">
                   {block.text}
                 </h2>
+              );
+            }
+            if (block.type === "cta") {
+              return (
+                <div key={i} className="my-8 p-6 rounded-2xl bg-surface-container dark:bg-surface-container-high border border-outline-variant/20 dark:border-outline-variant/10">
+                  <p className="text-on-surface leading-relaxed mb-4">{block.text}</p>
+                  <Link
+                    href={block.href}
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
+                  >
+                    {block.label}
+                    <FaArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+                  </Link>
+                </div>
               );
             }
             return (
