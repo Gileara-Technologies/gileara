@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 import { scenarios, SCENARIO_STATUS_LEGEND, scenarioPackages, type ScenarioStatus } from "@/content/scenarios";
 
@@ -78,6 +79,17 @@ export default function HowWeTransformClient() {
                   href={`/how-we-transform/${scenario.id}`}
                   className="flex flex-col h-full rounded-2xl p-8 bg-surface-container dark:bg-surface-container-high border border-outline-variant/25 dark:border-outline-variant/10 hover:border-primary/40 dark:hover:border-primary/30 transition-colors duration-300"
                 >
+                  {scenario.image && (
+                    <div className="relative h-40 -mx-8 -mt-8 mb-6 rounded-t-2xl overflow-hidden">
+                      <Image
+                        src={scenario.image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
                   <div className="flex items-start justify-between gap-3 mb-4">
                     <span className="material-symbols-outlined text-secondary dark:text-primary text-4xl" aria-hidden>
                       {scenario.icon}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { POST_TAGS, type PostTag } from "@/content/posts";
 
 interface PostMeta {
@@ -12,6 +13,7 @@ interface PostMeta {
   author: string;
   tag: PostTag;
   readTime: string;
+  image?: string;
 }
 
 function formatDate(dateStr: string) {
@@ -27,7 +29,11 @@ function ArticleCard({ post }: { post: PostMeta }) {
     <div className="bg-surface-container-low/80 backdrop-blur-sm border border-outline-variant/20 rounded-xl p-4 flex flex-col h-full group hover:border-primary/40 transition-all duration-300">
       <Link href={`/insights/${post.slug}`} className="flex flex-col h-full">
         <div className="h-40 rounded-lg overflow-hidden mb-3 relative">
-          <div className="w-full h-full bg-gradient-to-br from-primary/10 via-surface-container-high to-surface-container transition-transform duration-500 group-hover:scale-110" />
+          {post.image ? (
+            <Image src={post.image} alt="" fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-110" />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-primary/10 via-surface-container-high to-surface-container transition-transform duration-500 group-hover:scale-110" />
+          )}
           <div className="absolute top-2 right-2">
             <span className="bg-surface-dim/80 backdrop-blur-sm text-secondary dark:text-primary text-xs font-mono uppercase tracking-wider px-2 py-1 rounded border border-outline-variant/30">
               {post.tag}
@@ -80,7 +86,11 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
                 className="relative group cursor-pointer overflow-hidden rounded-xl h-[400px] lg:h-[500px]"
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent z-10" />
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 via-surface-container-high to-surface-dim transition-transform duration-700 group-hover:scale-105" />
+                {featured.image ? (
+                  <Image src={featured.image} alt="" fill priority sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-primary/20 via-surface-container-high to-surface-dim transition-transform duration-700 group-hover:scale-105" />
+                )}
                 <div className="absolute bottom-6 left-6 z-20">
                   <span className="bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md">
                     Featured · {featured.tag}

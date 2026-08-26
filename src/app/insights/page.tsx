@@ -36,6 +36,7 @@ const postMeta = [...posts]
     author: p.author,
     tag: p.tag,
     readTime: postReadTime(p),
+    image: p.image,
   }));
 
 const jsonLd = {
