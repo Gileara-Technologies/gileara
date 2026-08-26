@@ -30,7 +30,7 @@ export default function Founders() {
   ];
 
   return (
-    <section id="founders" className="py-24 bg-surface-container px-4 md:px-10">
+    <section id="founders" className="py-24 md:py-32 bg-transparent border-y border-outline-variant/10 px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
           <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Leadership</span>

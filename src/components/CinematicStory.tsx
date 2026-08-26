@@ -48,7 +48,7 @@ export default function CinematicStory() {
   ];
 
   return (
-    <section className="py-20 bg-surface-container px-4 md:px-10">
+    <section className="py-24 md:py-32 bg-surface-container px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">
