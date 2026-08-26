@@ -1,77 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaCode, FaServer, FaBug, FaInfinity, FaPaintbrush } from "react-icons/fa6";
-
-const roles = [
-  {
-    id: "frontend-developer",
-    title: "Frontend Developer",
-    icon: <FaCode className="w-6 h-6" />,
-    description: "Build beautiful, highly interactive, and performant user interfaces for our clients' web applications.",
-    responsibilities: [
-      "Translate UI/UX designs into high-quality code.",
-      "Optimize components for maximum performance across a vast array of web-capable devices and browsers.",
-      "Collaborate with backend developers to integrate APIs."
-    ],
-    requiredSkills: ["TypeScript", "HTML", "CSS", "Responsive web design",
-      "Modern JavaScript (ES6+)",
-    ],
-    niceToHave: ["React/Nextjs", "Tailwind CSS", "Git and GitHub"]
-  },
-  {
-    id: "backend-developer",
-    title: "Backend Developer",
-    icon: <FaServer className="w-6 h-6" />,
-    description: "Design and implement robust, scalable APIs and database architectures.",
-    responsibilities: [
-      "Develop server-side logic and RESTful/GraphQL APIs.",
-      "Design and optimize database schemas.",
-      "Ensure high performance and responsiveness to requests from the frontend."
-    ],
-    requiredSkills: ["Node.js", "SQL/NoSQL databases", "REST APIs", "JWT Authentication"],
-    niceToHave: ["Docker",]
-  },
-  {
-    id: "qa-engineer",
-    title: "QA Engineer",
-    icon: <FaBug className="w-6 h-6" />,
-    description: "Ensure the highest quality of our deliverables through rigorous automated and manual testing.",
-    responsibilities: [
-      "Create detailed, comprehensive, and well-structured test plans and test cases.",
-      "Design, develop, and execute automation scripts using open source tools.",
-      "Identify, record, document thoroughly, and track bugs."
-    ],
-    requiredSkills: ["Cypress/Playwright", "Jest/Vitest", "Manual testing methodologies", "CI/CD integration"],
-    niceToHave: ["Performance testing experience", "Security testing basics"]
-  },
-  {
-    id: "devops-engineer",
-    title: "DevOps Engineer",
-    icon: <FaInfinity className="w-6 h-6" />,
-    description: "Streamline our deployment pipelines and manage our cloud infrastructure securely.",
-    responsibilities: [
-      "Build and maintain CI/CD pipelines.",
-      "Manage cloud infrastructure on AWS and Cloudflare.",
-      "Monitor system performance and implement security best practices."
-    ],
-    requiredSkills: ["Docker/Kubernetes", "GitHub Actions", "Infrastructure as Code ", "Linux Admin"],
-    niceToHave: ["AWS Certifications", "Experience with OpenNext"]
-  },
-  {
-    id: "ui-ux-designer",
-    title: "UI/UX Designer",
-    icon: <FaPaintbrush className="w-6 h-6" />,
-    description: "Craft intuitive, engaging, and accessible user experiences for complex systems.",
-    responsibilities: [
-      "Create wireframes, storyboards, user flows, and site maps.",
-      "Design UI elements and tools such as navigation menus, search boxes, and widgets.",
-      "Conduct user research and evaluate user feedback."
-    ],
-    requiredSkills: ["Basic HTML/CSS knowledge", "User-centered design principles", "Prototyping", "Understanding of modern web capabilities"],
-    niceToHave: ["Figma", "Experience with design systems", "Familiarity with accessibility (a11y) standards"]
-  }
-];
+import { openRoles } from "@/content/roles";
 
 export default function OpenRoles() {
   const container = {
@@ -106,7 +36,7 @@ export default function OpenRoles() {
           viewport={{ once: true, margin: "-50px" }}
           className="space-y-8"
         >
-          {roles.map((role) => (
+          {openRoles.map((role) => (
             <motion.div
               key={role.id}
               variants={item}
@@ -114,13 +44,28 @@ export default function OpenRoles() {
             >
               <div className="p-6 md:p-8 md:flex gap-8 items-start">
                 <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0 mb-6 md:mb-0">
-                  {role.icon}
+                  <span className="material-symbols-outlined text-2xl" aria-hidden="true">
+                    {role.icon}
+                  </span>
                 </div>
 
                 <div className="flex-grow">
-                  <h3 className="font-display text-2xl font-bold text-on-surface mb-2">
-                    {role.title}
-                  </h3>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
+                    <h3 className="font-display text-2xl font-bold text-on-surface">
+                      {role.title}
+                    </h3>
+                    {role.openings > 1 && (
+                      <span className="px-2.5 py-0.5 rounded-full bg-secondary/15 dark:bg-primary/15 text-secondary dark:text-primary text-xs font-semibold">
+                        {role.openings} openings
+                      </span>
+                    )}
+                    <span className="inline-flex items-center gap-1 text-xs font-mono uppercase tracking-wider text-outline">
+                      <span className="material-symbols-outlined text-sm" aria-hidden="true">
+                        location_on
+                      </span>
+                      {role.location}
+                    </span>
+                  </div>
                   <p className="text-on-surface-variant mb-6 text-sm md:text-base leading-relaxed">
                     {role.description}
                   </p>
