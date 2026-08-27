@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import SceneBand from "@/components/three/SceneBand";
 import Footer from "@/components/Footer";
 import CareersHero from "@/components/careers/CareersHero";
 import OpenRoles from "@/components/careers/OpenRoles";
@@ -130,6 +131,7 @@ export default function CareersPage() {
       />
       <Navbar variant="careers" />
       <main>
+        <SceneBand />
         <CareersHero />
         <OpenRoles />
         <WhyJoinUs />

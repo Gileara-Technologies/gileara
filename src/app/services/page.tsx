@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import SceneBand from "@/components/three/SceneBand";
 import Footer from "@/components/Footer";
 import ServicesPageClient from "./ServicesPageClient";
 
@@ -30,6 +31,7 @@ export default function ServicesPage() {
     <>
       <Navbar />
       <main>
+        <SceneBand />
         <ServicesPageClient />
       </main>
       <Footer />

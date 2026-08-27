@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Inter, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { MotionProvider } from "@/components/MotionProvider";
@@ -11,10 +11,12 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const hankenGrotesk = Hanken_Grotesk({
+/** Display face — IBM Plex Sans: enterprise-grade neutrality (D22 professional font). */
+const displayFont = IBM_Plex_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-hanken-grotesk",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -72,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${hankenGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`scroll-smooth ${inter.variable} ${displayFont.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
