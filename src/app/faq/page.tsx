@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
-import SceneBand from "@/components/three/SceneBand";
 import Footer from "@/components/Footer";
 import FaqClient from "./FaqClient";
 import { faqs } from "@/content/faqs";
@@ -47,7 +46,6 @@ export default function FaqPage() {
       />
       <Navbar />
       <main>
-        <SceneBand />
         <FaqClient />
       </main>
       <Footer />

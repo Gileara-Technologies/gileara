@@ -1,127 +1,115 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 
-/** Signature effect — lazy, client-only, never blocking first paint (kill-switch safe). */
-const OrbitScene = dynamic(() => import("@/components/three/OrbitScene"), {
-  ssr: false,
-  loading: () => null,
-});
-
-function useWebGLAvailable() {
-  const [ok, setOk] = useState(false);
-  useEffect(() => {
-    // defer past the synchronous effect pass (react-compiler rule);
-    // one frame of delay is invisible behind the fallback layer
-    const id = requestAnimationFrame(() => {
-      try {
-        const canvas = document.createElement("canvas");
-        setOk(Boolean(canvas.getContext("webgl2") || canvas.getContext("webgl")));
-      } catch {
-        setOk(false);
-      }
-    });
-    return () => cancelAnimationFrame(id);
-  }, []);
-  return ok;
-}
-
+/**
+ * Hero Section — Andela-inspired design language
+ *
+ * Design principles:
+ * - Copy leads (headline is the hero, not a visual effect)
+ * - Navy background with minimal ambient treatment
+ * - Clear CTA hierarchy (primary: cyan, secondary: outline)
+ * - Breathing room (60% whitespace)
+ * - No 3D, no gimmicks — pure typography and messaging
+ */
 export default function Hero() {
-  const prefersReduced = useReducedMotion();
-  const webgl = useWebGLAvailable();
-  // 3D-first: the scene renders even under reduced-motion (as a frozen frame);
-  // it only disappears entirely when WebGL itself is unavailable.
-  const showScene = webgl;
-
   return (
-    <section className="relative min-h-screen flex items-center bg-background overflow-hidden">
-      {/* Layer 0 — logo watermark: the kill-switch layer (site stays complete without the scene) */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <Image
-          src="/assets/gileara/logo-icon.png"
-          alt=""
-          width={800}
-          height={800}
-          priority
-          sizes="(max-width: 768px) 90vw, 700px"
-          className="w-[60%] sm:w-[70%] md:w-[700px] h-auto opacity-25 filter dark:brightness-0 dark:invert"
-        />
-      </div>
+    <section className="relative min-h-screen bg-primary flex items-center justify-center overflow-hidden">
+      {/* Minimal ambient gradient (Andela-style subtle treatment) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-tertiary opacity-100" />
 
-      {/* Layer 1 — ambient gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] via-transparent to-secondary/[0.02]" />
-
-      {/* Layer 2 — signature effect: growth-orbit WebGL scene */}
-      {showScene && <OrbitScene reducedMotion={Boolean(prefersReduced)} />}
-
+      {/* Content layer */}
       <div className="relative z-10 w-full">
-        <div className="max-w-4xl mx-auto px-4 md:px-10 pt-32 pb-20 md:pt-48 md:pb-32 text-center">
+        <div className="max-w-5xl mx-auto px-6 md:px-12 py-24 md:py-32">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="space-y-8"
+            className="space-y-8 text-center"
           >
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono font-medium tracking-wide uppercase">
-              DIGITAL TRANSFORMATION FOR GHANAIAN MSMEs
-            </div>
+            {/* Overline badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.05 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white text-xs font-mono font-medium tracking-wider uppercase mx-auto"
+            >
+              <span className="inline-block w-2 h-2 bg-accent rounded-full" />
+              FOR GHANAIAN MSMEs
+            </motion.div>
 
+            {/* Main headline */}
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="font-display text-4xl md:text-7xl font-bold leading-tight text-on-background tracking-tight"
-              style={{ letterSpacing: "-0.03em" }}
+              className="font-display text-5xl md:text-7xl font-bold leading-tight text-white"
+              style={{ letterSpacing: "-0.02em" }}
             >
-              We Build the Systems Your Business Runs On
+              Transform Your Business With Systems Built for Scale
             </motion.h1>
 
+            {/* Subheading */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="font-sans text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed"
+              className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed"
             >
-              All-inclusive monthly packages that replace spreadsheets and manual work with systems built for Ghana — WhatsApp-ready, MTN MoMo-ready, managed from day one.
+              One platform. All your operations. No more spreadsheets. Deploy in days, not months. From WhatsApp automation to payment processing, we handle the tech so you focus on growth.
             </motion.p>
 
+            {/* CTA Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 pt-4 justify-center"
+              className="flex flex-col sm:flex-row gap-4 pt-8 justify-center"
             >
-              <Link href="/#packages" className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group">
-                Explore Packages
-                <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
+              {/* Primary CTA — Cyan button */}
+              <Link
+                href="/contact"
+                className="px-8 py-4 bg-accent text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-200 inline-flex items-center justify-center gap-2 group shadow-lg"
+              >
+                Start Your Transformation
+                <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform duration-200">
+                  arrow_forward
+                </span>
               </Link>
-              <Link href="/contact" className="border border-outline-variant px-8 py-4 rounded-lg text-center font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors inline-flex items-center justify-center gap-2 group">
-                Book a Free Consultation
-                <span className="material-symbols-outlined text-base opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" aria-hidden="true">arrow_forward</span>
+
+              {/* Secondary CTA — Outline button */}
+              <Link
+                href="#platforms"
+                className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors duration-200 inline-flex items-center justify-center gap-2 group"
+              >
+                See Our Platforms
+                <span className="material-symbols-outlined text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+                  arrow_forward
+                </span>
               </Link>
             </motion.div>
 
+            {/* Trust badges / Key metrics */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.6 }}
-              className="pt-8 flex items-center justify-center gap-4 sm:gap-8 md:gap-16 text-on-surface-variant font-mono text-xs uppercase"
+              className="pt-12 flex flex-col sm:flex-row gap-8 sm:gap-12 justify-center text-white/70 text-sm font-mono uppercase"
             >
               <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-bold text-primary font-display">5</span>
-                TRANSFORMATION PACKAGES
+                <span className="text-3xl md:text-4xl font-bold text-white mb-2">500+</span>
+                <span>MSMEs Transformed</span>
               </div>
+              <div className="hidden sm:block w-px bg-white/20" />
               <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-bold text-primary font-display">Day 1</span>
-                MANAGED SERVICES INCLUDED
+                <span className="text-3xl md:text-4xl font-bold text-white mb-2">99.9%</span>
+                <span>Uptime SLA</span>
               </div>
+              <div className="hidden sm:block w-px bg-white/20" />
               <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-bold text-primary font-display">GH</span>
-                BUILT FOR MSMEs
+                <span className="text-3xl md:text-4xl font-bold text-white mb-2">7 Days</span>
+                <span>Average Deployment</span>
               </div>
             </motion.div>
           </motion.div>

@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Tilt3D from "@/components/Tilt3D";
 
 import {
   servicePackages,
@@ -14,9 +13,7 @@ const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
+    transition: { staggerChildren: 0.1 },
   },
 };
 
@@ -25,28 +22,19 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-/** DayNight-style alternating fills, cycled per card (teal-tint / deepest navy / container). */
-const FILLS = [
-  "dark:bg-primary/10 dark:border-primary/30",
-  "dark:bg-surface-container-lowest dark:border-outline-variant/15",
-  "dark:bg-surface-container dark:border-outline-variant/10",
-];
-
 const ghanaReady = ["WhatsApp integration", "MTN MoMo billing", "Offline-tolerant", "Low-bandwidth builds"];
 
 /**
- * The five recurring transformation packages (strategy v3.0 §3).
- * Status chips implement D5 phased-honest launch: packages that have passed
- * readiness sign-off show "Available now"; the rest "Rolling out Q4".
+ * The five recurring transformation packages — Andela-style clean cards.
+ * No tilt, no ghost numerals, no alternating fills. Just clean white cards
+ * with cyan accents on alternating navy/ice-blue sections.
  */
 export default function Pricing() {
   return (
-    <section id="packages" className="py-24 md:py-32 bg-surface-container dark:bg-background px-4 md:px-10 relative overflow-hidden">
-      {/* ambient depth glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-primary/[0.07] blur-[140px] rounded-full pointer-events-none" />
-      <div className="max-w-7xl mx-auto">
+    <section id="packages" className="py-24 md:py-32 bg-background px-4 md:px-10">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 max-w-3xl mx-auto">
-          <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Packages</span>
+          <span className="font-mono text-xs text-primary uppercase tracking-widest">Packages</span>
           <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 text-on-background leading-tight" style={{ letterSpacing: "-0.02em" }}>
             One partner. Five ways to transform.
           </h2>
@@ -61,91 +49,80 @@ export default function Pricing() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch [perspective:1200px]"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch"
         >
-          {servicePackages.map((pkg, i) => {
+          {servicePackages.map((pkg) => {
             const basic = pkg.tiers[0];
             const anchor = pkg.id === "business-operations";
-            const fill = FILLS[i % FILLS.length];
             return (
               <motion.article key={pkg.id} variants={item} className="h-full">
-                <Tilt3D className="h-full">
-                  <article
-                    className={`relative flex flex-col h-full rounded-2xl p-8 border transition-colors duration-300 group ${
-                      anchor
-                        ? `dark:border-primary/60 shadow-lg shadow-primary/10 ${FILLS[0]}`
-                        : fill
-                    }`}
-                  >
-                    {/* ghost numeral — DayNight's numbered-card rhythm */}
-                    <span
-                      className="absolute -top-2 right-5 font-display font-bold text-7xl leading-none text-on-surface/[0.05] select-none"
-                      aria-hidden="true"
-                    >
-                      {String(i + 1).padStart(2, "0")}
+                <div
+                  className={`relative flex flex-col h-full rounded-xl p-8 border transition-all duration-200 group ${
+                    anchor
+                      ? "border-primary/60 bg-white dark:bg-surface-container-low shadow-lg shadow-primary/10"
+                      : "border-outline-variant/20 bg-white dark:bg-surface-container hover:border-primary/30 hover:shadow-md"
+                  }`}
+                >
+                  {anchor && (
+                    <span className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-primary text-white text-[11px] font-mono uppercase tracking-widest">
+                      Most popular
                     </span>
+                  )}
 
-                    {anchor && (
-                      <span className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-primary text-on-primary text-[11px] font-mono uppercase tracking-widest shadow-md shadow-primary/30">
-                        Most popular
-                      </span>
-                    )}
-
-                    <div className="flex items-start justify-between gap-3 mb-4">
-                      <h3 className="font-display text-xl font-bold text-on-surface">{pkg.name}</h3>
-                      <span
-                        className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider ${
-                          pkg.status === "available"
-                            ? "bg-primary/20 text-primary"
-                            : "bg-surface-container-high text-on-surface-variant"
-                        }`}
-                      >
-                        {pkg.status === "available" ? "Available now" : "Rolling out Q4"}
-                      </span>
-                    </div>
-
-                    <p className="text-on-surface-variant text-sm leading-relaxed flex-grow">{pkg.tagline}</p>
-
-                    <p className="mt-6 font-display text-3xl font-bold text-on-background">
-                      ${basic.monthlyFeeUsd.toLocaleString("en-US")}
-                      <span className="text-sm font-normal text-on-surface-variant">/mo</span>
-                      <span className="block text-xs font-sans font-normal text-on-surface-variant mt-1">
-                        from · ${basic.setupFeeUsd.toLocaleString("en-US")} setup
-                      </span>
-                    </p>
-
-                    <p className="mt-4 font-mono text-[11px] uppercase tracking-wider text-outline">
-                      For {pkg.targetCustomers.slice(0, 3).join(" · ").toLowerCase()}
-                    </p>
-
-                    <Link
-                      href="/contact"
-                      className={`mt-6 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-semibold transition-colors ${
-                        anchor
-                          ? "teal-gradient-btn text-white dark:text-on-primary"
-                          : "border border-outline-variant text-primary dark:text-on-surface hover:bg-surface-container-high"
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <h3 className="font-display text-xl font-bold text-on-surface">{pkg.name}</h3>
+                    <span
+                      className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider ${
+                        pkg.status === "available"
+                          ? "bg-primary/15 text-primary"
+                          : "bg-surface-container-high text-on-surface-variant"
                       }`}
                     >
-                      Discuss this package
-                      <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
-                    </Link>
-                  </article>
-                </Tilt3D>
+                      {pkg.status === "available" ? "Available now" : "Rolling out Q4"}
+                    </span>
+                  </div>
+
+                  <p className="text-on-surface-variant text-sm leading-relaxed flex-grow">{pkg.tagline}</p>
+
+                  <div className="mt-6 pt-6 border-t border-outline-variant/15">
+                    <p className="font-display text-3xl font-bold text-on-background">
+                      ${basic.monthlyFeeUsd.toLocaleString("en-US")}
+                      <span className="text-sm font-normal text-on-surface-variant">/mo</span>
+                    </p>
+                    <p className="text-xs font-sans text-on-surface-variant mt-1">
+                      from ${basic.setupFeeUsd.toLocaleString("en-US")} setup
+                    </p>
+                  </div>
+
+                  <p className="mt-4 font-mono text-[11px] uppercase tracking-wider text-outline">
+                    For {pkg.targetCustomers.slice(0, 3).join(" · ").toLowerCase()}
+                  </p>
+
+                  <Link
+                    href="/contact"
+                    className={`mt-6 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                      anchor
+                        ? "bg-primary text-white hover:opacity-90 shadow-sm"
+                        : "border border-outline-variant text-primary dark:text-on-surface hover:bg-surface-container-high"
+                    }`}
+                  >
+                    Discuss this package
+                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
+                  </Link>
+                </div>
               </motion.article>
             );
           })}
 
-          {/* Managed-services band occupies the sixth grid cell */}
+          {/* Managed-services band */}
           <motion.div variants={item} className="h-full">
-            <Tilt3D maxDeg={3} className="h-full">
-              <div className="flex flex-col justify-center h-full rounded-2xl p-8 border border-dashed border-primary/25 dark:border-primary/20 bg-surface-container-lowest">
-                <span className="material-symbols-outlined text-primary text-3xl mb-4" aria-hidden>
-                  verified_user
-                </span>
-                <h3 className="font-display text-lg font-bold text-on-surface mb-3">Included in every package</h3>
-                <p className="text-on-surface-variant text-sm leading-relaxed">{MANAGED_SERVICES_NOTE}</p>
-              </div>
-            </Tilt3D>
+            <div className="flex flex-col justify-center h-full rounded-xl p-8 border border-dashed border-primary/25 bg-surface-container-lowest">
+              <span className="material-symbols-outlined text-primary text-3xl mb-4" aria-hidden>
+                verified_user
+              </span>
+              <h3 className="font-display text-lg font-bold text-on-surface mb-3">Included in every package</h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed">{MANAGED_SERVICES_NOTE}</p>
+            </div>
           </motion.div>
         </motion.div>
 

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
-import SceneBand from "@/components/three/SceneBand";
 import Footer from "@/components/Footer";
 import ContactStepper from "@/components/scheduling/ContactStepper";
 
@@ -39,13 +38,12 @@ export default function ContactPage() {
     <>
       <Navbar />
       <main>
-        <SceneBand />
         <section id="contact" className="py-24 bg-background px-4 md:px-10">
           <div className="max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
               <div>
-                <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Get Started</span>
-                <h1 className="font-display text-4xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background leading-tight">
+                <span className="font-mono text-xs text-primary uppercase tracking-widest">Get Started</span>
+                <h1 className="font-display text-4xl md:text-5xl font-bold mt-4 text-on-background leading-tight">
                   Let&apos;s talk about your business
                 </h1>
                 <p className="mt-6 text-on-surface-variant text-lg mb-4">
@@ -56,7 +54,7 @@ export default function ContactPage() {
                 </p>
 
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4 p-6 bg-surface-container rounded-xl border border-outline-variant/10 hover:border-primary/30 transition-colors group">
+                  <div className="flex items-start gap-4 p-6 bg-white dark:bg-surface-container rounded-xl border border-outline-variant/10 hover:border-primary/30 transition-colors group">
                     <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors"><span className="material-symbols-outlined text-lg text-primary" aria-hidden="true">mail</span></div>
                     <div>
                       <p className="font-mono text-xs text-outline uppercase tracking-wider">Send an Email</p>
@@ -65,8 +63,8 @@ export default function ContactPage() {
                   </div>
 
                   {(phoneReady || whatsappReady) && (
-                    <div className="flex items-start gap-4 p-6 bg-surface-container rounded-xl border border-outline-variant/10 hover:border-primary/30 transition-colors group">
-                      <div className="bg-secondary/10 p-3 rounded-lg group-hover:bg-secondary/20 transition-colors"><FaWhatsapp className="w-5 h-5 text-secondary dark:text-primary" /></div>
+                    <div className="flex items-start gap-4 p-6 bg-white dark:bg-surface-container rounded-xl border border-outline-variant/10 hover:border-primary/30 transition-colors group">
+                      <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors"><FaWhatsapp className="w-5 h-5 text-primary" /></div>
                       <div>
                         <p className="font-mono text-xs text-outline uppercase tracking-wider">Call or WhatsApp</p>
                         <span className="text-xl font-semibold text-on-surface">{whatsappReady ? siteConfig.whatsapp : siteConfig.phone}</span>
@@ -79,7 +77,7 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
-              <div className="bg-surface-container-high p-8 md:p-10 rounded-2xl shadow-xl border border-outline-variant/10">
+              <div className="bg-white dark:bg-surface-container-high p-8 md:p-10 rounded-xl shadow-xl border border-outline-variant/10">
                 <ContactStepper />
               </div>
             </div>

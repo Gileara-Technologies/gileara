@@ -46,7 +46,7 @@ export default {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],
-        display: ["var(--font-display)", "sans-serif"],
+        display: ["var(--font-inter)", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
       backgroundImage: {
