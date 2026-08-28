@@ -1,151 +1,145 @@
 import Link from "next/link";
-import Image from "next/image";
 import { FaLinkedin } from "react-icons/fa6";
 import { siteConfig } from "@/content/site-config";
 
+/**
+ * Footer — typographic statement, not a sitemap.
+ *
+ * The footer is the last thing a visitor sees. Andela treats it as a
+ * design object: huge "Let's build what's next" + CTA, then a thin
+ * column-based link group, then a small legal line. We do the same.
+ *
+ * Padding: 200px top (Andela-scale breathing room).
+ * Typography: 96–120px serif for the statement.
+ */
 export default function Footer() {
+  const columns = [
+    {
+      title: "Solutions",
+      links: [
+        { name: "Operations", href: "/services" },
+        { name: "Customer Engagement", href: "/services" },
+        { name: "Commerce", href: "/services" },
+        { name: "Growth", href: "/services" },
+        { name: "Bespoke", href: "/services" },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { name: "About", href: "/about" },
+        { name: "How We Transform", href: "/how-we-transform" },
+        { name: "Careers", href: "/careers" },
+        { name: "Insights", href: "/insights" },
+        { name: "Contact", href: "/contact" },
+      ],
+    },
+    {
+      title: "Connect",
+      links: [
+        { name: "LinkedIn", href: "https://www.linkedin.com/company/gileara", external: true },
+        { name: "WhatsApp", href: `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}`, external: true },
+        { name: "Email", href: `mailto:${siteConfig.email}` },
+        { name: "FAQ", href: "/faq" },
+      ],
+    },
+  ];
+
   return (
-    <footer className="bg-surface-container-high dark:bg-surface-container-lowest pt-24 pb-12 px-4 md:px-10 text-on-surface">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col gap-12 lg:gap-16 mb-20">
-          {/* Top Row: Logos & Links */}
-          <div className="flex flex-col lg:flex-row justify-between gap-12">
-            {/* Left: Logos */}
-            <div>
-              <div className="flex flex-col sm:flex-row sm:items-stretch gap-8 sm:gap-10">
-                {/* Gileara Block */}
-                <div className="flex flex-col">
-                  <span className="text-xs font-mono text-on-surface-variant uppercase tracking-widest mb-3">Powered by</span>
-                  <div className="flex-grow flex items-center">
-                    <Image
-                      src="/assets/gileara/logo-full.png"
-                      alt="Gileara Logo"
-                      width={224}
-                      height={56}
-                      sizes="(max-width: 768px) 160px, 224px"
-                      className="w-40 md:w-56 h-auto filter dark:brightness-0 dark:invert transition-all"
-                    />
-                  </div>
-                </div>
-
-                {/* Divider */}
-                <div className="hidden sm:block w-px bg-outline-variant/30 self-stretch my-2"></div>
-
-                {/* Workforce Block */}
-                <div className="flex flex-col">
-                  <span className="text-xs font-mono text-on-surface-variant uppercase tracking-widest mb-3">In collaboration with</span>
-                  <div className="flex-grow flex items-center relative">
-                    <Image
-                      src="/assets/workforce/wg_darkinwhite_full-removebg-preview.png"
-                      alt="Workforce Global"
-                      width={320}
-                      height={100}
-                      sizes="(max-width: 768px) 160px, 224px"
-                      className="w-40 md:w-56 h-auto object-contain block dark:hidden"
-                    />
-                    <Image
-                      src="/assets/workforce/wg_whiteindarkfull-removebg-preview.png"
-                      alt="Workforce Global"
-                      width={320}
-                      height={100}
-                      sizes="(max-width: 768px) 160px, 224px"
-                      className="w-40 md:w-56 h-auto object-contain hidden dark:block"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Links */}
-            <div className="flex flex-col sm:flex-row gap-12 sm:gap-24 lg:gap-32">
-              <div>
-                <h3 className="font-display text-lg font-semibold mb-5 text-on-surface tracking-tight">Navigation</h3>
-                <ul className="space-y-3 text-base text-on-surface-variant">
-                  <li><Link href="/#packages" className="hover:text-primary transition-colors">Packages</Link></li>
-                  <li><Link href="/services" className="hover:text-primary transition-colors">Services</Link></li>
-                  <li><Link href="/how-we-transform" className="hover:text-primary transition-colors">How We Transform</Link></li>
-                  <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
-                  <li><Link href="/insights" className="hover:text-primary transition-colors">Insights</Link></li>
-                  <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
-                  <li><Link href="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
-                  <li><Link href="/contact" className="hover:text-primary transition-colors text-primary font-semibold">Contact</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-display text-lg font-semibold mb-5 text-on-surface tracking-tight">Legal</h3>
-                <ul className="space-y-3 text-base text-on-surface-variant">
-                  <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link></li>
-                  <li><Link href="/terms" className="hover:text-primary transition-colors">Terms</Link></li>
-                  <li><Link href="/security" className="hover:text-primary transition-colors">Security</Link></li>
-                </ul>
-              </div>
-            </div>
+    <footer className="bg-background pt-40 md:pt-56 pb-12 px-6 md:px-12 text-on-background overflow-hidden">
+      <div className="max-w-[1440px] mx-auto">
+        {/* Top: typographic statement */}
+        <div className="mb-32 md:mb-48">
+          <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-8">
+            Get in touch
           </div>
-
-          {/* Bottom Row: Tagline, Socials, Consultancy Box */}
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 border-t border-outline-variant/10 pt-8 lg:pt-0 lg:border-t-0">
-            {/* Left: Tagline & Socials */}
-            <div>
-              <p className="text-on-surface-variant text-base leading-relaxed mb-6 max-w-md">
-                {siteConfig.positioningLine}
-              </p>
-              <div className="flex gap-4">
-                <a
-                  className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group"
-                  href="https://www.linkedin.com/company/gileara"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Gileara on LinkedIn"
-                >
-                  <FaLinkedin className="w-5 h-5 text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" />
-                </a>
-
-                <a
-                  className="w-10 h-10 bg-surface dark:bg-surface-container-high rounded-full flex items-center justify-center border border-outline-variant/10 hover:bg-primary hover:text-white dark:hover:text-on-primary transition-all group"
-                  href={`mailto:${siteConfig.email}`}
-                  aria-label="Email Gileara"
-                >
-                  <span className="material-symbols-outlined text-base text-on-surface-variant group-hover:text-white dark:group-hover:text-on-primary transition-colors" aria-hidden="true">mail</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Right: Status Box */}
-            <div className="w-full lg:w-80 shrink-0">
-              <div className="bg-surface dark:bg-surface-container-high p-6 rounded-xl border border-outline-variant/30 dark:border-outline-variant/10">
-                <span className="flex items-center gap-2 text-primary font-medium mb-3 text-sm">
-                  <span className="w-2 h-2 rounded-full bg-secondary dark:bg-primary animate-pulse"></span>
-                  Now accepting new clients
-                </span>
-                <p className="text-on-surface-variant text-base leading-relaxed">
-                  Book a free discovery call — we&apos;ll recommend the right package for your business.
-                </p>
-                <p className="text-on-surface-variant text-sm mt-4">
-                  {siteConfig.location} · {siteConfig.timezone}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="py-8 border-t border-outline-variant/30 dark:border-outline-variant/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-on-surface-variant text-center sm:text-left">
-            Ready to transform?{" "}
-            <Link href="/contact" className="text-primary font-semibold hover:underline">
-              Book a free consultation
-            </Link>
-          </p>
+          <h2 className="font-serif text-display-lg md:text-display-xl leading-[0.9] tracking-[-0.03em] mb-12 max-w-5xl">
+            Let&apos;s build
+            <br />
+            <span className="italic text-accent-cyan">what&apos;s next.</span>
+          </h2>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold teal-gradient-btn group shrink-0"
+            className="group inline-flex items-center pl-8 pr-14 py-4 rounded-pill bg-accent-bright text-background font-medium text-lg hover:bg-accent-cyan transition-colors duration-300"
           >
-            Book a Free Consultation
-            <span className="material-symbols-outlined text-xs group-hover:translate-x-0.5 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
+            Start a conversation
+            <span className="ml-6 material-symbols-outlined text-xl transition-transform duration-300 group-hover:translate-x-1.5">
+              arrow_forward
+            </span>
           </Link>
         </div>
-        <div className="pt-8 border-t border-outline-variant/30 dark:border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4 text-on-surface-variant text-sm">
-          <p>© {new Date().getFullYear()} Gileara Technologies. All rights reserved.</p>
-          <div className="flex items-center gap-2">
-            Built with <span className="material-symbols-outlined text-secondary dark:text-primary text-sm inline-block" aria-hidden="true">favorite</span> in Ghana &amp; Beyond
+
+        {/* Middle: link columns */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 mb-20 border-t border-on-background/10 pt-16">
+          {/* Brand column */}
+          <div className="col-span-2 md:col-span-1">
+            <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
+              Gileara
+            </div>
+            <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs">
+              All-inclusive monthly digital transformation packages for Ghanaian MSMEs — WhatsApp-ready, MTN MoMo-integrated, managed from day one.
+            </p>
+            <p className="text-on-surface-variant text-xs font-mono mt-6">
+              {siteConfig.location} · {siteConfig.timezone}
+            </p>
+          </div>
+
+          {columns.map((col) => (
+            <div key={col.title}>
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-5">
+                {col.title}
+              </div>
+              <ul className="space-y-3">
+                {col.links.map((link) => (
+                  <li key={link.name}>
+                    {"external" in link && link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-on-surface hover:text-accent-bright transition-colors duration-200"
+                      >
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-on-surface hover:text-accent-bright transition-colors duration-200"
+                      >
+                        {link.name}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom: legal + socials */}
+        <div className="pt-8 border-t border-on-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <p className="text-on-surface-variant text-sm">
+            © {new Date().getFullYear()} Gileara Technologies. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6 text-sm">
+            <Link href="/privacy" className="text-on-surface-variant hover:text-accent-bright transition-colors">
+              Privacy
+            </Link>
+            <Link href="/terms" className="text-on-surface-variant hover:text-accent-bright transition-colors">
+              Terms
+            </Link>
+            <Link href="/security" className="text-on-surface-variant hover:text-accent-bright transition-colors">
+              Security
+            </Link>
+            <a
+              href="https://www.linkedin.com/company/gileara"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Gileara on LinkedIn"
+              className="text-on-surface-variant hover:text-accent-bright transition-colors"
+            >
+              <FaLinkedin className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </div>
