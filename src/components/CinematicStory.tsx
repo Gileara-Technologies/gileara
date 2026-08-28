@@ -1,21 +1,20 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import { useRef } from "react";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
 
 /**
- * The Reality — asymmetric, business-outcome story.
+ * The Reality — asymmetric, business-outcome story with imagery.
  *
- * Andela's editorial structure: oversized section number, large
- * headline, narrative paragraph on the left, visual element (or
- * typographic stat) on the right. No centered card grid.
+ * The left side is the narrative (cols 1-7). The right side (cols 9-12)
+ * is a parallaxed photo of a Ghanaian micro/small business owner,
+ * grounding the abstract "manual work" in a real scene.
  *
- * We layer: a "before" paragraph (the problem) and a "what changes"
- * paragraph (the outcome), separated by a horizontal rule, with a
- * large visual statistic on the right.
+ * Below: stats block + "what changes" block.
  */
 export default function CinematicStory() {
   const ref = useRef<HTMLElement>(null);
@@ -68,27 +67,52 @@ export default function CinematicStory() {
             </RevealText>
           </div>
 
-          {/* Right: visual block (cols 9-12) — giant stat, parallaxed */}
+          {/* Right: image + stats (cols 9-12) */}
           <div className="col-span-12 lg:col-span-5 lg:col-start-9 relative">
-            <motion.div style={{ y: visualY }} className="lg:sticky lg:top-32">
-              <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-6">
-                The cost
+            <motion.div style={{ y: visualY }}>
+              <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high mb-12">
+                <Image
+                  src="/assets/imagery/reality-msme.jpg"
+                  alt="A small Ghanaian business owner working at her station"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  className="object-cover"
+                />
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: "linear-gradient(180deg, rgba(21, 32, 45, 0.05) 0%, rgba(21, 32, 45, 0.4) 100%)",
+                  }}
+                  aria-hidden="true"
+                />
+                {/* Caption overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-surface-container-lowest/95 to-transparent">
+                  <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright">
+                    The real MSME
+                  </div>
+                </div>
               </div>
+
               <div className="border-t border-on-background/10 pt-8">
-                <div className="font-serif text-display-lg leading-none tracking-[-0.04em] text-accent-cyan mb-4">
-                  20+
+                <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-6">
+                  The cost
                 </div>
-                <p className="text-on-surface-variant text-lg leading-relaxed max-w-md">
-                  hours per week, on average, that an MSME owner loses to work a system should be doing.
-                </p>
-              </div>
-              <div className="border-t border-on-background/10 pt-8 mt-10">
-                <div className="font-serif text-display-md leading-none tracking-[-0.04em] text-on-background mb-4">
-                  7 days
+                <div className="border-t border-on-background/10 pt-8">
+                  <div className="font-serif text-display-md leading-none tracking-[-0.04em] text-accent-cyan mb-4">
+                    20+
+                  </div>
+                  <p className="text-on-surface-variant text-base leading-relaxed max-w-md mb-8">
+                    hours per week, on average, that an MSME owner loses to work a system should be doing.
+                  </p>
                 </div>
-                <p className="text-on-surface-variant text-base leading-relaxed max-w-md">
-                  from kickoff to live system. You keep operating. We do the build.
-                </p>
+                <div className="border-t border-on-background/10 pt-8">
+                  <div className="font-serif text-2xl leading-none tracking-[-0.04em] text-on-background mb-3">
+                    7 days
+                  </div>
+                  <p className="text-on-surface-variant text-sm leading-relaxed max-w-md">
+                    from kickoff to live system. You keep operating. We do the build.
+                  </p>
+                </div>
               </div>
             </motion.div>
           </div>

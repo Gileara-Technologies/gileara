@@ -3,21 +3,18 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef } from "react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
 
 /**
- * Why Gileara — numbered value props with animated stat counters.
+ * Why Gileara — numbered value props + animated counter stats + photography.
  *
- * Andela-style: large section number, headline, then a two-column
- * layout. Left column = three numbered value props. Right column =
- * three stat callouts with numbers that count up when in view.
- *
- * The animated counters are the "little aspects of white" motion —
- * numbers ticking up to their final value as you scroll into view.
+ * The data/laptop photo on the right grounds the "tech" promise in a
+ * real working scene. The animated counters are the "little aspects
+ * of white" motion — numbers ticking up to their final value.
  */
-
 function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
@@ -30,7 +27,7 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
     const dur = 1600;
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / dur);
-      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      const eased = 1 - Math.pow(1 - t, 3);
       setVal(Math.round(eased * to));
       if (t < 1) raf = requestAnimationFrame(tick);
     };
@@ -52,7 +49,6 @@ export default function Positioning() {
     target: ref,
     offset: ["start end", "end start"],
   });
-  // Big number parallax
   const bigY = useTransform(scrollYProgress, [0, 1], [80, -80]);
 
   const props = [
@@ -81,7 +77,6 @@ export default function Positioning() {
 
   return (
     <section ref={ref} id="positioning" className="relative bg-background py-32 md:py-48 px-6 md:px-12 overflow-hidden">
-      {/* Giant background numeral — the Andela "01" oversized background effect */}
       <motion.div
         style={{ y: bigY }}
         className="absolute -right-20 top-20 font-serif text-[28rem] text-on-background/[0.04] leading-none select-none pointer-events-none"
@@ -91,7 +86,7 @@ export default function Positioning() {
       </motion.div>
 
       <div className="max-w-[1440px] mx-auto relative z-10">
-        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
+        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-20 md:mb-28">
           <div className="col-span-12 lg:col-span-7">
             <RevealText>
               <SectionLabel number="04" label="WHY GILEARA" className="mb-8" />
@@ -109,7 +104,7 @@ export default function Positioning() {
           </div>
         </div>
 
-        {/* Two-col layout: numbered value props (left) + stat callouts (right) */}
+        {/* Two-col: numbered value props (left) + stats + photo (right) */}
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-16">
           <div className="col-span-12 lg:col-span-7 space-y-12 md:space-y-16">
             {props.map((p, i) => (
@@ -136,8 +131,25 @@ export default function Positioning() {
             ))}
           </div>
 
-          {/* Stats column */}
-          <div className="col-span-12 lg:col-span-5">
+          {/* Stats + photo column */}
+          <div className="col-span-12 lg:col-span-5 space-y-12">
+            <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high">
+              <Image
+                src="/assets/imagery/whyghana-data.jpg"
+                alt="Young African professional analyzing data on a laptop"
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover"
+              />
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "linear-gradient(180deg, rgba(8, 20, 32, 0.05) 0%, rgba(8, 20, 32, 0.3) 100%)",
+                }}
+                aria-hidden="true"
+              />
+            </div>
+
             <div className="border-t border-on-background/10 pt-10 space-y-10">
               {stats.map((s) => (
                 <div key={s.label} className="border-b border-on-background/10 pb-8 last:border-b-0">
@@ -153,7 +165,6 @@ export default function Positioning() {
           </div>
         </div>
 
-        {/* Pull-quote */}
         <RevealText delay={0.4}>
           <div className="mt-32 pt-16 border-t border-on-background/10 max-w-4xl">
             <p className="font-serif text-2xl md:text-display-sm text-on-background leading-snug tracking-[-0.02em]">

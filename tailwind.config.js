@@ -56,12 +56,12 @@ const config = {
         serif: ["var(--font-display-serif)", "serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
-      // Oversized editorial type scale (Andela-style)
+      // Oversized editorial type scale (Andela-style, fluid via clamp so no mobile overflow)
       fontSize: {
-        'display-xl': ['7.5rem',  { lineHeight: '0.95', letterSpacing: '-0.04em' }],  // 120px
-        'display-lg': ['6rem',    { lineHeight: '1.0',  letterSpacing: '-0.03em' }],  // 96px
-        'display-md': ['4.5rem',  { lineHeight: '1.05', letterSpacing: '-0.03em' }],  // 72px
-        'display-sm': ['3.5rem',  { lineHeight: '1.1',  letterSpacing: '-0.02em' }],  // 56px
+        'display-xl': ['clamp(3rem, 5.5vw + 1.5rem, 7.5rem)',     { lineHeight: '0.95',  letterSpacing: '-0.04em' }],  // 48px → 120px
+        'display-lg': ['clamp(2.5rem, 4.5vw + 1.25rem, 6rem)',    { lineHeight: '1.0',   letterSpacing: '-0.03em' }],  // 40px → 96px
+        'display-md': ['clamp(2rem, 3.5vw + 1rem, 4.5rem)',       { lineHeight: '1.05',  letterSpacing: '-0.03em' }],  // 32px → 72px
+        'display-sm': ['clamp(1.75rem, 2.5vw + 0.875rem, 3.5rem)',{ lineHeight: '1.1',   letterSpacing: '-0.02em' }],  // 28px → 56px
         'heading-lg': ['2.5rem',  { lineHeight: '1.15', letterSpacing: '-0.02em' }],  // 40px
         'heading-md': ['2rem',    { lineHeight: '1.2',  letterSpacing: '-0.01em' }],  // 32px
         'body-lg':    ['1.25rem', { lineHeight: '1.6' }],

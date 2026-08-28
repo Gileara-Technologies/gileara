@@ -1,20 +1,18 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import { useRef } from "react";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
 
 /**
- * How We Work — numbered process steps with scroll-linked motion.
+ * How We Work — numbered process steps with photography and a connector line.
  *
- * Each step is a numbered row with a horizontal progress line that
- * fills as the row scrolls into view. The line is the connecting
- * thread — you see the whole process as a single horizontal journey.
- *
- * The connector line is the "little aspect of white" bright accent
- * — a single horizontal teal thread that ties the section together.
+ * The team meeting photo grounds the "How We Work" promise in a real
+ * collaborative scene. The horizontal teal connector line ties the
+ * 4 steps together and fills as you scroll.
  */
 export default function Approach() {
   const ref = useRef<HTMLElement>(null);
@@ -22,7 +20,6 @@ export default function Approach() {
     target: ref,
     offset: ["start center", "end center"],
   });
-  // Width animates from 0 to 100% as you scroll past the section
   const lineWidth = useTransform(scrollYProgress, [0, 0.7], ["0%", "100%"]);
 
   const steps = [
@@ -51,7 +48,8 @@ export default function Approach() {
   return (
     <section ref={ref} id="approach" className="relative bg-surface-container py-32 md:py-48 px-6 md:px-12 overflow-hidden">
       <div className="max-w-[1440px] mx-auto">
-        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
+        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-20 md:mb-28">
+          {/* Header + image — cols 1-7 */}
           <div className="col-span-12 lg:col-span-7">
             <RevealText>
               <SectionLabel number="03" label="HOW WE WORK" className="mb-8" />
@@ -66,13 +64,24 @@ export default function Approach() {
               </p>
             </RevealText>
           </div>
+
+          {/* Image — cols 9-12 */}
+          <div className="col-span-12 lg:col-span-5 lg:col-start-9">
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-high">
+              <Image
+                src="/assets/imagery/howwework-team.jpg"
+                alt="Diverse African business team meeting over coffee"
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Numbered list with horizontal connector line */}
         <div className="relative">
-          {/* Background track */}
           <div className="absolute left-0 right-0 top-[60px] md:top-[72px] h-px bg-on-background/10 hidden md:block" aria-hidden="true" />
-          {/* Animated bright line */}
           <motion.div
             className="absolute left-0 top-[60px] md:top-[72px] h-px bg-accent-bright hidden md:block"
             style={{ width: lineWidth }}
@@ -89,7 +98,6 @@ export default function Approach() {
                 transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="relative"
               >
-                {/* Dot on the line */}
                 <div className="hidden md:block absolute -top-px left-0 w-2 h-2 rounded-full bg-accent-bright" style={{ left: 0, transform: "translateY(-3px)" }} aria-hidden="true" />
                 <div className="font-serif text-display-sm text-on-background/[0.15] leading-none mb-6">
                   {step.num}
@@ -105,7 +113,6 @@ export default function Approach() {
           </div>
         </div>
 
-        {/* Bottom strip — managed services reminder */}
         <RevealText delay={0.4}>
           <div className="mt-24 pt-8 border-t border-on-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <p className="text-on-surface-variant text-base">

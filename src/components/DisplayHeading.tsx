@@ -1,4 +1,4 @@
-import { type ReactNode, type CSSProperties } from "react";
+import { type ReactNode } from "react";
 
 type Size = "xl" | "lg" | "md" | "sm";
 
@@ -13,19 +13,19 @@ interface DisplayHeadingProps {
 }
 
 const sizeClasses: Record<Size, string> = {
-  xl: "text-display-xl md:text-display-xl",
-  lg: "text-display-lg md:text-display-lg",
-  md: "text-display-md md:text-display-md",
-  sm: "text-display-sm md:text-display-sm",
+  xl: "text-display-xl",
+  lg: "text-display-lg",
+  md: "text-display-md",
+  sm: "text-display-sm",
 };
 
 /**
  * Oversized editorial heading. Serif by default, with optional italic
- * accent for the key phrase. Sizes map to the Andela-style display
- * scale (96–120px on desktop).
+ * accent for the key phrase. Sizes are fluid `clamp()` (defined in
+ * tailwind.config.js) so they scale from mobile to desktop without
+ * overflowing the viewport.
  *
- * `accent` colors the entire heading in the bright accent — used for
- * the "little aspects of white" bright-cyan visual breaks.
+ * `accent` colors the entire heading in the bright cyan accent.
  */
 export default function DisplayHeading({
   children,
@@ -36,14 +36,12 @@ export default function DisplayHeading({
   accent = false,
   id,
 }: DisplayHeadingProps) {
-  const style: CSSProperties = { letterSpacing: "-0.03em" };
   return (
     <Tag
       id={id}
-      className={`font-serif font-normal leading-[0.95] ${sizeClasses[size]} ${
-        italic ? "italic" : ""
-      } ${accent ? "text-accent-cyan" : "text-on-background"} ${className}`}
-      style={style}
+      className={`font-serif font-normal ${sizeClasses[size]} ${italic ? "italic" : ""} ${
+        accent ? "text-accent-cyan" : "text-on-background"
+      } ${className}`}
     >
       {children}
     </Tag>

@@ -2,21 +2,17 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/content/site-config";
 
 /**
- * ContactCTA — the homepage climax.
+ * ContactCTA — the homepage climax with photography.
  *
- * Andela's full-bleed dark CTA section. We do the same.
- * - 200px+ vertical padding (huge breathing room)
- * - 120px serif H1 that parallaxes on scroll
- * - Two CTAs (primary pill + email link)
- * - Subtle ambient teal glow from above
- *
- * Scroll-linked motion: the headline drifts up as you scroll past
- * (useScroll + useTransform) — adds the "premium" feel without
- * being noisy.
+ * A local Ghanaian craftsperson grounds the "we build what's next"
+ * promise in a real working Ghanaian scene. The photo sits on the
+ * right, the headline parallaxes on the left, the teal glow
+ * emanates from above.
  */
 export default function ContactCTA() {
   const ref = useRef<HTMLElement>(null);
@@ -24,7 +20,6 @@ export default function ContactCTA() {
     target: ref,
     offset: ["start end", "end start"],
   });
-  // Parallax: headline drifts from y=80 to y=-40 as you scroll through
   const y = useTransform(scrollYProgress, [0, 1], [80, -40]);
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [0.3, 1, 1, 0.5]);
 
@@ -34,7 +29,7 @@ export default function ContactCTA() {
       id="contact"
       className="relative bg-surface-container-lowest py-40 md:py-56 px-6 md:px-12 overflow-hidden"
     >
-      {/* Ambient teal glow from above — the "little aspects of white" */}
+      {/* Ambient teal glow from above */}
       <div
         className="absolute inset-x-0 -top-40 h-[600px] pointer-events-none"
         style={{
@@ -42,15 +37,11 @@ export default function ContactCTA() {
         }}
         aria-hidden="true"
       />
-      {/* Subtle bottom vignette */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-40 pointer-events-none bg-gradient-to-t from-background to-transparent"
-        aria-hidden="true"
-      />
 
       <div className="max-w-[1440px] mx-auto relative z-10">
-        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8">
-          <div className="col-span-12 lg:col-span-10">
+        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-16">
+          {/* Text — cols 1-7 */}
+          <div className="col-span-12 lg:col-span-7">
             <motion.div
               style={{ y, opacity }}
               className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-10"
@@ -96,6 +87,26 @@ export default function ContactCTA() {
               <span>{siteConfig.location}</span>
               <span>{siteConfig.timezone}</span>
               <span>Replies within 1 business day</span>
+            </div>
+          </div>
+
+          {/* Image — cols 9-12 */}
+          <div className="col-span-12 lg:col-span-5 lg:col-start-9">
+            <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high">
+              <Image
+                src="/assets/imagery/cta-craft.jpg"
+                alt="A Ghanaian craftsperson at his work station"
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover"
+              />
+              <div
+                className="absolute inset-0 pointer-events-none z-10"
+                style={{
+                  background: "linear-gradient(180deg, rgba(4, 15, 27, 0.05) 0%, rgba(4, 15, 27, 0.3) 100%)",
+                }}
+                aria-hidden="true"
+              />
             </div>
           </div>
         </div>

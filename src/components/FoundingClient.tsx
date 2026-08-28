@@ -1,15 +1,15 @@
 import Link from "next/link";
+import Image from "next/image";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import MagneticButton from "@/components/MagneticButton";
 
 /**
- * FoundingClient — full-bleed dark section with oversized type.
+ * FoundingClient — full-bleed dark section with photography.
  *
- * The "founding clients" offer: priority onboarding + documented
- * transformation story. Server-rendered (zero JS).
- *
- * Andela-style: full-bleed surface, large H1, single CTA, minimal copy.
+ * The Accra skyline grounds the "we work in Ghana" promise in a real
+ * place. The ambient teal glow + the photo + the oversized type
+ * together create the "dramatic story" mood.
  */
 export default function FoundingClient() {
   return (
@@ -17,11 +17,25 @@ export default function FoundingClient() {
       aria-labelledby="founding-clients-heading"
       className="relative bg-surface-container-lowest py-32 md:py-48 px-6 md:px-12 overflow-hidden"
     >
+      {/* Background photo — Accra skyline, low opacity, with dark overlay */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute inset-0 opacity-30">
+          <Image
+            src="/assets/imagery/founding-accra.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-surface-container-lowest/80" />
+      </div>
+
       {/* Ambient teal accent corner */}
       <div
-        className="absolute top-0 right-0 w-[600px] h-[600px] pointer-events-none"
+        className="absolute top-0 right-0 w-[600px] h-[600px] pointer-events-none z-10"
         style={{
-          background: "radial-gradient(circle at top right, rgba(94, 234, 212, 0.12) 0%, transparent 60%)",
+          background: "radial-gradient(circle at top right, rgba(94, 234, 212, 0.18) 0%, transparent 60%)",
         }}
         aria-hidden="true"
       />
@@ -42,7 +56,7 @@ export default function FoundingClient() {
                 </p>
               </div>
               <div className="col-span-12 md:col-span-4 md:col-start-9">
-                <div className="border-t border-on-background/10 pt-6">
+                <div className="border-t border-on-background/20 pt-6">
                   <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
                     What it isn&apos;t
                   </div>
