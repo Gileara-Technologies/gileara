@@ -4,116 +4,87 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 /**
- * Hero Section — Andela-inspired design language
+ * Hero Section — Andela UI pattern applied to Gileara.
  *
- * Design principles:
- * - Copy leads (headline is the hero, not a visual effect)
- * - Navy background with minimal ambient treatment
- * - Clear CTA hierarchy (primary: cyan, secondary: outline)
- * - Breathing room (60% whitespace)
- * - No 3D, no gimmicks — pure typography and messaging
+ * Andela's signature hero anatomy:
+ *   1. Serif H1 (Droid Serif equivalent — IBM Plex Serif) at 64-72px
+ *   2. Inter subheading at 18-20px
+ *   3. Three checkmark benefit lines (green checkmark + short label)
+ *   4. Pill-shaped CTA button (dark bg, asymmetric padding for icon)
+ *   5. Centered layout, generous 128px vertical padding
+ *
+ * Gileara colors preserved: teal accent + dark navy background (Velocity Dark).
  */
 export default function Hero() {
+  const benefits = [
+    "All-inclusive monthly packages",
+    "WhatsApp-ready and MTN MoMo-integrated",
+    "Managed services from day one",
+  ];
+
   return (
-    <section className="relative min-h-screen bg-primary flex items-center justify-center overflow-hidden">
-      {/* Minimal ambient gradient (Andela-style subtle treatment) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-tertiary opacity-100" />
-
-      {/* Content layer */}
-      <div className="relative z-10 w-full">
-        <div className="max-w-5xl mx-auto px-6 md:px-12 py-24 md:py-32">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="space-y-8 text-center"
+    <section className="relative bg-background py-32 md:py-48 px-4 md:px-10 overflow-hidden">
+      <div className="max-w-6xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="flex flex-col items-center gap-8"
+        >
+          {/* H1 — Serif, Andela-style */}
+          <h1
+            className="font-serif text-5xl md:text-7xl leading-tight text-on-background max-w-4xl"
+            style={{ letterSpacing: "-0.02em" }}
           >
-            {/* Overline badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.05 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white text-xs font-mono font-medium tracking-wider uppercase mx-auto"
-            >
-              <span className="inline-block w-2 h-2 bg-accent rounded-full" />
-              FOR GHANAIAN MSMEs
-            </motion.div>
+            We Build the Systems{" "}
+            <span className="text-primary italic">Your Business Runs On</span>
+          </h1>
 
-            {/* Main headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="font-display text-5xl md:text-7xl font-bold leading-tight text-white"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              Transform Your Business With Systems Built for Scale
-            </motion.h1>
+          {/* Subheading — Inter body */}
+          <p className="font-sans text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed">
+            All-inclusive monthly digital transformation packages for Ghanaian MSMEs — replacing spreadsheets and manual work with systems built for scale.
+          </p>
 
-            {/* Subheading */}
-            <motion.p
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed"
-            >
-              One platform. All your operations. No more spreadsheets. Deploy in days, not months. From WhatsApp automation to payment processing, we handle the tech so you focus on growth.
-            </motion.p>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 pt-8 justify-center"
-            >
-              {/* Primary CTA — Cyan button */}
-              <Link
-                href="/contact"
-                className="px-8 py-4 bg-accent text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-200 inline-flex items-center justify-center gap-2 group shadow-lg"
+          {/* Checkmark list — Andela's signature */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 mt-2">
+            {benefits.map((b, i) => (
+              <motion.div
+                key={b}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                className="flex items-center gap-2"
               >
-                Start Your Transformation
-                <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform duration-200">
-                  arrow_forward
-                </span>
-              </Link>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M10.2003 14.8518L18.4731 6.57812L19.7466 7.85073L10.2003 17.397L4.47266 11.6694L5.74526 10.3968L10.2003 14.8518Z" fill="currentColor" className="text-primary" />
+                </svg>
+                <span className="text-on-surface font-medium">{b}</span>
+              </motion.div>
+            ))}
+          </div>
 
-              {/* Secondary CTA — Outline button */}
-              <Link
-                href="#platforms"
-                className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors duration-200 inline-flex items-center justify-center gap-2 group"
-              >
-                See Our Platforms
-                <span className="material-symbols-outlined text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-                  arrow_forward
-                </span>
-              </Link>
-            </motion.div>
-
-            {/* Trust badges / Key metrics */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="pt-12 flex flex-col sm:flex-row gap-8 sm:gap-12 justify-center text-white/70 text-sm font-mono uppercase"
+          {/* Pill CTA — Andela's exact pattern: dark bg, asymmetric padding, rounded-full */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="flex flex-col sm:flex-row items-center gap-4 mt-6"
+          >
+            <Link
+              href="/contact"
+              className="inline-flex items-center bg-tertiary text-on-tertiary font-medium text-lg rounded-full pl-6 pr-12 py-4 hover:opacity-90 transition-opacity duration-200 group"
             >
-              <div className="flex flex-col items-center">
-                <span className="text-3xl md:text-4xl font-bold text-white mb-2">500+</span>
-                <span>MSMEs Transformed</span>
-              </div>
-              <div className="hidden sm:block w-px bg-white/20" />
-              <div className="flex flex-col items-center">
-                <span className="text-3xl md:text-4xl font-bold text-white mb-2">99.9%</span>
-                <span>Uptime SLA</span>
-              </div>
-              <div className="hidden sm:block w-px bg-white/20" />
-              <div className="flex flex-col items-center">
-                <span className="text-3xl md:text-4xl font-bold text-white mb-2">7 Days</span>
-                <span>Average Deployment</span>
-              </div>
-            </motion.div>
+              Book a Free Consultation
+              <span className="ml-6 material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform duration-200">arrow_forward</span>
+            </Link>
+            <Link
+              href="#packages"
+              className="text-primary font-medium hover:underline"
+            >
+              See Our Packages
+            </Link>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
