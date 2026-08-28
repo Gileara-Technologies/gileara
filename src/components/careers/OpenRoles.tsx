@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { openRoles } from "@/content/roles";
+import SectionLabel from "@/components/SectionLabel";
+import RevealText from "@/components/RevealText";
 
 export default function OpenRoles() {
   const container = {
@@ -18,15 +20,14 @@ export default function OpenRoles() {
   };
 
   return (
-    <section id="roles" className="py-24 bg-background px-4 md:px-10">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="font-mono text-xs text-primary uppercase tracking-widest">
-            Current Openings
-          </span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 text-on-background">
-            Join the Mission
-          </h2>
+    <section id="roles" className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
+      <div className="max-w-[1440px] mx-auto">
+        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
+          <div className="col-span-12 lg:col-span-7">
+            <RevealText>
+              <SectionLabel number="02" label="CURRENT OPENINGS" className="mb-8" />
+            </RevealText>
+          </div>
         </div>
 
         <motion.div
@@ -34,51 +35,56 @@ export default function OpenRoles() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          className="space-y-8"
+          className="space-y-0 border-t border-on-background/10"
         >
-          {openRoles.map((role) => (
+          {openRoles.map((role, i) => (
             <motion.div
               key={role.id}
               variants={item}
+              className="border-b border-on-background/10 py-12"
             >
-              <div className="bg-white dark:bg-surface-container rounded-xl border border-outline-variant/20 overflow-hidden shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200">
-              <div className="p-6 md:p-8 md:flex gap-8 items-start">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0 mb-6 md:mb-0">
-                  <span className="material-symbols-outlined text-2xl" aria-hidden="true">
+              <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-6">
+                {/* Number + icon */}
+                <div className="col-span-12 md:col-span-2">
+                  <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-3">
+                    0{i + 1}
+                  </div>
+                  <span className="material-symbols-outlined text-3xl text-accent-bright">
                     {role.icon}
                   </span>
                 </div>
 
-                <div className="flex-grow">
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
-                    <h3 className="font-display text-2xl font-bold text-on-surface">
+                {/* Title + meta */}
+                <div className="col-span-12 md:col-span-10">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3">
+                    <h3 className="font-serif text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em]">
                       {role.title}
                     </h3>
                     {role.openings > 1 && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-primary/15 text-primary text-xs font-semibold">
+                      <span className="px-3 py-1 rounded-full border border-accent-bright text-accent-bright text-xs font-mono uppercase tracking-wider">
                         {role.openings} openings
                       </span>
                     )}
-                    <span className="inline-flex items-center gap-1 text-xs font-mono uppercase tracking-wider text-outline">
-                      <span className="material-symbols-outlined text-sm" aria-hidden="true">
-                        location_on
-                      </span>
+                    <span className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-on-surface-variant">
+                      <span className="material-symbols-outlined text-sm">location_on</span>
                       {role.location}
                     </span>
                   </div>
-                  <p className="text-on-surface-variant mb-6 text-sm md:text-base leading-relaxed">
+                  <p className="text-on-surface-variant text-lg leading-relaxed mb-8 max-w-3xl">
                     {role.description}
                   </p>
 
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid md:grid-cols-2 gap-x-12 gap-y-8">
                     <div>
-                      <h4 className="font-semibold text-primary mb-3 text-sm uppercase tracking-wider font-mono">
+                      <h4 className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
                         Key Responsibilities
                       </h4>
-                      <ul className="space-y-2">
-                        {role.responsibilities.map((resp, i) => (
-                          <li key={i} className="flex items-start text-sm text-on-surface-variant">
-                            <span className="text-primary mr-2">•</span>
+                      <ul className="space-y-3">
+                        {role.responsibilities.map((resp, idx) => (
+                          <li key={idx} className="flex items-start gap-3 text-on-surface text-sm leading-relaxed">
+                            <span className="material-symbols-outlined text-accent-bright text-base shrink-0 mt-0.5">
+                              arrow_right
+                            </span>
                             {resp}
                           </li>
                         ))}
@@ -86,23 +92,23 @@ export default function OpenRoles() {
                     </div>
 
                     <div>
-                      <h4 className="font-semibold text-primary mb-3 text-sm uppercase tracking-wider font-mono">
+                      <h4 className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
                         Required Skills
                       </h4>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {role.requiredSkills.map((skill, i) => (
-                          <span key={i} className="px-3 py-1 bg-surface-container-low border border-outline-variant/20 rounded-full text-xs text-on-surface font-medium">
+                      <div className="flex flex-wrap gap-2 mb-8">
+                        {role.requiredSkills.map((skill, idx) => (
+                          <span key={idx} className="px-3 py-1.5 bg-background/60 border border-on-background/20 rounded-pill text-xs text-on-background font-medium">
                             {skill}
                           </span>
                         ))}
                       </div>
 
-                      <h4 className="font-semibold text-primary mb-3 mt-4 text-sm uppercase tracking-wider font-mono">
+                      <h4 className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
                         Nice to Have
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {role.niceToHave.map((skill, i) => (
-                          <span key={i} className="px-3 py-1 bg-surface-container-low border border-outline-variant/10 rounded-full text-xs text-on-surface-variant">
+                        {role.niceToHave.map((skill, idx) => (
+                          <span key={idx} className="px-3 py-1.5 border border-on-background/10 rounded-pill text-xs text-on-surface-variant">
                             {skill}
                           </span>
                         ))}
@@ -110,7 +116,6 @@ export default function OpenRoles() {
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </motion.div>
           ))}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
 import ContactStepper from "@/components/scheduling/ContactStepper";
 
 import { FaWhatsapp } from "react-icons/fa6";
@@ -14,8 +15,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   openGraph: {
     title: "Book a Free Consultation | Gileara Technologies",
-    description:
-      "Tell us about your business — we'll recommend the right package for your goals.",
+    description: "Tell us about your business — we'll recommend the right package for your goals.",
     url: "/contact",
     siteName: "Gileara Technologies",
     type: "website",
@@ -29,7 +29,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Placeholder rails ("+233 XX …") are not rendered as live contacts until real numbers land in site-config.
 const phoneReady = !siteConfig.phone.includes("XX");
 const whatsappReady = !siteConfig.whatsapp.includes("XX");
 
@@ -38,46 +37,84 @@ export default function ContactPage() {
     <>
       <Navbar />
       <main>
-        <section id="contact" className="py-24 bg-background px-4 md:px-10">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-              <div>
-                <span className="font-mono text-xs text-primary uppercase tracking-widest">Get Started</span>
-                <h1 className="font-display text-4xl md:text-5xl font-bold mt-4 text-on-background leading-tight">
-                  Let&apos;s talk about your business
-                </h1>
-                <p className="mt-6 text-on-surface-variant text-lg mb-4">
-                  Thirty minutes, free. We&apos;ll map your goals to the right package — even if you don&apos;t buy.
-                </p>
-                <p className="text-on-surface-variant text-sm mb-12">
-                  All times are {siteConfig.timezone} · {siteConfig.location}
-                </p>
+        <PageHero
+          eyebrow="GET STARTED"
+          headline={
+            <>
+              Let&apos;s talk about{" "}
+              <span className="italic text-accent-cyan">your business.</span>
+            </>
+          }
+          subtitle="Thirty minutes, free. We'll map your goals to the right package — even if you don't buy."
+        />
+
+        <section className="bg-background py-20 md:py-28 px-6 md:px-12 border-t border-on-background/10">
+          <div className="max-w-[1440px] mx-auto">
+            <div className="grid lg:grid-cols-12 gap-x-8 gap-y-16 items-start">
+              {/* Left: contact rails */}
+              <div className="col-span-12 lg:col-span-5">
+                <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-6">
+                  All times {siteConfig.timezone} · {siteConfig.location}
+                </div>
 
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4 p-6 bg-white dark:bg-surface-container rounded-xl border border-outline-variant/10 hover:border-primary/30 transition-colors group">
-                    <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors"><span className="material-symbols-outlined text-lg text-primary" aria-hidden="true">mail</span></div>
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="flex items-start gap-5 py-8 border-t border-on-background/10 group"
+                  >
+                    <span className="material-symbols-outlined text-2xl text-accent-bright shrink-0 mt-1">mail</span>
                     <div>
-                      <p className="font-mono text-xs text-outline uppercase tracking-wider">Send an Email</p>
-                      <a className="text-xl font-semibold text-on-surface hover:text-primary transition-colors" href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+                      <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
+                        Send an Email
+                      </div>
+                      <span className="font-serif text-2xl text-on-background group-hover:text-accent-bright transition-colors">
+                        {siteConfig.email}
+                      </span>
                     </div>
-                  </div>
+                  </a>
 
                   {(phoneReady || whatsappReady) && (
-                    <div className="flex items-start gap-4 p-6 bg-white dark:bg-surface-container rounded-xl border border-outline-variant/10 hover:border-primary/30 transition-colors group">
-                      <div className="bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors"><FaWhatsapp className="w-5 h-5 text-primary" /></div>
+                    <a
+                      href={whatsappReady ? `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}` : `tel:${siteConfig.phone}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start gap-5 py-8 border-t border-on-background/10 group"
+                    >
+                      <FaWhatsapp className="w-6 h-6 text-accent-bright shrink-0 mt-1" />
                       <div>
-                        <p className="font-mono text-xs text-outline uppercase tracking-wider">Call or WhatsApp</p>
-                        <span className="text-xl font-semibold text-on-surface">{whatsappReady ? siteConfig.whatsapp : siteConfig.phone}</span>
+                        <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
+                          Call or WhatsApp
+                        </div>
+                        <span className="font-serif text-2xl text-on-background group-hover:text-accent-bright transition-colors">
+                          {whatsappReady ? siteConfig.whatsapp : siteConfig.phone}
+                        </span>
                       </div>
-                    </div>
+                    </a>
                   )}
 
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-on-surface-variant">
-                    <span>Prefer email? Write to us any time — we reply within one business day.</span>
+                  <div className="flex items-start gap-5 py-8 border-t border-b border-on-background/10">
+                    <span className="material-symbols-outlined text-2xl text-accent-bright shrink-0 mt-1">schedule</span>
+                    <div>
+                      <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
+                        Response time
+                      </div>
+                      <span className="text-on-background text-lg">
+                        Within 1 business day
+                      </span>
+                    </div>
                   </div>
                 </div>
+
+                <p className="mt-12 text-on-surface-variant text-sm max-w-md">
+                  Prefer email? Write to us any time — a real person (usually the founders) reads and replies.
+                </p>
               </div>
-              <div className="bg-white dark:bg-surface-container-high p-8 md:p-10 rounded-xl shadow-xl border border-outline-variant/10">
+
+              {/* Right: stepper */}
+              <div className="col-span-12 lg:col-span-7 lg:col-start-7">
+                <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
+                  Or pick a time
+                </div>
                 <ContactStepper />
               </div>
             </div>

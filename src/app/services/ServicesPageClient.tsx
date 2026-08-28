@@ -11,6 +11,11 @@ import {
   type ServicePackage,
 } from "@/content/packages";
 import { siteConfig } from "@/content/site-config";
+import PageHero from "@/components/PageHero";
+import CTABand from "@/components/CTABand";
+import DisplayHeading from "@/components/DisplayHeading";
+import SectionLabel from "@/components/SectionLabel";
+import RevealText from "@/components/RevealText";
 
 const container = {
   hidden: { opacity: 0 },
@@ -25,10 +30,10 @@ const item = {
 function StatusChip({ pkg }: { pkg: ServicePackage }) {
   return (
     <span
-      className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider ${
+      className={`shrink-0 px-3 py-1.5 rounded-full text-[10px] font-mono uppercase tracking-wider border ${
         pkg.status === "available"
-          ? "bg-secondary/15 dark:bg-primary/20 text-secondary dark:text-primary"
-          : "bg-surface-container-high text-on-surface-variant"
+          ? "border-accent-bright text-accent-bright"
+          : "border-on-background/20 text-on-surface-variant"
       }`}
     >
       {pkg.status === "available" ? "Available now" : "Rolling out Q4 2026"}
@@ -42,8 +47,8 @@ function Cell({ value }: { value?: string }) {
   }
   if (value === "Yes") {
     return (
-      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-secondary/15 dark:bg-primary/20">
-        <span className="material-symbols-outlined text-sm text-secondary dark:text-primary" role="img" aria-label="Included">check</span>
+      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full border border-accent-bright text-accent-bright">
+        <span className="material-symbols-outlined text-sm" role="img" aria-label="Included">check</span>
       </span>
     );
   }
@@ -55,50 +60,43 @@ const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 export default function ServicesPageClient() {
   return (
     <div className="bg-background">
-      {/* ── Page hero + overview table ─────────────────────────────── */}
-      <section className="py-20 md:py-28 px-4 md:px-10">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="max-w-3xl"
-          >
-            <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Packages &amp; Services</span>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mt-4 mb-6 text-primary dark:text-on-background leading-tight tracking-tight">
-              Five ways to transform your business.
-            </h1>
-            <p className="text-lg md:text-xl text-on-surface-variant leading-relaxed">
-              Every package is all-inclusive — managed services built in from day one, priced in clear USD tiers you can
-              compare on this page. Start where it hurts most; grow along the ladder when you&apos;re ready.
-            </p>
-          </motion.div>
+      {/* HERO */}
+      <PageHero
+        number="01"
+        eyebrow="PACKAGES & SERVICES"
+        headline={
+          <>
+            Five ways to{" "}
+            <span className="italic text-accent-cyan">transform</span>{" "}
+            your business.
+          </>
+        }
+        subtitle="Every package is all-inclusive — managed services built in from day one, priced in clear USD tiers you can compare on this page. Start where it hurts most; grow along the ladder when you're ready."
+      />
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-12 overflow-x-auto rounded-2xl border border-outline-variant/25 dark:border-outline-variant/10"
-          >
+      {/* Overview table */}
+      <section className="bg-background py-20 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="overflow-x-auto border-t border-b border-on-background/10">
             <table className="w-full min-w-[720px] text-sm">
               <thead>
-                <tr className="bg-surface-container dark:bg-surface-container-high text-left font-mono text-[11px] uppercase tracking-wider text-outline">
-                  <th className="px-5 py-4">Package</th>
-                  <th className="px-5 py-4">Built for</th>
-                  <th className="px-5 py-4">From</th>
-                  <th className="px-5 py-4">Status</th>
-                  <th className="px-5 py-4" aria-label="Details link" />
+                <tr className="text-left font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant">
+                  <th className="py-6">Package</th>
+                  <th className="py-6">Built for</th>
+                  <th className="py-6">From</th>
+                  <th className="py-6">Status</th>
+                  <th className="py-6" aria-label="Details link" />
                 </tr>
               </thead>
               <tbody>
                 {servicePackages.map((pkg) => (
-                  <tr key={pkg.id} className="border-t border-outline-variant/15 dark:border-outline-variant/10 hover:bg-surface-container/60 transition-colors">
-                    <td className="px-5 py-4 font-display font-bold text-on-surface">{pkg.name}</td>
-                    <td className="px-5 py-4 text-on-surface-variant">{pkg.targetCustomers.slice(0, 2).join(" · ")}</td>
-                    <td className="px-5 py-4 whitespace-nowrap text-on-surface">{usd(pkg.tiers[0].monthlyFeeUsd)}/mo</td>
-                    <td className="px-5 py-4"><StatusChip pkg={pkg} /></td>
-                    <td className="px-5 py-4 text-right">
-                      <a href={`#${pkg.id}`} className="font-semibold text-primary hover:underline whitespace-nowrap">
+                  <tr key={pkg.id} className="border-t border-on-background/10 hover:bg-surface-container/40 transition-colors">
+                    <td className="py-6 font-serif text-xl text-on-background">{pkg.name}</td>
+                    <td className="py-6 text-on-surface-variant">{pkg.targetCustomers.slice(0, 2).join(" · ")}</td>
+                    <td className="py-6 whitespace-nowrap text-on-background">{usd(pkg.tiers[0].monthlyFeeUsd)}/mo</td>
+                    <td className="py-6"><StatusChip pkg={pkg} /></td>
+                    <td className="py-6 text-right">
+                      <a href={`#${pkg.id}`} className="text-accent-bright hover:underline whitespace-nowrap font-medium">
                         Details ↓
                       </a>
                     </td>
@@ -106,20 +104,22 @@ export default function ServicesPageClient() {
                 ))}
               </tbody>
             </table>
-          </motion.div>
+          </div>
 
-          <p className="mt-6 text-sm text-on-surface-variant max-w-3xl">
+          <p className="mt-8 text-sm text-on-surface-variant max-w-3xl">
             {MANAGED_SERVICES_NOTE}
           </p>
         </div>
       </section>
 
-      {/* ── Per-package sections ───────────────────────────────────── */}
-      <section className="pb-24 px-4 md:px-10">
-        <div className="max-w-6xl mx-auto space-y-16">
+      {/* Per-package sections — numbered, alternating surface elevation */}
+      <section className="pb-24">
+        <div className="max-w-[1440px] mx-auto space-y-0">
           {servicePackages.map((pkg, idx) => {
             const basic = pkg.tiers[0];
             const isAutomation = pkg.id === "automation-efficiency";
+            const num = String(idx + 2).padStart(2, "0"); // 02..06
+            const bgClass = idx % 2 === 0 ? "bg-surface-container" : "bg-background";
             return (
               <motion.section
                 key={pkg.id}
@@ -128,111 +128,125 @@ export default function ServicesPageClient() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6 }}
-                className={`scroll-mt-24 rounded-3xl border p-6 md:p-10 ${
-                  idx % 2 === 0
-                    ? "bg-surface-container dark:bg-surface-container-high border-outline-variant/20 dark:border-outline-variant/10"
-                    : "bg-surface-container-high dark:bg-surface-container-lowest border-outline-variant/25 dark:border-outline-variant/10"
-                }`}
+                className={`scroll-mt-24 ${bgClass} py-32 md:py-40 px-6 md:px-12 border-t border-on-background/10`}
               >
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
-                  <div className="max-w-2xl">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <h2 className="font-display text-3xl font-bold text-primary dark:text-on-background">{pkg.name}</h2>
-                      <StatusChip pkg={pkg} />
+                <div className="max-w-[1440px] mx-auto">
+                  <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-12">
+                    <div className="col-span-12 lg:col-span-8">
+                      <div className="font-mono text-label uppercase tracking-[0.2em] text-on-background/[0.4] mb-4">
+                        {num}
+                      </div>
+                      <div className="flex items-center gap-3 flex-wrap mb-3">
+                        <h2 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em]">
+                          {pkg.name}
+                        </h2>
+                        <StatusChip pkg={pkg} />
+                      </div>
+                      <p className="text-on-surface-variant text-lg max-w-2xl mb-3">
+                        {pkg.tagline}
+                      </p>
+                      <p className="text-on-surface-variant text-sm">
+                        Goal: <span className="text-on-background">{pkg.primaryGoal}</span> · For{" "}
+                        <span className="text-on-background">{pkg.targetCustomers.join(", ").toLowerCase()}</span>
+                      </p>
                     </div>
-                    <p className="mt-3 text-on-surface-variant text-lg">{pkg.tagline}</p>
-                    <p className="mt-2 text-sm text-outline">
-                      Goal: <span className="text-on-surface">{pkg.primaryGoal}</span> · For{" "}
-                      <span className="text-on-surface">{pkg.targetCustomers.join(", ").toLowerCase()}</span>
-                    </p>
+                    <div className="col-span-12 lg:col-span-4 lg:text-right mt-8 lg:mt-0 flex lg:justify-end items-end">
+                      <Link
+                        href="/contact"
+                        className="group inline-flex items-center pl-6 pr-10 py-3 rounded-pill bg-accent-bright text-background font-medium hover:bg-accent-cyan transition-colors duration-300"
+                      >
+                        Discuss this package
+                        <span className="ml-4 material-symbols-outlined text-base transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
+                      </Link>
+                    </div>
                   </div>
-                  <Link
-                    href="/contact"
-                    className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
-                  >
-                    Discuss this package
-                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
-                  </Link>
-                </div>
 
-                {/* Tier comparison */}
-                <div className="overflow-x-auto rounded-2xl border border-outline-variant/20 dark:border-outline-variant/10 bg-surface dark:bg-surface-container">
-                  <table className="w-full min-w-[640px] text-sm">
-                    <thead>
-                      <tr className="border-b border-outline-variant/15 dark:border-outline-variant/10 text-left">
-                        <th className="px-5 py-4 font-mono text-[11px] uppercase tracking-wider text-outline">What you get</th>
-                        {pkg.tiers.map((t) => (
-                          <th key={t.name} className="px-5 py-4">
-                            <span className="font-display font-bold text-on-surface">{t.name}</span>
-                            <span className="block mt-1 text-on-surface-variant font-normal">
-                              {usd(t.setupFeeUsd)} setup · {usd(t.monthlyFeeUsd)}/mo
-                            </span>
-                            <span className="block text-xs text-outline font-normal mt-0.5">{t.deliveryTime}</span>
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {isAutomation
-                        ? pkg.solutions?.map((s) => (
-                            <tr key={s} className="border-b border-outline-variant/10 dark:border-outline-variant/5 last:border-0">
-                              <td className="px-5 py-3.5 text-on-surface" colSpan={4}>
-                                <span className="inline-flex items-center gap-3">
-                                  <Cell value="Yes" /> {s}
-                                </span>
-                              </td>
-                            </tr>
-                          ))
-                        : pkg.features?.map((row) => (
-                            <tr key={row.feature} className="border-b border-outline-variant/10 dark:border-outline-variant/5 last:border-0">
-                              <td className="px-5 py-3.5 text-on-surface">{row.feature}</td>
-                              <td className="px-5 py-3.5"><Cell value={row.basic} /></td>
-                              <td className="px-5 py-3.5"><Cell value={row.professional} /></td>
-                              <td className="px-5 py-3.5"><Cell value={row.enterprise} /></td>
-                            </tr>
+                  <div className="overflow-x-auto border border-on-background/10 rounded-xl bg-background/40">
+                    <table className="w-full min-w-[640px] text-sm">
+                      <thead>
+                        <tr className="border-b border-on-background/10 text-left">
+                          <th className="px-5 py-4 font-mono text-[11px] uppercase tracking-wider text-on-surface-variant">What you get</th>
+                          {pkg.tiers.map((t) => (
+                            <th key={t.name} className="px-5 py-4">
+                              <span className="font-serif text-lg text-on-background">{t.name}</span>
+                              <span className="block mt-1 text-on-surface-variant font-normal">
+                                {usd(t.setupFeeUsd)} setup · {usd(t.monthlyFeeUsd)}/mo
+                              </span>
+                              <span className="block text-xs text-on-surface-variant font-normal mt-0.5">{t.deliveryTime}</span>
+                            </th>
                           ))}
-                    </tbody>
-                  </table>
-                </div>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {isAutomation
+                          ? pkg.solutions?.map((s) => (
+                              <tr key={s} className="border-b border-on-background/5 last:border-0">
+                                <td className="px-5 py-3.5 text-on-background" colSpan={4}>
+                                  <span className="inline-flex items-center gap-3">
+                                    <Cell value="Yes" /> {s}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))
+                          : pkg.features?.map((row) => (
+                              <tr key={row.feature} className="border-b border-on-background/5 last:border-0">
+                                <td className="px-5 py-3.5 text-on-background">{row.feature}</td>
+                                <td className="px-5 py-3.5"><Cell value={row.basic} /></td>
+                                <td className="px-5 py-3.5"><Cell value={row.professional} /></td>
+                                <td className="px-5 py-3.5"><Cell value={row.enterprise} /></td>
+                              </tr>
+                            ))}
+                      </tbody>
+                    </table>
+                  </div>
 
-                <p className="mt-4 text-xs text-outline">
-                  Entry point: {usd(basic.setupFeeUsd)} setup + {usd(basic.monthlyFeeUsd)}/mo · all-inclusive.
-                </p>
+                  <p className="mt-4 text-xs text-on-surface-variant">
+                    Entry point: {usd(basic.setupFeeUsd)} setup + {usd(basic.monthlyFeeUsd)}/mo · all-inclusive.
+                  </p>
+                </div>
               </motion.section>
             );
           })}
         </div>
       </section>
 
-      {/* ── Growth ladder ──────────────────────────────────────────── */}
-      <section className="py-20 bg-surface-container dark:bg-surface-container-high px-4 md:px-10">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14 max-w-2xl mx-auto">
-            <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">The growth ladder</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 text-primary dark:text-on-background">
-              Start small. Scale when ready.
-            </h2>
-            <p className="mt-4 text-on-surface-variant">
-              Most MSMEs climb in stages — each step builds on the last, and nothing you own gets thrown away.
-            </p>
+      {/* Growth ladder */}
+      <section className="py-32 md:py-48 px-6 md:px-12 bg-surface-container">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16">
+            <div className="col-span-12 lg:col-span-7">
+              <RevealText>
+                <SectionLabel number="07" label="THE GROWTH LADDER" className="mb-8" />
+              </RevealText>
+              <DisplayHeading size="lg" as="h2" className="mb-8">
+                Start small.{" "}
+                <span className="italic text-accent-cyan">Scale when ready.</span>
+              </DisplayHeading>
+              <RevealText delay={0.15}>
+                <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
+                  Most MSMEs climb in stages — each step builds on the last, and nothing you own gets thrown away.
+                </p>
+              </RevealText>
+            </div>
           </div>
+
           <motion.ol
             variants={container}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4"
+            className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6"
           >
             {customerJourney.map((stage) => (
               <motion.li
                 key={stage.stage}
                 variants={item}
-                className="rounded-2xl bg-surface dark:bg-surface-container p-6 border border-outline-variant/20 dark:border-outline-variant/10 flex flex-col"
+                className="border-t border-on-background/20 pt-6 flex flex-col"
               >
-                <span className="font-mono text-[11px] uppercase tracking-widest text-secondary dark:text-primary mb-3">
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent-bright mb-3">
                   Stage {stage.stage}
                 </span>
-                <a href={`#${stage.packageId}`} className="font-display font-bold text-on-surface hover:text-primary transition-colors">
+                <a href={`#${stage.packageId}`} className="font-serif text-xl text-on-background hover:text-accent-bright transition-colors leading-tight">
                   {stage.packageName}
                 </a>
                 <span className="mt-auto pt-4 text-sm text-on-surface-variant">
@@ -244,59 +258,64 @@ export default function ServicesPageClient() {
         </div>
       </section>
 
-      {/* ── Ghana rails + beyond packages ──────────────────────────── */}
-      <section className="py-20 px-4 md:px-10">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
+      {/* Ghana rails + custom */}
+      <section className="py-32 md:py-48 px-6 md:px-12 bg-background">
+        <div className="max-w-[1440px] mx-auto grid lg:grid-cols-2 gap-x-12 gap-y-16">
           <div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-primary dark:text-on-background">Rails Ghanaian businesses trust</h2>
-            <p className="mt-4 text-on-surface-variant leading-relaxed">
+            <SectionLabel number="08" label="GHANA RAILS" className="mb-8" />
+            <h2 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-6">
+              Rails Ghanaian businesses{" "}
+              <span className="italic text-accent-cyan">trust.</span>
+            </h2>
+            <p className="text-on-surface-variant leading-relaxed mb-8">
               We integrate the platforms your customers already use — and we&apos;ll tell you plainly what we build on and why.
             </p>
-            <ul className="mt-6 space-y-3">
+            <ul className="space-y-3">
               {["MTN MoMo payments & reconciliation", "Paystack / Hubtel card & bank rails", "WhatsApp Business messaging", "Google Workspace & email"].map((rail) => (
-                <li key={rail} className="flex items-center gap-3 text-on-surface">
+                <li key={rail} className="flex items-center gap-3 text-on-background">
                   <Cell value="Yes" /> {rail}
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-primary dark:text-on-background">Beyond packages</h2>
-            <p className="mt-4 text-on-surface-variant leading-relaxed">
+            <SectionLabel number="09" label="BEYOND PACKAGES" className="mb-8" />
+            <h2 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-6">
+              Bespoke builds,{" "}
+              <span className="italic text-accent-cyan">by quote.</span>
+            </h2>
+            <p className="text-on-surface-variant leading-relaxed mb-8">
               Need something the packages don&apos;t cover? We take a small number of bespoke engagements each quarter.
             </p>
-            <ul className="mt-6 space-y-3">
+            <ul className="space-y-3">
               {customServices.map((s) => (
-                <li key={s.name} className="flex items-center justify-between gap-4 p-4 rounded-xl bg-surface-container dark:bg-surface-container-high border border-outline-variant/15 dark:border-outline-variant/10">
-                  <span className="font-medium text-on-surface">{s.name}</span>
-                  <span className="font-mono text-sm text-secondary dark:text-primary whitespace-nowrap">from {usd(s.startingPriceUsd)}</span>
+                <li key={s.name} className="flex items-center justify-between gap-4 py-4 border-t border-on-background/10">
+                  <span className="font-medium text-on-background">{s.name}</span>
+                  <span className="font-mono text-sm text-on-surface-variant whitespace-nowrap">from {usd(s.startingPriceUsd)}</span>
                 </li>
               ))}
             </ul>
-            <Link href="/contact" className="mt-6 inline-flex items-center gap-2 font-semibold text-primary hover:underline">
+            <Link href="/contact" className="mt-8 inline-flex items-center gap-2 text-accent-bright hover:underline font-medium group">
               Ask about a custom build
-              <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
+              <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
             </Link>
           </div>
         </div>
-
-        <div className="max-w-3xl mx-auto mt-16 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-primary dark:text-on-background">
-            Not sure which package fits?
-          </h2>
-          <p className="mt-4 text-on-surface-variant">
-            Book a free consultation — we&apos;ll recommend one based on your goals, honestly.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold teal-gradient-btn text-white dark:text-on-primary shadow-lg group"
-          >
-            Book a Free Consultation
-            <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
-          </Link>
-          <p className="mt-4 text-xs text-outline">{siteConfig.location} · {siteConfig.timezone}</p>
-        </div>
       </section>
+
+      {/* CTA */}
+      <CTABand
+        eyebrow="NOT SURE?"
+        headline={
+          <>
+            Not sure which package{" "}
+            <span className="italic text-accent-cyan">fits?</span>
+          </>
+        }
+        body="Book a free consultation — we'll recommend one based on your goals, honestly."
+        secondaryLabel={`${siteConfig.location} · ${siteConfig.timezone}`}
+        secondaryHref="/contact"
+      />
     </div>
   );
 }

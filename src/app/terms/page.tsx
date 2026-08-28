@@ -208,27 +208,28 @@ export default function TermsPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
 
-        <section className="px-6">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-10 border-b border-outline-variant/20 pb-10">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-primary">
+        <section className="px-6 md:px-12">
+          <div className="mx-auto max-w-[1440px]">
+            <div className="mb-16 border-b border-on-background/10 pb-12">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
                 Legal Resource
-              </p>
-              <h1 className="max-w-4xl text-4xl font-bold text-on-surface md:text-6xl">
-                Legal Terms for a trusted technology partnership.
+              </div>
+              <h1 className="max-w-4xl font-serif text-display-sm md:text-display-lg text-on-background leading-[0.95] tracking-[-0.03em]">
+                Legal terms for a{" "}
+                <span className="italic text-accent-cyan">trusted</span> technology partnership.
               </h1>
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-on-surface-variant">
+              <p className="mt-8 max-w-3xl text-body-lg leading-relaxed text-on-surface-variant">
                 These terms explain how visitors, prospects, clients, and partners may use
                 Gileara&apos;s website, public materials, and brand resources.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3 text-sm text-on-surface-variant">
-                <span className="rounded-full border border-outline-variant/30 bg-surface-container px-4 py-2">
+              <div className="mt-10 flex flex-wrap gap-3 text-sm text-on-surface-variant">
+                <span className="rounded-pill border border-on-background/15 px-4 py-2">
                   Last updated: {lastUpdated}
                 </span>
-                <span className="rounded-full border border-outline-variant/30 bg-surface-container px-4 py-2">
+                <span className="rounded-pill border border-on-background/15 px-4 py-2">
                   Applies to website use
                 </span>
-                <span className="rounded-full border border-outline-variant/30 bg-surface-container px-4 py-2">
+                <span className="rounded-pill border border-on-background/15 px-4 py-2">
                   Client contracts may supersede
                 </span>
               </div>
