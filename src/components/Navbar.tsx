@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 
 import { siteConfig } from "@/content/site-config";
@@ -183,7 +182,6 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
           </div>
 
           <div className="flex items-center space-x-4">
-            <ThemeToggle />
             {variant === "default" && (
               <Link
                 href="/contact"

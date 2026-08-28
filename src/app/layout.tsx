@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { MotionProvider } from "@/components/MotionProvider";
+import SmoothScroll from "@/components/SmoothScroll";
 import BackToTop from "@/components/BackToTop";
 
 const inter = Inter({
@@ -12,7 +12,7 @@ const inter = Inter({
   display: "swap",
 });
 
-/** Serif display face — Andela-style headline character (Droid Serif equivalent). */
+/** Serif display face — Andela-style editorial headlines. */
 const displaySerif = IBM_Plex_Serif({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -76,21 +76,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${displaySerif.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="antialiased">
+    <html lang="en" className={`dark ${inter.variable} ${displaySerif.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <body className="antialiased bg-background text-on-background">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
         <link rel="preload" href="/assets/gileara/logo-full.png" as="image" />
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <MotionProvider>
+        <MotionProvider>
+          <SmoothScroll>
             <div className="flex flex-col min-h-screen">
               <div className="flex-grow">
                 {children}
               </div>
             </div>
             <BackToTop />
-          </MotionProvider>
-        </ThemeProvider>
+          </SmoothScroll>
+        </MotionProvider>
       </body>
     </html>
   );
