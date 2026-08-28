@@ -9,6 +9,7 @@ interface DisplayHeadingProps {
   className?: string;
   italic?: boolean;
   accent?: boolean;
+  id?: string;
 }
 
 const sizeClasses: Record<Size, string> = {
@@ -33,10 +34,12 @@ export default function DisplayHeading({
   className = "",
   italic = false,
   accent = false,
+  id,
 }: DisplayHeadingProps) {
   const style: CSSProperties = { letterSpacing: "-0.03em" };
   return (
     <Tag
+      id={id}
       className={`font-serif font-normal leading-[0.95] ${sizeClasses[size]} ${
         italic ? "italic" : ""
       } ${accent ? "text-accent-cyan" : "text-on-background"} ${className}`}

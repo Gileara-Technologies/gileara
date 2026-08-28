@@ -1,96 +1,98 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import DisplayHeading from "@/components/DisplayHeading";
+import SectionLabel from "@/components/SectionLabel";
+import RevealText from "@/components/RevealText";
 
-
+/**
+ * The Reality — asymmetric, business-outcome story.
+ *
+ * Andela's editorial structure: oversized section number, large
+ * headline, narrative paragraph on the left, visual element (or
+ * typographic stat) on the right. No centered card grid.
+ *
+ * We layer: a "before" paragraph (the problem) and a "what changes"
+ * paragraph (the outcome), separated by a horizontal rule, with a
+ * large visual statistic on the right.
+ */
 export default function CinematicStory() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  };
-
-  const items = [
-    {
-      title: "Stock in notebooks?",
-      desc: "Sales, expenses and inventory scattered across paper and spreadsheets — no single view of your day.",
-      icon: "inventory_2",
-      fix: "Business Operations"
-    },
-    {
-      title: "Orders lost in WhatsApp?",
-      desc: "Customer chats buried between personal messages — enquiries and follow-ups slip through.",
-      icon: "forum",
-      fix: "Customer Growth"
-    },
-    {
-      title: "Reconciling by hand?",
-      desc: "MoMo statements matched against your books line by line, night after night.",
-      icon: "receipt_long",
-      fix: "Automation & Efficiency"
-    },
-    {
-      title: "Flying blind?",
-      desc: "No dashboard telling you what sold, what's owed, and what's actually profitable.",
-      icon: "monitoring",
-      fix: "Business Intelligence"
-    }
-  ];
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  // Subtle parallax: visual block drifts opposite the text
+  const visualY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
-    <section className="py-24 md:py-32 bg-surface-container px-4 md:px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">
-            The Daily Reality
-          </span>
-          <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 text-primary dark:text-on-background">
-            Great businesses are running on manual work.
-          </h2>
-        </div>
+    <section
+      ref={ref}
+      className="relative bg-surface-container py-32 md:py-48 px-6 md:px-12 overflow-hidden"
+    >
+      <div className="max-w-[1440px] mx-auto">
+        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-16">
+          {/* Left: narrative (cols 1-7) */}
+          <div className="col-span-12 lg:col-span-7">
+            <RevealText>
+              <SectionLabel number="01" label="THE REALITY" className="mb-8 md:mb-12" />
+            </RevealText>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
-        >
-          {items.map((card, index) => (
-            <motion.div
-              key={index}
-              variants={item}
-              className="bg-surface dark:bg-surface-container-high p-8 rounded-xl border border-outline-variant/30 dark:border-outline-variant/10 flex flex-col items-center text-center shadow-sm"
-            >
-              <span className="material-symbols-outlined text-secondary dark:text-primary text-4xl mb-4">
-                {card.icon}
-              </span>
-              <h3 className="font-display text-lg font-bold mb-2 text-primary dark:text-on-surface">
-                {card.title}
-              </h3>
-              <p className="text-on-surface-variant text-sm leading-relaxed">
-                {card.desc}
+            <DisplayHeading size="lg" as="h2" className="mb-10">
+              Great businesses are running on{" "}
+              <span className="italic text-accent-cyan">manual work.</span>
+            </DisplayHeading>
+
+            <RevealText delay={0.15}>
+              <p className="text-body-lg text-on-surface-variant leading-relaxed mb-6 max-w-2xl">
+                Stock in notebooks. Orders lost in WhatsApp threads. MoMo statements matched against books by hand, line by line, night after night. No dashboard telling you what sold, what&apos;s owed, or what&apos;s actually profitable.
               </p>
-              <Link
-                href="/#packages"
-                className="mt-auto pt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-secondary dark:text-primary hover:underline"
-              >
-                Fixed by {card.fix}
-                <span className="material-symbols-outlined text-xs" aria-hidden="true">arrow_forward</span>
-              </Link>
+            </RevealText>
+
+            <RevealText delay={0.25}>
+              <p className="text-body-lg text-on-surface-variant leading-relaxed mb-10 max-w-2xl">
+                We&apos;ve seen it. We know what it costs. And we know what changes the day the right system goes live.
+              </p>
+            </RevealText>
+
+            <RevealText delay={0.35}>
+              <div className="border-t border-on-background/10 pt-8 max-w-2xl">
+                <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-3">
+                  What changes
+                </div>
+                <p className="text-xl md:text-2xl text-on-background font-serif leading-snug">
+                  Hours back every week. Errors caught before they cost you. A single view of the business that fits in your pocket.
+                </p>
+              </div>
+            </RevealText>
+          </div>
+
+          {/* Right: visual block (cols 9-12) — giant stat, parallaxed */}
+          <div className="col-span-12 lg:col-span-5 lg:col-start-9 relative">
+            <motion.div style={{ y: visualY }} className="lg:sticky lg:top-32">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-6">
+                The cost
+              </div>
+              <div className="border-t border-on-background/10 pt-8">
+                <div className="font-serif text-display-lg leading-none tracking-[-0.04em] text-accent-cyan mb-4">
+                  20+
+                </div>
+                <p className="text-on-surface-variant text-lg leading-relaxed max-w-md">
+                  hours per week, on average, that an MSME owner loses to work a system should be doing.
+                </p>
+              </div>
+              <div className="border-t border-on-background/10 pt-8 mt-10">
+                <div className="font-serif text-display-md leading-none tracking-[-0.04em] text-on-background mb-4">
+                  7 days
+                </div>
+                <p className="text-on-surface-variant text-base leading-relaxed max-w-md">
+                  from kickoff to live system. You keep operating. We do the build.
+                </p>
+              </div>
             </motion.div>
-          ))}
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

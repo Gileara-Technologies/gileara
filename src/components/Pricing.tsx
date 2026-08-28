@@ -1,7 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import DisplayHeading from "@/components/DisplayHeading";
+import SectionLabel from "@/components/SectionLabel";
+import MagneticButton from "@/components/MagneticButton";
+import RevealText from "@/components/RevealText";
 
 import {
   servicePackages,
@@ -9,153 +14,159 @@ import {
   MANAGED_SERVICES_NOTE,
 } from "@/content/packages";
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
-const ghanaReady = ["WhatsApp integration", "MTN MoMo billing", "Offline-tolerant", "Low-bandwidth builds"];
-
 /**
- * The five recurring transformation packages — Andela-style clean cards.
- * No tilt, no ghost numerals, no alternating fills. Just clean white cards
- * with cyan accents on alternating navy/ice-blue sections.
+ * Pricing — numbered full-width list (not a 3-col card grid).
+ *
+ * Each package is a row: huge number on the left, title + tagline
+ * in the middle, price on the right. Hovering a row reveals more
+ * detail. Clicking expands it (or you can deep-link via the CTA).
+ *
+ * Asymmetric layout: column 1 = number, columns 2-7 = copy, columns
+ * 8-12 = price + CTA. Breaks the symmetric card-grid pattern.
  */
 export default function Pricing() {
+  const [expanded, setExpanded] = useState<string | null>(null);
+
   return (
-    <section id="packages" className="py-32 bg-background px-4 md:px-10">
+    <section id="packages" className="relative bg-background py-32 md:py-48 px-6 md:px-12">
       <div className="max-w-[1440px] mx-auto">
-        <div className="text-center mb-20 max-w-3xl mx-auto">
-          <span className="font-mono text-xs text-primary uppercase tracking-widest">Packages</span>
-          <h2 className="font-serif text-4xl md:text-6xl font-normal mt-4 text-on-background leading-tight" style={{ letterSpacing: "-0.02em" }}>
-            One partner. Five ways to transform.
-          </h2>
-          <p className="mt-6 text-on-surface-variant text-lg">
-            Pick where your business needs help first — every package is all-inclusive, with managed services built in
-            from day one. No hidden costs, ever.
-          </p>
+        {/* Header */}
+        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
+          <div className="col-span-12 lg:col-span-7">
+            <RevealText>
+              <SectionLabel number="02" label="WHAT WE DO" className="mb-8" />
+            </RevealText>
+            <DisplayHeading size="lg" as="h2" className="mb-8">
+              Five ways to{" "}
+              <span className="italic text-accent-cyan">transform</span>{" "}
+              your business.
+            </DisplayHeading>
+            <RevealText delay={0.15}>
+              <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
+                All-inclusive monthly packages, each with managed services built in from day one. Pick where your business needs help first — every package is independently useful and stacks cleanly.
+              </p>
+            </RevealText>
+          </div>
         </div>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch"
-        >
-          {servicePackages.map((pkg) => {
+        {/* Numbered list — one row per package */}
+        <div className="border-t border-on-background/10">
+          {servicePackages.map((pkg, i) => {
             const basic = pkg.tiers[0];
-            const anchor = pkg.id === "business-operations";
+            const isOpen = expanded === pkg.id;
+            const num = String(i + 1).padStart(2, "0");
             return (
-              <motion.article key={pkg.id} variants={item} className="h-full">
-                <div
-                  className={`relative flex flex-col h-full rounded-xl p-8 border transition-all duration-200 group ${
-                    anchor
-                      ? "border-primary/60 bg-white dark:bg-surface-container-low shadow-lg shadow-primary/10"
-                      : "border-outline-variant/20 bg-white dark:bg-surface-container hover:border-primary/30 hover:shadow-md"
-                  }`}
+              <motion.div
+                key={pkg.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                className="border-b border-on-background/10"
+              >
+                <button
+                  onClick={() => setExpanded(isOpen ? null : pkg.id)}
+                  className="w-full text-left grid grid-cols-12 gap-x-4 md:gap-x-8 items-center py-10 md:py-14 group cursor-pointer"
+                  aria-expanded={isOpen}
                 >
-                  {anchor && (
-                    <span className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-primary text-white text-[11px] font-mono uppercase tracking-widest">
-                      Most popular
-                    </span>
-                  )}
-
-                  <div className="flex items-start justify-between gap-3 mb-4">
-                    <h3 className="font-display text-xl font-bold text-on-surface">{pkg.name}</h3>
-                    <span
-                      className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider ${
-                        pkg.status === "available"
-                          ? "bg-primary/15 text-primary"
-                          : "bg-surface-container-high text-on-surface-variant"
-                      }`}
-                    >
-                      {pkg.status === "available" ? "Available now" : "Rolling out Q4"}
-                    </span>
+                  {/* Number — col 1-2 */}
+                  <div className="col-span-2 md:col-span-1 font-serif text-display-sm text-on-background/[0.15] group-hover:text-accent-bright/60 transition-colors duration-500 leading-none">
+                    {num}
                   </div>
 
-                  <p className="text-on-surface-variant text-sm leading-relaxed flex-grow">{pkg.tagline}</p>
+                  {/* Title + tagline — col 3-7 */}
+                  <div className="col-span-10 md:col-span-6 lg:col-span-6">
+                    <h3 className="font-serif text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-2 group-hover:text-accent-bright transition-colors duration-300">
+                      {pkg.name}
+                    </h3>
+                    <p className="text-on-surface-variant text-sm md:text-base leading-relaxed max-w-md">
+                      {pkg.tagline}
+                    </p>
+                  </div>
 
-                  <div className="mt-6 pt-6 border-t border-outline-variant/15">
-                    <p className="font-display text-3xl font-bold text-on-background">
+                  {/* Price — col 8-10 */}
+                  <div className="col-span-8 md:col-span-3 lg:col-span-3 md:text-right">
+                    <div className="font-serif text-2xl md:text-3xl text-on-background">
                       ${basic.monthlyFeeUsd.toLocaleString("en-US")}
-                      <span className="text-sm font-normal text-on-surface-variant">/mo</span>
-                    </p>
-                    <p className="text-xs font-sans text-on-surface-variant mt-1">
+                      <span className="text-sm font-sans text-on-surface-variant">/mo</span>
+                    </div>
+                    <div className="text-xs font-mono text-on-surface-variant mt-1">
                       from ${basic.setupFeeUsd.toLocaleString("en-US")} setup
-                    </p>
+                    </div>
                   </div>
 
-                  <p className="mt-4 font-mono text-[11px] uppercase tracking-wider text-outline">
-                    For {pkg.targetCustomers.slice(0, 3).join(" · ").toLowerCase()}
-                  </p>
+                  {/* Arrow — col 11-12 */}
+                  <div className="hidden md:flex col-span-2 justify-end">
+                    <span className="material-symbols-outlined text-2xl text-on-surface-variant group-hover:text-accent-bright group-hover:translate-x-1 transition-all duration-300">
+                      {isOpen ? "close" : "arrow_forward"}
+                    </span>
+                  </div>
+                </button>
 
-                  <Link
-                    href="/contact"
-                    className={`mt-6 inline-flex items-center justify-center gap-2 rounded-full pl-5 pr-10 py-2.5 text-sm font-medium transition-opacity duration-200 group ${
-                      anchor
-                        ? "bg-tertiary text-on-tertiary hover:opacity-90"
-                        : "border border-outline-variant text-primary hover:border-primary"
-                    }`}
-                  >
-                    Discuss this package
-                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
-                  </Link>
-                </div>
-              </motion.article>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 pb-12">
+                        <div className="col-span-12 md:col-start-3 md:col-span-7">
+                          <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+                            What&apos;s included
+                          </div>
+                          <ul className="space-y-3 mb-8">
+                            {(pkg.features ?? []).slice(0, 5).map((row) => (
+                              <li key={row.feature} className="flex items-start gap-3 text-on-surface">
+                                <span className="material-symbols-outlined text-accent-bright text-lg shrink-0 mt-0.5">
+                                  check_circle
+                                </span>
+                                <span className="text-base">{row.feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="text-sm text-on-surface-variant mb-6 italic">
+                            {MANAGED_SERVICES_NOTE}
+                          </div>
+                          <MagneticButton href="/contact" variant="primary" size="md">
+                            Discuss {pkg.name}
+                          </MagneticButton>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             );
           })}
-
-          {/* Managed-services band */}
-          <motion.div variants={item} className="h-full">
-            <div className="flex flex-col justify-center h-full rounded-xl p-8 border border-dashed border-primary/25 bg-surface-container-lowest">
-              <span className="material-symbols-outlined text-primary text-3xl mb-4" aria-hidden>
-                verified_user
-              </span>
-              <h3 className="font-display text-lg font-bold text-on-surface mb-3">Included in every package</h3>
-              <p className="text-on-surface-variant text-sm leading-relaxed">{MANAGED_SERVICES_NOTE}</p>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Ghana-ready proof strip */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-5 rounded-xl bg-surface-container-lowest border border-outline-variant/10">
-          <span className="font-mono text-xs uppercase tracking-widest text-outline">Ghana-ready by default</span>
-          {ghanaReady.map((g) => (
-            <span key={g} className="flex items-center gap-2 text-sm font-medium text-on-surface-variant">
-              <span className="material-symbols-outlined text-primary text-lg" aria-hidden>
-                check_circle
-              </span>
-              {g}
-            </span>
-          ))}
         </div>
 
-        {/* Beyond packages */}
-        <div className="mt-8 text-center">
-          <p className="text-sm text-on-surface-variant">
-            Need something outside the packages?{" "}
-            {customServices.map((s, i) => (
-              <span key={s.name}>
-                {i > 0 && " · "}
-                <span className="text-on-surface">
+        {/* Beyond the 5 */}
+        <div className="mt-20 pt-12 border-t border-on-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-3">
+              Beyond the packages
+            </div>
+            <p className="text-on-surface text-lg">
+              {customServices.map((s, i) => (
+                <span key={s.name}>
+                  {i > 0 && " · "}
                   {s.name} from ${s.startingPriceUsd.toLocaleString("en-US")}
                 </span>
-              </span>
-            ))}
-            .{" "}
-            <Link href="/services" className="text-primary font-semibold hover:underline">
-              See all services
-            </Link>
-          </p>
+              ))}
+            </p>
+          </div>
+          <Link
+            href="/services"
+            className="text-accent-bright hover:underline font-medium inline-flex items-center gap-2 group"
+          >
+            See all services
+            <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200">
+              arrow_forward
+            </span>
+          </Link>
         </div>
       </div>
     </section>
