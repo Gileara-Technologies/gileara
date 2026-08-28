@@ -96,8 +96,8 @@ export default function Hero() {
               className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container"
             >
               <Image
-                src="/assets/imagery/hero-leader.jpg"
-                alt="African business leader in professional attire, on a smartphone"
+                src="/assets/imagery/hero-business.jpg"
+                alt="Confident African business person holding a smartphone"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 42vw"

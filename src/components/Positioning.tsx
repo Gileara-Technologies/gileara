@@ -79,7 +79,7 @@ export default function Positioning() {
     <section ref={ref} id="positioning" className="relative bg-background py-32 md:py-48 px-6 md:px-12 overflow-hidden">
       <motion.div
         style={{ y: bigY }}
-        className="absolute -right-20 top-20 font-serif text-[28rem] text-on-background/[0.04] leading-none select-none pointer-events-none"
+        className="hidden lg:block absolute -right-20 top-20 font-serif text-[28rem] text-on-background/[0.04] leading-none select-none pointer-events-none"
         aria-hidden="true"
       >
         04
@@ -135,8 +135,8 @@ export default function Positioning() {
           <div className="col-span-12 lg:col-span-5 space-y-12">
             <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high">
               <Image
-                src="/assets/imagery/whyghana-data.jpg"
-                alt="Young African professional analyzing data on a laptop"
+                src="/assets/imagery/whyghana-collaboration.jpg"
+                alt="Young women collaborating in a stylish office"
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover"

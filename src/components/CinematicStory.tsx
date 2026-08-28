@@ -73,7 +73,7 @@ export default function CinematicStory() {
               <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high mb-12">
                 <Image
                   src="/assets/imagery/reality-msme.jpg"
-                  alt="A small Ghanaian business owner working at her station"
+                  alt="A small Ghanaian business owner with his shop signage"
                   fill
                   sizes="(max-width: 1024px) 100vw, 42vw"
                   className="object-cover"

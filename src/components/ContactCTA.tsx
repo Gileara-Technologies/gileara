@@ -94,8 +94,8 @@ export default function ContactCTA() {
           <div className="col-span-12 lg:col-span-5 lg:col-start-9">
             <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high">
               <Image
-                src="/assets/imagery/cta-craft.jpg"
-                alt="A Ghanaian craftsperson at his work station"
+                src="/assets/imagery/cta-business.jpg"
+                alt="Professional Black business woman with phone, ready to connect"
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover"

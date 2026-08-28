@@ -70,7 +70,7 @@ export default function Approach() {
             <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-high">
               <Image
                 src="/assets/imagery/howwework-team.jpg"
-                alt="Diverse African business team meeting over coffee"
+                alt="Diverse colleagues collaborating in an office"
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover"

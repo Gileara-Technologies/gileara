@@ -21,7 +21,7 @@ export default function FoundingClient() {
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 opacity-30">
           <Image
-            src="/assets/imagery/founding-accra.jpg"
+            src="/assets/imagery/founding-founders.jpg"
             alt=""
             fill
             sizes="100vw"
