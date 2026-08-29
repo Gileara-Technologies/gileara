@@ -55,12 +55,12 @@ export default function Positioning() {
     {
       num: "01",
       title: "Outcomes over code",
-      desc: "Every package ties technology to a business result — more revenue, lower costs, fewer hours lost to manual work. We advise on what your business needs, not the fanciest stack.",
+      desc: "Every system we build ties to a business result — more revenue, lower costs, fewer hours lost to manual work. We advise on what your business needs, not the fanciest stack.",
     },
     {
       num: "02",
-      title: "Managed from day one",
-      desc: "IT support, software updates, backups and security monitoring are built into your monthly plan — with SLA-backed response. Nothing bolted on later.",
+      title: "Supported, not abandoned",
+      desc: "IT support, software updates, backups and security monitoring are built into the system from day one — with SLA-backed response. Nothing bolted on later.",
     },
     {
       num: "03",

@@ -83,7 +83,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
             <span className="italic text-accent-cyan">small business</span> operators.
           </>
         }
-        subtitle="On packages, operations, growth, automation, and the realities of going digital — written from the field, not from a slide deck. Currently informed by our Ghana pilot, applicable to any small or growing business."
+        subtitle="On operations, growth, automation, and the realities of going digital — written from the field, not from a slide deck. Currently informed by our Ghana pilot, applicable to any small or growing business."
       />
 
       {/* FEATURED ARTICLE — asymmetric layout */}

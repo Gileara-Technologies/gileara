@@ -6,12 +6,12 @@ import ServicesPageClient from "./ServicesPageClient";
 export const metadata: Metadata = {
   title: "Packages & Services | Gileara Technologies",
   description:
-    "Five all-inclusive digital transformation packages for small and growing businesses — full tier pricing, feature matrices, and managed services included from day one. Currently piloting in Ghana, built to scale globally.",
+    "The five problems we see most in small business, and the systems we build to solve each one — with full pricing, feature matrices, and what's included. Currently piloting in Ghana, built to scale globally.",
   alternates: { canonical: "/services" },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "Packages & Services | Gileara Technologies",
-    description: "Five transformation packages with transparent USD tier pricing.",
+    title: "What we build | Gileara Technologies",
+    description: "The five problems we see most in small business, and the systems we build to solve each one. With full pricing and feature matrices.",
     url: "/services",
     siteName: "Gileara Technologies",
     type: "website",
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Packages & Services | Gileara Technologies",
-    description: "Five transformation packages with transparent USD tier pricing.",
+    title: "What we build | Gileara Technologies",
+    description: "The five problems we see most in small business, and the systems we build to solve each one.",
     images: ["/assets/gileara/og-services.svg"],
   },
 };

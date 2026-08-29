@@ -56,7 +56,7 @@ export default function Footer() {
               Gileara
             </div>
             <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs">
-              All-inclusive monthly digital transformation packages for small and growing businesses — currently piloting in Ghana, built to scale globally. WhatsApp-ready, mobile-money-ready, managed from day one.
+              We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone. Currently piloting in Ghana, designed to scale globally.
             </p>
             <p className="text-on-surface-variant text-xs font-mono mt-6">
               {siteConfig.location} · {siteConfig.timezone}

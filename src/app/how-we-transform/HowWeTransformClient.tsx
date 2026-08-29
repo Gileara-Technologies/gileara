@@ -38,14 +38,14 @@ export default function HowWeTransformClient() {
     <div className="bg-background">
       <PageHero
         number="01"
-        eyebrow="HOW WE TRANSFORM"
+        eyebrow="HOW WE SOLVE IT"
         headline={
           <>
             Playbooks, not{" "}
             <span className="italic text-accent-cyan">promises.</span>
           </>
         }
-        subtitle="We're new, and we won't pretend otherwise: there are no client logos on this page yet. What we have instead is better than borrowed credibility — exact playbooks for businesses like yours, written from our packages, with every outcome stated as a goal rather than a claim."
+        subtitle="We're new, and we won't pretend otherwise: there are no client logos on this page yet. What we have instead is better than borrowed credibility — exact playbooks for businesses like yours, with every outcome stated as a goal rather than a claim."
       />
 
       {/* Status legend */}

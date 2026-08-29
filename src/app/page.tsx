@@ -22,8 +22,8 @@ export const metadata: Metadata = {
   },
   keywords: [
     "Gileara Technologies",
-    "digital transformation",
-    "small business technology packages",
+    "small business systems",
+    "operations for small business",
     "business automation",
     "mobile money integration",
     "WhatsApp business systems",
@@ -72,7 +72,7 @@ const jsonLd = {
       logo: "https://gileara.org/assets/gileara/logo-icon.png",
       image: "https://gileara.org/assets/gileara/logo-full.png",
       description:
-        "All-inclusive monthly digital transformation packages for small and growing businesses — currently piloting in Ghana, built to scale globally. Managed services included from day one.",
+        "We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can't build alone. Currently piloting in Ghana, designed to scale globally.",
       foundingDate: "2024",
       email: siteConfig.email,
       sameAs: ["https://www.linkedin.com/company/gileara"],

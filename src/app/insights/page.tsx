@@ -7,7 +7,7 @@ import { posts, postReadTime } from "@/content/posts";
 export const metadata: Metadata = {
   title: "Insights | Gileara Technologies",
   description:
-    "Practical insights for small and growing businesses — packages, operations, growth, automation, and the realities of going digital. Currently informed by our Ghana pilot, applicable globally.",
+    "Practical insights for small and growing businesses — operations, growth, automation, and the realities of going digital. Currently informed by our Ghana pilot, applicable globally.",
   alternates: { canonical: "/insights" },
   robots: { index: true, follow: true },
   openGraph: {

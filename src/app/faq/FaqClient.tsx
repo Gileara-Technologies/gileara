@@ -20,7 +20,7 @@ export default function FaqClient() {
             <span className="italic text-accent-cyan">questions.</span>
           </>
         }
-        subtitle="Everything you need to know about working with Gileara — pricing, MoMo billing, managed services, contracts, data ownership."
+        subtitle="Everything you need to know about working with Gileara — who we work with, how the engagement works, contracts, data ownership."
       />
 
       <section className="bg-background py-24 md:py-32 px-6 md:px-12">

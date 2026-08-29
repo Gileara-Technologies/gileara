@@ -33,18 +33,18 @@ export default function ServicesPageClient() {
     <>
       {/* ── HERO — minimal, just sets the page context ──────────── */}
       <PageHero
-        eyebrow="SERVICES & PRICING"
+        eyebrow="WHAT WE BUILD"
         headline={
           <>
-            Five services.{" "}
-            <span className="italic text-accent-cyan">One clear price list.</span>
+            Five problems.{" "}
+            <span className="italic text-accent-cyan">One system each.</span>
           </>
         }
-        subtitle="All-inclusive monthly pricing, USD. Managed services included from day one. No hidden costs."
+        subtitle="The five problems we see most in small business, and the systems we build to solve each one. Pricing, features, and what's included — all in one place."
         cta={
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8">
             <MagneticButton href="/contact" variant="primary" size="lg">
-              Book a Free Consultation
+              Talk to us
             </MagneticButton>
             <a
               href="#matrix"
@@ -208,14 +208,14 @@ export default function ServicesPageClient() {
 
       {/* ── CONTACT BAND — universal in-page contact section ── */}
       <ContactBand
-        eyebrow="NOT SURE WHICH TIER?"
+        eyebrow="NOT SURE WHERE TO START?"
         headline={
           <>
             Let&apos;s pick the{" "}
-            <span className="italic text-accent-cyan">right one together.</span>
+            <span className="italic text-accent-cyan">right place together.</span>
           </>
         }
-        body="Thirty minutes, free. We'll listen, recommend the right tier (or none), and you leave with a clearer plan — even if the answer is 'not now'."
+        body="Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it — even if the answer turns out to be something we don't do."
       />
     </>
   );

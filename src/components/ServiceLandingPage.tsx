@@ -329,7 +329,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
             <span className="italic text-accent-cyan">{service.name.toLowerCase()}.</span>
           </>
         }
-        body="Thirty minutes, free. We'll walk through your business, recommend the right tier, and answer every question. Even if you don't buy, you leave with a clearer plan."
+        body="Thirty minutes, free. Walk us through what's hard about running your business and we'll help you think through it — even if the answer turns out to be something we don't do."
       />
 
       {/* ── 9. RELATED SERVICES ─────────────────────────────────── */}

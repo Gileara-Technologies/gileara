@@ -31,7 +31,7 @@ export default function Approach() {
     {
       num: "02",
       title: "Design",
-      desc: "A package + customisations that fit your operations. We don't ask you to change the way you work — we meet you where you are.",
+      desc: "A system + small customisations that fit your operations. We don't ask you to change the way you work — we meet you where you are.",
     },
     {
       num: "03",
@@ -40,8 +40,8 @@ export default function Approach() {
     },
     {
       num: "04",
-      title: "Manage",
-      desc: "We monitor, fix, and improve. Monthly. Backups, security, support — included from day one.",
+      title: "Stay with you",
+      desc: "We monitor, fix, and improve. Every day. Backups, security, real support — included, not bolted on.",
     },
   ];
 
@@ -116,7 +116,7 @@ export default function Approach() {
         <RevealText delay={0.4}>
           <div className="mt-24 pt-8 border-t border-on-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <p className="text-on-surface-variant text-base">
-              <span className="text-on-background font-medium">Every package includes managed services from day one</span> — IT support, backups, security monitoring, SLA support. No hidden costs.
+              <span className="text-on-background font-medium">Once it&apos;s live, it stays live</span> — we monitor, back up, secure, and support it every day, included in the system. Nothing bolted on later.
             </p>
           </div>
         </RevealText>

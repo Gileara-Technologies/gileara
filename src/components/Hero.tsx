@@ -54,9 +54,9 @@ const ROTATE_MS = 5000;
  */
 export default function Hero() {
   const benefits = [
-    "All-inclusive monthly packages",
-    "WhatsApp + mobile money ready",
-    "Managed from day one",
+    "Spreadsheets → live data",
+    "WhatsApp threads → one inbox",
+    "Lost leads → followed up",
   ];
 
   const [index, setIndex] = useState(0);
@@ -121,19 +121,19 @@ export default function Hero() {
         <div className="max-w-[1440px] mx-auto">
           <div className="max-w-4xl">
             <RevealText>
-              <SectionLabel number="00" label="WHAT WE DO" className="mb-8 md:mb-10" />
+              <SectionLabel number="00" label="THE PROBLEM WE SEE" className="mb-8 md:mb-10" />
             </RevealText>
 
             <DisplayHeading size="xl" as="h1" className="mb-8 md:mb-10 text-on-background">
-              We build the{" "}
-              <span className="italic text-accent-cyan">digital systems</span>
+              We build the systems
               <br />
-              behind your business.
+              your business{" "}
+              <span className="italic text-accent-cyan">runs on.</span>
             </DisplayHeading>
 
             <RevealText delay={0.2}>
               <p className="text-body-lg md:text-2xl text-on-background/85 max-w-2xl leading-relaxed font-sans mb-10 md:mb-12">
-                All-inclusive monthly digital transformation packages for small and growing businesses — currently piloting in Ghana, built to scale globally. Replacing spreadsheets, chat threads, and manual work with systems built to grow with you.
+                We see the same problem in small business everywhere: the work that should be invisible — stock, sales, customers, cashflow — is still eating your week. We build the systems that fix it, currently piloting in Ghana and built to scale with you.
               </p>
             </RevealText>
 

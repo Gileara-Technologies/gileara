@@ -8,14 +8,14 @@ import { FaWhatsapp } from "react-icons/fa6";
 import { siteConfig } from "@/content/site-config";
 
 export const metadata: Metadata = {
-  title: "Book a Free Consultation | Gileara Technologies",
+  title: "Talk to Gileara | Gileara Technologies",
   description:
-    "Thirty minutes, free. Tell us about your business and we'll map your goals to the right transformation package — even if you don't buy.",
+    "Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it — even if the answer turns out to be something we don't do.",
   alternates: { canonical: "/contact" },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "Book a Free Consultation | Gileara Technologies",
-    description: "Tell us about your business — we'll recommend the right package for your goals.",
+    title: "Talk to Gileara | Gileara Technologies",
+    description: "Tell us what's hard about running your business — we'll help you think through it.",
     url: "/contact",
     siteName: "Gileara Technologies",
     type: "website",
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Book a Free Consultation | Gileara Technologies",
-    description: "Tell us about your business — we'll recommend the right package.",
+    title: "Talk to Gileara | Gileara Technologies",
+    description: "Tell us what's hard about running your business — we'll help you think through it.",
     images: ["/assets/gileara/og-services.svg"],
   },
 };
@@ -38,14 +38,14 @@ export default function ContactPage() {
       <Navbar />
       <main>
         <PageHero
-          eyebrow="GET STARTED"
+          eyebrow="LET'S TALK"
           headline={
             <>
-              Let&apos;s talk about{" "}
-              <span className="italic text-accent-cyan">your business.</span>
+              Tell us what&apos;s hard about{" "}
+              <span className="italic text-accent-cyan">running your business.</span>
             </>
           }
-          subtitle="Thirty minutes, free. We'll map your goals to the right package — even if you don't buy."
+          subtitle="Thirty minutes, free. Bring the mess — sales, stock, customers, cashflow, all of it — and we'll help you think through it."
         />
 
         <section className="bg-background py-20 md:py-28 px-6 md:px-12 border-t border-on-background/10">

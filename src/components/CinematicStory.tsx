@@ -51,7 +51,7 @@ export default function CinematicStory() {
 
             <RevealText delay={0.25}>
               <p className="text-body-lg text-on-surface-variant leading-relaxed mb-10 max-w-2xl">
-                We&apos;ve seen it. We know what it costs. And we know what changes the day the right system goes live.
+                We&apos;ve seen it. We know what it takes to fix it. And we know what changes the day the right system goes live.
               </p>
             </RevealText>
 
@@ -61,7 +61,7 @@ export default function CinematicStory() {
                   What changes
                 </div>
                 <p className="text-xl md:text-2xl text-on-background font-serif leading-snug">
-                  Hours back every week. Errors caught before they cost you. A single view of the business that fits in your pocket.
+                  Hours back every week. Errors caught before they hurt you. A single view of the business that fits in your pocket.
                 </p>
               </div>
             </RevealText>
@@ -95,7 +95,7 @@ export default function CinematicStory() {
 
               <div className="border-t border-on-background/10 pt-8">
                 <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-6">
-                  The cost
+                  The pattern
                 </div>
                 <div className="border-t border-on-background/10 pt-8">
                   <div className="font-serif text-display-md leading-none tracking-[-0.04em] text-accent-cyan mb-4">

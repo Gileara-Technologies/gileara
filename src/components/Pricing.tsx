@@ -34,16 +34,16 @@ export default function Pricing() {
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
           <div className="col-span-12 lg:col-span-7">
             <RevealText>
-              <SectionLabel number="02" label="WHAT WE DO" className="mb-8" />
+              <SectionLabel number="02" label="WHAT WE BUILD" className="mb-8" />
             </RevealText>
             <DisplayHeading size="lg" as="h2" className="mb-8">
-              Five ways to{" "}
-              <span className="italic text-accent-cyan">transform</span>{" "}
+              Five systems to{" "}
+              <span className="italic text-accent-cyan">fix</span>{" "}
               your business.
             </DisplayHeading>
             <RevealText delay={0.15}>
               <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                All-inclusive monthly packages, each with managed services built in from day one. Pick where your business needs help first — every package is independently useful and stacks cleanly.
+                The five problems we keep seeing in small business, and the systems we build to solve each one. Pick where your business hurts first — every system is independently useful and stacks cleanly as you grow.
               </p>
             </RevealText>
           </div>
@@ -158,7 +158,7 @@ export default function Pricing() {
         <div className="mt-20 pt-12 border-t border-on-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-3">
-              Beyond the packages
+              When the five don&apos;t fit
             </div>
             <p className="text-on-surface text-lg">
               {customServices.map((s, i) => (

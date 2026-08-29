@@ -35,7 +35,7 @@ const whatsappReady = !siteConfig.whatsapp.includes("XX");
 export default function ContactBand({
   eyebrow = "Get in touch",
   headline,
-  body = "Thirty minutes, free. We'll map your goals to the right package — even if you don't buy.",
+  body = "Thirty minutes, free. Tell us what's hard about running your business today and we'll help you think through it — even if the answer turns out to be something we don't do.",
   align = "start",
   bg = "surface-container-lowest",
   showChannels = true,

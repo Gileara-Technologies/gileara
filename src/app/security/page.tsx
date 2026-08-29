@@ -8,7 +8,7 @@ import { siteConfig } from "@/content/site-config";
 export const metadata: Metadata = {
   title: "Security & Reliability | Gileara Technologies",
   description:
-    "What managed services cover at every Gileara tier — support, updates, backups, and monitoring — plus how to report vulnerabilities. Numeric SLA tables publish after readiness sign-off.",
+    "How we keep the systems we build running safely — support, updates, backups, and monitoring — plus how to report vulnerabilities. Numeric SLA tables publish after readiness sign-off.",
   alternates: {
     canonical: "/security",
   },
