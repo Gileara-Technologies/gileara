@@ -108,6 +108,19 @@ const jsonLd = {
       url: "https://gileara.org",
       name: siteConfig.name,
       publisher: { "@id": "https://gileara.org/#organization" },
+      inLanguage: "en",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: "https://gileara.org/insights?q={search_term_string}",
+        },
+        // Google ignores custom search unless wired to a real search endpoint.
+        // This SearchAction still serves as a structured hint that the site has
+        // a topical hub at /insights. A real `query-input` requires an actual
+        // site-search index; we'll wire it once that lands.
+        queryInput: "required name=search_term_string",
+      },
     },
     {
       "@type": "BreadcrumbList",

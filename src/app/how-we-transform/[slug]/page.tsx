@@ -34,6 +34,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+const base = "https://gileara.org";
+
 export default async function ScenarioPage({ params }: PageProps) {
   const { slug } = await params;
   const scenario = scenarios.find((s) => s.id === slug);
@@ -41,8 +43,41 @@ export default async function ScenarioPage({ params }: PageProps) {
 
   const pkgs = scenarioPackages(scenario);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": `${base}/how-we-transform/${scenario.id}/#playbook`,
+        headline: scenario.headline,
+        name: `${scenario.vertical} Playbook`,
+        description: scenario.ghanaContext,
+        articleSection: scenario.vertical,
+        about: scenario.painPoints[0],
+        inLanguage: "en",
+        author: { "@id": `${base}/#organization` },
+        publisher: { "@id": `${base}/#organization` },
+        isPartOf: { "@id": `${base}/how-we-transform/#playbook-list` },
+        url: `${base}/how-we-transform/${scenario.id}`,
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${base}/how-we-transform/${scenario.id}/#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: base },
+          { "@type": "ListItem", position: 2, name: "How we solve it", item: `${base}/how-we-transform` },
+          { "@type": "ListItem", position: 3, name: `${scenario.vertical} Playbook`, item: `${base}/how-we-transform/${scenario.id}` },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <main className="bg-background pt-36 pb-24 px-4 md:px-10">
         <div className="max-w-3xl mx-auto">

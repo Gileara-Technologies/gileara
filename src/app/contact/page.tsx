@@ -29,12 +29,100 @@ export const metadata: Metadata = {
   },
 };
 
+const base = "https://gileara.org";
+
 const phoneReady = !siteConfig.phone.includes("XX");
 const whatsappReady = !siteConfig.whatsapp.includes("XX");
+
+type ContactPoint = {
+  "@type": "ContactPoint";
+  contactType: string;
+  name?: string;
+  url?: string;
+  email?: string;
+  telephone?: string;
+  areaServed?: string[];
+  availableLanguage: string[];
+};
+
+const contactPoint: ContactPoint[] = [
+  {
+    "@type": "ContactPoint",
+    contactType: "sales",
+    name: "Book a free consultation",
+    url: `${base}/contact`,
+    availableLanguage: ["English"],
+  },
+  {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    email: siteConfig.email,
+    availableLanguage: ["English"],
+  },
+];
+
+if (phoneReady) {
+  contactPoint.push({
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    telephone: siteConfig.phone,
+    areaServed: ["GH", "Africa", "Worldwide"],
+    availableLanguage: ["English"],
+  });
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": `${base}/contact/#webpage`,
+      url: `${base}/contact`,
+      name: "Talk to Gileara | Gileara Technologies",
+      description:
+        "Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it.",
+      isPartOf: { "@id": `${base}/#website` },
+      breadcrumb: { "@id": `${base}/contact/#breadcrumb` },
+      about: { "@id": `${base}/#organization` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${base}/contact/#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: base },
+        { "@type": "ListItem", position: 2, name: "Talk to us", item: `${base}/contact` },
+      ],
+    },
+    {
+      "@type": "Organization",
+      "@id": `${base}/#organization-contact`,
+      name: siteConfig.name,
+      url: base,
+      logo: `${base}/assets/gileara/logo-icon.png`,
+      email: siteConfig.email,
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "GH",
+        addressLocality: siteConfig.location,
+      },
+      areaServed: [
+        { "@type": "Country", name: "Ghana" },
+        { "@type": "Place", name: "Africa" },
+        { "@type": "Place", name: "Worldwide" },
+      ],
+      contactPoint,
+      sameAs: ["https://www.linkedin.com/company/gileara"],
+    },
+  ],
+};
 
 export default function ContactPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <main>
         <PageHero

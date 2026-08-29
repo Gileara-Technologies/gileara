@@ -34,13 +34,59 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const base = "https://gileara.org";
+
 export default async function InsightsPostPage({ params }: Props) {
   const { slug } = await params;
   const post = posts.find((p) => p.slug === slug);
   if (!post) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${base}/insights/${post.slug}/#article`,
+        headline: post.title,
+        name: post.title,
+        description: post.excerpt,
+        datePublished: post.date,
+        dateModified: post.date,
+        inLanguage: "en",
+        keywords: post.tag,
+        articleSection: post.tag,
+        url: `${base}/insights/${post.slug}`,
+        mainEntityOfPage: { "@id": `${base}/insights/${post.slug}` },
+        isPartOf: { "@id": `${base}/insights/#blog` },
+        author: { "@id": `${base}/#organization` },
+        publisher: {
+          "@type": "Organization",
+          "@id": `${base}/#organization`,
+          name: "Gileara Technologies",
+          logo: {
+            "@type": "ImageObject",
+            url: `${base}/assets/gileara/logo-full.png`,
+          },
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${base}/insights/${post.slug}/#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: base },
+          { "@type": "ListItem", position: 2, name: "Insights", item: `${base}/insights` },
+          { "@type": "ListItem", position: 3, name: post.title, item: `${base}/insights/${post.slug}` },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <main>
         <InsightsPostClient post={post} />
