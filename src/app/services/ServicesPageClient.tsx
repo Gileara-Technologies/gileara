@@ -2,301 +2,347 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useState } from "react";
 
 import {
   servicePackages,
   customServices,
-  customerJourney,
   MANAGED_SERVICES_NOTE,
-  type ServicePackage,
+  type Service,
 } from "@/content/packages";
-import { siteConfig } from "@/content/site-config";
+import PageHero from "@/components/PageHero";
+import DisplayHeading from "@/components/DisplayHeading";
+import SectionLabel from "@/components/SectionLabel";
+import RevealText from "@/components/RevealText";
+import MagneticButton from "@/components/MagneticButton";
+import ContactBand from "@/components/ContactBand";
 
-const container = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-function StatusChip({ pkg }: { pkg: ServicePackage }) {
-  return (
-    <span
-      className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider ${
-        pkg.status === "available"
-          ? "bg-secondary/15 dark:bg-primary/20 text-secondary dark:text-primary"
-          : "bg-surface-container-high text-on-surface-variant"
-      }`}
-    >
-      {pkg.status === "available" ? "Available now" : "Rolling out Q4 2026"}
-    </span>
-  );
-}
-
-function Cell({ value }: { value?: string }) {
-  if (value === undefined) {
-    return <span className="text-outline-variant/60" aria-label="Not included">—</span>;
-  }
-  if (value === "Yes") {
-    return (
-      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-secondary/15 dark:bg-primary/20">
-        <span className="material-symbols-outlined text-sm text-secondary dark:text-primary" role="img" aria-label="Included">check</span>
-      </span>
-    );
-  }
-  return <span>{value}</span>;
-}
-
-const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
-
+/**
+ * /services — the pricing sheet.
+ *
+ * A focused single-page comparison matrix for clients evaluating Gileara.
+ * No marketing copy, no testimonials — just the numbers, the feature
+ * matrix, and a CTA. The five service landing pages
+ * (`/services/[slug]`) handle the marketing narrative for each offering.
+ */
 export default function ServicesPageClient() {
+  const [activeServiceId, setActiveServiceId] = useState<string>(servicePackages[0].id);
+  const activeService = servicePackages.find((s) => s.id === activeServiceId) ?? servicePackages[0];
+
   return (
-    <div className="bg-background">
-      {/* ── Page hero + overview table ─────────────────────────────── */}
-      <section className="py-20 md:py-28 px-4 md:px-10">
-        <div className="max-w-6xl mx-auto">
+    <>
+      {/* ── HERO — minimal, just sets the page context ──────────── */}
+      <PageHero
+        eyebrow="WHAT WE BUILD"
+        headline={
+          <>
+            Five problems.{" "}
+            <span className="italic text-accent-cyan">One system each.</span>
+          </>
+        }
+        subtitle="The five problems we see most in small business, and the systems we build to solve each one. Pricing, features, and what's included — all in one place."
+        cta={
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8">
+            <MagneticButton href="/contact" variant="primary" size="lg">
+              Talk to us
+            </MagneticButton>
+            <a
+              href="#matrix"
+              className="text-on-surface-variant hover:text-accent-bright font-medium transition-colors duration-200 underline-offset-4 hover:underline"
+            >
+              See the full comparison ↓
+            </a>
+          </div>
+        }
+      />
+
+      {/* ── SERVICE NAV TABS — quick switcher between services ── */}
+      <section className="bg-background border-t border-on-background/10 px-6 md:px-12 sticky top-0 z-20 backdrop-blur-md bg-background/80">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="flex overflow-x-auto -mx-2 py-1">
+            {servicePackages.map((s) => {
+              const isActive = s.id === activeServiceId;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setActiveServiceId(s.id)}
+                  className={`shrink-0 px-5 py-4 font-mono text-label uppercase tracking-[0.15em] border-b-2 transition-colors duration-200 ${
+                    isActive
+                      ? "border-accent-bright text-accent-bright"
+                      : "border-transparent text-on-surface-variant hover:text-on-background"
+                  }`}
+                >
+                  {String(s.order).padStart(2, "0")} — {s.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ACTIVE SERVICE SUMMARY — quick at-a-glance card ───── */}
+      <section className="bg-background py-20 md:py-24 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            key={activeService.id}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="max-w-3xl"
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-10 items-start"
           >
-            <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Packages &amp; Services</span>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mt-4 mb-6 text-primary dark:text-on-background leading-tight tracking-tight">
-              Five ways to transform your business.
-            </h1>
-            <p className="text-lg md:text-xl text-on-surface-variant leading-relaxed">
-              Every package is all-inclusive — managed services built in from day one, priced in clear USD tiers you can
-              compare on this page. Start where it hurts most; grow along the ladder when you&apos;re ready.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-12 overflow-x-auto rounded-2xl border border-outline-variant/25 dark:border-outline-variant/10"
-          >
-            <table className="w-full min-w-[720px] text-sm">
-              <thead>
-                <tr className="bg-surface-container dark:bg-surface-container-high text-left font-mono text-[11px] uppercase tracking-wider text-outline">
-                  <th className="px-5 py-4">Package</th>
-                  <th className="px-5 py-4">Built for</th>
-                  <th className="px-5 py-4">From</th>
-                  <th className="px-5 py-4">Status</th>
-                  <th className="px-5 py-4" aria-label="Details link" />
-                </tr>
-              </thead>
-              <tbody>
-                {servicePackages.map((pkg) => (
-                  <tr key={pkg.id} className="border-t border-outline-variant/15 dark:border-outline-variant/10 hover:bg-surface-container/60 transition-colors">
-                    <td className="px-5 py-4 font-display font-bold text-on-surface">{pkg.name}</td>
-                    <td className="px-5 py-4 text-on-surface-variant">{pkg.targetCustomers.slice(0, 2).join(" · ")}</td>
-                    <td className="px-5 py-4 whitespace-nowrap text-on-surface">{usd(pkg.tiers[0].monthlyFeeUsd)}/mo</td>
-                    <td className="px-5 py-4"><StatusChip pkg={pkg} /></td>
-                    <td className="px-5 py-4 text-right">
-                      <a href={`#${pkg.id}`} className="font-semibold text-primary hover:underline whitespace-nowrap">
-                        Details ↓
-                      </a>
-                    </td>
-                  </tr>
+            <div className="col-span-12 lg:col-span-7">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-3">
+                {String(activeService.order).padStart(2, "0")} · {activeService.status === "available" ? "Available now" : "Rolling out Q4 2026"}
+              </div>
+              <h2 className="font-serif text-4xl md:text-display-md text-on-background leading-[1.05] tracking-[-0.02em] mb-4">
+                {activeService.name}
+              </h2>
+              <p className="text-on-surface-variant text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
+                {activeService.tagline}
+              </p>
+              <div className="flex flex-wrap gap-3 mb-8">
+                {activeService.targetCustomers.slice(0, 4).map((c) => (
+                  <span
+                    key={c}
+                    className="px-3 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider bg-surface-container text-on-surface-variant border border-on-background/10"
+                  >
+                    {c}
+                  </span>
                 ))}
-              </tbody>
-            </table>
-          </motion.div>
+              </div>
+              <MagneticButton href={`/services/${activeService.slug}`} variant="secondary" size="md">
+                Read the {activeService.name} page →
+              </MagneticButton>
+            </div>
 
-          <p className="mt-6 text-sm text-on-surface-variant max-w-3xl">
+            <div className="col-span-12 lg:col-span-5">
+              <div className="grid grid-cols-3 gap-3">
+                {activeService.tiers.map((t, i) => (
+                  <div
+                    key={t.name}
+                    className={`rounded-lg p-5 border ${
+                      i === 1 ? "border-accent-bright bg-surface-container" : "border-on-background/15 bg-surface"
+                    }`}
+                  >
+                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-2">
+                      {t.name}
+                    </div>
+                    <div className="font-serif text-2xl text-on-background leading-none">
+                      ${t.monthlyFeeUsd}
+                      <span className="text-xs font-sans text-on-surface-variant">/mo</span>
+                    </div>
+                    <div className="text-[11px] text-on-surface-variant mt-2">
+                      ${t.setupFeeUsd.toLocaleString("en-US")} setup
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── PRICING MATRIX (the actual pricing sheet) ──────────── */}
+      <section id="matrix" className="bg-surface-container-lowest py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="mb-16">
+            <RevealText>
+              <SectionLabel label="THE FULL PRICING SHEET" className="mb-8" />
+            </RevealText>
+            <DisplayHeading size="md" as="h2">
+              All five services.{" "}
+              <span className="italic text-accent-cyan">All three tiers.</span>
+            </DisplayHeading>
+          </div>
+
+          <div className="space-y-16">
+            {servicePackages.map((s) => (
+              <PricingBlock key={s.id} service={s} />
+            ))}
+          </div>
+
+          {/* Custom services block */}
+          <div className="mt-20 border-t border-on-background/15 pt-12">
+            <h3 className="font-serif text-2xl text-on-background mb-6">
+              Custom work outside the standard five
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {customServices.map((c) => (
+                <div
+                  key={c.name}
+                  className="border border-on-background/15 rounded-lg p-6 bg-surface"
+                >
+                  <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-3">
+                    Custom
+                  </div>
+                  <div className="font-serif text-xl text-on-background leading-tight mb-2">
+                    {c.name}
+                  </div>
+                  <div className="text-sm text-on-surface-variant">
+                    Starting at ${c.startingPriceUsd.toLocaleString("en-US")}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-on-surface-variant text-sm mt-6 max-w-2xl">
+              Bespoke projects are quoted per scope. We&apos;ll scope it in your free consultation.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHAT'S INCLUDED — managed services note ───────────── */}
+      <section className="bg-background py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
+        <div className="max-w-3xl mx-auto">
+          <RevealText>
+            <SectionLabel label="WHAT'S INCLUDED" className="mb-8" />
+          </RevealText>
+          <DisplayHeading size="sm" as="h2" className="mb-8">
+            <span className="italic text-accent-cyan">Every service</span> includes:
+          </DisplayHeading>
+          <p className="text-on-surface-variant text-lg leading-relaxed italic">
             {MANAGED_SERVICES_NOTE}
           </p>
         </div>
       </section>
 
-      {/* ── Per-package sections ───────────────────────────────────── */}
-      <section className="pb-24 px-4 md:px-10">
-        <div className="max-w-6xl mx-auto space-y-16">
-          {servicePackages.map((pkg, idx) => {
-            const basic = pkg.tiers[0];
-            const isAutomation = pkg.id === "automation-efficiency";
-            return (
-              <motion.section
-                key={pkg.id}
-                id={pkg.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6 }}
-                className={`scroll-mt-24 rounded-3xl border p-6 md:p-10 ${
-                  idx % 2 === 0
-                    ? "bg-surface-container dark:bg-surface-container-high border-outline-variant/20 dark:border-outline-variant/10"
-                    : "bg-surface-container-high dark:bg-surface-container-lowest border-outline-variant/25 dark:border-outline-variant/10"
-                }`}
-              >
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
-                  <div className="max-w-2xl">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <h2 className="font-display text-3xl font-bold text-primary dark:text-on-background">{pkg.name}</h2>
-                      <StatusChip pkg={pkg} />
-                    </div>
-                    <p className="mt-3 text-on-surface-variant text-lg">{pkg.tagline}</p>
-                    <p className="mt-2 text-sm text-outline">
-                      Goal: <span className="text-on-surface">{pkg.primaryGoal}</span> · For{" "}
-                      <span className="text-on-surface">{pkg.targetCustomers.join(", ").toLowerCase()}</span>
-                    </p>
-                  </div>
-                  <Link
-                    href="/contact"
-                    className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
-                  >
-                    Discuss this package
-                    <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
-                  </Link>
-                </div>
+      {/* ── CONTACT BAND — universal in-page contact section ── */}
+      <ContactBand
+        eyebrow="NOT SURE WHERE TO START?"
+        headline={
+          <>
+            Let&apos;s pick the{" "}
+            <span className="italic text-accent-cyan">right place together.</span>
+          </>
+        }
+        body="Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it — even if the answer turns out to be something we don't do."
+      />
+    </>
+  );
+}
 
-                {/* Tier comparison */}
-                <div className="overflow-x-auto rounded-2xl border border-outline-variant/20 dark:border-outline-variant/10 bg-surface dark:bg-surface-container">
-                  <table className="w-full min-w-[640px] text-sm">
-                    <thead>
-                      <tr className="border-b border-outline-variant/15 dark:border-outline-variant/10 text-left">
-                        <th className="px-5 py-4 font-mono text-[11px] uppercase tracking-wider text-outline">What you get</th>
-                        {pkg.tiers.map((t) => (
-                          <th key={t.name} className="px-5 py-4">
-                            <span className="font-display font-bold text-on-surface">{t.name}</span>
-                            <span className="block mt-1 text-on-surface-variant font-normal">
-                              {usd(t.setupFeeUsd)} setup · {usd(t.monthlyFeeUsd)}/mo
-                            </span>
-                            <span className="block text-xs text-outline font-normal mt-0.5">{t.deliveryTime}</span>
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {isAutomation
-                        ? pkg.solutions?.map((s) => (
-                            <tr key={s} className="border-b border-outline-variant/10 dark:border-outline-variant/5 last:border-0">
-                              <td className="px-5 py-3.5 text-on-surface" colSpan={4}>
-                                <span className="inline-flex items-center gap-3">
-                                  <Cell value="Yes" /> {s}
-                                </span>
-                              </td>
-                            </tr>
-                          ))
-                        : pkg.features?.map((row) => (
-                            <tr key={row.feature} className="border-b border-outline-variant/10 dark:border-outline-variant/5 last:border-0">
-                              <td className="px-5 py-3.5 text-on-surface">{row.feature}</td>
-                              <td className="px-5 py-3.5"><Cell value={row.basic} /></td>
-                              <td className="px-5 py-3.5"><Cell value={row.professional} /></td>
-                              <td className="px-5 py-3.5"><Cell value={row.enterprise} /></td>
-                            </tr>
-                          ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                <p className="mt-4 text-xs text-outline">
-                  Entry point: {usd(basic.setupFeeUsd)} setup + {usd(basic.monthlyFeeUsd)}/mo · all-inclusive.
-                </p>
-              </motion.section>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── Growth ladder ──────────────────────────────────────────── */}
-      <section className="py-20 bg-surface-container dark:bg-surface-container-high px-4 md:px-10">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14 max-w-2xl mx-auto">
-            <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">The growth ladder</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 text-primary dark:text-on-background">
-              Start small. Scale when ready.
-            </h2>
-            <p className="mt-4 text-on-surface-variant">
-              Most MSMEs climb in stages — each step builds on the last, and nothing you own gets thrown away.
-            </p>
+/** Pricing block per service — full feature matrix, no marketing copy. */
+function PricingBlock({ service }: { service: Service }) {
+  return (
+    <div className="border-t border-on-background/15 pt-10">
+      <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-6 mb-8">
+        <div className="col-span-12 md:col-span-8">
+          <div className="flex items-baseline gap-4 flex-wrap mb-2">
+            <span className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright">
+              {String(service.order).padStart(2, "0")}
+            </span>
+            <h3 className="font-serif text-3xl md:text-4xl text-on-background leading-tight tracking-[-0.02em]">
+              {service.name}
+            </h3>
+            {service.status === "rollout" && (
+              <span className="font-mono text-[10px] uppercase tracking-wider text-on-surface-variant border border-on-background/20 px-2 py-1 rounded-full">
+                Rolling out Q4 2026
+              </span>
+            )}
           </div>
-          <motion.ol
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4"
-          >
-            {customerJourney.map((stage) => (
-              <motion.li
-                key={stage.stage}
-                variants={item}
-                className="rounded-2xl bg-surface dark:bg-surface-container p-6 border border-outline-variant/20 dark:border-outline-variant/10 flex flex-col"
-              >
-                <span className="font-mono text-[11px] uppercase tracking-widest text-secondary dark:text-primary mb-3">
-                  Stage {stage.stage}
-                </span>
-                <a href={`#${stage.packageId}`} className="font-display font-bold text-on-surface hover:text-primary transition-colors">
-                  {stage.packageName}
-                </a>
-                <span className="mt-auto pt-4 text-sm text-on-surface-variant">
-                  from {usd(stage.setupFeeUsd)} + {usd(stage.monthlyFeeUsd)}/mo
-                </span>
-              </motion.li>
-            ))}
-          </motion.ol>
-        </div>
-      </section>
-
-      {/* ── Ghana rails + beyond packages ──────────────────────────── */}
-      <section className="py-20 px-4 md:px-10">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
-          <div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-primary dark:text-on-background">Rails Ghanaian businesses trust</h2>
-            <p className="mt-4 text-on-surface-variant leading-relaxed">
-              We integrate the platforms your customers already use — and we&apos;ll tell you plainly what we build on and why.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {["MTN MoMo payments & reconciliation", "Paystack / Hubtel card & bank rails", "WhatsApp Business messaging", "Google Workspace & email"].map((rail) => (
-                <li key={rail} className="flex items-center gap-3 text-on-surface">
-                  <Cell value="Yes" /> {rail}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-primary dark:text-on-background">Beyond packages</h2>
-            <p className="mt-4 text-on-surface-variant leading-relaxed">
-              Need something the packages don&apos;t cover? We take a small number of bespoke engagements each quarter.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {customServices.map((s) => (
-                <li key={s.name} className="flex items-center justify-between gap-4 p-4 rounded-xl bg-surface-container dark:bg-surface-container-high border border-outline-variant/15 dark:border-outline-variant/10">
-                  <span className="font-medium text-on-surface">{s.name}</span>
-                  <span className="font-mono text-sm text-secondary dark:text-primary whitespace-nowrap">from {usd(s.startingPriceUsd)}</span>
-                </li>
-              ))}
-            </ul>
-            <Link href="/contact" className="mt-6 inline-flex items-center gap-2 font-semibold text-primary hover:underline">
-              Ask about a custom build
-              <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
-            </Link>
-          </div>
-        </div>
-
-        <div className="max-w-3xl mx-auto mt-16 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-primary dark:text-on-background">
-            Not sure which package fits?
-          </h2>
-          <p className="mt-4 text-on-surface-variant">
-            Book a free consultation — we&apos;ll recommend one based on your goals, honestly.
+          <p className="text-on-surface-variant text-base leading-relaxed max-w-2xl mb-4">
+            {service.tagline}
           </p>
           <Link
-            href="/contact"
-            className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold teal-gradient-btn text-white dark:text-on-primary shadow-lg group"
+            href={`/services/${service.slug}`}
+            className="text-sm text-accent-bright hover:underline underline-offset-4 inline-flex items-center gap-1"
           >
-            Book a Free Consultation
-            <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
+            Read the {service.name} page <span className="material-symbols-outlined text-base">arrow_forward</span>
           </Link>
-          <p className="mt-4 text-xs text-outline">{siteConfig.location} · {siteConfig.timezone}</p>
         </div>
-      </section>
+      </div>
+
+      {/* Tier pricing row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        {service.tiers.map((t, i) => (
+          <div
+            key={t.name}
+            className={`rounded-lg p-6 border ${
+              i === 1 ? "border-accent-bright bg-surface" : "border-on-background/15 bg-surface-container"
+            }`}
+          >
+            <div className="flex items-baseline justify-between mb-3">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant">
+                {t.name}
+              </div>
+              {i === 1 && (
+                <div className="text-[10px] font-mono uppercase tracking-wider text-accent-bright">
+                  Most popular
+                </div>
+              )}
+            </div>
+            <div className="font-serif text-3xl text-on-background leading-none mb-1">
+              ${t.monthlyFeeUsd}
+              <span className="text-sm font-sans text-on-surface-variant">/mo</span>
+            </div>
+            <div className="text-sm text-on-surface-variant mb-1">
+              ${t.setupFeeUsd.toLocaleString("en-US")} one-time setup
+            </div>
+            <div className="text-xs text-on-surface-variant font-mono uppercase tracking-wider">
+              {t.deliveryTime} delivery
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Feature matrix (or solutions list for Automation) */}
+      {service.features && service.features.length > 0 && (
+        <div className="border border-on-background/15 rounded-lg overflow-hidden bg-surface">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-surface-container border-b border-on-background/15">
+                <th className="text-left px-5 py-4 font-mono text-label uppercase tracking-[0.15em] text-on-surface-variant">
+                  Feature
+                </th>
+                <th className="text-center px-3 py-4 font-mono text-label uppercase tracking-[0.15em] text-on-surface-variant">
+                  Basic
+                </th>
+                <th className="text-center px-3 py-4 font-mono text-label uppercase tracking-[0.15em] text-accent-bright">
+                  Professional
+                </th>
+                <th className="text-center px-3 py-4 font-mono text-label uppercase tracking-[0.15em] text-on-surface-variant">
+                  Enterprise
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {service.features.map((f) => (
+                <tr key={f.feature} className="border-b border-on-background/10 last:border-0">
+                  <td className="px-5 py-3 text-on-background">{f.feature}</td>
+                  <td className="text-center px-3 py-3 text-on-surface-variant">
+                    {f.basic ?? <span className="text-on-background/30">—</span>}
+                  </td>
+                  <td className="text-center px-3 py-3 text-on-surface-variant">
+                    {f.professional ?? <span className="text-on-background/30">—</span>}
+                  </td>
+                  <td className="text-center px-3 py-3 text-on-surface-variant">
+                    {f.enterprise ?? <span className="text-on-background/30">—</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {service.solutions && service.solutions.length > 0 && (
+        <div className="border border-on-background/15 rounded-lg overflow-hidden bg-surface p-6">
+          <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+            Solutions included
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {service.solutions.map((s) => (
+              <div
+                key={s}
+                className="flex items-center gap-3 px-4 py-3 rounded-md bg-surface-container"
+              >
+                <span className="material-symbols-outlined text-accent-bright text-base">check_circle</span>
+                <span className="text-on-background text-sm">{s}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

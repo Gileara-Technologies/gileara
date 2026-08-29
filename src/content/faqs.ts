@@ -44,9 +44,9 @@ export const faqs: Faq[] = [
       "It's the most common starting point we see — migration from spreadsheets and paper records is part of how every package begins. During implementation we move your existing records into the new system with you, so nothing gets lost between the old way and the new way.",
   },
   {
-    question: "Do you only work with Ghanaian businesses?",
+    question: "Where do you operate?",
     answer:
-      "We're proudly Ghanaian-first — Accra-based, GMT-native, and built around MTN MoMo, WhatsApp, and low-bandwidth realities. But the same packages serve any small or growing business that wants outcome-led technology, wherever you operate.",
+      "We're currently piloting in Ghana — Accra-based, GMT-native, and built around mobile money, WhatsApp, and low-bandwidth realities. But the same packages work for any small or growing business that wants outcome-led technology, wherever you operate. If you're outside Ghana, book a free consultation and we'll tell you honestly whether we're a fit for your market today.",
   },
   {
     question: "Some packages say 'Rolling out Q4 2026'. Can I still book them?",

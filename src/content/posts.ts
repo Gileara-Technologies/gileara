@@ -6,7 +6,7 @@
  * Tags use the fixed taxonomy below — do not invent new ones casually.
  */
 
-export const POST_TAGS = ["Packages", "Operations", "Growth", "Automation", "Ghana-market"] as const;
+export const POST_TAGS = ["Packages", "Operations", "Growth", "Automation", "Small business"] as const;
 export type PostTag = (typeof POST_TAGS)[number];
 
 export type PostBlock =
@@ -69,9 +69,9 @@ export const posts: InsightPost[] = [
       "Your business already runs on skill and hustle. Digital Foundation adds the layer that makes both visible — here's what changes in the first ninety days.",
     date: "2026-09-08",
     author: "Rodney Hagan",
-    tag: "Ghana-market",
+    tag: "Small business",
     content: [
-      { type: "paragraph", text: "Most Ghanaian MSMEs don't have a technology problem — they have a visibility problem. The sales happened, the customers came, the money moved. But it all lives in notebooks, memory, and WhatsApp threads, which means nobody can see patterns until it's too late to act on them." },
+      { type: "paragraph", text: "Most small businesses don't have a technology problem — they have a visibility problem. The sales happened, the customers came, the money moved. But it all lives in notebooks, memory, and chat threads, which means nobody can see patterns until it's too late to act on them. Our Ghana pilot surfaces this daily; the pattern is universal wherever small businesses run informally." },
       { type: "heading", text: "Stage one: being findable" },
       { type: "paragraph", text: "Digital Foundation starts with the basics done properly: a real website, mobile-responsive because almost all your traffic will be phones, set up on your own domain, with Google Business Profile configured so nearby customers searching for what you sell actually find you — and can call or get directions in one tap." },
       { type: "heading", text: "Stage two: being measurable" },

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
-import SceneBand from "@/components/three/SceneBand";
 import Footer from "@/components/Footer";
 import FaqClient from "./FaqClient";
 import { faqs } from "@/content/faqs";
@@ -8,7 +7,7 @@ import { faqs } from "@/content/faqs";
 export const metadata: Metadata = {
   title: "FAQ | Gileara Technologies",
   description:
-    "Pricing, MTN MoMo billing, managed services, contracts and data ownership, spreadsheet migration — straight answers about Gileara's transformation packages.",
+    "Where we work, who we work with, how the engagement works, contracts and data ownership — straight answers about working with Gileara.",
   alternates: { canonical: "/faq" },
   robots: { index: true, follow: true },
   openGraph: {
@@ -47,7 +46,6 @@ export default function FaqPage() {
       />
       <Navbar />
       <main>
-        <SceneBand />
         <FaqClient />
       </main>
       <Footer />

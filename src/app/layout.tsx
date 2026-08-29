@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
-import { Inter, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { MotionProvider } from "@/components/MotionProvider";
+import SmoothScroll from "@/components/SmoothScroll";
 import BackToTop from "@/components/BackToTop";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-inter",
+  display: "swap",
 });
 
-/** Display face — IBM Plex Sans: enterprise-grade neutrality (D22 professional font). */
-const displayFont = IBM_Plex_Sans({
+/** Serif display face — Andela-style editorial headlines. */
+const displaySerif = IBM_Plex_Serif({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-display",
+  variable: "--font-display-serif",
   display: "swap",
 });
 
@@ -23,18 +24,19 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: "500",
   variable: "--font-jetbrains-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Gileara Technologies | We Build the Systems Your Business Runs On",
-  description: "All-inclusive monthly digital transformation packages for Ghanaian MSMEs — WhatsApp-ready, MTN MoMo-ready, managed services included from day one.",
+  description: "We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can't build alone. Currently piloting in Ghana, designed to scale globally.",
   metadataBase: new URL("https://gileara.org"),
   alternates: {
     canonical: "https://gileara.org",
   },
   openGraph: {
     title: "Gileara Technologies | We Build the Systems Your Business Runs On",
-    description: "Digital transformation packages for Ghanaian MSMEs — managed from day one.",
+    description: "We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can't build alone. Currently piloting in Ghana, designed to scale globally.",
     url: "https://gileara.org",
     siteName: "Gileara Technologies",
     locale: "en_US",
@@ -50,7 +52,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Gileara Technologies | We Build the Systems Your Business Runs On",
-    description: "Digital transformation packages for Ghanaian MSMEs — managed from day one.",
+    description: "We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can't build alone. Currently piloting in Ghana, designed to scale globally.",
     images: ["/assets/gileara/logo-full.png"],
   },
   icons: {
@@ -74,21 +76,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${displayFont.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="antialiased">
+    <html lang="en" className={`dark ${inter.variable} ${displaySerif.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <body className="antialiased bg-background text-on-background">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
         <link rel="preload" href="/assets/gileara/logo-full.png" as="image" />
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <MotionProvider>
+        <MotionProvider>
+          <SmoothScroll>
             <div className="flex flex-col min-h-screen">
               <div className="flex-grow">
                 {children}
               </div>
             </div>
             <BackToTop />
-          </MotionProvider>
-        </ThemeProvider>
+          </SmoothScroll>
+        </MotionProvider>
       </body>
     </html>
   );

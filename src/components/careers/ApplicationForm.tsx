@@ -265,18 +265,19 @@ export default function ApplicationForm() {
   }
 
   return (
-    <section id="apply" className="py-24 bg-background px-4 md:px-10">
+    <section id="apply" className="bg-surface-container-lowest py-32 md:py-48 px-6 md:px-12">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="font-mono text-xs text-secondary uppercase tracking-widest">
-            Ready to Build?
-          </span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 text-primary">
-            Submit Your Application
+        <div className="mb-16">
+          <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
+            04 / Ready to Build?
+          </div>
+          <h2 className="font-serif text-display-md md:text-display-lg text-on-background leading-tight tracking-[-0.02em]">
+            Submit your{" "}
+            <span className="italic text-accent-cyan">application.</span>
           </h2>
         </div>
 
-        <div className="bg-surface-container-low dark:bg-surface-container p-6 md:p-10 rounded-3xl border border-outline-variant/20 shadow-lg">
+        <div className="bg-surface-container p-6 md:p-10 rounded-xl border border-on-background/10">
 
           <AnimatePresence>
             {status === "error" && (
@@ -443,7 +444,7 @@ export default function ApplicationForm() {
             <button
               type="submit"
               disabled={status === "submitting"}
-              className={`w-full py-5 rounded-xl text-lg font-bold flex items-center justify-center gap-3 transition-all ${status === "submitting" ? "bg-surface-variant text-on-surface-variant cursor-not-allowed" : "teal-gradient-btn"
+              className={`w-full pl-8 pr-14 py-4 rounded-pill text-lg font-medium flex items-center justify-center gap-3 transition-colors duration-300 ${status === "submitting" ? "bg-surface-container text-on-surface-variant cursor-not-allowed" : "bg-accent-bright text-background hover:bg-accent-cyan"
                 }`}
             >
               {status === "submitting" ? (

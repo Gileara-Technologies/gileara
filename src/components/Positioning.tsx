@@ -1,111 +1,178 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { useRef } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import DisplayHeading from "@/components/DisplayHeading";
+import SectionLabel from "@/components/SectionLabel";
+import RevealText from "@/components/RevealText";
+
+/**
+ * Why Gileara — numbered value props + animated counter stats + photography.
+ *
+ * The data/laptop photo on the right grounds the "tech" promise in a
+ * real working scene. The animated counters are the "little aspects
+ * of white" motion — numbers ticking up to their final value.
+ */
+function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const [val, setVal] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let raf = 0;
+    const start = performance.now();
+    const dur = 1600;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setVal(Math.round(eased * to));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to]);
+
+  return (
+    <span ref={ref}>
+      {val}
+      {suffix}
+    </span>
+  );
+}
 
 export default function Positioning() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const bigY = useTransform(scrollYProgress, [0, 1], [80, -80]);
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  };
-
-  const segments = [
+  const props = [
     {
+      num: "01",
       title: "Outcomes over code",
-      desc: "Every package ties technology to a business result — more revenue, lower costs, fewer hours lost to manual work. We advise on what your business needs, not the fanciest stack.",
-      icon: "track_changes",
-      bullets: ["Outcome-led packages", "Business-first advice"],
-      highlight: true
+      desc: "Every system we build ties to a business result — more revenue, lower costs, fewer hours lost to manual work. We advise on what your business needs, not the fanciest stack.",
     },
     {
-      title: "Managed from day one",
-      desc: "IT support, software updates, backups and security monitoring are built into your monthly plan — with SLA-backed response. Nothing bolted on later.",
-      icon: "verified_user",
-      bullets: ["SLA-backed support", "Backups & monitoring included"],
-      highlight: false
+      num: "02",
+      title: "Supported, not abandoned",
+      desc: "IT support, software updates, backups and security monitoring are built into the system from day one — with SLA-backed response. Nothing bolted on later.",
     },
     {
-      title: "Ghana-ready by default",
-      desc: "WhatsApp integration, MTN MoMo payments and offline-tolerant builds come standard — because that's how Ghanaian businesses actually run.",
-      icon: "smartphone",
-      bullets: ["MTN MoMo & WhatsApp ready", "Built for low bandwidth"],
-      highlight: false
-    }
+      num: "03",
+      title: "Mobile-first by default",
+      desc: "WhatsApp integration, mobile money payments and offline-tolerant builds come standard — because that's how small businesses actually run, whether you're in Accra, Lagos, Nairobi, or Johannesburg.",
+    },
+  ];
+
+  const stats = [
+    { num: 7, suffix: " days", label: "Average deployment time" },
+    { num: 24, suffix: "/7", label: "Managed monitoring" },
+    { num: 99, suffix: ".9%", label: "Uptime SLA" },
   ];
 
   return (
-    <section id="positioning" className="py-24 bg-surface-container px-4 md:px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20 max-w-3xl mx-auto">
-          <span className="font-mono text-xs text-secondary dark:text-primary uppercase tracking-widest">Why Gileara?</span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 text-primary dark:text-on-background leading-tight">
-            Built for Ghanaian MSMEs.
-          </h2>
+    <section ref={ref} id="positioning" className="relative bg-background py-32 md:py-48 px-6 md:px-12 overflow-hidden">
+      <motion.div
+        style={{ y: bigY }}
+        className="hidden lg:block absolute -right-20 top-20 font-serif text-[28rem] text-on-background/[0.04] leading-none select-none pointer-events-none"
+        aria-hidden="true"
+      >
+        04
+      </motion.div>
+
+      <div className="max-w-[1440px] mx-auto relative z-10">
+        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-20 md:mb-28">
+          <div className="col-span-12 lg:col-span-7">
+            <RevealText>
+              <SectionLabel number="04" label="WHY GILEARA" className="mb-8" />
+            </RevealText>
+            <DisplayHeading size="lg" as="h2" className="mb-8">
+              Built for{" "}
+              <span className="italic text-accent-cyan">small business</span>{" "}
+              — everywhere.
+            </DisplayHeading>
+            <RevealText delay={0.15}>
+              <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
+                Real outcomes, not slideware. Currently piloting in Ghana, designed to scale globally. Every package is independently useful and stacks cleanly as you grow.
+              </p>
+            </RevealText>
+          </div>
         </div>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-6 md:gap-8"
-        >
-          {segments.map((segment, index) => (
-            <motion.div
-              key={index}
-              variants={item}
-              className={`p-6 md:p-10 rounded-2xl flex flex-col shadow-sm relative overflow-hidden border ${segment.highlight
-                  ? "bg-surface dark:bg-surface-container-high border-secondary dark:border-primary/45 shadow-lg"
-                  : "bg-surface dark:bg-surface-container-high border-outline-variant/30 dark:border-outline-variant/10"
-                }`}
-            >
-              {segment.highlight && (
-                <div className="absolute -right-10 -top-10 w-40 h-40 bg-secondary/5 dark:bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-              )}
-              <span className="material-symbols-outlined text-secondary dark:text-primary text-5xl mb-6">
-                {segment.icon}
-              </span>
-              <h3 className="font-display text-2xl font-semibold mb-4 text-primary dark:text-on-surface">
-                {segment.title}
-              </h3>
-              <p className="text-on-surface-variant text-sm mb-8 leading-relaxed">
-                {segment.desc}
-              </p>
-              <ul className="mt-auto space-y-4">
-                {segment.bullets.map((bullet, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-sm text-on-surface-variant">
-                    <span className="material-symbols-outlined text-secondary dark:text-primary text-lg">
-                      {segment.highlight ? "verified" : "check_circle"}
-                    </span>
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* Two-col: numbered value props (left) + stats + photo (right) */}
+        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-16">
+          <div className="col-span-12 lg:col-span-7 space-y-12 md:space-y-16">
+            {props.map((p, i) => (
+              <motion.div
+                key={p.num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="grid grid-cols-12 gap-x-6"
+              >
+                <div className="col-span-2 font-serif text-display-sm text-on-background/[0.15] leading-none">
+                  {p.num}
+                </div>
+                <div className="col-span-10">
+                  <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em] mb-3">
+                    {p.title}
+                  </h3>
+                  <p className="text-on-surface-variant text-base leading-relaxed max-w-xl">
+                    {p.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
 
-        <motion.blockquote
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-16 max-w-3xl mx-auto text-center"
-        >
-          <p className="font-display text-xl md:text-2xl font-semibold text-primary dark:text-on-background leading-relaxed">
-            &ldquo;The technology partner that helps Ghanaian MSMEs become efficient, digital, and scalable
-            businesses.&rdquo;
-          </p>
-        </motion.blockquote>
+          {/* Stats + photo column */}
+          <div className="col-span-12 lg:col-span-5 space-y-12">
+            <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high">
+              <Image
+                src="/assets/imagery/whyghana-collaboration.jpg"
+                alt="Young women collaborating in a stylish office"
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover"
+              />
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "linear-gradient(180deg, rgba(8, 20, 32, 0.05) 0%, rgba(8, 20, 32, 0.3) 100%)",
+                }}
+                aria-hidden="true"
+              />
+            </div>
+
+            <div className="border-t border-on-background/10 pt-10 space-y-10">
+              {stats.map((s) => (
+                <div key={s.label} className="border-b border-on-background/10 pb-8 last:border-b-0">
+                  <div className="font-serif text-display-md text-accent-bright leading-none tracking-[-0.03em] mb-3">
+                    <Counter to={s.num} suffix={s.suffix} />
+                  </div>
+                  <p className="text-on-surface-variant text-sm font-mono uppercase tracking-wider">
+                    {s.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <RevealText delay={0.4}>
+          <div className="mt-32 pt-16 border-t border-on-background/10 max-w-4xl">
+            <p className="font-serif text-2xl md:text-display-sm text-on-background leading-snug tracking-[-0.02em]">
+              &ldquo;The technology partner that helps small and growing businesses become{" "}
+              <span className="italic text-accent-cyan">efficient, digital, and scalable</span> — currently piloting in Ghana, built to scale globally.&rdquo;
+            </p>
+          </div>
+        </RevealText>
       </div>
     </section>
   );

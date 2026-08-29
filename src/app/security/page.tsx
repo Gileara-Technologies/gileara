@@ -8,13 +8,13 @@ import { siteConfig } from "@/content/site-config";
 export const metadata: Metadata = {
   title: "Security & Reliability | Gileara Technologies",
   description:
-    "What managed services cover at every Gileara tier — support, updates, backups, and monitoring — plus how to report vulnerabilities. Numeric SLA tables publish after readiness sign-off.",
+    "How we keep the systems we build running safely — support, updates, backups, and monitoring — plus how to report vulnerabilities. Numeric SLA tables publish after readiness sign-off.",
   alternates: {
     canonical: "/security",
   },
   keywords: [
     "Gileara security",
-    "managed services Ghana",
+    "managed services",
     "backup and monitoring",
     "vulnerability disclosure",
     "responsible disclosure",
@@ -110,9 +110,15 @@ export default function SecurityPage() {
       />
       <Navbar variant="legal" page="security" />
       <main className="pt-32 pb-20 min-h-screen">
-        <div className="max-w-4xl mx-auto px-6">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-on-surface">Security &amp; Reliability</h1>
-          <p className="text-lg text-on-surface-variant leading-relaxed max-w-3xl">
+        <div className="max-w-4xl mx-auto px-6 md:px-12">
+          <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
+            Security Resource
+          </div>
+          <h1 className="font-serif text-display-sm md:text-display-lg text-on-background leading-[0.95] tracking-[-0.03em] mb-8">
+            Security &amp;{" "}
+            <span className="italic text-accent-cyan">reliability.</span>
+          </h1>
+          <p className="text-body-lg text-on-surface-variant leading-relaxed max-w-3xl">
             Every Gileara package includes managed services from day one. This page explains what that covers at each
             tier, how we protect your data, and how to reach us when something matters.
           </p>

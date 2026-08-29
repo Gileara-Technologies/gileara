@@ -30,7 +30,7 @@ export const openRoles: OpenRole[] = [
     icon: "code_blocks",
     location: "Accra · Hybrid",
     description:
-      "Ship the systems Ghanaian MSMEs run on — from Next.js interfaces to Postgres schemas and service-account integrations.",
+      "Ship the systems small businesses run on — from Next.js interfaces to Postgres schemas and service-account integrations. We currently pilot in Ghana and design for global scale.",
     responsibilities: [
       "Build end-to-end features across our Next.js/TypeScript stack, from data model to UI.",
       "Implement package capabilities clients rely on daily: inventory, sales recording, customer pipelines, dashboards.",
@@ -71,7 +71,7 @@ export const openRoles: OpenRole[] = [
       "Design-system thinking",
       "Accessibility fundamentals",
     ],
-    niceToHave: ["Basic HTML/CSS", "Ghanaian market experience"],
+    niceToHave: ["Basic HTML/CSS", "Experience with emerging-market small business contexts"],
   },
   {
     id: "devops-engineer",
@@ -115,6 +115,6 @@ export const openRoles: OpenRole[] = [
       "Scope and timeline planning",
       "Clear written English",
     ],
-    niceToHave: ["Ghanaian MSME market familiarity", "Agile certifications"],
+    niceToHave: ["Emerging-market small business context", "Agile certifications"],
   },
 ];
