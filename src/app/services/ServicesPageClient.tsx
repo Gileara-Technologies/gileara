@@ -2,320 +2,352 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useState } from "react";
 
 import {
   servicePackages,
   customServices,
-  customerJourney,
   MANAGED_SERVICES_NOTE,
-  type ServicePackage,
+  type Service,
 } from "@/content/packages";
-import { siteConfig } from "@/content/site-config";
 import PageHero from "@/components/PageHero";
-import CTABand from "@/components/CTABand";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
+import MagneticButton from "@/components/MagneticButton";
 
-const container = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-function StatusChip({ pkg }: { pkg: ServicePackage }) {
-  return (
-    <span
-      className={`shrink-0 px-3 py-1.5 rounded-full text-[10px] font-mono uppercase tracking-wider border ${
-        pkg.status === "available"
-          ? "border-accent-bright text-accent-bright"
-          : "border-on-background/20 text-on-surface-variant"
-      }`}
-    >
-      {pkg.status === "available" ? "Available now" : "Rolling out Q4 2026"}
-    </span>
-  );
-}
-
-function Cell({ value }: { value?: string }) {
-  if (value === undefined) {
-    return <span className="text-outline-variant/60" aria-label="Not included">—</span>;
-  }
-  if (value === "Yes") {
-    return (
-      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full border border-accent-bright text-accent-bright">
-        <span className="material-symbols-outlined text-sm" role="img" aria-label="Included">check</span>
-      </span>
-    );
-  }
-  return <span>{value}</span>;
-}
-
-const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
-
+/**
+ * /services — the pricing sheet.
+ *
+ * A focused single-page comparison matrix for clients evaluating Gileara.
+ * No marketing copy, no testimonials — just the numbers, the feature
+ * matrix, and a CTA. The five service landing pages
+ * (`/services/[slug]`) handle the marketing narrative for each offering.
+ */
 export default function ServicesPageClient() {
+  const [activeServiceId, setActiveServiceId] = useState<string>(servicePackages[0].id);
+  const activeService = servicePackages.find((s) => s.id === activeServiceId) ?? servicePackages[0];
+
   return (
-    <div className="bg-background">
-      {/* HERO */}
+    <>
+      {/* ── HERO — minimal, just sets the page context ──────────── */}
       <PageHero
-        number="01"
-        eyebrow="PACKAGES & SERVICES"
+        eyebrow="SERVICES & PRICING"
         headline={
           <>
-            Five ways to{" "}
-            <span className="italic text-accent-cyan">transform</span>{" "}
-            your business.
+            Five services.{" "}
+            <span className="italic text-accent-cyan">One clear price list.</span>
           </>
         }
-        subtitle="Every package is all-inclusive — managed services built in from day one, priced in clear USD tiers you can compare on this page. Start where it hurts most; grow along the ladder when you're ready."
+        subtitle="All-inclusive monthly pricing, USD. Managed services included from day one. No hidden costs."
+        cta={
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8">
+            <MagneticButton href="/contact" variant="primary" size="lg">
+              Book a Free Consultation
+            </MagneticButton>
+            <a
+              href="#matrix"
+              className="text-on-surface-variant hover:text-accent-bright font-medium transition-colors duration-200 underline-offset-4 hover:underline"
+            >
+              See the full comparison ↓
+            </a>
+          </div>
+        }
       />
 
-      {/* Overview table */}
-      <section className="bg-background py-20 px-6 md:px-12">
+      {/* ── SERVICE NAV TABS — quick switcher between services ── */}
+      <section className="bg-background border-t border-on-background/10 px-6 md:px-12 sticky top-0 z-20 backdrop-blur-md bg-background/80">
         <div className="max-w-[1440px] mx-auto">
-          <div className="overflow-x-auto border-t border-b border-on-background/10">
-            <table className="w-full min-w-[720px] text-sm">
-              <thead>
-                <tr className="text-left font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant">
-                  <th className="py-6">Package</th>
-                  <th className="py-6">Built for</th>
-                  <th className="py-6">From</th>
-                  <th className="py-6">Status</th>
-                  <th className="py-6" aria-label="Details link" />
-                </tr>
-              </thead>
-              <tbody>
-                {servicePackages.map((pkg) => (
-                  <tr key={pkg.id} className="border-t border-on-background/10 hover:bg-surface-container/40 transition-colors">
-                    <td className="py-6 font-serif text-xl text-on-background">{pkg.name}</td>
-                    <td className="py-6 text-on-surface-variant">{pkg.targetCustomers.slice(0, 2).join(" · ")}</td>
-                    <td className="py-6 whitespace-nowrap text-on-background">{usd(pkg.tiers[0].monthlyFeeUsd)}/mo</td>
-                    <td className="py-6"><StatusChip pkg={pkg} /></td>
-                    <td className="py-6 text-right">
-                      <a href={`#${pkg.id}`} className="text-accent-bright hover:underline whitespace-nowrap font-medium">
-                        Details ↓
-                      </a>
-                    </td>
-                  </tr>
+          <div className="flex overflow-x-auto -mx-2 py-1">
+            {servicePackages.map((s) => {
+              const isActive = s.id === activeServiceId;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setActiveServiceId(s.id)}
+                  className={`shrink-0 px-5 py-4 font-mono text-label uppercase tracking-[0.15em] border-b-2 transition-colors duration-200 ${
+                    isActive
+                      ? "border-accent-bright text-accent-bright"
+                      : "border-transparent text-on-surface-variant hover:text-on-background"
+                  }`}
+                >
+                  {String(s.order).padStart(2, "0")} — {s.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ACTIVE SERVICE SUMMARY — quick at-a-glance card ───── */}
+      <section className="bg-background py-20 md:py-24 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto">
+          <motion.div
+            key={activeService.id}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-10 items-start"
+          >
+            <div className="col-span-12 lg:col-span-7">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-3">
+                {String(activeService.order).padStart(2, "0")} · {activeService.status === "available" ? "Available now" : "Rolling out Q4 2026"}
+              </div>
+              <h2 className="font-serif text-4xl md:text-display-md text-on-background leading-[1.05] tracking-[-0.02em] mb-4">
+                {activeService.name}
+              </h2>
+              <p className="text-on-surface-variant text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
+                {activeService.tagline}
+              </p>
+              <div className="flex flex-wrap gap-3 mb-8">
+                {activeService.targetCustomers.slice(0, 4).map((c) => (
+                  <span
+                    key={c}
+                    className="px-3 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider bg-surface-container text-on-surface-variant border border-on-background/10"
+                  >
+                    {c}
+                  </span>
                 ))}
-              </tbody>
-            </table>
+              </div>
+              <MagneticButton href={`/services/${activeService.slug}`} variant="secondary" size="md">
+                Read the {activeService.name} page →
+              </MagneticButton>
+            </div>
+
+            <div className="col-span-12 lg:col-span-5">
+              <div className="grid grid-cols-3 gap-3">
+                {activeService.tiers.map((t, i) => (
+                  <div
+                    key={t.name}
+                    className={`rounded-lg p-5 border ${
+                      i === 1 ? "border-accent-bright bg-surface-container" : "border-on-background/15 bg-surface"
+                    }`}
+                  >
+                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-2">
+                      {t.name}
+                    </div>
+                    <div className="font-serif text-2xl text-on-background leading-none">
+                      ${t.monthlyFeeUsd}
+                      <span className="text-xs font-sans text-on-surface-variant">/mo</span>
+                    </div>
+                    <div className="text-[11px] text-on-surface-variant mt-2">
+                      ${t.setupFeeUsd.toLocaleString("en-US")} setup
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── PRICING MATRIX (the actual pricing sheet) ──────────── */}
+      <section id="matrix" className="bg-surface-container-lowest py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="mb-16">
+            <RevealText>
+              <SectionLabel label="THE FULL PRICING SHEET" className="mb-8" />
+            </RevealText>
+            <DisplayHeading size="md" as="h2">
+              All five services.{" "}
+              <span className="italic text-accent-cyan">All three tiers.</span>
+            </DisplayHeading>
           </div>
 
-          <p className="mt-8 text-sm text-on-surface-variant max-w-3xl">
+          <div className="space-y-16">
+            {servicePackages.map((s) => (
+              <PricingBlock key={s.id} service={s} />
+            ))}
+          </div>
+
+          {/* Custom services block */}
+          <div className="mt-20 border-t border-on-background/15 pt-12">
+            <h3 className="font-serif text-2xl text-on-background mb-6">
+              Custom work outside the standard five
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {customServices.map((c) => (
+                <div
+                  key={c.name}
+                  className="border border-on-background/15 rounded-lg p-6 bg-surface"
+                >
+                  <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-3">
+                    Custom
+                  </div>
+                  <div className="font-serif text-xl text-on-background leading-tight mb-2">
+                    {c.name}
+                  </div>
+                  <div className="text-sm text-on-surface-variant">
+                    Starting at ${c.startingPriceUsd.toLocaleString("en-US")}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-on-surface-variant text-sm mt-6 max-w-2xl">
+              Bespoke projects are quoted per scope. We&apos;ll scope it in your free consultation.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHAT'S INCLUDED — managed services note ───────────── */}
+      <section className="bg-background py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
+        <div className="max-w-3xl mx-auto">
+          <RevealText>
+            <SectionLabel label="WHAT'S INCLUDED" className="mb-8" />
+          </RevealText>
+          <DisplayHeading size="sm" as="h2" className="mb-8">
+            <span className="italic text-accent-cyan">Every service</span> includes:
+          </DisplayHeading>
+          <p className="text-on-surface-variant text-lg leading-relaxed italic">
             {MANAGED_SERVICES_NOTE}
           </p>
         </div>
       </section>
 
-      {/* Per-package sections — numbered, alternating surface elevation */}
-      <section className="pb-24">
-        <div className="max-w-[1440px] mx-auto space-y-0">
-          {servicePackages.map((pkg, idx) => {
-            const basic = pkg.tiers[0];
-            const isAutomation = pkg.id === "automation-efficiency";
-            const num = String(idx + 2).padStart(2, "0"); // 02..06
-            const bgClass = idx % 2 === 0 ? "bg-surface-container" : "bg-background";
-            return (
-              <motion.section
-                key={pkg.id}
-                id={pkg.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6 }}
-                className={`scroll-mt-24 ${bgClass} py-32 md:py-40 px-6 md:px-12 border-t border-on-background/10`}
-              >
-                <div className="max-w-[1440px] mx-auto">
-                  <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-12">
-                    <div className="col-span-12 lg:col-span-8">
-                      <div className="font-mono text-label uppercase tracking-[0.2em] text-on-background/[0.4] mb-4">
-                        {num}
-                      </div>
-                      <div className="flex items-center gap-3 flex-wrap mb-3">
-                        <h2 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em]">
-                          {pkg.name}
-                        </h2>
-                        <StatusChip pkg={pkg} />
-                      </div>
-                      <p className="text-on-surface-variant text-lg max-w-2xl mb-3">
-                        {pkg.tagline}
-                      </p>
-                      <p className="text-on-surface-variant text-sm">
-                        Goal: <span className="text-on-background">{pkg.primaryGoal}</span> · For{" "}
-                        <span className="text-on-background">{pkg.targetCustomers.join(", ").toLowerCase()}</span>
-                      </p>
-                    </div>
-                    <div className="col-span-12 lg:col-span-4 lg:text-right mt-8 lg:mt-0 flex lg:justify-end items-end">
-                      <Link
-                        href="/contact"
-                        className="group inline-flex items-center pl-6 pr-10 py-3 rounded-pill bg-accent-bright text-background font-medium hover:bg-accent-cyan transition-colors duration-300"
-                      >
-                        Discuss this package
-                        <span className="ml-4 material-symbols-outlined text-base transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
-                      </Link>
-                    </div>
-                  </div>
-
-                  <div className="overflow-x-auto border border-on-background/10 rounded-xl bg-background/40">
-                    <table className="w-full min-w-[640px] text-sm">
-                      <thead>
-                        <tr className="border-b border-on-background/10 text-left">
-                          <th className="px-5 py-4 font-mono text-[11px] uppercase tracking-wider text-on-surface-variant">What you get</th>
-                          {pkg.tiers.map((t) => (
-                            <th key={t.name} className="px-5 py-4">
-                              <span className="font-serif text-lg text-on-background">{t.name}</span>
-                              <span className="block mt-1 text-on-surface-variant font-normal">
-                                {usd(t.setupFeeUsd)} setup · {usd(t.monthlyFeeUsd)}/mo
-                              </span>
-                              <span className="block text-xs text-on-surface-variant font-normal mt-0.5">{t.deliveryTime}</span>
-                            </th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {isAutomation
-                          ? pkg.solutions?.map((s) => (
-                              <tr key={s} className="border-b border-on-background/5 last:border-0">
-                                <td className="px-5 py-3.5 text-on-background" colSpan={4}>
-                                  <span className="inline-flex items-center gap-3">
-                                    <Cell value="Yes" /> {s}
-                                  </span>
-                                </td>
-                              </tr>
-                            ))
-                          : pkg.features?.map((row) => (
-                              <tr key={row.feature} className="border-b border-on-background/5 last:border-0">
-                                <td className="px-5 py-3.5 text-on-background">{row.feature}</td>
-                                <td className="px-5 py-3.5"><Cell value={row.basic} /></td>
-                                <td className="px-5 py-3.5"><Cell value={row.professional} /></td>
-                                <td className="px-5 py-3.5"><Cell value={row.enterprise} /></td>
-                              </tr>
-                            ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <p className="mt-4 text-xs text-on-surface-variant">
-                    Entry point: {usd(basic.setupFeeUsd)} setup + {usd(basic.monthlyFeeUsd)}/mo · all-inclusive.
-                  </p>
-                </div>
-              </motion.section>
-            );
-          })}
+      {/* ── CTA ──────────────────────────────────────────────── */}
+      <section className="bg-surface-container py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
+        <div className="max-w-3xl mx-auto text-center">
+          <RevealText>
+            <SectionLabel label="READY?" className="mb-8 mx-auto" />
+          </RevealText>
+          <DisplayHeading size="md" as="h2" className="mb-8">
+            <span className="italic text-accent-cyan">Not sure which one?</span>
+          </DisplayHeading>
+          <p className="text-on-surface-variant text-lg leading-relaxed max-w-2xl mx-auto mb-10">
+            Thirty minutes, free. We&apos;ll listen, recommend the right tier (or none), and you leave with a clearer plan.
+          </p>
+          <MagneticButton href="/contact" variant="primary" size="lg">
+            Book a Free Consultation
+          </MagneticButton>
         </div>
       </section>
+    </>
+  );
+}
 
-      {/* Growth ladder */}
-      <section className="py-32 md:py-48 px-6 md:px-12 bg-surface-container">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16">
-            <div className="col-span-12 lg:col-span-7">
-              <RevealText>
-                <SectionLabel number="07" label="THE GROWTH LADDER" className="mb-8" />
-              </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
-                Start small.{" "}
-                <span className="italic text-accent-cyan">Scale when ready.</span>
-              </DisplayHeading>
-              <RevealText delay={0.15}>
-                <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  Most MSMEs climb in stages — each step builds on the last, and nothing you own gets thrown away.
-                </p>
-              </RevealText>
+/** Pricing block per service — full feature matrix, no marketing copy. */
+function PricingBlock({ service }: { service: Service }) {
+  return (
+    <div className="border-t border-on-background/15 pt-10">
+      <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-6 mb-8">
+        <div className="col-span-12 md:col-span-8">
+          <div className="flex items-baseline gap-4 flex-wrap mb-2">
+            <span className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright">
+              {String(service.order).padStart(2, "0")}
+            </span>
+            <h3 className="font-serif text-3xl md:text-4xl text-on-background leading-tight tracking-[-0.02em]">
+              {service.name}
+            </h3>
+            {service.status === "rollout" && (
+              <span className="font-mono text-[10px] uppercase tracking-wider text-on-surface-variant border border-on-background/20 px-2 py-1 rounded-full">
+                Rolling out Q4 2026
+              </span>
+            )}
+          </div>
+          <p className="text-on-surface-variant text-base leading-relaxed max-w-2xl mb-4">
+            {service.tagline}
+          </p>
+          <Link
+            href={`/services/${service.slug}`}
+            className="text-sm text-accent-bright hover:underline underline-offset-4 inline-flex items-center gap-1"
+          >
+            Read the {service.name} page <span className="material-symbols-outlined text-base">arrow_forward</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* Tier pricing row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        {service.tiers.map((t, i) => (
+          <div
+            key={t.name}
+            className={`rounded-lg p-6 border ${
+              i === 1 ? "border-accent-bright bg-surface" : "border-on-background/15 bg-surface-container"
+            }`}
+          >
+            <div className="flex items-baseline justify-between mb-3">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant">
+                {t.name}
+              </div>
+              {i === 1 && (
+                <div className="text-[10px] font-mono uppercase tracking-wider text-accent-bright">
+                  Most popular
+                </div>
+              )}
+            </div>
+            <div className="font-serif text-3xl text-on-background leading-none mb-1">
+              ${t.monthlyFeeUsd}
+              <span className="text-sm font-sans text-on-surface-variant">/mo</span>
+            </div>
+            <div className="text-sm text-on-surface-variant mb-1">
+              ${t.setupFeeUsd.toLocaleString("en-US")} one-time setup
+            </div>
+            <div className="text-xs text-on-surface-variant font-mono uppercase tracking-wider">
+              {t.deliveryTime} delivery
             </div>
           </div>
+        ))}
+      </div>
 
-          <motion.ol
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6"
-          >
-            {customerJourney.map((stage) => (
-              <motion.li
-                key={stage.stage}
-                variants={item}
-                className="border-t border-on-background/20 pt-6 flex flex-col"
+      {/* Feature matrix (or solutions list for Automation) */}
+      {service.features && service.features.length > 0 && (
+        <div className="border border-on-background/15 rounded-lg overflow-hidden bg-surface">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-surface-container border-b border-on-background/15">
+                <th className="text-left px-5 py-4 font-mono text-label uppercase tracking-[0.15em] text-on-surface-variant">
+                  Feature
+                </th>
+                <th className="text-center px-3 py-4 font-mono text-label uppercase tracking-[0.15em] text-on-surface-variant">
+                  Basic
+                </th>
+                <th className="text-center px-3 py-4 font-mono text-label uppercase tracking-[0.15em] text-accent-bright">
+                  Professional
+                </th>
+                <th className="text-center px-3 py-4 font-mono text-label uppercase tracking-[0.15em] text-on-surface-variant">
+                  Enterprise
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {service.features.map((f) => (
+                <tr key={f.feature} className="border-b border-on-background/10 last:border-0">
+                  <td className="px-5 py-3 text-on-background">{f.feature}</td>
+                  <td className="text-center px-3 py-3 text-on-surface-variant">
+                    {f.basic ?? <span className="text-on-background/30">—</span>}
+                  </td>
+                  <td className="text-center px-3 py-3 text-on-surface-variant">
+                    {f.professional ?? <span className="text-on-background/30">—</span>}
+                  </td>
+                  <td className="text-center px-3 py-3 text-on-surface-variant">
+                    {f.enterprise ?? <span className="text-on-background/30">—</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {service.solutions && service.solutions.length > 0 && (
+        <div className="border border-on-background/15 rounded-lg overflow-hidden bg-surface p-6">
+          <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+            Solutions included
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {service.solutions.map((s) => (
+              <div
+                key={s}
+                className="flex items-center gap-3 px-4 py-3 rounded-md bg-surface-container"
               >
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent-bright mb-3">
-                  Stage {stage.stage}
-                </span>
-                <a href={`#${stage.packageId}`} className="font-serif text-xl text-on-background hover:text-accent-bright transition-colors leading-tight">
-                  {stage.packageName}
-                </a>
-                <span className="mt-auto pt-4 text-sm text-on-surface-variant">
-                  from {usd(stage.setupFeeUsd)} + {usd(stage.monthlyFeeUsd)}/mo
-                </span>
-              </motion.li>
+                <span className="material-symbols-outlined text-accent-bright text-base">check_circle</span>
+                <span className="text-on-background text-sm">{s}</span>
+              </div>
             ))}
-          </motion.ol>
-        </div>
-      </section>
-
-      {/* Ghana rails + custom */}
-      <section className="py-32 md:py-48 px-6 md:px-12 bg-background">
-        <div className="max-w-[1440px] mx-auto grid lg:grid-cols-2 gap-x-12 gap-y-16">
-          <div>
-            <SectionLabel number="08" label="GHANA RAILS" className="mb-8" />
-            <h2 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-6">
-              Rails Ghanaian businesses{" "}
-              <span className="italic text-accent-cyan">trust.</span>
-            </h2>
-            <p className="text-on-surface-variant leading-relaxed mb-8">
-              We integrate the platforms your customers already use — and we&apos;ll tell you plainly what we build on and why.
-            </p>
-            <ul className="space-y-3">
-              {["MTN MoMo payments & reconciliation", "Paystack / Hubtel card & bank rails", "WhatsApp Business messaging", "Google Workspace & email"].map((rail) => (
-                <li key={rail} className="flex items-center gap-3 text-on-background">
-                  <Cell value="Yes" /> {rail}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <SectionLabel number="09" label="BEYOND PACKAGES" className="mb-8" />
-            <h2 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-6">
-              Bespoke builds,{" "}
-              <span className="italic text-accent-cyan">by quote.</span>
-            </h2>
-            <p className="text-on-surface-variant leading-relaxed mb-8">
-              Need something the packages don&apos;t cover? We take a small number of bespoke engagements each quarter.
-            </p>
-            <ul className="space-y-3">
-              {customServices.map((s) => (
-                <li key={s.name} className="flex items-center justify-between gap-4 py-4 border-t border-on-background/10">
-                  <span className="font-medium text-on-background">{s.name}</span>
-                  <span className="font-mono text-sm text-on-surface-variant whitespace-nowrap">from {usd(s.startingPriceUsd)}</span>
-                </li>
-              ))}
-            </ul>
-            <Link href="/contact" className="mt-8 inline-flex items-center gap-2 text-accent-bright hover:underline font-medium group">
-              Ask about a custom build
-              <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
-            </Link>
           </div>
         </div>
-      </section>
-
-      {/* CTA */}
-      <CTABand
-        eyebrow="NOT SURE?"
-        headline={
-          <>
-            Not sure which package{" "}
-            <span className="italic text-accent-cyan">fits?</span>
-          </>
-        }
-        body="Book a free consultation — we'll recommend one based on your goals, honestly."
-        secondaryLabel={`${siteConfig.location} · ${siteConfig.timezone}`}
-        secondaryHref="/contact"
-      />
+      )}
     </div>
   );
 }

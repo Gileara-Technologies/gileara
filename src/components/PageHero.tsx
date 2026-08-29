@@ -17,6 +17,13 @@ interface PageHeroProps {
   bg?: "background" | "surface" | "surface-container" | "surface-container-lowest";
   /** When true, shows the ambient teal glow (used on most pages) */
   glow?: boolean;
+  /**
+   * Optional absolutely-positioned decoration. Rendered inside the hero
+   * section as `hidden lg:block` (desktop only) so it does not interfere
+   * with the column layout on mobile. Used by service pages for hero
+   * imagery next to the headline.
+   */
+  decoration?: ReactNode;
 }
 
 /**
@@ -38,6 +45,7 @@ export default function PageHero({
   cta,
   bg = "surface-container-lowest",
   glow = true,
+  decoration,
 }: PageHeroProps) {
   const bgClass: Record<NonNullable<PageHeroProps["bg"]>, string> = {
     "background": "bg-background",
@@ -60,7 +68,7 @@ export default function PageHero({
 
       <div className="max-w-[1440px] mx-auto relative z-10">
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8">
-          <div className="col-span-12 lg:col-span-10">
+          <div className="col-span-12 lg:col-span-7 xl:col-span-7">
             <div className="mb-10">
               <SectionLabel number={number} label={eyebrow} />
             </div>
@@ -79,6 +87,8 @@ export default function PageHero({
           </div>
         </div>
       </div>
+
+      {decoration}
     </section>
   );
 }

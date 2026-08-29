@@ -130,9 +130,20 @@ export default function Pricing() {
                           <div className="text-sm text-on-surface-variant mb-6 italic">
                             {MANAGED_SERVICES_NOTE}
                           </div>
-                          <MagneticButton href="/contact" variant="primary" size="md">
-                            Discuss {pkg.name}
-                          </MagneticButton>
+                          <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+                            <MagneticButton href="/contact" variant="primary" size="md">
+                              Discuss {pkg.name}
+                            </MagneticButton>
+                            <Link
+                              href={`/services/${pkg.slug}`}
+                              className="text-on-surface-variant hover:text-accent-bright font-medium inline-flex items-center gap-1 group"
+                            >
+                              Read the {pkg.name} page
+                              <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200">
+                                arrow_forward
+                              </span>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </motion.div>

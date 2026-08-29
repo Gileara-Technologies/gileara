@@ -36,6 +36,24 @@ All photos are downloaded to `public/assets/imagery/` and rendered with
 `next/image` using `fill` + `sizes`. Files are 170-430 KB each (exported at
 `?auto=compress&cs=tinysrgb&w=1600` from Pexels's API).
 
+## Service-page imagery (Phase 6)
+
+Each `/services/[slug]` landing page uses one hero photo + 3 solution
+photos (downloaded under `public/assets/services/`).
+
+| Service | Hero | Solution 1 | Solution 2 | Solution 3 |
+|---|---|---|---|---|
+| Digital Foundation | [13801809](https://www.pexels.com/photo/13801809/) | [4884110](https://www.pexels.com/photo/4884110/) | [256502](https://www.pexels.com/photo/256502/) | [16129877](https://www.pexels.com/photo/16129877/) |
+| Business Operations | [806835](https://www.pexels.com/photo/806835/) | [326514](https://www.pexels.com/photo/326514/) | [6893890](https://www.pexels.com/photo/6893890/) | [13540544](https://www.pexels.com/photo/13540544/) |
+| Customer Growth | [36765665](https://www.pexels.com/photo/36765665/) | [36729740](https://www.pexels.com/photo/36729740/) | [8052215](https://www.pexels.com/photo/8052215/) | [34735506](https://www.pexels.com/photo/34735506/) |
+| Business Intelligence | [5922401](https://www.pexels.com/photo/5922401/) | [6248959](https://www.pexels.com/photo/6248959/) | [7567595](https://www.pexels.com/photo/7567595/) | [37685036](https://www.pexels.com/photo/37685036/) |
+| Automation & Efficiency | [13801809](https://www.pexels.com/photo/13801809/) | [6282022](https://www.pexels.com/photo/6282022/) | [4884110](https://www.pexels.com/photo/4884110/) | [256502](https://www.pexels.com/photo/256502/) |
+
+Files: 50-500 KB each, 1600px wide, exported via Pexels's
+`?auto=compress&cs=tinysrgb&w=1600` API. Same demographically-accurate
+standard: Black or light-skinned African founders, operators, and teams
+in real business contexts.
+
 ## Founders' portraits (pre-existing)
 
 | File | Source | Notes |
