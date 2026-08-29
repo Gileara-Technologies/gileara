@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useState } from "react";
-import type { Service } from "@/content/packages";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import type { Service, ServiceSolution } from "@/content/packages";
 import PageHero from "@/components/PageHero";
 import SectionLabel from "@/components/SectionLabel";
 import DisplayHeading from "@/components/DisplayHeading";
@@ -231,24 +231,9 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
                       {s.description}
                     </p>
                   </div>
-                  {s.image && (
+                  {(s.image || (s.images && s.images.length > 0)) && (
                     <div className={`col-span-12 lg:col-span-6 ${flip ? "lg:order-1" : ""}`}>
-                      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-container">
-                        <Image
-                          src={s.image}
-                          alt={s.title}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-cover"
-                        />
-                        <div
-                          className="absolute inset-0 pointer-events-none"
-                          style={{
-                            background: "linear-gradient(180deg, rgba(8, 20, 32, 0.05) 0%, rgba(8, 20, 32, 0.2) 100%)",
-                          }}
-                          aria-hidden="true"
-                        />
-                      </div>
+                      <SolutionImage solution={s} />
                     </div>
                   )}
                 </motion.div>
@@ -485,5 +470,91 @@ function ServiceFAQ({ faqs }: { faqs: { question: string; answer: string }[] }) 
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * SolutionImage — renders either a single image or an auto-changing
+ * carousel if the solution has an `images` array. Used for the
+ * "auto change" effect on solutions like Digital Foundation's Google
+ * section (chat on laptop → Google browser on laptop).
+ */
+function SolutionImage({ solution }: { solution: ServiceSolution }) {
+  const slides: { src: string; alt: string }[] = solution.images ?? (solution.image
+    ? [{ src: solution.image, alt: solution.imageAlt ?? solution.title }]
+    : []);
+
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const isCarousel = slides.length > 1;
+
+  useEffect(() => {
+    if (!isCarousel || paused) return;
+    const t = setInterval(() => {
+      setIndex((i) => (i + 1) % slides.length);
+    }, 4000);
+    return () => clearInterval(t);
+  }, [isCarousel, paused, slides.length]);
+
+  return (
+    <div
+      className="relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-container"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <AnimatePresence mode="sync">
+        {slides.map(
+          (slide, i) =>
+            i === index && (
+              <motion.div
+                key={slide.src}
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0"
+                aria-hidden={i !== index}
+              >
+                <Image
+                  src={slide.src}
+                  alt={slide.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: "linear-gradient(180deg, rgba(8, 20, 32, 0.05) 0%, rgba(8, 20, 32, 0.2) 100%)",
+                  }}
+                  aria-hidden="true"
+                />
+              </motion.div>
+            )
+        )}
+      </AnimatePresence>
+
+      {isCarousel && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+          {slides.map((slide, i) => (
+            <button
+              key={slide.src}
+              onClick={() => setIndex(i)}
+              aria-label={`Show slide ${i + 1}`}
+              aria-current={i === index}
+              className="group p-1"
+            >
+              <span
+                className={`block rounded-full transition-all duration-300 ${
+                  i === index
+                    ? "w-6 h-1 bg-accent-bright"
+                    : "w-1 h-1 bg-on-background/40 group-hover:bg-on-background/70"
+                }`}
+              />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

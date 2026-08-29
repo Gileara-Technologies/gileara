@@ -46,8 +46,15 @@ export interface ServiceObservation {
 export interface ServiceSolution {
   title: string;
   description: string;
-  /** Optional image to illustrate the solution. Falls back to gradient. */
+  /**
+   * Optional image(s) to illustrate the solution. Falls back to gradient.
+   * If an `images` array is provided, the carousel auto-rotates between
+   * them every 4 seconds (used for the "auto change" effect on the
+   * Google email/chat section).
+   */
   image?: string;
+  imageAlt?: string;
+  images?: { src: string; alt: string }[];
 }
 
 export interface Service {
@@ -130,7 +137,7 @@ export const servicePackages: Service[] = [
 
     // Landing-page content
     heroImage: "/assets/services/digital-foundation-hero.jpg",
-    heroImageAlt: "Small business owner showing their new website on a laptop",
+    heroImageAlt: "A man using a smartphone",
     problems: [
       {
         title: "No online presence",
@@ -164,16 +171,22 @@ export const servicePackages: Service[] = [
         title: "A business website you actually own",
         description: "Custom-built for your industry, hosted on your domain, designed mobile-first. You get the login. You own the content. We host it for you.",
         image: "/assets/services/digital-foundation-website.jpg",
+        imageAlt: "Online shopping on a computer screen",
       },
       {
         title: "A real business email and Google presence",
         description: "you@yourbusiness.com, a verified Google Business Profile, and SEO that puts you on the map locally. Customers find you, trust you, and contact you directly.",
-        image: "/assets/services/digital-foundation-google.jpg",
+        // Auto-change carousel: chat-on-laptop → google-browser-on-laptop
+        images: [
+          { src: "/assets/services/digital-foundation-google.jpg", alt: "A woman using chat while typing on a laptop at home" },
+          { src: "/assets/services/digital-foundation-google-alt.jpg", alt: "Google browser open on a laptop" },
+        ],
       },
       {
         title: "Booking, payments, and contact — all in one place",
         description: "Customers can book a service, pay a deposit, or send a message without WhatsApp back-and-forth. The site works while you sleep.",
         image: "/assets/services/digital-foundation-booking.jpg",
+        imageAlt: "A person holding a card while using a laptop",
       },
     ],
     outcomes: [
@@ -235,7 +248,7 @@ export const servicePackages: Service[] = [
 
     // Landing-page content
     heroImage: "/assets/services/business-operations-hero.jpg",
-    heroImageAlt: "Pharmacy staff using a digital system to manage inventory",
+    heroImageAlt: "Man in white long-sleeve shirt using a laptop",
     problems: [
       {
         title: "Stock in notebooks",
@@ -269,16 +282,19 @@ export const servicePackages: Service[] = [
         title: "A single system for sales, stock, and customers",
         description: "One login, one place. Every sale, every expense, every customer is recorded in real time. The system tells you what sold, what&apos;s left, and who owes you — without you asking.",
         image: "/assets/services/business-operations-dashboard.jpg",
+        imageAlt: "Point-of-sale system in use at a retail counter",
       },
       {
         title: "MoMo, cash, and bank in one view",
         description: "We integrate with MTN MoMo and your bank so the reconciliation happens automatically. No more matching SMS to receipts at midnight.",
         image: "/assets/services/business-operations-payments.jpg",
+        imageAlt: "A man sitting at the table, working on operations",
       },
       {
         title: "Reports you actually read",
         description: "Daily sales, weekly expenses, monthly profit, branch-by-branch comparison. We build the reports that matter for your business — not a generic dashboard you&apos;ll never open.",
         image: "/assets/services/business-operations-reports.jpg",
+        imageAlt: "A point-of-sale system in active use",
       },
     ],
     outcomes: [
@@ -331,7 +347,7 @@ export const servicePackages: Service[] = [
 
     // Landing-page content
     heroImage: "/assets/services/customer-growth-hero.jpg",
-    heroImageAlt: "Sales team using a CRM dashboard on a laptop",
+    heroImageAlt: "Woman in a black blazer sitting on a black office chair",
     problems: [
       {
         title: "Enquiries lost in WhatsApp",
@@ -361,16 +377,19 @@ export const servicePackages: Service[] = [
         title: "A CRM built for the way Ghanaian businesses sell",
         description: "Capture every WhatsApp, call, and form enquiry in one place. Assign it to a salesperson, set a follow-up reminder, and never lose a lead to a forgotten chat again.",
         image: "/assets/services/customer-growth-crm.jpg",
+        imageAlt: "Business team analyzing sales data in a meeting",
       },
       {
         title: "WhatsApp and email — automated, not spammy",
         description: "Send order updates, appointment reminders, and re-engagement messages through WhatsApp and email. Personalised to the customer, not a blast.",
         image: "/assets/services/customer-growth-whatsapp.jpg",
+        imageAlt: "Hands holding a smartphone showing WhatsApp",
       },
       {
         title: "A loyalty programme that actually retains",
         description: "Points, rewards, and member-only offers that keep customers coming back. We build the programme and integrate it with your sales system.",
         image: "/assets/services/customer-growth-loyalty.jpg",
+        imageAlt: "Men in suit jackets shaking hands on a deal",
       },
     ],
     outcomes: [
@@ -422,7 +441,7 @@ export const servicePackages: Service[] = [
 
     // Landing-page content
     heroImage: "/assets/services/business-intelligence-hero.jpg",
-    heroImageAlt: "Founder reviewing business analytics on a dashboard",
+    heroImageAlt: "A man holding a digital tablet",
     problems: [
       {
         title: "Decisions on gut feel",
@@ -452,16 +471,19 @@ export const servicePackages: Service[] = [
         title: "One dashboard, every source, real time",
         description: "Sales, expenses, inventory, customer data — all in one view. The dashboard updates as your business does, so the numbers you see are the numbers right now.",
         image: "/assets/services/business-intelligence-dashboard.jpg",
+        imageAlt: "Data analytics dashboard on screen",
       },
       {
         title: "Automated weekly and monthly reports",
         description: "Your key numbers arrive in your inbox every Monday morning. No more chasing the accountant. No more stale PDFs.",
         image: "/assets/services/business-intelligence-reports.jpg",
+        imageAlt: "Data analyst working with charts and reports",
       },
       {
         title: "Forecasting and AI insights (Enterprise)",
         description: "Predict next quarter&apos;s revenue, identify customers at risk of churning, and surface the products that are quietly losing you money. The data tells you what to do next.",
         image: "/assets/services/business-intelligence-ai.jpg",
+        imageAlt: "Data science visualisation",
       },
     ],
     outcomes: [
@@ -511,7 +533,7 @@ export const servicePackages: Service[] = [
 
     // Landing-page content
     heroImage: "/assets/services/automation-hero.jpg",
-    heroImageAlt: "Team reviewing an automated workflow on a screen",
+    heroImageAlt: "A man using a laptop with ChatGPT",
     problems: [
       {
         title: "The same task done a hundred times",
@@ -541,16 +563,19 @@ export const servicePackages: Service[] = [
         title: "Workflow automation end to end",
         description: "We map your process, identify the handoffs, and build the automation. From the trigger to the final notification — without a human in the loop.",
         image: "/assets/services/automation-workflow.jpg",
+        imageAlt: "Businesspeople brainstorming in a meeting",
       },
       {
         title: "Smart document processing",
         description: "Invoices, receipts, applications, contracts. We build the extraction so your team reads the exceptions, not every line.",
         image: "/assets/services/automation-documents.jpg",
+        imageAlt: "A woman in a black blazer holding papers while typing on a keyboard",
       },
       {
         title: "Approval systems and notifications",
         description: "Every request gets routed, every approval gets a deadline, every notification reaches the right person. No more 'I thought you were handling that'.",
         image: "/assets/services/automation-approvals.jpg",
+        imageAlt: "Close-up of a laptop computer",
       },
     ],
     outcomes: [
