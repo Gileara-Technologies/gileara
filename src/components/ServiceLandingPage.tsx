@@ -63,39 +63,8 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
             </div>
           </RevealText>
         }
-        decoration={
-          <div className="hidden lg:block absolute right-12 top-1/2 -translate-y-1/2 w-[36%] max-w-[460px] aspect-[4/5] rounded-xl overflow-hidden bg-surface-container shadow-2xl">
-            <Image
-              src={service.heroImage}
-              alt={service.heroImageAlt}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 36vw"
-              className="object-cover"
-            />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: "linear-gradient(180deg, rgba(8, 20, 32, 0.05) 0%, rgba(8, 20, 32, 0.25) 100%)",
-              }}
-              aria-hidden="true"
-            />
-          </div>
-        }
+        backgroundImage={{ src: service.heroImage, alt: service.heroImageAlt }}
       />
-
-      {/* ── Mobile hero image (only shown on small screens) ──────── */}
-      <section className="lg:hidden bg-background py-8 px-6">
-        <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-container">
-          <Image
-            src={service.heroImage}
-            alt={service.heroImageAlt}
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-      </section>
 
       {/* ── 2. PROBLEMS ─────────────────────────────────────────── */}
       <section className="bg-background py-32 md:py-48 px-6 md:px-12 border-t border-on-background/10">

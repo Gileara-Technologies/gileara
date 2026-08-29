@@ -44,12 +44,13 @@ const SLIDES = [
 const ROTATE_MS = 5000;
 
 /**
- * Hero — Andela-quality editorial layout with photography.
+ * Hero — full-bleed background image carousel.
  *
- * The portrait column is a 6-image carousel (rotates every 5s) showing
- * the different kinds of Ghanaian businesses Gileara serves: retail,
- * hospitality, sales, distribution, services, personal services.
- * Manual dot navigation + pause on hover/focus.
+ * The hero section is a full-screen-height (min-h-[88vh]) block with
+ * a 6-image carousel as the background. Headline + CTAs + benefits
+ * sit centered on top of a dark gradient overlay so the text stays
+ * readable. Auto-rotates every 5s; manual dot navigation at the
+ * bottom. Caption chip on each slide.
  */
 export default function Hero() {
   const benefits = [
@@ -70,20 +71,60 @@ export default function Hero() {
   }, [paused]);
 
   return (
-    <section className="relative bg-background pt-32 md:pt-40 pb-24 md:pb-32 px-6 md:px-12 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto">
-        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-16">
-          {/* Text — cols 1-7 */}
-          <div className="col-span-12 lg:col-span-7">
+    <section
+      className="relative min-h-[88vh] flex items-center bg-background overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      {/* Background carousel */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence mode="sync">
+          {SLIDES.map(
+            (slide, i) =>
+              i === index && (
+                <motion.div
+                  key={slide.src}
+                  initial={{ opacity: 0, scale: 1.08 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.02 }}
+                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0"
+                  aria-hidden={i !== index}
+                >
+                  <Image
+                    src={slide.src}
+                    alt={slide.alt}
+                    fill
+                    priority={i === 0}
+                    sizes="100vw"
+                    className="object-cover"
+                  />
+                  {/* Dark gradient for text readability */}
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(8, 20, 32, 0.55) 0%, rgba(8, 20, 32, 0.75) 50%, rgba(8, 20, 32, 0.95) 100%)",
+                    }}
+                    aria-hidden="true"
+                  />
+                </motion.div>
+              )
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 w-full pt-32 md:pt-40 pb-32 md:pb-40 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="max-w-4xl">
             <RevealText>
               <SectionLabel number="00" label="WHAT WE DO" className="mb-8 md:mb-10" />
             </RevealText>
 
-            <DisplayHeading
-              size="xl"
-              as="h1"
-              className="mb-8 md:mb-10"
-            >
+            <DisplayHeading size="xl" as="h1" className="mb-8 md:mb-10 text-on-background">
               We build the{" "}
               <span className="italic text-accent-cyan">digital systems</span>
               <br />
@@ -91,7 +132,7 @@ export default function Hero() {
             </DisplayHeading>
 
             <RevealText delay={0.2}>
-              <p className="text-body-lg md:text-2xl text-on-surface-variant max-w-xl leading-relaxed font-sans mb-10 md:mb-12">
+              <p className="text-body-lg md:text-2xl text-on-background/85 max-w-2xl leading-relaxed font-sans mb-10 md:mb-12">
                 All-inclusive monthly digital transformation packages for Ghanaian MSMEs — replacing spreadsheets, WhatsApp threads, and manual work with systems built for scale.
               </p>
             </RevealText>
@@ -103,7 +144,7 @@ export default function Hero() {
                 </MagneticButton>
                 <a
                   href="#packages"
-                  className="text-on-surface-variant hover:text-accent-bright font-medium transition-colors duration-200 underline-offset-4 hover:underline"
+                  className="text-on-background/85 hover:text-accent-bright font-medium transition-colors duration-200 underline-offset-4 hover:underline"
                 >
                   See Our Packages
                 </a>
@@ -111,7 +152,7 @@ export default function Hero() {
             </RevealText>
 
             <RevealText delay={0.5}>
-              <ul className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm md:text-base font-sans text-on-surface-variant">
+              <ul className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm md:text-base font-sans text-on-background/85">
                 {benefits.map((b) => (
                   <li key={b} className="flex items-center gap-2.5">
                     <svg
@@ -134,98 +175,48 @@ export default function Hero() {
               </ul>
             </RevealText>
           </div>
+        </div>
+      </div>
 
-          {/* Carousel — cols 8-12 */}
-          <div
-            className="col-span-12 lg:col-span-5 lg:col-start-8 relative"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            onFocus={() => setPaused(true)}
-            onBlur={() => setPaused(false)}
-          >
+      {/* Carousel controls — bottom of viewport */}
+      <div className="absolute bottom-8 left-0 right-0 z-10 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto flex items-end justify-between gap-6">
+          {/* Current caption */}
+          <AnimatePresence mode="wait">
             <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container"
-            >
-              <AnimatePresence mode="sync">
-                {SLIDES.map(
-                  (slide, i) =>
-                    i === index && (
-                      <motion.div
-                        key={slide.src}
-                        initial={{ opacity: 0, scale: 1.05 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.97 }}
-                        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                        className="absolute inset-0"
-                        aria-hidden={i !== index}
-                      >
-                        <Image
-                          src={slide.src}
-                          alt={slide.alt}
-                          fill
-                          priority={i === 0}
-                          sizes="(max-width: 1024px) 100vw, 42vw"
-                          className="object-cover"
-                        />
-                        {/* Subtle gradient overlay */}
-                        <div
-                          className="absolute inset-0 pointer-events-none"
-                          style={{
-                            background: "linear-gradient(180deg, rgba(8, 20, 32, 0.1) 0%, rgba(8, 20, 32, 0.4) 100%)",
-                          }}
-                          aria-hidden="true"
-                        />
-                        {/* Caption chip */}
-                        <div className="absolute top-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md border border-on-background/15">
-                          <span className="w-1.5 h-1.5 rounded-full bg-accent-bright" />
-                          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-on-background">
-                            {slide.caption}
-                          </span>
-                        </div>
-                      </motion.div>
-                    )
-                )}
-              </AnimatePresence>
-            </motion.div>
-
-            {/* Dot navigation */}
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
-              {SLIDES.map((slide, i) => (
-                <button
-                  key={slide.src}
-                  onClick={() => setIndex(i)}
-                  aria-label={`Show ${slide.caption} slide`}
-                  aria-current={i === index}
-                  className="group p-1.5"
-                >
-                  <span
-                    className={`block rounded-full transition-all duration-300 ${
-                      i === index
-                        ? "w-8 h-1.5 bg-accent-bright"
-                        : "w-1.5 h-1.5 bg-on-background/30 group-hover:bg-on-background/60"
-                    }`}
-                  />
-                </button>
-              ))}
-            </div>
-
-            {/* Floating outcome caption */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              key={SLIDES[index].caption}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="absolute -bottom-16 left-6 right-6 md:left-12 md:right-12 bg-surface-container-lowest/95 backdrop-blur-md border border-on-background/15 rounded-xl px-6 py-5"
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="hidden md:flex items-center gap-3"
             >
-              <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-1">
-                Outcome
-              </div>
-              <p className="text-on-background text-sm leading-snug">
-                Hours back every week. Errors caught before they cost you. A single view of your business.
-              </p>
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-bright" />
+              <span className="font-mono text-label uppercase tracking-[0.2em] text-on-background">
+                {SLIDES[index].caption}
+              </span>
             </motion.div>
+          </AnimatePresence>
+
+          {/* Dots */}
+          <div className="flex items-center gap-2 ml-auto">
+            {SLIDES.map((slide, i) => (
+              <button
+                key={slide.src}
+                onClick={() => setIndex(i)}
+                aria-label={`Show ${slide.caption} slide`}
+                aria-current={i === index}
+                className="group p-1.5"
+              >
+                <span
+                  className={`block rounded-full transition-all duration-300 ${
+                    i === index
+                      ? "w-8 h-1.5 bg-accent-bright"
+                      : "w-1.5 h-1.5 bg-on-background/30 group-hover:bg-on-background/60"
+                  }`}
+                />
+              </button>
+            ))}
           </div>
         </div>
       </div>
