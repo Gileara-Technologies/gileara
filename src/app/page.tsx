@@ -7,7 +7,7 @@ import Approach from "@/components/Approach";
 import Positioning from "@/components/Positioning";
 import Founders from "@/components/Founders";
 import FoundingClient from "@/components/FoundingClient";
-import ContactCTA from "@/components/ContactCTA";
+import ContactBand from "@/components/ContactBand";
 import Footer from "@/components/Footer";
 import { servicePackages, customServices, MANAGED_SERVICES_NOTE } from "@/content/packages";
 import { siteConfig } from "@/content/site-config";
@@ -171,7 +171,14 @@ export default function Home() {
         <Positioning />
         <Founders />
         <FoundingClient />
-        <ContactCTA />
+        <ContactBand
+          headline={
+            <>
+              Ready when{" "}
+              <span className="italic text-accent-cyan">you are.</span>
+            </>
+          }
+        />
       </main>
       <Footer />
     </>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ContactBand from "@/components/ContactBand";
 import InsightsPostClient from "./InsightsPostClient";
 import { posts } from "@/content/posts";
 
@@ -43,6 +44,16 @@ export default async function InsightsPostPage({ params }: Props) {
       <Navbar />
       <main>
         <InsightsPostClient post={post} />
+        <ContactBand
+          eyebrow="WANT TO GO DEEPER?"
+          headline={
+            <>
+              Have a question about{" "}
+              <span className="italic text-accent-cyan">your own business?</span>
+            </>
+          }
+          body="Free 30-minute call — bring this post's idea (or any other) and we'll apply it to your situation."
+        />
       </main>
       <Footer />
     </>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { scenarios, SCENARIO_STATUS_LEGEND, scenarioPackages, type ScenarioStatus } from "@/content/scenarios";
 import PageHero from "@/components/PageHero";
-import CTABand from "@/components/CTABand";
+import ContactBand from "@/components/ContactBand";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
 
@@ -155,17 +155,18 @@ export default function HowWeTransformClient() {
         </div>
       </section>
 
-      {/* CTA — leads to the package catalogue, not duplicate the contact ask above */}
-      <CTABand
-        eyebrow="SEE WHAT IT BUILDS"
+      {/* In-page contact band — placed just above the footer.
+         The founding-client card above already covers the contact ask;
+         this band is the universal channel row (book, email, phone/WhatsApp). */}
+      <ContactBand
+        eyebrow="GET IN TOUCH"
         headline={
           <>
-            See the <span className="italic text-accent-cyan">packages</span> behind every playbook.
+            Let&apos;s build your{" "}
+            <span className="italic text-accent-cyan">playbook</span> together.
           </>
         }
-        body="Every playbook is built from a combination of our five standard packages. Browse the full pricing sheet to find the right starting point for your vertical."
-        ctaLabel="View the package catalogue"
-        ctaHref="/services"
+        body="If you run a pharmacy, school, restaurant, salon, or retail store — we'd like to write your transformation story together."
       />
     </div>
   );

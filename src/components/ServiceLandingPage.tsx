@@ -10,6 +10,7 @@ import SectionLabel from "@/components/SectionLabel";
 import DisplayHeading from "@/components/DisplayHeading";
 import MagneticButton from "@/components/MagneticButton";
 import RevealText from "@/components/RevealText";
+import ContactBand from "@/components/ContactBand";
 import { MANAGED_SERVICES_NOTE, servicePackages } from "@/content/packages";
 
 interface ServiceLandingPageProps {
@@ -319,28 +320,17 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       {/* ── 7. FAQ ──────────────────────────────────────────────── */}
       <ServiceFAQ faqs={service.faqs} />
 
-      {/* ── 8. CTA ──────────────────────────────────────────────── */}
-      <section className="bg-surface-container py-32 md:py-48 px-6 md:px-12 border-t border-on-background/10">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8">
-            <div className="col-span-12 lg:col-span-9">
-              <RevealText>
-                <SectionLabel label="READY TO START?" className="mb-8" />
-              </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-10 max-w-4xl">
-                Let&apos;s talk about your{" "}
-                <span className="italic text-accent-cyan">{service.name.toLowerCase()}.</span>
-              </DisplayHeading>
-              <p className="text-body-lg text-on-surface-variant max-w-2xl leading-relaxed mb-12">
-                Thirty minutes, free. We&apos;ll walk through your business, recommend the right tier, and answer every question. Even if you don&apos;t buy, you leave with a clearer plan.
-              </p>
-              <MagneticButton href="/contact" variant="primary" size="lg">
-                Book a Free Consultation
-              </MagneticButton>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── 8. CONTACT BAND — the universal in-page contact section ── */}
+      <ContactBand
+        eyebrow="READY TO START?"
+        headline={
+          <>
+            Let&apos;s talk about your{" "}
+            <span className="italic text-accent-cyan">{service.name.toLowerCase()}.</span>
+          </>
+        }
+        body="Thirty minutes, free. We'll walk through your business, recommend the right tier, and answer every question. Even if you don't buy, you leave with a clearer plan."
+      />
 
       {/* ── 9. RELATED SERVICES ─────────────────────────────────── */}
       <section className="bg-background py-32 md:py-48 px-6 md:px-12 border-t border-on-background/10">

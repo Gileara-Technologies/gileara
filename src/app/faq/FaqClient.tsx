@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { faqs } from "@/content/faqs";
 import PageHero from "@/components/PageHero";
-import CTABand from "@/components/CTABand";
+import ContactBand from "@/components/ContactBand";
 
 export default function FaqClient() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -78,7 +78,7 @@ export default function FaqClient() {
         </div>
       </section>
 
-      <CTABand
+      <ContactBand
         eyebrow="STILL CURIOUS?"
         headline={
           <>
@@ -87,8 +87,6 @@ export default function FaqClient() {
           </>
         }
         body="We're happy to answer it on a free 30-minute call. No pitch — just straight answers."
-        secondaryLabel="Or email us directly"
-        secondaryHref={`mailto:${"tech.gileara@gmail.com"}`}
       />
     </>
   );

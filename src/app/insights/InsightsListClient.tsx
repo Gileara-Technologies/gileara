@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { POST_TAGS, type PostTag } from "@/content/posts";
 import PageHero from "@/components/PageHero";
-import CTABand from "@/components/CTABand";
+import ContactBand from "@/components/ContactBand";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
 
@@ -176,8 +176,8 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
         </div>
       </section>
 
-      {/* CTA */}
-      <CTABand
+      {/* In-page contact band — placed just above the footer. */}
+      <ContactBand
         eyebrow="STILL CURIOUS?"
         headline={
           <>

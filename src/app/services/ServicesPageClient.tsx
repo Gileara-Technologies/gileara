@@ -15,6 +15,7 @@ import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
 import MagneticButton from "@/components/MagneticButton";
+import ContactBand from "@/components/ContactBand";
 
 /**
  * /services — the pricing sheet.
@@ -202,11 +203,20 @@ export default function ServicesPageClient() {
           <p className="text-on-surface-variant text-lg leading-relaxed italic">
             {MANAGED_SERVICES_NOTE}
           </p>
-          <p className="text-on-surface-variant text-base leading-relaxed mt-10 max-w-2xl">
-            Not sure which tier (or whether any of these is right for you)? Tell us on the free 30-minute call at the top of the page — we&apos;ll listen, recommend the right tier (or none), and you leave with a clearer plan.
-          </p>
         </div>
       </section>
+
+      {/* ── CONTACT BAND — universal in-page contact section ── */}
+      <ContactBand
+        eyebrow="NOT SURE WHICH TIER?"
+        headline={
+          <>
+            Let&apos;s pick the{" "}
+            <span className="italic text-accent-cyan">right one together.</span>
+          </>
+        }
+        body="Thirty minutes, free. We'll listen, recommend the right tier (or none), and you leave with a clearer plan — even if the answer is 'not now'."
+      />
     </>
   );
 }

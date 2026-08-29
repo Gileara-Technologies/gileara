@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import PageHero from "@/components/PageHero";
-import CTABand from "@/components/CTABand";
+import ContactBand from "@/components/ContactBand";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
@@ -269,8 +269,8 @@ export default function AboutPageClient() {
         </div>
       </section>
 
-      {/* CTA */}
-      <CTABand
+      {/* In-page contact band — placed just above the footer. */}
+      <ContactBand
         eyebrow="JOIN US"
         headline={
           <>
@@ -279,10 +279,6 @@ export default function AboutPageClient() {
           </>
         }
         body="We're always looking for brilliant minds to join our mission. If you're passionate about engineering excellence, we want to hear from you."
-        ctaLabel="Join the Mission"
-        ctaHref="/careers"
-        secondaryLabel="View Open Roles"
-        secondaryHref="/careers#roles"
       />
     </>
   );

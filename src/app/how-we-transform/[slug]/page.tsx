@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ContactBand from "@/components/ContactBand";
 
 import { scenarios, scenarioPackages } from "@/content/scenarios";
 
@@ -138,30 +139,25 @@ export default async function ScenarioPage({ params }: PageProps) {
             </ul>
           </section>
 
-          {/* Ghana context */}
+          {/* Local-context pull-quote */}
           <section className="mt-8 border-l-4 border-secondary/50 dark:border-primary/40 pl-5 py-1">
             <p className="text-sm md:text-base text-on-surface-variant italic leading-relaxed">{scenario.ghanaContext}</p>
           </section>
-
-          {/* CTA */}
-          <div className="mt-14 text-center rounded-3xl p-8 md:p-10 bg-surface-container dark:bg-surface-container-high border border-outline-variant/20 dark:border-outline-variant/10">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-primary dark:text-on-background">
-              Your business could be the real story.
-            </h2>
-            <p className="mt-3 text-on-surface-variant max-w-md mx-auto">
-              Founding clients get priority onboarding and a documented transformation story — published with your
-              approval, when the results are real.
-            </p>
-            <Link
-              href="/contact"
-              className="mt-6 inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold teal-gradient-btn text-white dark:text-on-primary shadow-lg group"
-            >
-              Book a Free Consultation
-              <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
-            </Link>
-          </div>
         </div>
       </main>
+
+      {/* In-page contact band — placed just above the footer.
+         Founding-client positioning lives inside the playbook card above. */}
+      <ContactBand
+        eyebrow="YOUR BUSINESS COULD BE THE REAL STORY"
+        headline={
+          <>
+            Be the founding client for your{" "}
+            <span className="italic text-accent-cyan">{scenario.vertical.toLowerCase()}</span>.
+          </>
+        }
+        body={`Founding clients get priority onboarding and a documented ${scenario.vertical.toLowerCase()} transformation story — published with your approval, when the results are real.`}
+      />
       <Footer />
     </>
   );
