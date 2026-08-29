@@ -1,56 +1,75 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import PageHero from "@/components/PageHero";
+import ContactBand from "@/components/ContactBand";
+import DisplayHeading from "@/components/DisplayHeading";
+import SectionLabel from "@/components/SectionLabel";
+import RevealText from "@/components/RevealText";
+import Link from "next/link";
 
 const founders = [
   {
     name: "Amos Frederick Hughes",
     role: "Founder & CEO",
-    badge: "CEO",
-    badgeBg: "bg-primary text-on-primary",
+    quote: "We build what we wish existed when we were running our own businesses.",
     image: "/assets/images/amos.jpg",
-    desc: "Leading our strategic direction and long-term expansion into emerging global markets.",
   },
   {
     name: "Julian Hagan",
     role: "Co-Founder & COO",
-    badge: "COO",
-    badgeBg: "bg-secondary-container text-on-secondary-container",
+    quote: "Every project is a promise. We keep ours.",
     image: "/assets/images/julian_hagan.jpg",
-    desc: "Driving operational excellence and ensuring our engineering teams deliver at peak efficiency.",
   },
   {
     name: "Rodney Hagan",
     role: "Co-Founder & CTO",
-    badge: "CTO",
-    badgeBg: "bg-tertiary-container text-on-tertiary-container",
+    quote: "Technology should disappear into the workflow, not demand attention.",
     image: "/assets/images/rodney_hagan.jpg",
-    desc: "The engineering heart of Gileara, overseeing system architecture and technical innovation.",
   },
 ];
 
 const teams = {
   engineering: {
-    label: "Engineering Team",
+    label: "Engineering",
+    lead: "Led by Rodney Hagan, CTO",
     members: [
-      { name: "Mekitonima Aliodi", role: "Full Stack Engineer", gradient: "from-violet-600 to-indigo-900" },
-      { name: "Mohammed Murshid", role: "Cross-Platform Mobile App Developer", gradient: "from-emerald-600 to-teal-900" },
-      { name: "Gyening Patrick Nyarko", role: "Frontend Developer", gradient: "from-blue-600 to-cyan-900" },
-      { name: "Samuel Quansah", role: "Frontend Developer", gradient: "from-amber-600 to-orange-900" },
+      { name: "Mekitonima Aliodi", role: "Full Stack Engineer" },
+      { name: "Mohammed Murshid", role: "Cross-Platform Mobile App Developer" },
+      { name: "Gyening Patrick Nyarko", role: "Frontend Developer" },
+      { name: "Samuel Quansah", role: "Frontend Developer" },
     ],
   },
   operations: {
-    label: "Operations & Admin",
+    label: "Operations",
+    lead: "Led by Julian Hagan, COO",
     members: [
-      { name: "Akpabli Daniel", role: "Administrative Secretary", gradient: "from-purple-600 to-fuchsia-900" },
-      { name: "Garnett Dussey", role: "Business Psychologist", gradient: "from-green-600 to-lime-900" },
-      { name: "Kelvin Ntow Agyemang", role: "Design Specialist", gradient: "from-yellow-600 to-amber-900" },
+      { name: "Akpabli Daniel", role: "Administrative Secretary" },
+      { name: "Garnett Dussey", role: "Business Psychologist" },
+      { name: "Kelvin Ntow Agyemang", role: "Design Specialist" },
     ],
   },
 };
+
+const values = [
+  {
+    num: "01",
+    title: "Innovation",
+    desc: "We don't just follow industry standards; we define them. Our research-driven approach ensures your technical architecture remains ahead of the curve.",
+  },
+  {
+    num: "02",
+    title: "Reliability",
+    desc: "99.9% uptime isn't just a metric; it's a promise. We build systems that endure the most demanding workloads.",
+  },
+  {
+    num: "03",
+    title: "Scale",
+    desc: "From startup foundations to global enterprise infrastructure. Our architecture is designed to grow as rapidly as your ambitions, handling millions of concurrent users without breaking stride.",
+  },
+];
 
 export default function AboutPageClient() {
   const [activeTeam, setActiveTeam] = useState<"engineering" | "operations">("engineering");
@@ -58,269 +77,209 @@ export default function AboutPageClient() {
   return (
     <>
       {/* HERO */}
-      <section className="relative min-h-[500px] md:min-h-[614px] flex items-center justify-center px-4 md:px-10 py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
-        <div className="relative z-10 text-center max-w-4xl mx-auto">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-primary text-sm font-semibold tracking-[0.2em] uppercase mb-2"
-          >
-            Since 2024
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold font-display mb-6 leading-tight text-on-surface"
-          >
+      <PageHero
+        number="01"
+        eyebrow="ABOUT US"
+        headline={
+          <>
             Engineering the future of{" "}
-            <span className="text-primary">high-performance</span> digital
-            ecosystems.
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-on-surface-variant max-w-2xl mx-auto"
-          >
-            At Gileara Technologies, we transform complex technical challenges
-            into streamlined, scalable reality.
-          </motion.p>
-        </div>
-      </section>
+            <span className="italic text-accent-cyan">high-performance</span>{" "}
+            digital ecosystems.
+          </>
+        }
+        subtitle="At Gileara Technologies, we transform complex technical challenges into streamlined, scalable reality."
+      />
 
-      {/* MISSION & VALUES (BENTO) */}
-      <section className="py-20 px-4 md:px-10 max-w-[1440px] mx-auto">
-        <div className="mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold font-display mb-2 text-on-surface">
-            Our Core Philosophy
-          </h2>
-          <div className="h-1 w-24 bg-primary rounded-full" />
-        </div>
+      {/* VALUES */}
+      <section className="bg-background py-32 md:py-48 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
+            <div className="col-span-12 lg:col-span-7">
+              <RevealText>
+                <SectionLabel number="02" label="OUR CORE PHILOSOPHY" className="mb-8" />
+              </RevealText>
+              <DisplayHeading size="lg" as="h2" className="mb-8">
+                Three principles{" "}
+                <span className="italic text-accent-cyan">guide everything.</span>
+              </DisplayHeading>
+              <RevealText delay={0.15}>
+                <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
+                  Innovation, reliability, and scale — not as marketing words, but as engineering constraints.
+                </p>
+              </RevealText>
+            </div>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Innovation */}
-          <div className="md:col-span-8 bg-surface-container-low p-8 rounded-xl border border-outline-variant/30 group hover:border-primary/50 transition-all duration-300">
-            <div className="flex flex-col h-full justify-between">
-              <div>
-                <div className="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-primary">lightbulb</span>
+          <div className="space-y-12 md:space-y-20">
+            {values.map((v, i) => (
+              <motion.div
+                key={v.num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="grid grid-cols-12 gap-x-6 md:gap-x-8 items-start border-t border-on-background/10 pt-10"
+              >
+                <div className="col-span-2 md:col-span-1 font-serif text-display-sm text-on-background/[0.15] leading-none">
+                  {v.num}
                 </div>
-                <h3 className="text-xl md:text-2xl font-semibold font-display mb-4 text-on-surface">
-                  Innovation
-                </h3>
-                <p className="text-base text-on-surface-variant max-w-md">
-                  We don&apos;t just follow industry standards; we define them.
-                  Our research-driven approach ensures your technical
-                  architecture remains ahead of the curve.
-                </p>
-              </div>
-              <div className="mt-8 h-48 rounded-lg overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10" />
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 via-surface-container-high to-surface-container" />
-              </div>
-            </div>
-          </div>
-
-          {/* Reliability */}
-          <div className="md:col-span-4 bg-surface-container-low p-8 rounded-xl border border-outline-variant/30 flex flex-col justify-center items-center text-center">
-            <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-6 border border-primary/20">
-              <span className="material-symbols-outlined text-primary text-4xl">verified_user</span>
-            </div>
-            <h3 className="text-xl md:text-2xl font-semibold font-display mb-4 text-on-surface">
-              Reliability
-            </h3>
-            <p className="text-base text-on-surface-variant">
-              99.9% uptime isn&apos;t just a metric; it&apos;s a promise. We
-              build systems that endure the most demanding workloads.
-            </p>
-          </div>
-
-          {/* Scale */}
-          <div className="md:col-span-12 bg-surface-container p-8 rounded-xl border border-outline-variant/30 relative overflow-hidden group">
-            <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
-              <div className="flex-1">
-                <h3 className="text-xl md:text-2xl font-semibold font-display mb-4 text-on-surface">
-                  Scale
-                </h3>
-                <p className="text-base text-on-surface-variant max-w-2xl">
-                  From startup foundations to global enterprise infrastructure.
-                  Our architecture is designed to grow as rapidly as your
-                  ambitions, handling millions of concurrent users without
-                  breaking stride.
-                </p>
-              </div>
-              <div className="flex-shrink-0 grid grid-cols-3 gap-2">
-                <div className="w-16 h-24 bg-primary/10 rounded-lg animate-pulse" />
-                <div className="w-16 h-32 bg-primary/20 rounded-lg animate-pulse" style={{ animationDelay: "0.2s" }} />
-                <div className="w-16 h-40 bg-primary/30 rounded-lg animate-pulse" style={{ animationDelay: "0.4s" }} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* LEADERSHIP */}
-      <section className="py-20 bg-surface-container-lowest">
-        <div className="px-4 md:px-10 max-w-[1440px] mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-display mb-2 text-on-surface">
-              The Architects
-            </h2>
-            <p className="text-base text-on-surface-variant">
-              The visionary leadership steering Gileara&apos;s technological
-              dominance.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {founders.map((person) => (
-              <div key={person.name} className="group">
-                <div className="relative aspect-[4/5] rounded-xl overflow-hidden mb-4 border border-outline-variant/20 group-hover:border-primary/40 transition-colors">
-                  <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent z-10" />
-                  <Image
-                    src={person.image}
-                    alt={person.name}
-                    fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div className="absolute bottom-4 left-4 z-20">
-                    <span
-                      className={`text-[10px] uppercase font-bold px-3 py-1 rounded ${person.badgeBg}`}
-                    >
-                      {person.badge}
-                    </span>
-                  </div>
+                <div className="col-span-10 md:col-span-7">
+                  <h3 className="font-serif text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-3">
+                    {v.title}
+                  </h3>
                 </div>
-                <h3 className="text-xl md:text-2xl font-semibold font-display mb-1 text-on-surface">
-                  {person.name}
-                </h3>
-                <p className="text-primary text-sm font-semibold mb-3">
-                  {person.role}
-                </p>
-                <p className="text-base text-on-surface-variant">
-                  {person.desc}
-                </p>
-              </div>
+                <div className="col-span-12 md:col-span-4">
+                  <p className="text-on-surface-variant text-base leading-relaxed">
+                    {v.desc}
+                  </p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* OUR TEAM */}
-      <section className="py-20 px-4 md:px-10 max-w-[1440px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-6">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold font-display mb-2 text-on-surface">
-              Our Team
-            </h2>
-            <p className="text-base text-on-surface-variant">
-              Specialists across disciplines, working in synergy to build the
-              impossible.
-            </p>
+      {/* LEADERSHIP */}
+      <section className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
+            <div className="col-span-12 lg:col-span-7">
+              <RevealText>
+                <SectionLabel number="03" label="THE ARCHITECTS" className="mb-8" />
+              </RevealText>
+              <DisplayHeading size="lg" as="h2" className="mb-8">
+                Leadership, not{" "}
+                <span className="italic text-accent-cyan">account managers.</span>
+              </DisplayHeading>
+              <RevealText delay={0.15}>
+                <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
+                  When you work with Gileara, you work directly with the people building the systems. No hand-offs.
+                </p>
+              </RevealText>
+            </div>
           </div>
-        </div>
 
-        {/* Tabs */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-10">
-          <div className="flex gap-2">
-            <button
-              onClick={() => setActiveTeam("engineering")}
-              className={`px-6 py-3 rounded-full text-sm font-semibold border transition-all ${
-                activeTeam === "engineering"
-                  ? "bg-primary text-on-primary border-primary"
-                  : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
-              }`}
-            >
-              {teams.engineering.label}
-            </button>
-            <button
-              onClick={() => setActiveTeam("operations")}
-              className={`px-6 py-3 rounded-full text-sm font-semibold border transition-all ${
-                activeTeam === "operations"
-                  ? "bg-primary text-on-primary border-primary"
-                  : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
-              }`}
-            >
-              {teams.operations.label}
-            </button>
-          </div>
-          <span className="text-xs text-on-surface-variant font-semibold ml-1">
-            {activeTeam === "engineering"
-              ? "Led by Rodney Hagan, CTO"
-              : "Led by Julian Hagan, COO"}
-          </span>
-        </div>
-
-        <motion.div
-          key={activeTeam}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {teams[activeTeam].members.map((m) => (
-            <div
-              key={m.name}
-              className="bg-surface-container-low rounded-xl border border-outline-variant/30 overflow-hidden group hover:border-primary/40 transition-all"
-            >
-              <div
-                className={`h-48 bg-gradient-to-br ${m.gradient} flex items-end p-4 relative`}
-              >
-                <div className="absolute inset-0 bg-black/10" />
-                <div className="relative z-10">
-                  <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">
-                      {m.name.split(" ").map((n) => n[0]).join("")}
-                    </span>
+          <div className="space-y-24 md:space-y-32">
+            {founders.map((f, i) => {
+              const portraitLeft = i % 2 === 0;
+              return (
+                <motion.div
+                  key={f.name}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-8 items-center"
+                >
+                  <div className={`col-span-12 md:col-span-5 ${portraitLeft ? "md:order-1" : "md:order-2 md:col-start-8"}`}>
+                    <div className="relative aspect-[4/5] bg-surface-container-high rounded-xl overflow-hidden group">
+                      <Image
+                        src={f.image}
+                        alt={f.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 42vw"
+                        className="object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+                      />
+                    </div>
                   </div>
+                  <div className={`col-span-12 md:col-span-7 ${portraitLeft ? "md:order-2 md:col-start-6" : "md:order-1"}`}>
+                    <div className={`max-w-xl ${portraitLeft ? "md:ml-auto" : ""}`}>
+                      <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
+                        0{i + 1}
+                      </div>
+                      <h3 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-3">
+                        {f.name}
+                      </h3>
+                      <div className="font-mono text-xs uppercase tracking-wider text-on-surface-variant mb-8">
+                        {f.role}
+                      </div>
+                      <blockquote className="border-l-2 border-accent-bright pl-6">
+                        <p className="font-serif text-xl md:text-2xl text-on-surface leading-snug italic">
+                          &ldquo;{f.quote}&rdquo;
+                        </p>
+                      </blockquote>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* TEAM */}
+      <section className="bg-background py-32 md:py-48 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16">
+            <div className="col-span-12 lg:col-span-7">
+              <RevealText>
+                <SectionLabel number="04" label="THE TEAM" className="mb-8" />
+              </RevealText>
+              <DisplayHeading size="lg" as="h2" className="mb-8">
+                Specialists, working in{" "}
+                <span className="italic text-accent-cyan">synergy.</span>
+              </DisplayHeading>
+            </div>
+          </div>
+
+          {/* Tabs */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-12 border-b border-on-background/10 pb-6">
+            <div className="flex gap-2">
+              {(Object.keys(teams) as Array<keyof typeof teams>).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveTeam(key)}
+                  className={`pl-6 pr-10 py-2.5 rounded-pill text-sm font-medium transition-colors duration-300 ${
+                    activeTeam === key
+                      ? "bg-accent-bright text-background"
+                      : "border border-on-background/20 text-on-surface hover:border-accent-bright hover:text-accent-bright"
+                  }`}
+                >
+                  {teams[key].label}
+                </button>
+              ))}
+            </div>
+            <span className="text-xs text-on-surface-variant font-mono">
+              {teams[activeTeam].lead}
+            </span>
+          </div>
+
+          <motion.div
+            key={activeTeam}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            {teams[activeTeam].members.map((m, idx) => (
+              <div
+                key={m.name}
+                className="border-t border-on-background/10 pt-6"
+              >
+                <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
+                  0{idx + 1}
                 </div>
-              </div>
-              <div className="p-5">
-                <h3 className="text-lg font-semibold font-display text-on-surface mb-1">
+                <h3 className="font-serif text-2xl text-on-background leading-tight tracking-[-0.02em] mb-2">
                   {m.name}
                 </h3>
-                <p className="text-sm text-primary font-semibold">{m.role}</p>
+                <p className="text-on-surface-variant text-sm">{m.role}</p>
               </div>
-            </div>
-          ))}
-        </motion.div>
-
-        <p className="text-center text-sm text-on-surface-variant mt-8">
-          {teams[activeTeam].members.length} team members
-        </p>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 px-4 md:px-10 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto bg-surface-container-low/60 backdrop-blur-md border border-primary/20 p-12 md:p-16 rounded-2xl relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold font-display mb-6 text-on-surface">
-            Ready to build the future?
-          </h2>
-          <p className="text-lg text-on-surface-variant mb-8 max-w-2xl mx-auto">
-            We&apos;re always looking for brilliant minds to join our mission.
-            If you&apos;re passionate about engineering excellence, we will
-            hear from you.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link
-              href="/careers"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl text-sm font-bold teal-gradient-btn"
-            >
-              Join the Mission
-            </Link>
-            <Link
-              href="/careers"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl text-xl md:text-2xl font-semibold font-display border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors"
-            >
-              View Openings
-            </Link>
-          </div>
+            ))}
+          </motion.div>
         </div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
       </section>
+
+      {/* In-page contact band — placed just above the footer. */}
+      <ContactBand
+        eyebrow="JOIN US"
+        headline={
+          <>
+            Ready to build the{" "}
+            <span className="italic text-accent-cyan">future?</span>
+          </>
+        }
+        body="We're always looking for brilliant minds to join our mission. If you're passionate about engineering excellence, we want to hear from you."
+      />
     </>
   );
 }

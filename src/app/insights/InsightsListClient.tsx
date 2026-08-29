@@ -4,6 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { POST_TAGS, type PostTag } from "@/content/posts";
+import PageHero from "@/components/PageHero";
+import ContactBand from "@/components/ContactBand";
+import SectionLabel from "@/components/SectionLabel";
+import RevealText from "@/components/RevealText";
 
 interface PostMeta {
   slug: string;
@@ -24,46 +28,41 @@ function formatDate(dateStr: string) {
   });
 }
 
-function ArticleCard({ post }: { post: PostMeta }) {
+function ArticleCard({ post, index }: { post: PostMeta; index: number }) {
+  const num = String(index + 1).padStart(2, "0");
   return (
-    <div className="bg-surface-container-low/80 backdrop-blur-sm border border-outline-variant/20 rounded-xl p-4 flex flex-col h-full group hover:border-primary/40 transition-all duration-300">
-      <Link href={`/insights/${post.slug}`} className="flex flex-col h-full">
-        <div className="h-40 rounded-lg overflow-hidden mb-3 relative">
-          {post.image ? (
-            <Image src={post.image} alt="" fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-110" />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary/10 via-surface-container-high to-surface-container transition-transform duration-500 group-hover:scale-110" />
-          )}
-          <div className="absolute top-2 right-2">
-            <span className="bg-surface-dim/80 backdrop-blur-sm text-secondary dark:text-primary text-xs font-mono uppercase tracking-wider px-2 py-1 rounded border border-outline-variant/30">
-              {post.tag}
-            </span>
-          </div>
+    <Link
+      href={`/insights/${post.slug}`}
+      className="group flex flex-col"
+    >
+      <div className="aspect-[16/10] rounded-xl overflow-hidden mb-5 relative bg-surface-container">
+        {post.image ? (
+          <Image src={post.image} alt="" fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-accent-bright/20 via-surface-container-high to-surface-container transition-transform duration-700 group-hover:scale-105" />
+        )}
+        <div className="absolute top-3 right-3">
+          <span className="bg-background/80 backdrop-blur-sm text-accent-bright text-xs font-mono uppercase tracking-[0.2em] px-2.5 py-1 rounded-full border border-on-background/20">
+            {post.tag}
+          </span>
         </div>
-        <div className="px-1 flex-grow flex flex-col">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-xs font-medium text-on-surface-variant">
-              {formatDate(post.date)}
-            </span>
-            <span className="text-xs font-medium text-on-surface-variant">
-              {post.readTime}
-            </span>
-          </div>
-          <h3 className="text-xl md:text-2xl font-semibold font-display text-on-surface mb-2 group-hover:text-primary transition-colors">
-            {post.title}
-          </h3>
-          <p className="text-base text-on-surface-variant line-clamp-3 mb-4">
-            {post.excerpt}
-          </p>
-          <div className="mt-auto pt-3 flex items-center text-primary text-sm font-semibold group/link">
-            Read More
-            <span className="material-symbols-outlined text-base ml-1 transition-transform group-hover/link:translate-x-1">
-              chevron_right
-            </span>
-          </div>
-        </div>
-      </Link>
-    </div>
+      </div>
+      <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-3">
+        {num} · {formatDate(post.date)} · {post.readTime}
+      </div>
+      <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em] mb-3 group-hover:text-accent-bright transition-colors duration-300">
+        {post.title}
+      </h3>
+      <p className="text-on-surface-variant text-base leading-relaxed line-clamp-3 mb-4">
+        {post.excerpt}
+      </p>
+      <div className="mt-auto inline-flex items-center text-accent-bright text-sm font-medium">
+        Read article
+        <span className="material-symbols-outlined text-base ml-1.5 transition-transform duration-300 group-hover:translate-x-1">
+          arrow_forward
+        </span>
+      </div>
+    </Link>
   );
 }
 
@@ -75,122 +74,119 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
 
   return (
     <>
-      {/* FEATURED ARTICLE */}
+      <PageHero
+        number="01"
+        eyebrow="INSIGHTS"
+        headline={
+          <>
+            Practical insights for{" "}
+            <span className="italic text-accent-cyan">small business</span> operators.
+          </>
+        }
+        subtitle="On operations, growth, automation, and the realities of going digital — written from the field, not from a slide deck. Currently informed by our Ghana pilot, applicable to any small or growing business."
+      />
+
+      {/* FEATURED ARTICLE — asymmetric layout */}
       {featured && (
-        <section className="py-16 md:py-20 px-4 md:px-10 relative">
-          <div className="absolute -top-20 -right-20 w-96 h-96 bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
+        <section className="bg-background py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
           <div className="max-w-[1440px] mx-auto">
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <RevealText>
+              <SectionLabel number="02" label="FEATURED" className="mb-10" />
+            </RevealText>
+            <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-10 items-center">
               <Link
                 href={`/insights/${featured.slug}`}
-                className="relative group cursor-pointer overflow-hidden rounded-xl h-[400px] lg:h-[500px]"
+                className="col-span-12 lg:col-span-7 relative group cursor-pointer overflow-hidden rounded-xl aspect-[16/10] bg-surface-container"
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent z-10" />
                 {featured.image ? (
-                  <Image src={featured.image} alt="" fill priority sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <Image src={featured.image} alt="" fill priority sizes="(max-width: 1024px) 100vw, 58vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary/20 via-surface-container-high to-surface-dim transition-transform duration-700 group-hover:scale-105" />
+                  <div className="w-full h-full bg-gradient-to-br from-accent-bright/20 via-surface-container-high to-surface-container transition-transform duration-700 group-hover:scale-105" />
                 )}
-                <div className="absolute bottom-6 left-6 z-20">
-                  <span className="bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md">
-                    Featured · {featured.tag}
+                <div className="absolute top-4 left-4">
+                  <span className="bg-background/80 backdrop-blur-sm text-accent-bright px-3 py-1.5 rounded-full text-xs font-mono uppercase tracking-[0.2em] border border-on-background/20">
+                    {featured.tag}
                   </span>
                 </div>
               </Link>
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2 text-on-surface-variant text-sm font-semibold">
-                  <span>{formatDate(featured.date)}</span>
-                  <span className="w-1 h-1 rounded-full bg-outline-variant" />
-                  <span>{featured.readTime}</span>
+              <div className="col-span-12 lg:col-span-5 flex flex-col gap-4">
+                <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant">
+                  {formatDate(featured.date)} · {featured.readTime}
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold font-display text-on-surface leading-tight tracking-tight">
+                <h2 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em]">
                   {featured.title}
-                </h1>
-                <p className="text-lg text-on-surface-variant max-w-xl">
+                </h2>
+                <p className="text-on-surface-variant text-lg leading-relaxed">
                   {featured.excerpt}
                 </p>
-                <div className="mt-2 flex gap-4">
-                  <Link
-                    href={`/insights/${featured.slug}`}
-                    className="bg-primary-container text-on-primary-container px-8 py-3 rounded-lg text-sm font-semibold flex items-center gap-2 hover:shadow-lg hover:shadow-primary/20 transition-all"
-                  >
-                    Read Full Insight
-                    <span className="material-symbols-outlined text-lg">
-                      arrow_forward
-                    </span>
-                  </Link>
-                </div>
+                <Link
+                  href={`/insights/${featured.slug}`}
+                  className="mt-2 group inline-flex items-center pl-6 pr-10 py-3 rounded-pill bg-accent-bright text-background font-medium hover:bg-accent-cyan transition-colors duration-300 w-fit"
+                >
+                  Read Full Insight
+                  <span className="ml-4 material-symbols-outlined text-base transition-transform duration-300 group-hover:translate-x-1">
+                    arrow_forward
+                  </span>
+                </Link>
               </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* TAG FILTER */}
-      <section className="max-w-[1440px] mx-auto px-4 md:px-10 py-4">
-        <div className="flex flex-wrap gap-3 items-center border-y border-outline-variant/20 py-4">
-          <span className="text-sm font-semibold text-on-surface-variant mr-2">
-            Filter by:
-          </span>
-          {(["All", ...POST_TAGS] as const).map((tag) => (
-            <button
-              key={tag}
-              onClick={() => setActiveTag(tag)}
-              aria-pressed={activeTag === tag}
-              className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${
-                activeTag === tag
-                  ? "bg-primary/10 text-primary border border-primary/40"
-                  : "bg-surface-container hover:bg-surface-container-high text-on-surface-variant border border-outline-variant/30"
-              }`}
-            >
-              {tag === "All" ? "All Insights" : tag}
-            </button>
-          ))}
-        </div>
-      </section>
+      {/* TAG FILTER + ARTICLE LIST */}
+      <section className="bg-surface-container py-24 md:py-32 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto">
+          <RevealText>
+            <SectionLabel number="03" label="ALL ARTICLES" className="mb-10" />
+          </RevealText>
 
-      {/* ARTICLE GRID */}
-      <section className="max-w-[1440px] mx-auto px-4 md:px-10 pb-20">
-        {rest.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {rest.map((post) => (
-              <ArticleCard key={post.slug} post={post} />
+          {/* Tag filter */}
+          <div className="flex flex-wrap gap-3 items-center mb-12 border-b border-on-background/10 pb-6">
+            <span className="text-sm font-mono text-on-surface-variant mr-2 uppercase tracking-[0.2em]">
+              Filter
+            </span>
+            {(["All", ...POST_TAGS] as const).map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setActiveTag(tag)}
+                aria-pressed={activeTag === tag}
+                className={`pl-5 pr-8 py-2 rounded-pill text-sm font-medium transition-colors duration-300 ${
+                  activeTag === tag
+                    ? "bg-accent-bright text-background"
+                    : "border border-on-background/20 text-on-surface hover:border-accent-bright hover:text-accent-bright"
+                }`}
+              >
+                {tag === "All" ? "All Insights" : tag}
+              </button>
             ))}
           </div>
-        ) : (
-          <p className="text-on-surface-variant py-12 text-center">
-            More {activeTag === "All" ? "" : `${activeTag} `}insights are on the way — this section grows as we do.
-          </p>
-        )}
-      </section>
 
-      {/* HONEST CLOSER — no fake newsletter counts */}
-      <section className="px-4 md:px-10 pb-24">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="bg-surface-container rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
-            <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
-            <div className="relative z-10 max-w-xl">
-              <h2 className="text-3xl md:text-4xl font-bold font-display text-on-surface mb-3">
-                Questions these didn&apos;t answer?
-              </h2>
-              <p className="text-base text-on-surface-variant">
-                Skip the inbox-warming. Book a free consultation and ask us directly — a real person replies, usually the same day.
-              </p>
+          {rest.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+              {rest.map((post, i) => (
+                <ArticleCard key={post.slug} post={post} index={i + 2} />
+              ))}
             </div>
-            <div className="relative z-10 shrink-0">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-bold teal-gradient-btn text-white dark:text-on-primary group"
-              >
-                Book a Free Consultation
-                <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">
-                  arrow_forward
-                </span>
-              </Link>
-            </div>
-          </div>
+          ) : (
+            <p className="text-on-surface-variant py-16 text-center border-t border-on-background/10">
+              More {activeTag === "All" ? "" : `${activeTag} `}insights are on the way — this section grows as we do.
+            </p>
+          )}
         </div>
       </section>
+
+      {/* In-page contact band — placed just above the footer. */}
+      <ContactBand
+        eyebrow="STILL CURIOUS?"
+        headline={
+          <>
+            Questions these{" "}
+            <span className="italic text-accent-cyan">didn&apos;t answer?</span>
+          </>
+        }
+        body="Skip the inbox-warming. Book a free consultation and ask us directly — a real person replies, usually the same day."
+      />
     </>
   );
 }

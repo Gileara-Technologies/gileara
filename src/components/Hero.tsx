@@ -1,128 +1,223 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { motion, useReducedMotion } from "framer-motion";
-import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import DisplayHeading from "@/components/DisplayHeading";
+import SectionLabel from "@/components/SectionLabel";
+import MagneticButton from "@/components/MagneticButton";
+import RevealText from "@/components/RevealText";
 
-/** Signature effect — lazy, client-only, never blocking first paint (kill-switch safe). */
-const OrbitScene = dynamic(() => import("@/components/three/OrbitScene"), {
-  ssr: false,
-  loading: () => null,
-});
+const SLIDES = [
+  {
+    src: "/assets/imagery/carousel-fashion-boutique.jpg",
+    alt: "Customers browsing a fashion boutique in Abuja",
+    caption: "Retail",
+  },
+  {
+    src: "/assets/imagery/carousel-flowers.jpg",
+    alt: "Couple browsing flowers at a market",
+    caption: "Hospitality",
+  },
+  {
+    src: "/assets/imagery/carousel-sale-card.jpg",
+    alt: "Smiling woman holding a sale card to inform customers",
+    caption: "Sales",
+  },
+  {
+    src: "/assets/imagery/carousel-crate.jpg",
+    alt: "A man holding a crate of produce",
+    caption: "Distribution",
+  },
+  {
+    src: "/assets/imagery/carousel-apron-workshop.jpg",
+    alt: "A man in an apron working in his workshop",
+    caption: "Services",
+  },
+  {
+    src: "/assets/imagery/carousel-barber.jpg",
+    alt: "Barber shaving a young boy's hair",
+    caption: "Personal services",
+  },
+];
 
-function useWebGLAvailable() {
-  const [ok, setOk] = useState(false);
-  useEffect(() => {
-    // defer past the synchronous effect pass (react-compiler rule);
-    // one frame of delay is invisible behind the fallback layer
-    const id = requestAnimationFrame(() => {
-      try {
-        const canvas = document.createElement("canvas");
-        setOk(Boolean(canvas.getContext("webgl2") || canvas.getContext("webgl")));
-      } catch {
-        setOk(false);
-      }
-    });
-    return () => cancelAnimationFrame(id);
-  }, []);
-  return ok;
-}
+const ROTATE_MS = 5000;
 
+/**
+ * Hero — full-bleed background image carousel.
+ *
+ * The hero section is a full-screen-height (min-h-[88vh]) block with
+ * a 6-image carousel as the background. Headline + CTAs + benefits
+ * sit centered on top of a dark gradient overlay so the text stays
+ * readable. Auto-rotates every 5s; manual dot navigation at the
+ * bottom. Caption chip on each slide.
+ */
 export default function Hero() {
-  const prefersReduced = useReducedMotion();
-  const webgl = useWebGLAvailable();
-  const showScene = webgl && !prefersReduced;
+  const benefits = [
+    "Spreadsheets → live data",
+    "WhatsApp threads → one inbox",
+    "Lost leads → followed up",
+  ];
+
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(() => {
+      setIndex((i) => (i + 1) % SLIDES.length);
+    }, ROTATE_MS);
+    return () => clearInterval(t);
+  }, [paused]);
 
   return (
-    <section className="relative min-h-screen flex items-center bg-background overflow-hidden">
-      {/* Layer 0 — logo watermark: the kill-switch layer (site stays complete without the scene) */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <Image
-          src="/assets/gileara/logo-icon.png"
-          alt=""
-          width={800}
-          height={800}
-          priority
-          sizes="(max-width: 768px) 90vw, 700px"
-          className="w-[60%] sm:w-[70%] md:w-[700px] h-auto opacity-25 filter dark:brightness-0 dark:invert"
-        />
+    <section
+      className="relative min-h-[88vh] flex items-center bg-background overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      {/* Background carousel */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence mode="sync">
+          {SLIDES.map(
+            (slide, i) =>
+              i === index && (
+                <motion.div
+                  key={slide.src}
+                  initial={{ opacity: 0, scale: 1.02 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.0 }}
+                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0"
+                  aria-hidden={i !== index}
+                >
+                  <Image
+                    src={slide.src}
+                    alt={slide.alt}
+                    fill
+                    priority={i === 0}
+                    sizes="100vw"
+                    className="object-cover"
+                  />
+                  {/* Dark gradient for text readability */}
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(8, 20, 32, 0.55) 0%, rgba(8, 20, 32, 0.75) 50%, rgba(8, 20, 32, 0.95) 100%)",
+                    }}
+                    aria-hidden="true"
+                  />
+                </motion.div>
+              )
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Layer 1 — ambient gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] via-transparent to-secondary/[0.02]" />
+      {/* Content */}
+      <div className="relative z-10 w-full pt-32 md:pt-40 pb-32 md:pb-40 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="max-w-4xl">
+            <RevealText>
+              <SectionLabel number="00" label="THE PROBLEM WE SEE" className="mb-8 md:mb-10" />
+            </RevealText>
 
-      {/* Layer 2 — signature effect: growth-orbit WebGL scene */}
-      {showScene && <OrbitScene />}
+            <DisplayHeading size="xl" as="h1" className="mb-8 md:mb-10 text-on-background">
+              We build the systems
+              <br />
+              your business{" "}
+              <span className="italic text-accent-cyan">runs on.</span>
+            </DisplayHeading>
 
-      <div className="relative z-10 w-full">
-        <div className="max-w-4xl mx-auto px-4 md:px-10 pt-32 pb-20 md:pt-48 md:pb-32 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="space-y-8"
-          >
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono font-medium tracking-wide uppercase">
-              DIGITAL TRANSFORMATION FOR GHANAIAN MSMEs
-            </div>
+            <RevealText delay={0.2}>
+              <p className="text-body-lg md:text-2xl text-on-background/85 max-w-2xl leading-relaxed font-sans mb-10 md:mb-12">
+                We see the same problem in small business everywhere: the work that should be invisible — stock, sales, customers, cashflow — is still eating your week. We build the systems that fix it, currently piloting in Ghana and built to scale with you.
+              </p>
+            </RevealText>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="font-display text-4xl md:text-7xl font-bold leading-tight text-on-background tracking-tight"
-              style={{ letterSpacing: "-0.03em" }}
-            >
-              We Build the Systems Your Business Runs On
-            </motion.h1>
+            <RevealText delay={0.35}>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8 mb-12 md:mb-16">
+                <MagneticButton href="/contact" variant="primary" size="lg">
+                  Book a Free Consultation
+                </MagneticButton>
+                <a
+                  href="#packages"
+                  className="text-on-background/85 hover:text-accent-bright font-medium transition-colors duration-200 underline-offset-4 hover:underline"
+                >
+                  See Our Packages
+                </a>
+              </div>
+            </RevealText>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="font-sans text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed"
-            >
-              All-inclusive monthly packages that replace spreadsheets and manual work with systems built for Ghana — WhatsApp-ready, MTN MoMo-ready, managed from day one.
-            </motion.p>
+            <RevealText delay={0.5}>
+              <ul className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm md:text-base font-sans text-on-background/85">
+                {benefits.map((b) => (
+                  <li key={b} className="flex items-center gap-2.5">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      className="text-accent-bright shrink-0"
+                    >
+                      <path
+                        d="M10.2003 14.8518L18.4731 6.57812L19.7466 7.85073L10.2003 17.397L4.47266 11.6694L5.74526 10.3968L10.2003 14.8518Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </RevealText>
+          </div>
+        </div>
+      </div>
 
+      {/* Carousel controls — bottom of viewport */}
+      <div className="absolute bottom-8 left-0 right-0 z-10 px-6 md:px-12">
+        <div className="max-w-[1440px] mx-auto flex items-end justify-between gap-6">
+          {/* Current caption */}
+          <AnimatePresence mode="wait">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              key={SLIDES[index].caption}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 pt-4 justify-center"
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="hidden md:flex items-center gap-3"
             >
-              <Link href="/#packages" className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group">
-                Explore Packages
-                <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
-              </Link>
-              <Link href="/contact" className="border border-outline-variant px-8 py-4 rounded-lg text-center font-semibold text-primary dark:text-on-surface hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors inline-flex items-center justify-center gap-2 group">
-                Book a Free Consultation
-                <span className="material-symbols-outlined text-base opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" aria-hidden="true">arrow_forward</span>
-              </Link>
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-bright" />
+              <span className="font-mono text-label uppercase tracking-[0.2em] text-on-background">
+                {SLIDES[index].caption}
+              </span>
             </motion.div>
+          </AnimatePresence>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="pt-8 flex items-center justify-center gap-4 sm:gap-8 md:gap-16 text-on-surface-variant font-mono text-xs uppercase"
-            >
-              <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-bold text-primary font-display">5</span>
-                TRANSFORMATION PACKAGES
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-bold text-primary font-display">Day 1</span>
-                MANAGED SERVICES INCLUDED
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-bold text-primary font-display">GH</span>
-                BUILT FOR MSMEs
-              </div>
-            </motion.div>
-          </motion.div>
+          {/* Dots */}
+          <div className="flex items-center gap-2 ml-auto">
+            {SLIDES.map((slide, i) => (
+              <button
+                key={slide.src}
+                onClick={() => setIndex(i)}
+                aria-label={`Show ${slide.caption} slide`}
+                aria-current={i === index}
+                className="group p-1.5"
+              >
+                <span
+                  className={`block rounded-full transition-all duration-300 ${
+                    i === index
+                      ? "w-8 h-1.5 bg-accent-bright"
+                      : "w-1.5 h-1.5 bg-on-background/30 group-hover:bg-on-background/60"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </section>

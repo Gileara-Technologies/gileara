@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import KeywordMarquee from "@/components/KeywordMarquee";
-import TrustStrip from "@/components/TrustStrip";
 import CinematicStory from "@/components/CinematicStory";
 import Pricing from "@/components/Pricing";
 import Approach from "@/components/Approach";
 import Positioning from "@/components/Positioning";
 import Founders from "@/components/Founders";
 import FoundingClient from "@/components/FoundingClient";
-import ContactCTA from "@/components/ContactCTA";
+import ContactBand from "@/components/ContactBand";
 import Footer from "@/components/Footer";
 import { servicePackages, customServices, MANAGED_SERVICES_NOTE } from "@/content/packages";
 import { siteConfig } from "@/content/site-config";
@@ -24,15 +22,16 @@ export const metadata: Metadata = {
   },
   keywords: [
     "Gileara Technologies",
-    "digital transformation Ghana",
-    "MSME technology packages",
-    "business automation Ghana",
-    "MTN MoMo integration",
+    "small business systems",
+    "operations for small business",
+    "business automation",
+    "mobile money integration",
     "WhatsApp business systems",
-    "inventory management system Ghana",
-    "CRM for small business Ghana",
+    "inventory management system",
+    "CRM for small business",
     "business intelligence dashboards",
-    "managed IT services Accra",
+    "managed IT services",
+    "Africa tech partner",
   ],
   openGraph: {
     url: "https://gileara.org",
@@ -66,14 +65,14 @@ const jsonLd = {
       },
     },
     {
-      "@type": "LocalBusiness",
-      "@id": "https://gileara.org/#local-business",
+      "@type": "Organization",
+      "@id": "https://gileara.org/#organization-business",
       name: siteConfig.name,
       url: "https://gileara.org",
       logo: "https://gileara.org/assets/gileara/logo-icon.png",
       image: "https://gileara.org/assets/gileara/logo-full.png",
       description:
-        "All-inclusive monthly digital transformation packages for Ghanaian MSMEs — managed services included from day one.",
+        "We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can't build alone. Currently piloting in Ghana, designed to scale globally.",
       foundingDate: "2024",
       email: siteConfig.email,
       sameAs: ["https://www.linkedin.com/company/gileara"],
@@ -82,10 +81,16 @@ const jsonLd = {
         addressCountry: "GH",
         addressLocality: siteConfig.location,
       },
+      areaServed: [
+        { "@type": "Country", name: "Ghana" },
+        { "@type": "Place", name: "Africa" },
+        { "@type": "Place", name: "Worldwide" },
+      ],
       contactPoint: {
         "@type": "ContactPoint",
         email: siteConfig.email,
         contactType: "sales",
+        areaServed: ["GH", "AF", "Worldwide"],
       },
     },
     {
@@ -119,7 +124,11 @@ const jsonLd = {
       description: `${pkg.tagline} ${MANAGED_SERVICES_NOTE}`,
       serviceType: pkg.name,
       provider: { "@id": "https://gileara.org/#organization" },
-      areaServed: { "@type": "Country", name: "Ghana" },
+      areaServed: [
+        { "@type": "Country", name: "Ghana" },
+        { "@type": "Place", name: "Africa" },
+        { "@type": "Place", name: "Worldwide" },
+      ],
       category: pkg.primaryGoal,
       offers: {
         "@type": "Offer",
@@ -156,15 +165,20 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <KeywordMarquee />
-        <TrustStrip />
         <CinematicStory />
         <Pricing />
         <Approach />
         <Positioning />
         <Founders />
         <FoundingClient />
-        <ContactCTA />
+        <ContactBand
+          headline={
+            <>
+              Ready when{" "}
+              <span className="italic text-accent-cyan">you are.</span>
+            </>
+          }
+        />
       </main>
       <Footer />
     </>

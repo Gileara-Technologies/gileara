@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 
 import { siteConfig } from "@/content/site-config";
@@ -132,7 +131,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
 
   const linkClass = (href: string) =>
     variant === "default"
-      ? "px-2 lg:px-3 py-1.5 rounded-lg hover:text-primary hover:bg-primary/5 transition-all whitespace-nowrap"
+      ? "px-2 lg:px-3 py-1.5 rounded-lg text-on-surface hover:text-accent-bright transition-colors duration-200 whitespace-nowrap"
       : `relative px-1 py-1 transition-colors ${isActive(href) ? "text-primary" : "hover:text-primary"}`;
 
   return (
@@ -141,9 +140,13 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
         initial={{ y: -100, x: "-50%" }}
         animate={{ y: 0, x: "-50%" }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 rounded-full bg-surface/75 dark:bg-surface-container/75 backdrop-blur-xl border border-outline-variant shadow-lg py-3 flex justify-between items-center ${
+        className={`fixed left-1/2 -translate-x-1/2 z-50 transition-[top,padding,background-color,border-color,box-shadow] duration-500 ease-out rounded-pill bg-background/60 backdrop-blur-xl border border-on-background/10 flex justify-between items-center ${
           SHELL_CLASSES[variant]
-        } ${isScrolled ? "top-2 py-2.5 bg-surface/90 dark:bg-surface-container/90" : ""}`}
+        } ${
+          isScrolled
+            ? "top-3 py-2 bg-background/85 border-on-background/15 shadow-[0_8px_30px_rgb(0_0_0_/0.4)]"
+            : "top-6 py-3"
+        }`}
         id={navId}
       >
         <div className="flex justify-between items-center w-full gap-2">
@@ -183,11 +186,10 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
           </div>
 
           <div className="flex items-center space-x-4">
-            <ThemeToggle />
             {variant === "default" && (
               <Link
                 href="/contact"
-                className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn group"
+                className="hidden md:inline-flex items-center gap-2 pl-5 pr-10 py-2.5 rounded-pill text-xs font-medium bg-accent-bright text-background hover:bg-accent-cyan transition-colors duration-300 group"
               >
                 Book Free Consultation
                 <span className="material-symbols-outlined text-xs group-hover:translate-x-0.5 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
@@ -196,7 +198,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
             {legalDetails && (
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="hidden md:inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-xs font-bold text-on-primary shadow-sm transition-colors hover:bg-primary-container hover:text-on-primary-container"
+                className="hidden md:inline-flex items-center gap-2 rounded-pill bg-accent-bright text-background px-5 py-2 text-xs font-medium hover:bg-accent-cyan transition-colors"
               >
                 {legalDetails.cta}
                 <span className="material-symbols-outlined text-xs" aria-hidden="true">mail</span>
@@ -205,7 +207,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
             {variant === "careers" && (
               <a
                 href="#apply"
-                className="hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold teal-gradient-btn group"
+                className="hidden md:inline-flex items-center gap-2 pl-5 pr-10 py-2.5 rounded-pill text-xs font-medium bg-accent-bright text-background hover:bg-accent-cyan transition-colors duration-300 group"
               >
                 Apply Now
                 <span className="material-symbols-outlined text-xs" aria-hidden="true">send</span>
