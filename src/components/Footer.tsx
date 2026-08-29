@@ -46,29 +46,8 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-background pt-40 md:pt-56 pb-12 px-6 md:px-12 text-on-background overflow-hidden">
+    <footer className="bg-background pt-24 md:pt-32 pb-12 px-6 md:px-12 text-on-background overflow-hidden border-t border-on-background/10">
       <div className="max-w-[1440px] mx-auto">
-        {/* Top: typographic statement */}
-        <div className="mb-32 md:mb-48">
-          <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-8">
-            Get in touch
-          </div>
-          <h2 className="font-serif text-display-lg md:text-display-xl leading-[0.9] tracking-[-0.03em] mb-12 max-w-5xl">
-            Let&apos;s build
-            <br />
-            <span className="italic text-accent-cyan">what&apos;s next.</span>
-          </h2>
-          <Link
-            href="/contact"
-            className="group inline-flex items-center pl-8 pr-14 py-4 rounded-pill bg-accent-bright text-background font-medium text-lg hover:bg-accent-cyan transition-colors duration-300"
-          >
-            Start a conversation
-            <span className="ml-6 material-symbols-outlined text-xl transition-transform duration-300 group-hover:translate-x-1.5">
-              arrow_forward
-            </span>
-          </Link>
-        </div>
-
         {/* Middle: link columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 mb-20 border-t border-on-background/10 pt-16">
           {/* Brand column */}
