@@ -202,24 +202,9 @@ export default function ServicesPageClient() {
           <p className="text-on-surface-variant text-lg leading-relaxed italic">
             {MANAGED_SERVICES_NOTE}
           </p>
-        </div>
-      </section>
-
-      {/* ── CTA ──────────────────────────────────────────────── */}
-      <section className="bg-surface-container py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
-        <div className="max-w-3xl mx-auto text-center">
-          <RevealText>
-            <SectionLabel label="READY?" className="mb-8 mx-auto" />
-          </RevealText>
-          <DisplayHeading size="md" as="h2" className="mb-8">
-            <span className="italic text-accent-cyan">Not sure which one?</span>
-          </DisplayHeading>
-          <p className="text-on-surface-variant text-lg leading-relaxed max-w-2xl mx-auto mb-10">
-            Thirty minutes, free. We&apos;ll listen, recommend the right tier (or none), and you leave with a clearer plan.
+          <p className="text-on-surface-variant text-base leading-relaxed mt-10 max-w-2xl">
+            Not sure which tier (or whether any of these is right for you)? Tell us on the free 30-minute call at the top of the page — we&apos;ll listen, recommend the right tier (or none), and you leave with a clearer plan.
           </p>
-          <MagneticButton href="/contact" variant="primary" size="lg">
-            Book a Free Consultation
-          </MagneticButton>
         </div>
       </section>
     </>

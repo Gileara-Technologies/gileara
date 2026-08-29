@@ -144,7 +144,7 @@ export const servicePackages: Service[] = [
     problems: [
       {
         title: "No online presence",
-        description: "You run a real business but customers can&apos;t find you on Google. Your competitors show up first — and win the orders.",
+        description: "You run a real business but customers can't find you on Google. Your competitors show up first — and win the orders.",
       },
       {
         title: "Renting tools, not owning anything",
@@ -156,17 +156,17 @@ export const servicePackages: Service[] = [
       },
       {
         title: "No way to be reached professionally",
-        description: "You don&apos;t have a business email. You use a Yahoo address from 2010. Customers notice — and it costs you trust.",
+        description: "You don't have a business email. You use a Yahoo address from 2010. Customers notice — and it costs you trust.",
       },
     ],
     observations: [
       {
         title: "The best businesses in your space already have a site",
-        description: "When we search for your category in Accra, the businesses ranking on page one all have professional sites, real domains, and active Google Business profiles. If you&apos;re not there, you&apos;re invisible to the next customer who&apos;s looking.",
+        description: "When we search for your category in your market — Accra today, and wherever you operate next — the businesses ranking on page one all have professional sites, real domains, and active Google Business profiles. If you're not there, you're invisible to the next customer who's looking.",
       },
       {
         title: "Your brand is being decided without you",
-        description: "Without a website, your customers form their first impression from a Facebook page, a Google Maps listing, or word of mouth. You can&apos;t control any of it. A simple, fast site puts you back in charge of how you&apos;re seen.",
+        description: "Without a website, your customers form their first impression from a Facebook page, a Google Maps listing, or word of mouth. You can't control any of it. A simple, fast site puts you back in charge of how you're seen.",
       },
     ],
     howWeHelp: [
@@ -263,27 +263,27 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Customer records that walk out the door",
-        description: "When the only person who knows a customer&apos;s history leaves, the relationship leaves with them. You have no system of record.",
+        description: "When the only person who knows a customer's history leaves, the relationship leaves with them. You have no system of record.",
       },
       {
         title: "Reconciling by hand, line by line",
-        description: "Every night, you match MoMo SMS against receipts against a sales book. It&apos;s slow, error-prone, and the kind of work that drains a founder.",
+        description: "Every night, you match MoMo SMS against receipts against a sales book. It's slow, error-prone, and the kind of work that drains a founder.",
       },
     ],
     observations: [
       {
         title: "Most of your week is admin, not selling",
-        description: "When we audit a business like yours, the owner spends 15–25 hours a week on tasks a system should be doing — counting stock, typing receipts, chasing payments, building reports. That&apos;s time you&apos;ll never get back.",
+        description: "When we audit a business like yours, the owner spends 15–25 hours a week on tasks a system should be doing — counting stock, typing receipts, chasing payments, building reports. That's time you'll never get back.",
       },
       {
-        title: "Your margins are leaking in places you can&apos;t see",
+        title: "Your margins are leaking in places you can't see",
         description: "Without a single source of truth, expenses get miscategorised, stock gets misplaced, and small losses compound. We see it in every business we walk into.",
       },
     ],
     howWeHelp: [
       {
         title: "A single system for sales, stock, and customers",
-        description: "One login, one place. Every sale, every expense, every customer is recorded in real time. The system tells you what sold, what&apos;s left, and who owes you — without you asking.",
+        description: "One login, one place. Every sale, every expense, every customer is recorded in real time. The system tells you what sold, what's left, and who owes you — without you asking.",
         image: "/assets/services/business-operations-dashboard.jpg",
       },
       {
@@ -293,7 +293,7 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Reports you actually read",
-        description: "Daily sales, weekly expenses, monthly profit, branch-by-branch comparison. We build the reports that matter for your business — not a generic dashboard you&apos;ll never open.",
+        description: "Daily sales, weekly expenses, monthly profit, branch-by-branch comparison. We build the reports that matter for your business — not a generic dashboard you'll never open.",
         image: "/assets/services/business-operations-reports.jpg",
       },
     ],
@@ -355,7 +355,7 @@ export const servicePackages: Service[] = [
       },
       {
         title: "No view of your sales pipeline",
-        description: "You know you closed 12 deals last month, but you don&apos;t know how many you lost, where they dropped off, or which source actually converts.",
+        description: "You know you closed 12 deals last month, but you don't know how many you lost, where they dropped off, or which source actually converts.",
       },
       {
         title: "Customers buy once, then disappear",
@@ -364,17 +364,17 @@ export const servicePackages: Service[] = [
     ],
     observations: [
       {
-        title: "You&apos;re leaving revenue on the table every week",
-        description: "When we audit your enquiries, typically 30–50% of warm leads never get a follow-up. That&apos;s money you already earned and didn&apos;t collect.",
+        title: "You're leaving revenue on the table every week",
+        description: "When we audit your enquiries, typically 30–50% of warm leads never get a follow-up. That's money you already earned and didn't collect.",
       },
       {
-        title: "Your competitors are building the relationship you aren&apos;t",
-        description: "The businesses winning your customers are running email follow-ups, WhatsApp broadcasts, and loyalty programmes. The customers don&apos;t leave because they feel remembered. You can do the same — without a marketing team.",
+        title: "Your competitors are building the relationship you aren't",
+        description: "The businesses winning your customers are running email follow-ups, WhatsApp broadcasts, and loyalty programmes. The customers don't leave because they feel remembered. You can do the same — without a marketing team.",
       },
     ],
     howWeHelp: [
       {
-        title: "A CRM built for the way Ghanaian businesses sell",
+        title: "A CRM built for the way small businesses actually sell",
         description: "Capture every WhatsApp, call, and form enquiry in one place. Assign it to a salesperson, set a follow-up reminder, and never lose a lead to a forgotten chat again.",
         image: "/assets/services/customer-growth-crm.jpg",
       },
@@ -442,7 +442,7 @@ export const servicePackages: Service[] = [
     problems: [
       {
         title: "Decisions on gut feel",
-        description: "You price, hire, and invest based on what feels right. Sometimes it works, sometimes it doesn&apos;t — and you can&apos;t tell which was which.",
+        description: "You price, hire, and invest based on what feels right. Sometimes it works, sometimes it doesn't — and you can't tell which was which.",
       },
       {
         title: "Reports that take a week to build",
@@ -450,17 +450,17 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Flying blind on cash",
-        description: "You can&apos;t predict next quarter&apos;s revenue, can&apos;t see which customers are about to churn, and don&apos;t know which products are dragging you down.",
+        description: "You can't predict next quarter's revenue, can't see which customers are about to churn, and don't know which products are dragging you down.",
       },
     ],
     observations: [
       {
-        title: "You have the data — it&apos;s just scattered",
-        description: "Your sales system, your bank, your MoMo statements, and your spreadsheets are all telling parts of the story. Nobody&apos;s put them together. We do.",
+        title: "You have the data — it's just scattered",
+        description: "Your sales system, your bank, your MoMo statements, and your spreadsheets are all telling parts of the story. Nobody's put them together. We do.",
       },
       {
         title: "The businesses growing fastest have a weekly review rhythm",
-        description: "The owners we work with who scale consistently sit down once a week with one dashboard and make three decisions. That&apos;s the pattern we build for you.",
+        description: "The owners we work with who scale consistently sit down once a week with one dashboard and make three decisions. That's the pattern we build for you.",
       },
     ],
     howWeHelp: [
@@ -476,7 +476,7 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Forecasting and AI insights (Enterprise)",
-        description: "Predict next quarter&apos;s revenue, identify customers at risk of churning, and surface the products that are quietly losing you money. The data tells you what to do next.",
+        description: "Predict next quarter's revenue, identify customers at risk of churning, and surface the products that are quietly losing you money. The data tells you what to do next.",
         image: "/assets/services/business-intelligence-ai.jpg",
       },
     ],
@@ -534,7 +534,7 @@ export const servicePackages: Service[] = [
         description: "Every order triggers the same six manual steps: copy from email, paste to spreadsheet, send a Slack message, update a tracker, send a confirmation, file a copy. Every time.",
       },
       {
-        title: "Approvals stuck in someone&apos;s inbox",
+        title: "Approvals stuck in someone's inbox",
         description: "A request sits in an email for three days. The boss is on holiday. The customer is waiting. The team is blocked. Nobody knows whose job it is to chase it.",
       },
       {
@@ -544,8 +544,8 @@ export const servicePackages: Service[] = [
     ],
     observations: [
       {
-        title: "Automation isn&apos;t the future — it&apos;s the gap",
-        description: "Your competitors are starting to automate the repetitive work that eats your team&apos;s day. Every month you wait, the gap widens. We close it in weeks, not years.",
+        title: "Automation isn't the future — it's the gap",
+        description: "Your competitors are starting to automate the repetitive work that eats your team's day. Every month you wait, the gap widens. We close it in weeks, not years.",
       },
       {
         title: "The work that drains your best people is the work to automate first",

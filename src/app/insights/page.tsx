@@ -7,12 +7,12 @@ import { posts, postReadTime } from "@/content/posts";
 export const metadata: Metadata = {
   title: "Insights | Gileara Technologies",
   description:
-    "Practical insights for Ghanaian MSMEs — packages, operations, growth, automation, and the local market realities of going digital.",
+    "Practical insights for small and growing businesses — packages, operations, growth, automation, and the realities of going digital. Currently informed by our Ghana pilot, applicable globally.",
   alternates: { canonical: "/insights" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "Insights | Gileara Technologies",
-    description: "Practical insights for Ghanaian MSMEs going digital.",
+    description: "Practical insights for small and growing businesses going digital — currently informed by our Ghana pilot, applicable globally.",
     url: "/insights",
     siteName: "Gileara Technologies",
     type: "website",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Insights | Gileara Technologies",
-    description: "Practical insights for Ghanaian MSMEs going digital.",
+    description: "Practical insights for small and growing businesses going digital — currently informed by our Ghana pilot, applicable globally.",
     images: ["/assets/gileara/og-insights.svg"],
   },
 };
@@ -46,7 +46,7 @@ const jsonLd = {
       "@type": "WebPage",
       "@id": "https://gileara.org/insights/#webpage",
       name: "Insights | Gileara Technologies",
-      description: "Practical insights for Ghanaian MSMEs going digital.",
+      description: "Practical insights for small and growing businesses going digital — currently informed by our Ghana pilot, applicable globally.",
       url: "https://gileara.org/insights",
       publisher: { "@type": "Organization", name: "Gileara Technologies", url: "https://gileara.org", logo: "https://gileara.org/assets/gileara/logo-icon.png" },
     },

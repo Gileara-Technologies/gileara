@@ -7,7 +7,7 @@ import MagneticButton from "@/components/MagneticButton";
 /**
  * FoundingClient — full-bleed dark section with photography.
  *
- * The Accra skyline grounds the "we work in Ghana" promise in a real
+ * The photo grounds the "we work with real operators" promise in a real
  * place. The ambient teal glow + the photo + the oversized type
  * together create the "dramatic story" mood.
  */
@@ -17,7 +17,7 @@ export default function FoundingClient() {
       aria-labelledby="founding-clients-heading"
       className="relative bg-surface-container-lowest py-32 md:py-48 px-6 md:px-12 overflow-hidden"
     >
-      {/* Background photo — Accra skyline, low opacity, with dark overlay */}
+      {/* Background photo — founding client context, low opacity, with dark overlay */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 opacity-30">
           <Image

@@ -55,7 +55,7 @@ const ROTATE_MS = 5000;
 export default function Hero() {
   const benefits = [
     "All-inclusive monthly packages",
-    "WhatsApp + MTN MoMo ready",
+    "WhatsApp + mobile money ready",
     "Managed from day one",
   ];
 
@@ -86,9 +86,9 @@ export default function Hero() {
               i === index && (
                 <motion.div
                   key={slide.src}
-                  initial={{ opacity: 0, scale: 1.08 }}
+                  initial={{ opacity: 0, scale: 1.02 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.02 }}
+                  exit={{ opacity: 0, scale: 1.0 }}
                   transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                   className="absolute inset-0"
                   aria-hidden={i !== index}
@@ -133,7 +133,7 @@ export default function Hero() {
 
             <RevealText delay={0.2}>
               <p className="text-body-lg md:text-2xl text-on-background/85 max-w-2xl leading-relaxed font-sans mb-10 md:mb-12">
-                All-inclusive monthly digital transformation packages for Ghanaian MSMEs — replacing spreadsheets, WhatsApp threads, and manual work with systems built for scale.
+                All-inclusive monthly digital transformation packages for small and growing businesses — currently piloting in Ghana, built to scale globally. Replacing spreadsheets, chat threads, and manual work with systems built to grow with you.
               </p>
             </RevealText>
 

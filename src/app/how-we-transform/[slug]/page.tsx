@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!scenario) return {};
   return {
     title: `${scenario.vertical} Playbook | How We Transform | Gileara Technologies`,
-    description: `${scenario.headline} — a transformation playbook for Ghanaian ${scenario.vertical.toLowerCase()} businesses. Goals stated honestly as goals.`,
+    description: `${scenario.headline} — a transformation playbook for ${scenario.vertical.toLowerCase()} businesses. Goals stated honestly as goals. Currently informed by our Ghana pilot.`,
     alternates: { canonical: `/how-we-transform/${scenario.id}` },
     robots: { index: true, follow: true },
     openGraph: {

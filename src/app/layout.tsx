@@ -29,14 +29,14 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Gileara Technologies | We Build the Systems Your Business Runs On",
-  description: "All-inclusive monthly digital transformation packages for Ghanaian MSMEs — WhatsApp-ready, MTN MoMo-ready, managed services included from day one.",
+  description: "All-inclusive monthly digital transformation packages for small and growing businesses — currently piloting in Ghana, built to scale globally. WhatsApp-ready, mobile-money-ready, managed services included from day one.",
   metadataBase: new URL("https://gileara.org"),
   alternates: {
     canonical: "https://gileara.org",
   },
   openGraph: {
     title: "Gileara Technologies | We Build the Systems Your Business Runs On",
-    description: "Digital transformation packages for Ghanaian MSMEs — managed from day one.",
+    description: "Digital transformation packages for small and growing businesses — currently piloting in Ghana, built to scale globally. Managed from day one.",
     url: "https://gileara.org",
     siteName: "Gileara Technologies",
     locale: "en_US",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Gileara Technologies | We Build the Systems Your Business Runs On",
-    description: "Digital transformation packages for Ghanaian MSMEs — managed from day one.",
+    description: "Digital transformation packages for small and growing businesses — currently piloting in Ghana, built to scale globally. Managed from day one.",
     images: ["/assets/gileara/logo-full.png"],
   },
   icons: {

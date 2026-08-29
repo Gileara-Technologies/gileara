@@ -6,7 +6,7 @@ import ServicesPageClient from "./ServicesPageClient";
 export const metadata: Metadata = {
   title: "Packages & Services | Gileara Technologies",
   description:
-    "Five all-inclusive digital transformation packages for Ghanaian MSMEs — full tier pricing, feature matrices, and managed services included from day one.",
+    "Five all-inclusive digital transformation packages for small and growing businesses — full tier pricing, feature matrices, and managed services included from day one. Currently piloting in Ghana, built to scale globally.",
   alternates: { canonical: "/services" },
   robots: { index: true, follow: true },
   openGraph: {

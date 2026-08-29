@@ -6,9 +6,9 @@
 
 export const siteConfig = {
   name: "Gileara Technologies",
-  /** v3.0 market position line (tech-wing-positioning.md) */
+  /** v3.0 market position line — global brand, with Ghana as our launch market */
   positioningLine:
-    "The technology partner that helps Ghanaian MSMEs become efficient, digital, and scalable businesses.",
+    "The technology partner that helps small and growing businesses become efficient, digital, and scalable — currently piloting in Ghana, built to scale globally.",
   email: "tech.gileara@gmail.com", // TODO: replace with domain alias (e.g. hello@gileara.org) when domain email exists
   // TODO: placeholders — replace with real numbers when provided
   phone: "+233 XX XXX XXXX",

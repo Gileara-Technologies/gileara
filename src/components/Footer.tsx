@@ -77,7 +77,7 @@ export default function Footer() {
               Gileara
             </div>
             <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs">
-              All-inclusive monthly digital transformation packages for Ghanaian MSMEs — WhatsApp-ready, MTN MoMo-integrated, managed from day one.
+              All-inclusive monthly digital transformation packages for small and growing businesses — currently piloting in Ghana, built to scale globally. WhatsApp-ready, mobile-money-ready, managed from day one.
             </p>
             <p className="text-on-surface-variant text-xs font-mono mt-6">
               {siteConfig.location} · {siteConfig.timezone}

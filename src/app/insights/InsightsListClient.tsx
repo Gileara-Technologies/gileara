@@ -80,10 +80,10 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
         headline={
           <>
             Practical insights for{" "}
-            <span className="italic text-accent-cyan">Ghanaian</span> MSMEs.
+            <span className="italic text-accent-cyan">small business</span> operators.
           </>
         }
-        subtitle="On packages, operations, growth, automation, and the local realities of going digital — written from the field, not from a slide deck."
+        subtitle="On packages, operations, growth, automation, and the realities of going digital — written from the field, not from a slide deck. Currently informed by our Ghana pilot, applicable to any small or growing business."
       />
 
       {/* FEATURED ARTICLE — asymmetric layout */}

@@ -9,8 +9,8 @@ import { siteConfig } from "@/content/site-config";
 /**
  * ContactCTA — the homepage climax with photography.
  *
- * A local Ghanaian craftsperson grounds the "we build what's next"
- * promise in a real working Ghanaian scene. The photo sits on the
+ * A small business operator grounds the "we build what's next"
+ * promise in a real working scene. The photo sits on the
  * right, the headline parallaxes on the left, the teal glow
  * emanates from above.
  */

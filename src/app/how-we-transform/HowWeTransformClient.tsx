@@ -155,16 +155,17 @@ export default function HowWeTransformClient() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — leads to the package catalogue, not duplicate the contact ask above */}
       <CTABand
-        eyebrow="FOUNDING CLIENTS"
+        eyebrow="SEE WHAT IT BUILDS"
         headline={
           <>
-            Let&apos;s build your{" "}
-            <span className="italic text-accent-cyan">playbook</span> together.
+            See the <span className="italic text-accent-cyan">packages</span> behind every playbook.
           </>
         }
-        body="If you run a pharmacy, school, restaurant, salon, or retail store — we'd like to write your transformation story together."
+        body="Every playbook is built from a combination of our five standard packages. Browse the full pricing sheet to find the right starting point for your vertical."
+        ctaLabel="View the package catalogue"
+        ctaHref="/services"
       />
     </div>
   );

@@ -11,7 +11,7 @@ import RevealText from "@/components/RevealText";
  * The Reality — asymmetric, business-outcome story with imagery.
  *
  * The left side is the narrative (cols 1-7). The right side (cols 9-12)
- * is a parallaxed photo of a Ghanaian micro/small business owner,
+ * is a parallaxed photo of a small business owner in their store,
  * grounding the abstract "manual work" in a real scene.
  *
  * Below: stats block + "what changes" block.
@@ -102,7 +102,7 @@ export default function CinematicStory() {
                     20+
                   </div>
                   <p className="text-on-surface-variant text-base leading-relaxed max-w-md mb-8">
-                    hours per week, on average, that an MSME owner loses to work a system should be doing.
+                    hours per week, on average, that an owner loses to work a system should be doing for them.
                   </p>
                 </div>
                 <div className="border-t border-on-background/10 pt-8">

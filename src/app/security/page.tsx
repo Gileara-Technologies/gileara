@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   },
   keywords: [
     "Gileara security",
-    "managed services Ghana",
+    "managed services",
     "backup and monitoring",
     "vulnerability disclosure",
     "responsible disclosure",

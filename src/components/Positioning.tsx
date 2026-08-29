@@ -64,8 +64,8 @@ export default function Positioning() {
     },
     {
       num: "03",
-      title: "Ghana-ready by default",
-      desc: "WhatsApp integration, MTN MoMo payments and offline-tolerant builds come standard — because that's how Ghanaian businesses actually run.",
+      title: "Mobile-first by default",
+      desc: "WhatsApp integration, mobile money payments and offline-tolerant builds come standard — because that's how small businesses actually run, whether you're in Accra, Lagos, Nairobi, or Johannesburg.",
     },
   ];
 
@@ -93,12 +93,12 @@ export default function Positioning() {
             </RevealText>
             <DisplayHeading size="lg" as="h2" className="mb-8">
               Built for{" "}
-              <span className="italic text-accent-cyan">Ghanaian</span>{" "}
-              MSMEs.
+              <span className="italic text-accent-cyan">small business</span>{" "}
+              — everywhere.
             </DisplayHeading>
             <RevealText delay={0.15}>
               <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                Real outcomes, not slideware. Built in Accra, for Accra. Every package is independently useful and stacks cleanly as you grow.
+                Real outcomes, not slideware. Currently piloting in Ghana, designed to scale globally. Every package is independently useful and stacks cleanly as you grow.
               </p>
             </RevealText>
           </div>
@@ -168,8 +168,8 @@ export default function Positioning() {
         <RevealText delay={0.4}>
           <div className="mt-32 pt-16 border-t border-on-background/10 max-w-4xl">
             <p className="font-serif text-2xl md:text-display-sm text-on-background leading-snug tracking-[-0.02em]">
-              &ldquo;The technology partner that helps Ghanaian MSMEs become{" "}
-              <span className="italic text-accent-cyan">efficient, digital, and scalable</span> businesses.&rdquo;
+              &ldquo;The technology partner that helps small and growing businesses become{" "}
+              <span className="italic text-accent-cyan">efficient, digital, and scalable</span> — currently piloting in Ghana, built to scale globally.&rdquo;
             </p>
           </div>
         </RevealText>

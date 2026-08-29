@@ -6,13 +6,13 @@ import HowWeTransformClient from "./HowWeTransformClient";
 export const metadata: Metadata = {
   title: "How We Transform | Gileara Technologies",
   description:
-    "Vertical playbooks for Ghanaian MSMEs — pharmacy, school, restaurant, retail, salon. Honest about what these are: scenarios we're ready to implement, not client claims.",
+    "Vertical transformation playbooks for small and growing businesses — pharmacy, school, restaurant, retail, salon. Honest about what these are: scenarios we're ready to implement, not client claims. Currently informed by our Ghana pilot.",
   alternates: { canonical: "/how-we-transform" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "How We Transform | Gileara Technologies",
     description:
-      "Transformation playbooks for Ghanaian MSMEs — honest about being playbooks.",
+      "Transformation playbooks for small and growing businesses — honest about being playbooks.",
     url: "/how-we-transform",
     siteName: "Gileara Technologies",
     type: "website",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "How We Transform | Gileara Technologies",
-    description: "Transformation playbooks for Ghanaian MSMEs.",
+    description: "Transformation playbooks for small and growing businesses — currently informed by our Ghana pilot, applicable globally.",
     images: ["/assets/gileara/og-case-studies.svg"],
   },
 };
