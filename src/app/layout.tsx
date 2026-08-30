@@ -41,19 +41,13 @@ export const metadata: Metadata = {
     siteName: "Gileara Technologies",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/assets/gileara/logo-full.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Gileara Technologies | We Build the Systems Your Business Runs On",
     description: "We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can't build alone. Currently piloting in Ghana, designed to scale globally.",
-    images: ["/assets/gileara/logo-full.png"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
   icons: {
     icon: [

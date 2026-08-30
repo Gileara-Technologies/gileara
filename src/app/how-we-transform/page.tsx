@@ -19,13 +19,13 @@ export const metadata: Metadata = {
     url: "/how-we-transform",
     siteName: "Gileara Technologies",
     type: "website",
-    images: [{ url: "/assets/gileara/og-case-studies.svg", width: 1200, height: 630, alt: "Gileara transformation playbooks" }],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "How We Solve It | Gileara Technologies",
-    description: "The exact problems and the exact systems for pharmacy, school, restaurant, retail, salon — currently informed by our Ghana pilot.",
-    images: ["/assets/gileara/og-case-studies.svg"],
+    description: "The five problems and the exact systems for pharmacy, school, restaurant, retail, salon — currently informed by our Ghana pilot.",
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
 

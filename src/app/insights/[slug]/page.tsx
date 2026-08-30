@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: "Gileara Technologies",
       type: "article",
       publishedTime: post.date,
-      images: [{ url: "https://gileara.org/assets/gileara/og-insights.svg", width: 1200, height: 630, alt: post.title }],
+      // og:image is auto-injected by /insights/[slug]/opengraph-image.tsx
     },
   };
 }

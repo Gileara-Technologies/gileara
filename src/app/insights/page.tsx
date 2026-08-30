@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     url: "/insights",
     siteName: "Gileara Technologies",
     type: "website",
-    images: [{ url: "/assets/gileara/og-insights.svg", width: 1200, height: 630, alt: "Gileara Technologies insights" }],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Insights | Gileara Technologies",
     description: "Practical insights for small and growing businesses going digital — currently informed by our Ghana pilot, applicable globally.",
-    images: ["/assets/gileara/og-insights.svg"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
 
