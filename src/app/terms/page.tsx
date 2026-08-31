@@ -151,14 +151,7 @@ export const metadata: Metadata = {
     type: "article",
     publishedTime: "2026-06-12",
     modifiedTime: "2026-06-12",
-    images: [
-      {
-        url: "/assets/gileara/logo-full.png",
-        width: 1200,
-        height: 630,
-        alt: "Gileara Technologies legal terms",
-      },
-    ],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",

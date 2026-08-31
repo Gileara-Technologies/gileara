@@ -34,6 +34,9 @@ export const metadata: Metadata = {
     "Africa tech partner",
   ],
   openGraph: {
+    type: "website",
+    siteName: "Gileara Technologies",
+    locale: "en_US",
     url: "https://gileara.org",
   },
   twitter: {

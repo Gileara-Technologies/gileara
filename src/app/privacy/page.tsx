@@ -200,21 +200,14 @@ export const metadata: Metadata = {
     type: "article",
     publishedTime: "2026-06-12",
     modifiedTime: "2026-06-12",
-    images: [
-      {
-        url: "/assets/gileara/logo-full.png",
-        width: 1200,
-        height: 630,
-        alt: "Gileara Technologies privacy policy",
-      },
-    ],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Privacy Policy | Gileara Technologies",
     description:
       "How Gileara handles information, security, retention, user rights, GDPR, and CCPA privacy considerations.",
-    images: ["/assets/gileara/logo-full.png"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
 

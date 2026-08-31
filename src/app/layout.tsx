@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
 import { MotionProvider } from "@/components/MotionProvider";
@@ -7,7 +7,10 @@ import BackToTop from "@/components/BackToTop";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  // Only the weights actually used in the design system
+  // (normal, medium, semibold, bold). 800/900 were reserved but
+  // not used; trimming them drops 2 woff2 preloads on every page.
+  weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -15,7 +18,8 @@ const inter = Inter({
 /** Serif display face — Andela-style editorial headlines. */
 const displaySerif = IBM_Plex_Serif({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  // Only normal and bold are used; 500/600 not in any component
+  weight: ["400", "700"],
   variable: "--font-display-serif",
   display: "swap",
 });
@@ -62,6 +66,17 @@ export const metadata: Metadata = {
     ],
   },
   manifest: "/site.webmanifest",
+  formatDetection: { email: false, address: false, telephone: false },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0A0F1A" },
+    { media: "(prefers-color-scheme: light)", color: "#F5F7FA" },
+  ],
+  colorScheme: "dark light",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

@@ -22,25 +22,18 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Security & Reliability | Gileara Technologies",
     description:
-      "Security is at the core of everything we build and manage. See what's covered at every tier.",
+      "How we keep the systems we build running safely — support, updates, backups, and monitoring. Plus how to report vulnerabilities.",
     url: "/security",
     siteName: "Gileara Technologies",
     type: "website",
-    images: [
-      {
-        url: "/assets/gileara/logo-full.png",
-        width: 1200,
-        height: 630,
-        alt: "Gileara Technologies security and reliability",
-      },
-    ],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Security & Reliability | Gileara Technologies",
     description:
       "Managed-services coverage, data protection, and vulnerability reporting at Gileara Technologies.",
-    images: ["/assets/gileara/logo-full.png"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
 
