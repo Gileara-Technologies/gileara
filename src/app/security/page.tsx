@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import Link from "next/link";
 
 import { siteConfig } from "@/content/site-config";
@@ -104,6 +105,12 @@ export default function SecurityPage() {
       <Navbar variant="legal" page="security" />
       <main className="pt-32 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6 md:px-12">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Security", href: "/security" },
+            ]}
+          />
           <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
             Security Resource
           </div>

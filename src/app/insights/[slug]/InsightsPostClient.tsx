@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
+import Breadcrumbs from "@/components/Breadcrumbs";
 import type { InsightPost } from "@/content/posts";
 
 export default function InsightsPostClient({ post }: { post: InsightPost }) {
@@ -11,6 +12,13 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
     <section className="pt-36 pb-24 md:pb-32 px-4 md:px-10 bg-background">
       <div className="max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Insights", href: "/insights" },
+              { label: post.title, href: `/insights/${post.slug}` },
+            ]}
+          />
           <Link
             href="/insights"
             className="inline-flex items-center gap-2 text-sm text-on-surface-variant hover:text-primary transition-colors mb-8"

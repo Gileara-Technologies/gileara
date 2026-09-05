@@ -33,6 +33,7 @@ export default function ServicesPageClient() {
     <>
       {/* ── HERO — minimal, just sets the page context ──────────── */}
       <PageHero
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "What we build", href: "/services" }]}
         eyebrow="WHAT WE BUILD"
         headline={
           <>

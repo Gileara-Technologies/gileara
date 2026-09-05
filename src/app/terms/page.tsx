@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { siteConfig } from "@/content/site-config";
 
 const lastUpdated = "June 12, 2026";
@@ -203,6 +204,12 @@ export default function TermsPage() {
 
         <section className="px-6 md:px-12">
           <div className="mx-auto max-w-[1440px]">
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Legal Terms", href: "/terms" },
+              ]}
+            />
             <div className="mb-16 border-b border-on-background/10 pb-12">
               <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
                 Legal Resource

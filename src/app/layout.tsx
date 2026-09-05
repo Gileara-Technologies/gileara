@@ -67,6 +67,31 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   formatDetection: { email: false, address: false, telephone: false },
+  // Search-engine verification meta tags. Set the corresponding
+  // env var (see .env.example) to the value Google/Bing/Yandex
+  // gives you in their HTML-tag verification step. The tag is
+  // omitted entirely if the env var is unset, so leave them
+  // empty until you've completed verification in each tool.
+  verification: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : {}),
+    // Bing + Yandex verification goes through the `other` map.
+    // Merge them so we don't accidentally clobber one with the
+    // other when both are set.
+    ...(process.env.BING_SITE_VERIFICATION || process.env.YANDEX_SITE_VERIFICATION
+      ? {
+          other: {
+            ...(process.env.BING_SITE_VERIFICATION
+              ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+              : {}),
+            ...(process.env.YANDEX_SITE_VERIFICATION
+              ? { "yandex-verification": process.env.YANDEX_SITE_VERIFICATION }
+              : {}),
+          },
+        }
+      : {}),
+  },
 };
 
 export const viewport: Viewport = {

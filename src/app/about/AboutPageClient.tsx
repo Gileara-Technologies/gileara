@@ -79,6 +79,7 @@ export default function AboutPageClient() {
       {/* HERO */}
       <PageHero
         number="01"
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "About", href: "/about" }]}
         eyebrow="ABOUT US"
         headline={
           <>

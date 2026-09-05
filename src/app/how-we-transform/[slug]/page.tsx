@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactBand from "@/components/ContactBand";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 import { scenarios, scenarioPackages } from "@/content/scenarios";
 
@@ -81,6 +82,13 @@ export default async function ScenarioPage({ params }: PageProps) {
       <Navbar />
       <main className="bg-background pt-36 pb-24 px-4 md:px-10">
         <div className="max-w-3xl mx-auto">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "How we solve it", href: "/how-we-transform" },
+              { label: scenario.vertical, href: `/how-we-transform/${scenario.id}` },
+            ]}
+          />
           <Link href="/how-we-transform" className="font-mono text-xs uppercase tracking-widest text-outline hover:text-primary transition-colors">
             ← All playbooks
           </Link>

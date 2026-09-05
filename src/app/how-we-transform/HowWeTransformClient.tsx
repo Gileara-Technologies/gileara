@@ -38,6 +38,7 @@ export default function HowWeTransformClient() {
     <div className="bg-background">
       <PageHero
         number="01"
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "How we solve it", href: "/how-we-transform" }]}
         eyebrow="HOW WE SOLVE IT"
         headline={
           <>

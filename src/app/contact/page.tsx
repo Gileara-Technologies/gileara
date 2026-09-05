@@ -126,6 +126,7 @@ export default function ContactPage() {
       <Navbar />
       <main>
         <PageHero
+          breadcrumbs={[{ label: "Home", href: "/" }, { label: "Talk to us", href: "/contact" }]}
           eyebrow="LET'S TALK"
           headline={
             <>
