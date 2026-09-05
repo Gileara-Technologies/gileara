@@ -45,7 +45,7 @@ export default function CinematicStory() {
 
             <RevealText delay={0.15}>
               <p className="text-body-lg text-on-surface-variant leading-relaxed mb-6 max-w-2xl">
-                Stock in notebooks. Orders lost in WhatsApp threads. MoMo statements matched against books by hand, line by line, night after night. No dashboard telling you what sold, what&apos;s owed, or what&apos;s actually profitable.
+                Stock in notebooks. Orders lost in chat threads. Payment alerts matched against books by hand, line by line, night after night. No dashboard telling you what sold, what&apos;s owed, or what&apos;s actually profitable.
               </p>
             </RevealText>
 

@@ -46,7 +46,7 @@ export const founders: readonly Founder[] = [
   {
     name: "Rodney Hagan",
     role: "Co-Founder & CTO",
-    cred: "Leads platform engineering — MoMo and WhatsApp integrations.",
+    cred: "Leads platform engineering — payments, chat-based ordering, and offline-tolerant builds.",
     quote: "Technology should disappear into the workflow, not demand attention.",
     image: "/assets/images/rodney_hagan.jpg",
     linkedin: "https://www.linkedin.com/in/haganrodney/",

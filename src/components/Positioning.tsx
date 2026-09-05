@@ -64,8 +64,8 @@ export default function Positioning() {
     },
     {
       num: "03",
-      title: "Mobile-first by default",
-      desc: "WhatsApp integration, mobile money payments and offline-tolerant builds come standard — because that's how small businesses actually run, whether you're in Accra, Lagos, Nairobi, or Johannesburg.",
+      title: "Built for how business actually runs",
+      desc: "Chat-based ordering, mobile money, and offline-tolerant builds come standard — because that's how small businesses actually run, whether you're in Accra, Lagos, Nairobi, or Johannesburg.",
     },
   ];
 
