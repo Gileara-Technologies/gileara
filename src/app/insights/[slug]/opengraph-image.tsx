@@ -1,4 +1,5 @@
 import { renderOg, OG_SIZE, OG_CONTENT_TYPE } from "@/components/OgImage";
+import { renderPostOg } from "@/components/OgPostImage";
 import { posts } from "@/content/posts";
 
 export const alt = "Insights | Gileara Technologies";
@@ -27,6 +28,21 @@ export default async function Image({ params }: { params: { slug: string } }) {
       description: "Practical insights for small business operators.",
     });
   }
+
+  // Posts with a cover image get a full-bleed photo treatment
+  // (different layout from the brand <OgImage>).
+  if (post.image) {
+    return renderPostOg({
+      brand: "Gileara Insights",
+      tag: post.tag,
+      title: post.title,
+      excerpt: post.excerpt,
+      cover: post.image,
+      baseUrl: "https://gileara.org",
+    });
+  }
+
+  // Fallback: brand template (used when a post has no cover yet)
   return renderOg({
     eyebrow: `Insights · ${post.tag}`,
     title: post.title,

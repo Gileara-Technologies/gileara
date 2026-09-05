@@ -67,6 +67,16 @@ const jsonLd = {
       author: { "@type": "Person", name: p.author },
       publisher: { "@type": "Organization", name: "Gileara Technologies" },
       url: `https://gileara.org/insights/${p.slug}`,
+      ...(p.image
+        ? {
+            image: {
+              "@type": "ImageObject",
+              url: `https://gileara.org${p.image}`,
+              width: 1200,
+              height: 630,
+            },
+          }
+        : {}),
     })),
   ],
 };

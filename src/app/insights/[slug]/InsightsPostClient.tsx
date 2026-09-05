@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
 import type { InsightPost } from "@/content/posts";
@@ -30,6 +31,24 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
             {post.excerpt}
           </p>
         </motion.div>
+
+        {post.image ? (
+          <motion.figure
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-12 bg-surface-container-high"
+          >
+            <Image
+              src={post.image}
+              alt={`Cover image for ${post.title}`}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
+          </motion.figure>
+        ) : null}
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
