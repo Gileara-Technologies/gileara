@@ -97,7 +97,6 @@ export const teamGroups: readonly TeamGroup[] = [
     lead: "Led by Julian Hagan, COO",
     members: [
       { name: "Theophilus Bruce", role: "Finance Secretary" },
-      { name: "Akpabli Daniel", role: "Administrative Secretary" },
     ],
   },
 ] as const;

@@ -83,6 +83,20 @@ describe("team content", () => {
     expect(allNames.some((n) => /^Kelvin\b/.test(n) || n.includes("Kelvin "))).toBe(false);
   });
 
+  it("Daniel is in the leaders section (not the operations team) — single source of truth", () => {
+    // Daniel Akpabli is the Head of Communication & Executive Secretary
+    // (in leaders), not the Administrative Secretary (in the operations
+    // team). The two roles were unified into one when the team was
+    // restructured.
+    expect(leaders.some((l) => l.name === "Daniel Akpabli")).toBe(true);
+    for (const g of teamGroups) {
+      for (const m of g.members) {
+        expect(m.name, `Daniel should not also be in ${g.label}`).not.toBe("Daniel Akpabli");
+        expect(m.name, `Akpabli Daniel should not be in ${g.label}`).not.toBe("Akpabli Daniel");
+      }
+    }
+  });
+
   it("every group has a non-empty lead caption", () => {
     for (const g of teamGroups) {
       expect(g.lead, `${g.label} lead`).toMatch(/\w/);
