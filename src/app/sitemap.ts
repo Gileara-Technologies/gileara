@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { scenarios } from "@/content/scenarios";
 import { posts } from "@/content/posts";
+import { servicePackages } from "@/content/packages";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://gileara.org";
@@ -48,6 +49,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    ...servicePackages.map((s) => ({
+      url: `${base}/services/${s.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     {
       url: `${base}/how-we-transform`,
       lastModified: new Date(),
