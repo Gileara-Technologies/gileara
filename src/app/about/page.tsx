@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AboutPageClient from "./AboutPageClient";
+import { founders } from "@/content/founders";
 
 export const metadata: Metadata = {
   title: "About Us | Gileara Technologies",
@@ -21,20 +22,13 @@ export const metadata: Metadata = {
     url: "/about",
     siteName: "Gileara Technologies",
     type: "website",
-    images: [
-      {
-        url: "/assets/gileara/og-about.svg",
-        width: 1200,
-        height: 630,
-        alt: "About Gileara Technologies",
-      },
-    ],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "About Us | Gileara Technologies",
     description: "Meet the team behind Gileara Technologies.",
-    images: ["/assets/gileara/og-about.svg"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
 
@@ -63,6 +57,19 @@ const jsonLd = {
         { "@type": "ListItem", position: 2, name: "About", item: "https://gileara.org/about" },
       ],
     },
+    // Person schema for the three co-founders — used by Google
+    // Knowledge Graph to associate the founders' LinkedIn profiles
+    // with the brand. Mirrors the homepage Person block.
+    ...founders.map((f) => ({
+      "@type": "Person",
+      "@id": `https://gileara.org/#person-${f.name.toLowerCase().replace(/\s+/g, "-")}`,
+      name: f.name,
+      jobTitle: f.role,
+      description: f.cred,
+      image: `https://gileara.org${f.image}`,
+      worksFor: { "@id": "https://gileara.org/#organization" },
+      sameAs: [f.linkedin],
+    })),
   ],
 };
 

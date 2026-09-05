@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
 import { MotionProvider } from "@/components/MotionProvider";
@@ -7,7 +7,10 @@ import BackToTop from "@/components/BackToTop";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  // Only the weights actually used in the design system
+  // (normal, medium, semibold, bold). 800/900 were reserved but
+  // not used; trimming them drops 2 woff2 preloads on every page.
+  weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -15,7 +18,8 @@ const inter = Inter({
 /** Serif display face — Andela-style editorial headlines. */
 const displaySerif = IBM_Plex_Serif({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  // Only normal and bold are used; 500/600 not in any component
+  weight: ["400", "700"],
   variable: "--font-display-serif",
   display: "swap",
 });
@@ -41,19 +45,13 @@ export const metadata: Metadata = {
     siteName: "Gileara Technologies",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/assets/gileara/logo-full.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Gileara Technologies | We Build the Systems Your Business Runs On",
     description: "We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can't build alone. Currently piloting in Ghana, designed to scale globally.",
-    images: ["/assets/gileara/logo-full.png"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
   icons: {
     icon: [
@@ -68,6 +66,42 @@ export const metadata: Metadata = {
     ],
   },
   manifest: "/site.webmanifest",
+  formatDetection: { email: false, address: false, telephone: false },
+  // Search-engine verification meta tags. Set the corresponding
+  // env var (see .env.example) to the value Google/Bing/Yandex
+  // gives you in their HTML-tag verification step. The tag is
+  // omitted entirely if the env var is unset, so leave them
+  // empty until you've completed verification in each tool.
+  verification: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : {}),
+    // Bing + Yandex verification goes through the `other` map.
+    // Merge them so we don't accidentally clobber one with the
+    // other when both are set.
+    ...(process.env.BING_SITE_VERIFICATION || process.env.YANDEX_SITE_VERIFICATION
+      ? {
+          other: {
+            ...(process.env.BING_SITE_VERIFICATION
+              ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+              : {}),
+            ...(process.env.YANDEX_SITE_VERIFICATION
+              ? { "yandex-verification": process.env.YANDEX_SITE_VERIFICATION }
+              : {}),
+          },
+        }
+      : {}),
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0A0F1A" },
+    { media: "(prefers-color-scheme: light)", color: "#F5F7FA" },
+  ],
+  colorScheme: "dark light",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

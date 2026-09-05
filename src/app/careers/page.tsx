@@ -37,21 +37,14 @@ export const metadata: Metadata = {
     url: "/careers",
     siteName: "Gileara Technologies",
     type: "website",
-    images: [
-      {
-        url: "/assets/gileara/og-careers.svg",
-        width: 1200,
-        height: 630,
-        alt: "Careers at Gileara Technologies",
-      },
-    ],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Join Gileara | Careers in Technology and Innovation",
     description:
       "Explore careers, jobs, and growth-focused opportunities with Gileara's technology and innovation teams.",
-    images: ["/assets/gileara/og-careers.svg"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
 

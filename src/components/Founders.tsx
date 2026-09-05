@@ -7,6 +7,7 @@ import { FaLinkedin } from "react-icons/fa6";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
+import { founders } from "@/content/founders";
 
 /**
  * The Team — editorial portraits + quotes.
@@ -18,33 +19,6 @@ import RevealText from "@/components/RevealText";
  * other. Alternating sides prevents the symmetric feel.
  */
 export default function Founders() {
-  const founders = [
-    {
-      name: "Amos Frederick Hughes",
-      role: "Founder & CEO",
-      cred: "Leads strategy and client success.",
-      quote: "We build what we wish existed when we were running our own businesses.",
-      image: "/assets/images/amos.jpg",
-      linkedin: "https://linkedin.com/in/amos-frederick-hughes-01570b22a",
-    },
-    {
-      name: "Julian Hagan",
-      role: "Co-Founder & COO",
-      cred: "Runs delivery and client operations.",
-      quote: "Every project is a promise. We keep ours.",
-      image: "/assets/images/julian_hagan.jpg",
-      linkedin: "https://www.linkedin.com/in/julian-hagan/",
-    },
-    {
-      name: "Rodney Hagan",
-      role: "Co-Founder & CTO",
-      cred: "Leads platform engineering — MoMo and WhatsApp integrations.",
-      quote: "Technology should disappear into the workflow, not demand attention.",
-      image: "/assets/images/rodney_hagan.jpg",
-      linkedin: "https://www.linkedin.com/in/haganrodney/",
-    },
-  ];
-
   return (
     <section id="founders" className="relative bg-surface-container py-32 md:py-48 px-6 md:px-12">
       <div className="max-w-[1440px] mx-auto">

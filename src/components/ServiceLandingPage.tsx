@@ -41,6 +41,11 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       {/* ── 1. HERO ───────────────────────────────────────────────── */}
       <PageHero
         number={num}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "What we build", href: "/services" },
+          { label: service.name, href: `/services/${service.slug}` },
+        ]}
         eyebrow={service.name.toUpperCase()}
         headline={
           <>

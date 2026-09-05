@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     url: "/faq",
     siteName: "Gileara Technologies",
     type: "website",
-    images: [{ url: "/assets/gileara/og-faq.svg", width: 1200, height: 630, alt: "Gileara FAQ" }],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "FAQ | Gileara Technologies",
     description: "Straight answers about working with Gileara.",
-    images: ["/assets/gileara/og-faq.svg"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
 

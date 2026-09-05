@@ -76,6 +76,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
     <>
       <PageHero
         number="01"
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Insights", href: "/insights" }]}
         eyebrow="INSIGHTS"
         headline={
           <>

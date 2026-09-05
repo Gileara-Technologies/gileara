@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { siteConfig } from "@/content/site-config";
 
 const lastUpdated = "June 12, 2026";
@@ -200,21 +201,14 @@ export const metadata: Metadata = {
     type: "article",
     publishedTime: "2026-06-12",
     modifiedTime: "2026-06-12",
-    images: [
-      {
-        url: "/assets/gileara/logo-full.png",
-        width: 1200,
-        height: 630,
-        alt: "Gileara Technologies privacy policy",
-      },
-    ],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Privacy Policy | Gileara Technologies",
     description:
       "How Gileara handles information, security, retention, user rights, GDPR, and CCPA privacy considerations.",
-    images: ["/assets/gileara/logo-full.png"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
 
@@ -259,6 +253,12 @@ export default function PrivacyPage() {
 
         <section className="px-6 md:px-12">
           <div className="mx-auto max-w-[1440px]">
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Privacy Policy", href: "/privacy" },
+              ]}
+            />
             <div className="mb-16 border-b border-on-background/10 pb-12">
               <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
                 Privacy Resource
