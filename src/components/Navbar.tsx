@@ -152,6 +152,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
         <div className="flex justify-between items-center w-full gap-2">
           <Link
             href="/"
+            aria-label="Gileara — go to homepage"
             className="flex items-center gap-3 shrink-0 group cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus:outline-none rounded-sm"
           >
             <Image

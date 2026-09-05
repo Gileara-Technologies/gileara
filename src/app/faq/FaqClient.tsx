@@ -13,6 +13,7 @@ export default function FaqClient() {
     <>
       <PageHero
         number="01"
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "FAQ", href: "/faq" }]}
         eyebrow="QUESTIONS?"
         headline={
           <>

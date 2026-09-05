@@ -2,6 +2,7 @@ import { type ReactNode } from "react";
 import Image from "next/image";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
+import Breadcrumbs, { type BreadcrumbItem } from "@/components/Breadcrumbs";
 
 interface PageHeroProps {
   /** "01", "02", etc. — leave undefined for non-numbered pages (legal) */
@@ -18,6 +19,12 @@ interface PageHeroProps {
   bg?: "background" | "surface" | "surface-container" | "surface-container-lowest";
   /** When true, shows the ambient teal glow (used on most pages) */
   glow?: boolean;
+  /**
+   * Optional breadcrumb trail, rendered just under the H1. Mirrors
+   * the JSON-LD BreadcrumbList on the same page. Pass an array of
+   * { label, href } from outermost to innermost.
+   */
+  breadcrumbs?: BreadcrumbItem[];
   /**
    * Optional full-bleed background image. When provided, the hero
    * becomes a tall section (min-h-[60vh]) with the image as the
@@ -50,6 +57,7 @@ export default function PageHero({
   cta,
   bg = "surface-container-lowest",
   glow = true,
+  breadcrumbs,
   backgroundImage,
 }: PageHeroProps) {
   const bgClass: Record<NonNullable<PageHeroProps["bg"]>, string> = {
@@ -85,6 +93,12 @@ export default function PageHero({
           <div className="absolute inset-0 flex items-end pb-16 md:pb-20 px-6 md:px-12">
             <div className="max-w-[1440px] mx-auto w-full relative z-10">
               <div className="max-w-4xl">
+                {breadcrumbs && breadcrumbs.length > 0 ? (
+                  <div className="mb-6 md:mb-8">
+                    <Breadcrumbs items={breadcrumbs} />
+                  </div>
+                ) : null}
+
                 <div className="mb-8 md:mb-10">
                   <SectionLabel number={number} label={eyebrow} />
                 </div>
@@ -124,6 +138,10 @@ export default function PageHero({
       <div className="max-w-[1440px] mx-auto relative z-10">
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8">
           <div className="col-span-12 lg:col-span-7 xl:col-span-7">
+            {breadcrumbs && breadcrumbs.length > 0 ? (
+              <Breadcrumbs items={breadcrumbs} />
+            ) : null}
+
             <div className="mb-10">
               <SectionLabel number={number} label={eyebrow} />
             </div>

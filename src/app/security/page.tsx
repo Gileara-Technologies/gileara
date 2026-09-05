@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import Link from "next/link";
 
 import { siteConfig } from "@/content/site-config";
@@ -22,25 +23,18 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Security & Reliability | Gileara Technologies",
     description:
-      "Security is at the core of everything we build and manage. See what's covered at every tier.",
+      "How we keep the systems we build running safely — support, updates, backups, and monitoring. Plus how to report vulnerabilities.",
     url: "/security",
     siteName: "Gileara Technologies",
     type: "website",
-    images: [
-      {
-        url: "/assets/gileara/logo-full.png",
-        width: 1200,
-        height: 630,
-        alt: "Gileara Technologies security and reliability",
-      },
-    ],
+    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Security & Reliability | Gileara Technologies",
     description:
       "Managed-services coverage, data protection, and vulnerability reporting at Gileara Technologies.",
-    images: ["/assets/gileara/logo-full.png"],
+    // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
 
@@ -111,6 +105,12 @@ export default function SecurityPage() {
       <Navbar variant="legal" page="security" />
       <main className="pt-32 pb-20 min-h-screen">
         <div className="max-w-4xl mx-auto px-6 md:px-12">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Security", href: "/security" },
+            ]}
+          />
           <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
             Security Resource
           </div>

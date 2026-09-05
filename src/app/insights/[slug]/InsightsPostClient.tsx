@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
+import Breadcrumbs from "@/components/Breadcrumbs";
 import type { InsightPost } from "@/content/posts";
 
 export default function InsightsPostClient({ post }: { post: InsightPost }) {
@@ -10,6 +12,13 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
     <section className="pt-36 pb-24 md:pb-32 px-4 md:px-10 bg-background">
       <div className="max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Insights", href: "/insights" },
+              { label: post.title, href: `/insights/${post.slug}` },
+            ]}
+          />
           <Link
             href="/insights"
             className="inline-flex items-center gap-2 text-sm text-on-surface-variant hover:text-primary transition-colors mb-8"
@@ -30,6 +39,24 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
             {post.excerpt}
           </p>
         </motion.div>
+
+        {post.image ? (
+          <motion.figure
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-12 bg-surface-container-high"
+          >
+            <Image
+              src={post.image}
+              alt={`Cover image for ${post.title}`}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
+          </motion.figure>
+        ) : null}
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}

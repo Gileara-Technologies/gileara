@@ -45,6 +45,7 @@ export const posts: InsightPost[] = [
     date: "2026-09-01",
     author: "Amos Frederick Hughes",
     tag: "Packages",
+    image: "/assets/insights/what-all-inclusive-should-mean.jpg",
     content: [
       { type: "paragraph", text: "Ask any business that bought custom software what surprised them most, and the answer is rarely the build price. It's month three, when the support invoice arrives. Or month seven, when an OS update breaks something and fixing it costs extra." },
       { type: "heading", text: "The quote is not the price" },
@@ -70,6 +71,7 @@ export const posts: InsightPost[] = [
     date: "2026-09-08",
     author: "Rodney Hagan",
     tag: "Small business",
+    image: "/assets/insights/from-notebook-to-dashboard.jpg",
     content: [
       { type: "paragraph", text: "Most small businesses don't have a technology problem — they have a visibility problem. The sales happened, the customers came, the money moved. But it all lives in notebooks, memory, and chat threads, which means nobody can see patterns until it's too late to act on them. Our Ghana pilot surfaces this daily; the pattern is universal wherever small businesses run informally." },
       { type: "heading", text: "Stage one: being findable" },
@@ -94,6 +96,7 @@ export const posts: InsightPost[] = [
     date: "2026-09-15",
     author: "Julian Hagan",
     tag: "Operations",
+    image: "/assets/insights/momo-reconciliation-without-the-headache.jpg",
     content: [
       { type: "paragraph", text: "Mobile Money solved payments and created a reconciliation problem. Sales arrive as MoMo, sometimes cash, sometimes both in one transaction — and at closing time somebody matches alerts against notes against memory, night after night." },
       { type: "heading", text: "Why manual matching fails quietly" },
@@ -119,6 +122,7 @@ export const posts: InsightPost[] = [
     date: "2026-06-15",
     author: "Amos Frederick Hughes",
     tag: "Growth",
+    image: "/assets/insights/building-scalable-mvps.jpg",
     content: [
       { type: "paragraph", text: "Every startup founder hears the same advice: build an MVP, ship fast, iterate. But there's a fine line between moving fast and building something you'll have to throw away entirely." },
       { type: "heading", text: "The MVP Trap" },
@@ -139,6 +143,7 @@ export const posts: InsightPost[] = [
     date: "2026-05-28",
     author: "Julian Hagan",
     tag: "Automation",
+    image: "/assets/insights/automating-sme-workflows.jpg",
     content: [
       { type: "paragraph", text: "Every growing business hits a point where spreadsheets, email chains, and manual data entry become a bottleneck. The fix isn't always a massive ERP implementation. Often, it's targeted automation of specific workflows." },
       { type: "heading", text: "Find the Pain Points" },
@@ -158,6 +163,7 @@ export const posts: InsightPost[] = [
     date: "2026-04-10",
     author: "Rodney Hagan",
     tag: "Operations",
+    image: "/assets/insights/choosing-tech-stack.jpg",
     content: [
       { type: "paragraph", text: "Picking a tech stack is one of the most consequential decisions in any software project. Get it right, and you build momentum. Get it wrong, and you're fighting your tools for years." },
       { type: "heading", text: "Context Over Trends" },

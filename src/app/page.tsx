@@ -11,6 +11,7 @@ import ContactBand from "@/components/ContactBand";
 import Footer from "@/components/Footer";
 import { servicePackages, customServices, MANAGED_SERVICES_NOTE } from "@/content/packages";
 import { siteConfig } from "@/content/site-config";
+import { founders } from "@/content/founders";
 
 export const metadata: Metadata = {
   alternates: {
@@ -34,6 +35,9 @@ export const metadata: Metadata = {
     "Africa tech partner",
   ],
   openGraph: {
+    type: "website",
+    siteName: "Gileara Technologies",
+    locale: "en_US",
     url: "https://gileara.org",
   },
   twitter: {
@@ -108,6 +112,19 @@ const jsonLd = {
       url: "https://gileara.org",
       name: siteConfig.name,
       publisher: { "@id": "https://gileara.org/#organization" },
+      inLanguage: "en",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: "https://gileara.org/insights?q={search_term_string}",
+        },
+        // Google ignores custom search unless wired to a real search endpoint.
+        // This SearchAction still serves as a structured hint that the site has
+        // a topical hub at /insights. A real `query-input` requires an actual
+        // site-search index; we'll wire it once that lands.
+        queryInput: "required name=search_term_string",
+      },
     },
     {
       "@type": "BreadcrumbList",
@@ -116,6 +133,19 @@ const jsonLd = {
         { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
       ],
     },
+    // Founder Person schema — one node per co-founder, linked back
+    // to the Organization. Helps Knowledge Graph associate the
+    // founder LinkedIn URLs with the brand.
+    ...founders.map((f) => ({
+      "@type": "Person",
+      "@id": `https://gileara.org/#person-${f.name.toLowerCase().replace(/\s+/g, "-")}`,
+      name: f.name,
+      jobTitle: f.role,
+      description: f.cred,
+      image: `https://gileara.org${f.image}`,
+      worksFor: { "@id": "https://gileara.org/#organization" },
+      sameAs: [f.linkedin],
+    })),
     // Service schema generated from the same data the UI renders (packages.ts)
     ...servicePackages.map((pkg) => ({
       "@type": "Service",
