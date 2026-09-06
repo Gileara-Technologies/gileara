@@ -86,6 +86,7 @@ export const leaders: readonly TeamMemberWithPhoto[] = [
   {
     name: "Wisdom Segbedzi",
     role: "HR & People Operations Officer",
+    image: "/assets/images/Wisdom.png",
   },
 ] as const;
 

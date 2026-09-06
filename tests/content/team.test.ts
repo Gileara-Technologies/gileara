@@ -59,11 +59,19 @@ describe("team content", () => {
     ]);
   });
 
-  it("leaders with photos reference real files (elorm.jpg, Daniel.jpg)", () => {
+  it("leaders with photos reference real files (elorm.jpg, Daniel.jpg, Wisdom.png)", () => {
     const elorm = leaders.find((l) => l.name === "Jude Elorm Agbesinyale");
     const daniel = leaders.find((l) => l.name === "Daniel Akpabli");
+    const wisdom = leaders.find((l) => l.name === "Wisdom Segbedzi");
     expect(elorm?.image).toBe("/assets/images/elorm.jpg");
     expect(daniel?.image).toBe("/assets/images/Daniel.jpg");
+    expect(wisdom?.image).toBe("/assets/images/Wisdom.png");
+  });
+
+  it("every leader has a portrait (no text-only cards)", () => {
+    for (const l of leaders) {
+      expect(l.image, `${l.name} image`).toBeTruthy();
+    }
   });
 
   it("memberGroups has Engineering and Finance & Admin (no separate Operations)", () => {
