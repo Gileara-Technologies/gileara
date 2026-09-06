@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import PageHero from "@/components/PageHero";
@@ -8,7 +7,7 @@ import ContactBand from "@/components/ContactBand";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
-import { foundation, leaders, teamGroups } from "@/content/team";
+import { foundation, leaders, memberGroups } from "@/content/team";
 
 /**
  * /about page structure:
@@ -17,7 +16,8 @@ import { foundation, leaders, teamGroups } from "@/content/team";
  *   03 — Our values (four principles, professional + faith-rooted)
  *   04 — Foundation: the 3 founding partners
  *   05 — Leaders: department heads who report into Julian
- *   06 — Teams: function specialists, tabbed Engineering / Operations
+ *   06 — Company members: unified list, grouped by reporting line
+ *        (Engineering under Rodney, Finance & Admin under Julian)
  *   07 — Join us contact band
  */
 const values = [
@@ -44,11 +44,6 @@ const values = [
 ];
 
 export default function AboutPageClient() {
-  const [activeTeam, setActiveTeam] = useState<(typeof teamGroups)[number]["label"]>(
-    teamGroups[0].label,
-  );
-  const activeGroup = teamGroups.find((g) => g.label === activeTeam) ?? teamGroups[0];
-
   return (
     <>
       {/* 01 — HERO */}
@@ -275,6 +270,17 @@ export default function AboutPageClient() {
                 transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="border-t border-on-background/10 pt-8"
               >
+                {m.image ? (
+                  <div className="relative aspect-[4/5] max-w-[240px] bg-surface-container-high rounded-xl overflow-hidden mb-6 group">
+                    <Image
+                      src={m.image}
+                      alt={m.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 240px"
+                      className="object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+                    />
+                  </div>
+                ) : null}
                 <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
                   0{idx + 1}
                 </div>
@@ -290,13 +296,13 @@ export default function AboutPageClient() {
         </div>
       </section>
 
-      {/* 06 — TEAMS (function specialists, tabbed) */}
+      {/* 06 — COMPANY MEMBERS (unified list, grouped by reporting line) */}
       <section className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16">
+          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel number="06" label="THE TEAMS" className="mb-8" />
+                <SectionLabel number="06" label="THE TEAM" className="mb-8" />
               </RevealText>
               <DisplayHeading size="lg" as="h2" className="mb-8">
                 The people who{" "}
@@ -304,56 +310,56 @@ export default function AboutPageClient() {
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  Engineers, finance, and operations. The teams that ship the systems and keep the books honest.
+                  One company, one team. Engineering, finance, and operations all live here — see the whole group at a glance.
                 </p>
               </RevealText>
             </div>
           </div>
 
-          {/* Tabs */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-12 border-b border-on-background/10 pb-6">
-            <div className="flex gap-2">
-              {teamGroups.map((g) => (
-                <button
-                  key={g.label}
-                  onClick={() => setActiveTeam(g.label)}
-                  className={`pl-6 pr-10 py-2.5 rounded-pill text-sm font-medium transition-colors duration-300 ${
-                    activeTeam === g.label
-                      ? "bg-accent-bright text-background"
-                      : "border border-on-background/20 text-on-surface hover:border-accent-bright hover:text-accent-bright"
-                  }`}
-                >
-                  {g.label}
-                </button>
-              ))}
-            </div>
-            <span className="text-xs text-on-surface-variant font-mono">
-              {activeGroup.lead}
-            </span>
-          </div>
-
-          <motion.div
-            key={activeTeam}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            {activeGroup.members.map((m, idx) => (
-              <div
-                key={m.name}
-                className="border-t border-on-background/10 pt-6"
+          <div className="space-y-20 md:space-y-24">
+            {memberGroups.map((g, gIdx) => (
+              <motion.div
+                key={g.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: gIdx * 0.1, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
-                  0{idx + 1}
+                {/* Subgroup header */}
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-3 sm:gap-6 mb-10 md:mb-12 border-t border-on-background/10 pt-8">
+                  <div className="flex items-baseline gap-4">
+                    <span className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright">
+                      0{gIdx + 1}
+                    </span>
+                    <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em]">
+                      {g.label}
+                    </h3>
+                  </div>
+                  <span className="text-xs text-on-surface-variant font-mono">
+                    {g.lead}
+                  </span>
                 </div>
-                <h3 className="font-serif text-2xl text-on-background leading-tight tracking-[-0.02em] mb-2">
-                  {m.name}
-                </h3>
-                <p className="text-on-surface-variant text-sm">{m.role}</p>
-              </div>
+
+                {/* Members grid — 4 columns on desktop, 2 on tablet, 1 on mobile */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {g.members.map((m, idx) => (
+                    <div
+                      key={m.name}
+                      className="border-t border-on-background/10 pt-6"
+                    >
+                      <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
+                        0{idx + 1}
+                      </div>
+                      <h4 className="font-serif text-2xl text-on-background leading-tight tracking-[-0.02em] mb-2">
+                        {m.name}
+                      </h4>
+                      <p className="text-on-surface-variant text-sm">{m.role}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
