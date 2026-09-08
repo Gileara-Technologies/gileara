@@ -92,8 +92,21 @@ export async function POST(request: Request) {
     if (resendRes.status === 422) {
       return NextResponse.json({ ok: true, alreadySubscribed: true });
     }
+    
+    // Log the full error for debugging
+    const errorBody = await resendRes.text().catch(() => '(no body)');
+    console.error('Resend API error:', {
+      status: resendRes.status,
+      statusText: resendRes.statusText,
+      body: errorBody,
+      audienceId,
+    });
+    
     return NextResponse.json(
-      { error: "upstream" },
+      { 
+        error: "upstream",
+        debug: `Resend returned ${resendRes.status}: ${errorBody.substring(0, 200)}`
+      },
       { status: 502 },
     );
   }
