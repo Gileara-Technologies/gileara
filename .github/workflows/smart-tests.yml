@@ -53,6 +53,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Scan for secrets
+        run: npm run secrets:scan
+
       - name: Unit tests
         run: npm test
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FaLinkedin } from "react-icons/fa6";
 import { siteConfig } from "@/content/site-config";
+import NewsletterForm from "@/components/NewsletterForm";
 
 /**
  * Footer — typographic statement, not a sitemap.
@@ -48,6 +49,13 @@ export default function Footer() {
   return (
     <footer className="bg-background pt-24 md:pt-32 pb-12 px-6 md:px-12 text-on-background overflow-hidden border-t border-on-background/10">
       <div className="max-w-[1440px] mx-auto">
+        {/* Newsletter strip — sits above the link columns */}
+        <div className="mb-16 border-t border-on-background/10 pt-12">
+          <div className="max-w-2xl">
+            <NewsletterForm source="footer" />
+          </div>
+        </div>
+
         {/* Middle: link columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 mb-20 border-t border-on-background/10 pt-16">
           {/* Brand column */}

@@ -50,12 +50,12 @@ export const scenarios: TransformationScenario[] = [
     painPoints: [
       "Stock counts live in notebooks, so reorders happen after shelves are already empty",
       "Expiry dates hide in boxes — write-offs are discovered at count time, not before",
-      "MoMo sales mix with cash, and closing the day means reconciling by hand",
+      "Mobile-money sales mix with cash, and closing the day means reconciling by hand",
     ],
     packageIds: ["business-operations", "business-intelligence"],
     implementation: [
       { phase: "Diagnose", detail: "Map how stock, sales, and supplier orders actually flow today — counter, storeroom, and the notebook." },
-      { phase: "Implement", detail: "Business Operations: inventory with categories and low-stock alerts, sales and expense recording, and structured MoMo/cash payment capture." },
+      { phase: "Implement", detail: "Business Operations: inventory with categories and low-stock alerts, sales and expense recording, and structured mobile-money / cash payment capture." },
       { phase: "Implement", detail: "Batch and expiry tracking on medicines, with alerts surfaced before dates pass." },
       { phase: "Run", detail: "Managed services from day one — backups, updates, and support while staff adjust." },
       { phase: "Grow", detail: "Business Intelligence: weekly dashboards for margins, fastest-moving items, and dead stock." },
@@ -66,7 +66,7 @@ export const scenarios: TransformationScenario[] = [
       "End-of-day close takes minutes instead of an evening of hand-reconciliation",
     ],
     ghanaContext:
-      "Sales land as MoMo, cash, or both — the system tracks them separately so reconciliation stops being a nightly puzzle.",
+      "Sales arrive over the counter through several channels — the system tracks each one separately so reconciliation stops being a nightly puzzle.",
     status: "scenario",
   },
   {
@@ -76,7 +76,7 @@ export const scenarios: TransformationScenario[] = [
     headline: "The school where no parent is left guessing",
     painPoints: [
       "Fee ledgers live in exercise books, so term-end means disputes and hunting receipts",
-      "Admission enquiries arrive in WhatsApp DMs and disappear between personal chats",
+      "Admission enquiries arrive over chat and disappear between personal conversations",
       "Nobody can say quickly which families owe what, or who was contacted about what",
     ],
     packageIds: ["business-operations", "customer-growth"],
@@ -92,7 +92,7 @@ export const scenarios: TransformationScenario[] = [
       "Fee collection status for the whole school fits on one screen",
     ],
     ghanaContext:
-      "Parents already pay fees by MoMo and expect updates on WhatsApp — the workflows follow behaviour that exists, not the other way round.",
+      "Parents already pay fees through mobile money and expect updates over chat — the workflows follow the behaviours that exist, not the other way round.",
     status: "scenario",
   },
   {
@@ -101,7 +101,7 @@ export const scenarios: TransformationScenario[] = [
     icon: "restaurant",
     headline: "The restaurant that fills tables on slow days",
     painPoints: [
-      "Orders arrive by call, WhatsApp, and walk-in — nothing connects to anything",
+      "Orders arrive by call, message, and walk-in — nothing connects to anything",
       "Regulars are known by face, not by history, so promotions go to everyone equally",
       "There's no answer to 'what actually sells?' beyond memory",
     ],
@@ -118,7 +118,7 @@ export const scenarios: TransformationScenario[] = [
       "One screen answers 'what sold, what didn't' each night",
     ],
     ghanaContext:
-      "WhatsApp is where orders and complaints already happen — campaigns ride the channel your customers opened first.",
+      "Orders and complaints already come in over chat — campaigns ride the channel your customers opened first.",
     status: "scenario",
   },
   {
@@ -144,7 +144,7 @@ export const scenarios: TransformationScenario[] = [
       "Ordering decisions follow sell-through data, not shelf memory",
     ],
     ghanaContext:
-      "Google Business Profile drives directions and calls for local shops; MoMo at the counter stays part of recorded sales, not a side ledger.",
+      "Google Business Profile drives directions and calls for local shops; every payment at the counter stays part of recorded sales, not a side ledger.",
     status: "scenario",
   },
   {
@@ -153,14 +153,14 @@ export const scenarios: TransformationScenario[] = [
     icon: "content_cut",
     headline: "The salon where chairs stay booked",
     painPoints: [
-      "Bookings live in DMs and missed calls — double-bookings and gaps both happen",
+      "Bookings live in messages and missed calls — double-bookings and gaps both happen",
       "No-shows cost money and there's no gentle way to remind clients",
       "Client preferences live in stylists' heads and leave when they do",
     ],
     packageIds: ["customer-growth"],
     implementation: [
-      { phase: "Diagnose", detail: "Follow a booking from first DM to chair to return visit — and find where it falls through." },
-      { phase: "Implement", detail: "Customer Growth: a booking pipeline with appointment records, automated WhatsApp reminders, and rebooking prompts after visits." },
+      { phase: "Diagnose", detail: "Follow a booking from first message to chair to return visit — and find where it falls through." },
+      { phase: "Implement", detail: "Customer Growth: a booking pipeline with appointment records, automated reminders over chat, and rebooking prompts after visits." },
       { phase: "Implement", detail: "Client profiles carry service history and preferences, so any stylist picks up any client seamlessly." },
       { phase: "Run", detail: "Managed support keeps reminders flowing while the team learns the rhythm." },
     ],
@@ -170,7 +170,7 @@ export const scenarios: TransformationScenario[] = [
       "Any stylist can serve any returning client without starting from zero",
     ],
     ghanaContext:
-      "Reminders go out on WhatsApp — the channel clients actually read — written to feel like the salon, not a robot.",
+      "Reminders go out over chat — the channel clients actually read — written to feel like the salon, not a robot.",
     status: "scenario",
   },
 ];
