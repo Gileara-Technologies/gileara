@@ -55,6 +55,11 @@ function getStagedFiles() {
 
 function scanFile(filePath) {
   try {
+    // Skip .example files — they're templates with placeholder/old values
+    if (filePath.endsWith('.example') || filePath.endsWith('.template')) {
+      return [];
+    }
+
     const content = readFileSync(filePath, 'utf-8');
     const findings = [];
 
