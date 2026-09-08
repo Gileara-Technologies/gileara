@@ -24,10 +24,15 @@ head_sampling_rate = 1
 #
 # Public identifiers (a Google service account email, a calendar ID,
 # a contact email) are not secrets; they can live here.
+#
+# Feature flags (NEWSLETTER_ENABLED) are also non-secret — they just
+# control behavior, not access.
 [vars]
 CONTACT_EMAIL = "tech.gileara@gmail.com"
 GOOGLE_CLIENT_EMAIL = "homepage@giltech-494822.iam.gserviceaccount.com"
 GOOGLE_CALENDAR_ID = "3427f035226a2b0d863450f06f2ee268ba3b2f0992e42e21b6296355baf1abe6@group.calendar.google.com"
+NEWSLETTER_ENABLED = "1"
+RESEND_AUDIENCE_ID = "88fe6734-a36f-4cb4-aa06-a0f5c6ac3d94"
 MAINTENANCE_MODE = ""
 MAINTENANCE_BYPASS_SECRET = ""
 
@@ -35,12 +40,13 @@ MAINTENANCE_BYPASS_SECRET = ""
 CONTACT_EMAIL = "tech.gileara@gmail.com"
 GOOGLE_CLIENT_EMAIL = "homepage@giltech-494822.iam.gserviceaccount.com"
 GOOGLE_CALENDAR_ID = "3427f035226a2b0d863450f06f2ee268ba3b2f0992e42e21b6296355baf1abe6@group.calendar.google.com"
+NEWSLETTER_ENABLED = "1"
+RESEND_AUDIENCE_ID = "88fe6734-a36f-4cb4-aa06-a0f5c6ac3d94"
 MAINTENANCE_MODE = ""
 MAINTENANCE_BYPASS_SECRET = ""
 GOOGLE_SITE_VERIFICATION = "geJv_jYswjRaXUok8DCV7Ddh4ZKZeIv2f3r0tchWDYs"
 BING_SITE_VERIFICATION = "BC132592A4C7C6B69DFAA4E05B97FA4B"
 
-# GOOGLE_PRIVATE_KEY is set as a Cloudflare Secret, not in [vars].
-# After cloning: `npx wrangler secret put GOOGLE_PRIVATE_KEY` and
-# paste the key when prompted. The same applies to RESEND_API_KEY,
-# NEWSLETTER_ENABLED, RESEND_AUDIENCE_ID, and any future secret.
+# Secrets (set via `npx wrangler secret put NAME`):
+# - GOOGLE_PRIVATE_KEY (full BEGIN...END block)
+# - RESEND_API_KEY (starts with re_)
