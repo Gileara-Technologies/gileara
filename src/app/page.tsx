@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     "operations for small business",
     "business automation",
     "mobile money integration",
-    "WhatsApp business systems",
+    "chat-based business systems",
     "inventory management system",
     "CRM for small business",
     "business intelligence dashboards",

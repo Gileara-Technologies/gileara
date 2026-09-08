@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Breadcrumbs from "@/components/Breadcrumbs";
+import NewsletterForm from "@/components/NewsletterForm";
 import type { InsightPost } from "@/content/posts";
 
 export default function InsightsPostClient({ post }: { post: InsightPost }) {
@@ -107,6 +108,19 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
             <span className="material-symbols-outlined text-xs" aria-hidden="true">arrow_back</span>
             View All Insights
           </Link>
+        </motion.div>
+
+        {/* Newsletter — one email a month, no spam. */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-16"
+        >
+          <NewsletterForm
+            source={`insights:${post.slug}`}
+            headline="If this was useful, the next one will be too."
+          />
         </motion.div>
       </div>
     </section>

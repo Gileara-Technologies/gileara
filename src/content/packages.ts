@@ -187,7 +187,7 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Booking, payments, and contact — all in one place",
-        description: "Customers can book a service, pay a deposit, or send a message without WhatsApp back-and-forth. The site works while you sleep.",
+        description: "Customers can book a service, pay a deposit, or send a message without endless back-and-forth. The site works while you sleep.",
         image: "/assets/services/digital-foundation-booking.jpg",
         imageAlt: "A person holding a card while using a laptop",
       },
@@ -259,7 +259,7 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Sales, expenses, and cash in different places",
-        description: "Sales live in one notebook, expenses in another, MoMo statements on a phone, cash in a drawer. The real numbers live in your head — and your head is full.",
+        description: "Sales live in one notebook, expenses in another, payment alerts on a phone, cash in a drawer. The real numbers live in your head — and your head is full.",
       },
       {
         title: "Customer records that walk out the door",
@@ -267,7 +267,7 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Reconciling by hand, line by line",
-        description: "Every night, you match MoMo SMS against receipts against a sales book. It's slow, error-prone, and the kind of work that drains a founder.",
+        description: "Every night, you match payment alerts against receipts against a sales book. It's slow, error-prone, and the kind of work that drains a founder.",
       },
     ],
     observations: [
@@ -287,8 +287,8 @@ export const servicePackages: Service[] = [
         image: "/assets/services/business-operations-dashboard.jpg",
       },
       {
-        title: "MoMo, cash, and bank in one view",
-        description: "We integrate with MTN MoMo and your bank so the reconciliation happens automatically. No more matching SMS to receipts at midnight.",
+        title: "Mobile money, cash, and bank in one view",
+        description: "We connect the payment channels you already use — mobile money, bank, cash — so reconciliation happens automatically. No more matching alerts to receipts at midnight.",
         image: "/assets/services/business-operations-payments.jpg",
       },
       {
@@ -338,7 +338,7 @@ export const servicePackages: Service[] = [
       { feature: "Customer Database", basic: "Yes", professional: "Yes", enterprise: "Yes" },
       { feature: "Sales Pipeline", basic: "Yes", professional: "Yes", enterprise: "Yes" },
       { feature: "Email Marketing", professional: "Yes", enterprise: "Yes" },
-      { feature: "WhatsApp Integration", basic: "Yes", professional: "Yes", enterprise: "Yes" },
+      { feature: "Chat Channel Integration", basic: "Yes", professional: "Yes", enterprise: "Yes" },
       { feature: "Loyalty Programme", professional: "Yes", enterprise: "Yes" },
       { feature: "Customer Portal", professional: "Optional", enterprise: "Yes" },
       { feature: "AI Recommendations", enterprise: "Yes" },
@@ -350,7 +350,7 @@ export const servicePackages: Service[] = [
     heroImageAlt: "Sales team using a CRM dashboard on a laptop",
     problems: [
       {
-        title: "Enquiries lost in WhatsApp",
+        title: "Enquiries lost in chat threads",
         description: "Customers message your business number. The chats mix with personal messages. Someone on the team says they'll follow up — and forgets.",
       },
       {
@@ -369,18 +369,18 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Your competitors are building the relationship you aren't",
-        description: "The businesses winning your customers are running email follow-ups, WhatsApp broadcasts, and loyalty programmes. The customers don't leave because they feel remembered. You can do the same — without a marketing team.",
+        description: "The businesses winning your customers are running email follow-ups, chat broadcasts, and loyalty programmes. The customers don't leave because they feel remembered. You can do the same — without a marketing team.",
       },
     ],
     howWeHelp: [
       {
         title: "A CRM built for the way small businesses actually sell",
-        description: "Capture every WhatsApp, call, and form enquiry in one place. Assign it to a salesperson, set a follow-up reminder, and never lose a lead to a forgotten chat again.",
+        description: "Capture every chat, call, and form enquiry in one place. Assign it to a salesperson, set a follow-up reminder, and never lose a lead to a forgotten conversation again.",
         image: "/assets/services/customer-growth-crm.jpg",
       },
       {
-        title: "WhatsApp and email — automated, not spammy",
-        description: "Send order updates, appointment reminders, and re-engagement messages through WhatsApp and email. Personalised to the customer, not a blast.",
+        title: "Chat and email — automated, not spammy",
+        description: "Send order updates, appointment reminders, and re-engagement messages through chat and email. Personalised to the customer, not a blast.",
         image: "/assets/services/customer-growth-whatsapp.jpg",
       },
       {
@@ -390,14 +390,14 @@ export const servicePackages: Service[] = [
       },
     ],
     outcomes: [
-      { label: "No enquiry falls through", description: "Every WhatsApp, call, and form lands in the CRM with a follow-up assigned. Nothing slips." },
-      { label: "Repeat customers, not strangers", description: "Email and WhatsApp re-engagement turn one-time buyers into recurring revenue." },
+      { label: "No enquiry falls through", description: "Every chat, call, and form lands in the CRM with a follow-up assigned. Nothing slips." },
+      { label: "Repeat customers, not strangers", description: "Email and chat re-engagement turn one-time buyers into recurring revenue." },
       { label: "A pipeline you can forecast", description: "See exactly what's closing this month, what's stalled, and what to push. No more guessing." },
     ],
     faqs: [
       {
-        question: "Does it work with our existing WhatsApp Business account?",
-        answer: "Yes. We integrate with your current WhatsApp Business setup. No need to change your number or start a new account.",
+        question: "Does it work with our existing chat and business number?",
+        answer: "Yes. We connect to the chat apps and business number you already use. No need to change your number or start a new account.",
       },
       {
         question: "Do my salespeople need to be tech-savvy?",
@@ -405,7 +405,7 @@ export const servicePackages: Service[] = [
       },
       {
         question: "Can I send bulk messages to customers?",
-        answer: "Yes, through WhatsApp broadcasts and email. We help you set up compliant, opt-in lists so you reach customers who actually want to hear from you.",
+        answer: "Yes, through chat broadcasts and email. We help you set up compliant, opt-in lists so you reach customers who actually want to hear from you.",
       },
     ],
   },
@@ -456,7 +456,7 @@ export const servicePackages: Service[] = [
     observations: [
       {
         title: "You have the data — it's just scattered",
-        description: "Your sales system, your bank, your MoMo statements, and your spreadsheets are all telling parts of the story. Nobody's put them together. We do.",
+        description: "Your sales system, your bank, your payment alerts, and your spreadsheets are all telling parts of the story. Nobody's put them together. We do.",
       },
       {
         title: "The businesses growing fastest have a weekly review rhythm",
@@ -488,7 +488,7 @@ export const servicePackages: Service[] = [
     faqs: [
       {
         question: "What data sources can you connect?",
-        answer: "Any system that exports data — your POS, your accounting software, your bank, your MoMo, spreadsheets, even other CRMs. We connect to all of them and normalise the data.",
+        answer: "Any system that exports data — your POS, your accounting software, your bank, mobile-money reports, spreadsheets, even other CRMs. We connect to all of them and normalise the data.",
       },
       {
         question: "Do I need a data analyst on my team?",

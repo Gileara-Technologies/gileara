@@ -40,15 +40,15 @@ export const founders: readonly Founder[] = [
     role: "Co-Founder & COO",
     cred: "Runs delivery and client operations.",
     quote: "Every project is a promise. We keep ours.",
-    image: "/assets/images/julian_hagan.jpg",
+    image: "/assets/images/Julian.jpg",
     linkedin: "https://www.linkedin.com/in/julian-hagan/",
   },
   {
     name: "Rodney Hagan",
     role: "Co-Founder & CTO",
-    cred: "Leads platform engineering — MoMo and WhatsApp integrations.",
+    cred: "Leads platform engineering — payments, chat-based ordering, and offline-tolerant builds.",
     quote: "Technology should disappear into the workflow, not demand attention.",
-    image: "/assets/images/rodney_hagan.jpg",
+    image: "/assets/images/rodney.jpg",
     linkedin: "https://www.linkedin.com/in/haganrodney/",
   },
 ] as const;

@@ -19,9 +19,9 @@ export const faqs: Faq[] = [
       "Every price is published on our Packages & Services page. Packages start at $550 setup + $85/month (Digital Foundation Basic) and scale up to enterprise tiers at $16,300 + $1,360/month (Business Intelligence). Each tier's full feature matrix is listed so you can compare before you ever talk to us.",
   },
   {
-    question: "Can I pay with MTN MoMo?",
+    question: "Can I pay with mobile money?",
     answer:
-      "Yes — MTN Mobile Money is one of our standard billing rails alongside card payments through Paystack and Hubtel. We invoice in USD but settle in the way that suits your business.",
+      "Yes — mobile money is one of our standard billing rails, alongside card payments and bank transfer. We invoice in USD but settle in the way that suits your business. We'll confirm the available methods on the discovery call based on your bank and country.",
   },
   {
     question: "What does 'managed services included' actually mean?",
@@ -46,7 +46,7 @@ export const faqs: Faq[] = [
   {
     question: "Where do you operate?",
     answer:
-      "We're currently piloting in Ghana — Accra-based, GMT-native, and built around mobile money, WhatsApp, and low-bandwidth realities. But the same packages work for any small or growing business that wants outcome-led technology, wherever you operate. If you're outside Ghana, book a free consultation and we'll tell you honestly whether we're a fit for your market today.",
+      "We're currently piloting in Ghana — Accra-based, GMT-native, and built for how business actually runs here (mobile money, chat-based ordering, low-bandwidth realities). The same packages work for any small or growing business that wants outcome-led technology. If you're outside Ghana, book a free consultation and we'll tell you honestly whether we're a fit for your market today.",
   },
   {
     question: "Some packages say 'Rolling out Q4 2026'. Can I still book them?",

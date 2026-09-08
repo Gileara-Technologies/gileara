@@ -61,10 +61,12 @@ Security headers (HSTS, nosniff, DENY framing, referrer policy) are applied via 
 Required vars (copy `.env.example`):
 ```
 GOOGLE_CLIENT_EMAIL=
-GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
+GOOGLE_PRIVATE_KEY="<see docs/SECRETS.md — never commit the real key>"
 GOOGLE_CALENDAR_ID=
 CONTACT_EMAIL=tech.gileara@gmail.com
 ```
+
+> **All secrets live in Cloudflare Secrets or `.env.local` (gitignored)** — never in tracked files. The example above shows the *shape* only. See `docs/SECRETS.md` for the full policy.
 
 Optional vars:
 ```
@@ -72,7 +74,7 @@ MAINTENANCE_MODE=          # non-empty takes the whole site down
 MAINTENANCE_BYPASS_SECRET= # enables the ?__mbp= bypass cookie exchange
 ```
 
-> `.env*.local` is gitignored. The Google private key is stored directly in `wrangler.toml` `[vars]` (single-quoted TOML literal string to preserve `\n` literals). Do **not** commit service account key files (`giltech-keys.json` is gitignored).
+> `.env*.local` is gitignored. **All secrets live in Cloudflare Secrets (encrypted) or `.env.local` (gitignored) — never in `wrangler.toml` `[vars]`, never in any tracked file.** See `docs/SECRETS.md` for the full policy. A pre-commit hook + GitHub Action scan every change for secret patterns; rotations are tracked in `docs/SECRETS-INCIDENTS.md`.
 
 ## Deployment
 

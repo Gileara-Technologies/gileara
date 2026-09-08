@@ -55,7 +55,7 @@ const ROTATE_MS = 5000;
 export default function Hero() {
   const benefits = [
     "Spreadsheets → live data",
-    "WhatsApp threads → one inbox",
+    "Chat threads → one inbox",
     "Lost leads → followed up",
   ];
 
@@ -130,6 +130,12 @@ export default function Hero() {
               your business{" "}
               <span className="italic text-accent-cyan">runs on.</span>
             </DisplayHeading>
+
+            <RevealText delay={0.15}>
+              <p className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6 md:mb-8">
+                Outcomes over code · Managed from day one · Built for how business actually runs
+              </p>
+            </RevealText>
 
             <RevealText delay={0.2}>
               <p className="text-body-lg md:text-2xl text-on-background/85 max-w-2xl leading-relaxed font-sans mb-10 md:mb-12">
