@@ -54,10 +54,10 @@ export const scenarios: TransformationScenario[] = [
     ],
     packageIds: ["business-operations", "business-intelligence"],
     implementation: [
-      { phase: "Diagnose", detail: "Map how stock, sales, and supplier orders actually flow today: counter, storeroom, and the notebook." },
+      { phase: "Diagnose", detail: "Map how stock, sales, and supplier orders flow today: counter, storeroom, and the notebook." },
       { phase: "Implement", detail: "Business Operations: inventory with categories and low-stock alerts, sales and expense recording, and structured mobile-money / cash payment capture." },
       { phase: "Implement", detail: "Batch and expiry tracking on medicines, with alerts surfaced before dates pass." },
-      { phase: "Run", detail: "Managed services from day one: backups, updates, and support while staff adjust." },
+      { phase: "Run", detail: "Managed services from launch: backups, updates, and support while staff adjust." },
       { phase: "Grow", detail: "Business Intelligence: weekly dashboards for margins, fastest-moving items, and dead stock." },
     ],
     targetOutcomes: [
@@ -92,7 +92,7 @@ export const scenarios: TransformationScenario[] = [
       "Fee collection status for the whole school fits on one screen",
     ],
     ghanaContext:
-      "Parents already pay fees through mobile money and expect updates over chat, so the workflows follow the behaviours that exist, not the other way round.",
+      "Parents already pay fees through mobile money and expect updates over chat, so the workflows follow the behaviours that already exist.",
     status: "scenario",
   },
   {
@@ -102,7 +102,7 @@ export const scenarios: TransformationScenario[] = [
     headline: "The restaurant that fills tables on slow days",
     painPoints: [
       "Orders arrive by call, message, and walk-in; nothing connects to anything",
-      "Regulars are known by face, not by history, so promotions go to everyone equally",
+      "Regulars are known by face but have no history, so promotions go to everyone equally",
       "There's no answer to 'what actually sells?' beyond memory",
     ],
     packageIds: ["customer-growth", "business-operations"],
@@ -113,7 +113,7 @@ export const scenarios: TransformationScenario[] = [
       { phase: "Run", detail: "Managed support while menu changes and price updates flow through without a developer." },
     ],
     targetOutcomes: [
-      "Slow-day promotions reach the customers most likely to come, not everybody",
+      "Slow-day promotions reach the customers most likely to come",
       "Top customers by spend are known by name and treated like it",
       "One screen answers 'what sold, what didn't' each night",
     ],
@@ -129,22 +129,22 @@ export const scenarios: TransformationScenario[] = [
     painPoints: [
       "Invisible online: neighbours searching Google never find the shop",
       "Stock counting means closing for a weekend with a clipboard",
-      "Best-sellers and dead items are a feeling, not a fact",
+      "Nobody knows which items are best-sellers and which are dead stock; both are judged by feeling",
     ],
     packageIds: ["digital-foundation", "business-operations", "customer-growth"],
     implementation: [
       { phase: "Stage 1", detail: "Digital Foundation: website, Google Business Profile, and analytics, so searches turn into foot traffic you can measure." },
-      { phase: "Stage 2", detail: "Business Operations: inventory and sales recording, so counting stock becomes an afternoon, not a closure." },
+      { phase: "Stage 2", detail: "Business Operations: inventory and sales recording, so an afternoon of counting replaces the weekend closure." },
       { phase: "Stage 3", detail: "Customer Growth: repeat-customer tracking and promotions built on real purchase history." },
       { phase: "Grow", detail: "Nothing bought in an earlier stage gets thrown away when you climb to the next one." },
     ],
     targetOutcomes: [
       "The shop appears when nearby customers search for what it sells",
       "Stock takes count in an afternoon with numbers you trust",
-      "Ordering decisions follow sell-through data, not shelf memory",
+      "Ordering decisions follow sell-through data",
     ],
     ghanaContext:
-      "Google Business Profile drives directions and calls for local shops; every payment at the counter stays part of recorded sales, not a side ledger.",
+      "Google Business Profile drives directions and calls for local shops; every payment at the counter lands in recorded sales, and nothing drifts into a side ledger.",
     status: "scenario",
   },
   {
@@ -170,7 +170,7 @@ export const scenarios: TransformationScenario[] = [
       "Any stylist can serve any returning client without starting from zero",
     ],
     ghanaContext:
-      "Reminders go out over chat, the channel clients actually read. They're written to feel like the salon, not a robot.",
+      "Reminders go out over chat, the channel clients actually read. Messages are written in the salon's own voice.",
     status: "scenario",
   },
 ];
