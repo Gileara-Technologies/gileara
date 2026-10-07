@@ -37,11 +37,11 @@ export default function ServicesPageClient() {
         eyebrow="WHAT WE BUILD"
         headline={
           <>
-            Five problems.{" "}
-            <span className="italic text-accent-cyan">One system each.</span>
+            Five problems,{" "}
+            <span className="italic text-accent-cyan">one system each.</span>
           </>
         }
-        subtitle="The five problems we see most in small business, and the systems we build to solve each one. Pricing, features, and what's included — all in one place."
+        subtitle="The five problems we see most in small business and the systems we build to solve each one, with pricing, features, and what's included all on this page."
         cta={
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8">
             <MagneticButton href="/contact" variant="primary" size="lg">
@@ -151,8 +151,8 @@ export default function ServicesPageClient() {
               <SectionLabel label="THE FULL PRICING SHEET" className="mb-8" />
             </RevealText>
             <DisplayHeading size="md" as="h2">
-              All five services.{" "}
-              <span className="italic text-accent-cyan">All three tiers.</span>
+              All five services,{" "}
+              <span className="italic text-accent-cyan">all three tiers.</span>
             </DisplayHeading>
           </div>
 
@@ -186,7 +186,7 @@ export default function ServicesPageClient() {
               ))}
             </div>
             <p className="text-on-surface-variant text-sm mt-6 max-w-2xl">
-              Bespoke projects are quoted per scope. We&apos;ll scope it in your free consultation.
+              Bespoke projects are quoted per scope. We&apos;ll scope yours during the free consultation.
             </p>
           </div>
         </div>
@@ -216,7 +216,7 @@ export default function ServicesPageClient() {
             <span className="italic text-accent-cyan">right place together.</span>
           </>
         }
-        body="Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it — even if the answer turns out to be something we don't do."
+        body="Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it, even if the answer turns out to be something we don't do."
       />
     </>
   );

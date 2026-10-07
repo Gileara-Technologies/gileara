@@ -8,7 +8,7 @@ export const siteConfig = {
   name: "Gileara Technologies",
   /** v3.0 market position line — problem-focused, global with Ghana as launch market */
   positioningLine:
-    "We see the same problem in small business everywhere: the work that should be invisible is still eating the founder's week. We build the systems that fix it — currently piloting in Ghana, designed to scale globally.",
+    "We see the same problem in small business everywhere: the work that should be invisible is still eating the founder's week. We build the systems that fix it, piloting in Ghana now and designing for global scale.",
   email: "tech.gileara@gmail.com", // TODO: replace with domain alias (e.g. hello@gileara.org) when domain email exists
   // TODO: placeholders — replace with real numbers when provided
   phone: "+233 XX XXX XXXX",

@@ -10,7 +10,7 @@ import { siteConfig } from '@/content/site-config';
 
 const GOAL_OPTIONS = [
   ...servicePackages.map((p) => ({ value: p.id, label: p.name })),
-  { value: 'unsure', label: "Not sure yet — help me choose" },
+  { value: 'unsure', label: "Not sure yet, help me choose" },
 ];
 
 type Step = 'details' | 'calendar' | 'success';
@@ -99,7 +99,7 @@ export default function ContactStepper() {
           >
             <div className="text-center space-y-2 mb-8">
               <h3 className="text-3xl font-bold text-on-surface">Tell us about your business</h3>
-              <p className="text-on-surface-variant text-lg">Thirty minutes, free — we&apos;ll come prepared.</p>
+              <p className="text-on-surface-variant text-lg">Thirty minutes, free, and we&apos;ll come prepared.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -165,7 +165,7 @@ export default function ContactStepper() {
                 id="booking-message"
                 required
                 rows={4}
-                placeholder="Roughly where's the pain — spreadsheets, stock tracking, customer follow-ups, reporting…"
+                placeholder="Roughly where's the pain: spreadsheets, stock tracking, customer follow-ups, reporting…"
                 className={`${inputClass} resize-none`}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -199,7 +199,7 @@ export default function ContactStepper() {
               <div className="mt-6 p-5 bg-red-500/10 border border-red-500/20 rounded-2xl text-sm space-y-3">
                 <div className="flex items-center gap-3 text-red-500">
                   <span className="material-symbols-outlined text-xl" aria-hidden="true">error</span>
-                  <span>Booking system hiccup — your details are safe.</span>
+                  <span>Booking system hiccup. Your details are safe.</span>
                 </div>
                 <a
                   href={fallbackMailto()}
@@ -225,7 +225,7 @@ export default function ContactStepper() {
             </div>
             <h3 className="text-3xl font-bold text-on-surface">You&apos;re booked!</h3>
             <p className="text-on-surface-variant text-lg">
-              Your request is in. We&apos;ll confirm the slot in your calendar within 24 hours — and you&apos;ll hear from a real person, not a robot.
+              Your request is in. We&apos;ll confirm the slot in your calendar within 24 hours, and a real person will reply.
             </p>
             <Link href="/" className="text-primary hover:underline font-medium">
               Back to gileara.org

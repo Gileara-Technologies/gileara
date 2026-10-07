@@ -13,10 +13,10 @@ export default function CareersHero() {
         headline={
           <>
             Join the team building{" "}
-            <span className="italic text-accent-cyan">what&apos;s next.</span>
+            <span className="italic text-accent-cyan">what small businesses run on.</span>
           </>
         }
-        subtitle="Help us build innovative solutions that make a real impact. We are always looking for passionate individuals who want to grow, learn, and contribute to meaningful projects."
+        subtitle="We're always looking for engineers and designers who want to grow with the team. Four roles are open now: full-stack (two seats), UI/UX, DevOps, and project management."
       />
 
       <section className="bg-background py-16 md:py-24 px-6 md:px-12 border-t border-on-background/10">
@@ -32,11 +32,11 @@ export default function CareersHero() {
               Who we are
             </div>
             <h2 className="font-serif text-2xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-6">
-              Built on{" "}
-              <span className="italic text-accent-cyan">innovation, collaboration,</span> and continuous learning.
+              Ghana first,{" "}
+              <span className="italic text-accent-cyan">global by design.</span>
             </h2>
             <p className="text-body-lg text-on-surface-variant leading-relaxed">
-              Gileara Technologies is built on a foundation of innovation, collaboration, and continuous learning. We don&apos;t just write code; we design robust systems that power modern businesses. Our culture values excellence, creative problem-solving, and the drive to tackle complex technical challenges in a supportive environment.
+              Gileara Technologies builds the systems small businesses run on, from Next.js interfaces to Postgres schemas and Cloudflare Workers deploys. We pilot in Ghana and design for global scale. The team is small, so hard technical problems get solved together and everyone gets time to keep learning.
             </p>
           </motion.div>
         </div>

@@ -42,11 +42,11 @@ export default function HowWeTransformClient() {
         eyebrow="HOW WE SOLVE IT"
         headline={
           <>
-            Playbooks, not{" "}
-            <span className="italic text-accent-cyan">promises.</span>
+            What we&apos;d change,{" "}
+            <span className="italic text-accent-cyan">and how.</span>
           </>
         }
-        subtitle="We're new, and we won't pretend otherwise: there are no client logos on this page yet. What we have instead is better than borrowed credibility — exact playbooks for businesses like yours, with every outcome stated as a goal rather than a claim."
+        subtitle="We're new, and we won't pretend otherwise: there are no client logos on this page yet. What you get instead is an exact playbook for a business like yours, with every outcome stated as a goal rather than a claim."
       />
 
       {/* Status legend */}
@@ -142,7 +142,7 @@ export default function HowWeTransformClient() {
                 Be the first real story in your vertical.
               </h2>
               <p className="text-on-surface-variant text-base leading-relaxed mb-6">
-                One business per vertical becomes a founding client: priority onboarding and a documented transformation story published with your approval — when the results are real.
+                One business per vertical becomes a founding client: priority onboarding, plus a documented transformation story published with your approval once the results are real.
               </p>
               <Link
                 href="/contact"
@@ -167,7 +167,7 @@ export default function HowWeTransformClient() {
             <span className="italic text-accent-cyan">playbook</span> together.
           </>
         }
-        body="If you run a pharmacy, school, restaurant, salon, or retail store — we'd like to write your transformation story together."
+        body="If you run a pharmacy, school, restaurant, salon, or retail store, we'd like to write your transformation story together."
       />
     </div>
   );

@@ -49,24 +49,24 @@ export const scenarios: TransformationScenario[] = [
     headline: "The pharmacy that always knows its stock",
     painPoints: [
       "Stock counts live in notebooks, so reorders happen after shelves are already empty",
-      "Expiry dates hide in boxes — write-offs are discovered at count time, not before",
+      "Expiry dates hide in boxes, so write-offs are only discovered at count time",
       "Mobile-money sales mix with cash, and closing the day means reconciling by hand",
     ],
     packageIds: ["business-operations", "business-intelligence"],
     implementation: [
-      { phase: "Diagnose", detail: "Map how stock, sales, and supplier orders actually flow today — counter, storeroom, and the notebook." },
+      { phase: "Diagnose", detail: "Map how stock, sales, and supplier orders actually flow today: counter, storeroom, and the notebook." },
       { phase: "Implement", detail: "Business Operations: inventory with categories and low-stock alerts, sales and expense recording, and structured mobile-money / cash payment capture." },
       { phase: "Implement", detail: "Batch and expiry tracking on medicines, with alerts surfaced before dates pass." },
-      { phase: "Run", detail: "Managed services from day one — backups, updates, and support while staff adjust." },
+      { phase: "Run", detail: "Managed services from day one: backups, updates, and support while staff adjust." },
       { phase: "Grow", detail: "Business Intelligence: weekly dashboards for margins, fastest-moving items, and dead stock." },
     ],
     targetOutcomes: [
-      "Reorder alerts arrive before stockouts, not after",
+      "Reorder alerts arrive before stockouts",
       "Expiry write-offs shrink toward zero because dates surface early",
       "End-of-day close takes minutes instead of an evening of hand-reconciliation",
     ],
     ghanaContext:
-      "Sales arrive over the counter through several channels — the system tracks each one separately so reconciliation stops being a nightly puzzle.",
+      "Sales arrive over the counter through several channels. The system tracks each one separately, so reconciliation stops being a nightly puzzle.",
     status: "scenario",
   },
   {
@@ -87,12 +87,12 @@ export const scenarios: TransformationScenario[] = [
       { phase: "Grow", detail: "A public website (Digital Foundation tier) so admissions enquiries start arriving with context instead of cold." },
     ],
     targetOutcomes: [
-      "Every family can see a clear statement of what they owe — before term ends",
+      "Every family can see a clear statement of what they owe before term ends",
       "No admission enquiry goes unanswered past the same day",
       "Fee collection status for the whole school fits on one screen",
     ],
     ghanaContext:
-      "Parents already pay fees through mobile money and expect updates over chat — the workflows follow the behaviours that exist, not the other way round.",
+      "Parents already pay fees through mobile money and expect updates over chat, so the workflows follow the behaviours that exist, not the other way round.",
     status: "scenario",
   },
   {
@@ -101,7 +101,7 @@ export const scenarios: TransformationScenario[] = [
     icon: "restaurant",
     headline: "The restaurant that fills tables on slow days",
     painPoints: [
-      "Orders arrive by call, message, and walk-in — nothing connects to anything",
+      "Orders arrive by call, message, and walk-in; nothing connects to anything",
       "Regulars are known by face, not by history, so promotions go to everyone equally",
       "There's no answer to 'what actually sells?' beyond memory",
     ],
@@ -114,11 +114,11 @@ export const scenarios: TransformationScenario[] = [
     ],
     targetOutcomes: [
       "Slow-day promotions reach the customers most likely to come, not everybody",
-      "Top customers by spend are known by name — and treated like it",
+      "Top customers by spend are known by name and treated like it",
       "One screen answers 'what sold, what didn't' each night",
     ],
     ghanaContext:
-      "Orders and complaints already come in over chat — campaigns ride the channel your customers opened first.",
+      "Orders and complaints already come in over chat, so campaigns ride the channel your customers opened first.",
     status: "scenario",
   },
   {
@@ -127,16 +127,16 @@ export const scenarios: TransformationScenario[] = [
     icon: "storefront",
     headline: "The shop that climbs the ladder in stages",
     painPoints: [
-      "Invisible online — neighbours searching Google never find the shop",
+      "Invisible online: neighbours searching Google never find the shop",
       "Stock counting means closing for a weekend with a clipboard",
       "Best-sellers and dead items are a feeling, not a fact",
     ],
     packageIds: ["digital-foundation", "business-operations", "customer-growth"],
     implementation: [
-      { phase: "Stage 1", detail: "Digital Foundation: website, Google Business Profile, and analytics — so searches turn into foot traffic you can measure." },
+      { phase: "Stage 1", detail: "Digital Foundation: website, Google Business Profile, and analytics, so searches turn into foot traffic you can measure." },
       { phase: "Stage 2", detail: "Business Operations: inventory and sales recording, so counting stock becomes an afternoon, not a closure." },
       { phase: "Stage 3", detail: "Customer Growth: repeat-customer tracking and promotions built on real purchase history." },
-      { phase: "Grow", detail: "Each stage keeps the last — nothing bought earlier gets thrown away when you climb." },
+      { phase: "Grow", detail: "Nothing bought in an earlier stage gets thrown away when you climb to the next one." },
     ],
     targetOutcomes: [
       "The shop appears when nearby customers search for what it sells",
@@ -153,15 +153,15 @@ export const scenarios: TransformationScenario[] = [
     icon: "content_cut",
     headline: "The salon where chairs stay booked",
     painPoints: [
-      "Bookings live in messages and missed calls — double-bookings and gaps both happen",
+      "Bookings live in messages and missed calls, so double-bookings and gaps both happen",
       "No-shows cost money and there's no gentle way to remind clients",
       "Client preferences live in stylists' heads and leave when they do",
     ],
     packageIds: ["customer-growth"],
     implementation: [
-      { phase: "Diagnose", detail: "Follow a booking from first message to chair to return visit — and find where it falls through." },
+      { phase: "Diagnose", detail: "Follow a booking from first message to chair to return visit, and find where it falls through." },
       { phase: "Implement", detail: "Customer Growth: a booking pipeline with appointment records, automated reminders over chat, and rebooking prompts after visits." },
-      { phase: "Implement", detail: "Client profiles carry service history and preferences, so any stylist picks up any client seamlessly." },
+      { phase: "Implement", detail: "Client profiles carry service history and preferences, so any stylist can serve any client." },
       { phase: "Run", detail: "Managed support keeps reminders flowing while the team learns the rhythm." },
     ],
     targetOutcomes: [
@@ -170,7 +170,7 @@ export const scenarios: TransformationScenario[] = [
       "Any stylist can serve any returning client without starting from zero",
     ],
     ghanaContext:
-      "Reminders go out over chat — the channel clients actually read — written to feel like the salon, not a robot.",
+      "Reminders go out over chat, the channel clients actually read. They're written to feel like the salon, not a robot.",
     status: "scenario",
   },
 ];
@@ -185,7 +185,7 @@ export function scenarioPackages(scenario: TransformationScenario): ServicePacka
 const servicePackageById = new Map(servicePackages.map((p) => [p.id, p]));
 
 export const SCENARIO_STATUS_LEGEND: Record<ScenarioStatus, string> = {
-  scenario: "A playbook we're ready to implement — no client yet",
+  scenario: "A playbook we're ready to implement, with no client yet",
   pilot: "Running with a real business right now",
   "case-study": "Completed with measurable results the client approved publishing",
 };

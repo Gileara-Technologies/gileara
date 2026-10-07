@@ -13,11 +13,10 @@ const experienceLevels = [
 ];
 
 const positions = [
-  "Frontend Developer",
-  "Backend Developer",
-  "QA Engineer",
+  "Full-Stack Engineer",
+  "UI/UX Designer",
   "DevOps Engineer",
-  "UI/UX Designer"
+  "Project Manager"
 ];
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB

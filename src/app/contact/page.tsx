@@ -10,12 +10,12 @@ import { siteConfig } from "@/content/site-config";
 export const metadata: Metadata = {
   title: "Talk to Gileara | Gileara Technologies",
   description:
-    "Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it — even if the answer turns out to be something we don't do.",
+    "Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it, even if the answer turns out to be something we don't do.",
   alternates: { canonical: "/contact" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "Talk to Gileara | Gileara Technologies",
-    description: "Tell us what's hard about running your business — we'll help you think through it.",
+    description: "Tell us what's hard about running your business and we'll help you think through it.",
     url: "/contact",
     siteName: "Gileara Technologies",
     type: "website",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Talk to Gileara | Gileara Technologies",
-    description: "Tell us what's hard about running your business — we'll help you think through it.",
+    description: "Tell us what's hard about running your business and we'll help you think through it.",
     // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
@@ -134,7 +134,7 @@ export default function ContactPage() {
               <span className="italic text-accent-cyan">running your business.</span>
             </>
           }
-          subtitle="Thirty minutes, free. Bring the mess — sales, stock, customers, cashflow, all of it — and we'll help you think through it."
+          subtitle="Thirty minutes, free. Bring the mess: sales, stock, customers, cashflow, all of it. We'll help you think through it."
         />
 
         <section className="bg-background py-20 md:py-28 px-6 md:px-12 border-t border-on-background/10">
@@ -195,7 +195,7 @@ export default function ContactPage() {
                 </div>
 
                 <p className="mt-12 text-on-surface-variant text-sm max-w-md">
-                  Prefer email? Write to us any time — a real person (usually the founders) reads and replies.
+                  Prefer email? Write any time. A real person (usually the founders) reads and replies.
                 </p>
               </div>
 

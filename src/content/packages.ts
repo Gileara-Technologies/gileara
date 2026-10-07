@@ -98,7 +98,7 @@ export interface Service {
 }
 
 export const MANAGED_SERVICES_NOTE =
-  "Every service includes managed services from day one — IT support, software updates, backups, security monitoring (tier-based), SLA support, and dedicated engineering (Enterprise). No hidden costs.";
+  "Every service includes managed services from day one: IT support, software updates, backups, security monitoring (tier-based), SLA support, and dedicated engineering (Enterprise). All of it is included, with no hidden costs.";
 
 export const servicePackages: Service[] = [
   {
@@ -144,7 +144,7 @@ export const servicePackages: Service[] = [
     problems: [
       {
         title: "No online presence",
-        description: "You run a real business but customers can't find you on Google. Your competitors show up first — and win the orders.",
+        description: "You run a real business but customers can't find you on Google. Your competitors show up first and win the orders.",
       },
       {
         title: "Renting tools, not owning anything",
@@ -152,17 +152,17 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Inbox is your CRM",
-        description: "Customer enquiries land in personal Gmail. You reply from your phone. There's no record, no follow-up, no way to scale.",
+        description: "Customer enquiries land in personal Gmail and you reply from your phone. Nothing is recorded and nothing gets followed up, so there is no way to scale.",
       },
       {
         title: "No way to be reached professionally",
-        description: "You don't have a business email. You use a Yahoo address from 2010. Customers notice — and it costs you trust.",
+        description: "You don't have a business email. You use a Yahoo address from 2010. Customers notice, and it costs you trust.",
       },
     ],
     observations: [
       {
         title: "The best businesses in your space already have a site",
-        description: "When we search for your category in your market — Accra today, and wherever you operate next — the businesses ranking on page one all have professional sites, real domains, and active Google Business profiles. If you're not there, you're invisible to the next customer who's looking.",
+        description: "When we search for your category in your market, whether in Accra today or wherever you operate next, the businesses ranking on page one all have professional sites, real domains, and active Google Business profiles. If you're not there, you're invisible to the next customer who's looking.",
       },
       {
         title: "Your brand is being decided without you",
@@ -172,13 +172,13 @@ export const servicePackages: Service[] = [
     howWeHelp: [
       {
         title: "A business website you actually own",
-        description: "Custom-built for your industry, hosted on your domain, designed mobile-first. You get the login. You own the content. We host it for you.",
+        description: "Custom-built for your industry, hosted on your domain, and designed mobile-first. You get the login and own the content; we host it for you.",
         image: "/assets/services/digital-foundation-website.jpg",
         imageAlt: "Online shopping on a computer screen",
       },
       {
         title: "A real business email and Google presence",
-        description: "you@yourbusiness.com, a verified Google Business Profile, and SEO that puts you on the map locally. Customers find you, trust you, and contact you directly.",
+        description: "you@yourbusiness.com, a verified Google Business Profile, and SEO that puts you on the map locally. Customers find you through local search and contact you directly, trusting what they see when they get there.",
         // Auto-change carousel: chat-on-laptop → google-browser-on-laptop
         images: [
           { src: "/assets/services/digital-foundation-google.jpg", alt: "A woman using chat while typing on a laptop at home" },
@@ -186,7 +186,7 @@ export const servicePackages: Service[] = [
         ],
       },
       {
-        title: "Booking, payments, and contact — all in one place",
+        title: "Booking, payments, and contact in one place",
         description: "Customers can book a service, pay a deposit, or send a message without endless back-and-forth. The site works while you sleep.",
         image: "/assets/services/digital-foundation-booking.jpg",
         imageAlt: "A person holding a card while using a laptop",
@@ -200,7 +200,7 @@ export const servicePackages: Service[] = [
     faqs: [
       {
         question: "Do I need to know anything about websites?",
-        answer: "No. We handle everything — domain registration, hosting, design, content uploads, email setup. You approve the look and we do the rest.",
+        answer: "No. We handle everything: domain registration, hosting, design, content uploads, and email setup. You approve the look, we do the rest.",
       },
       {
         question: "Who owns the website and domain?",
@@ -217,7 +217,7 @@ export const servicePackages: Service[] = [
     slug: "business-operations",
     order: 2,
     name: "Business Operations",
-    tagline: "Replace spreadsheets and paperwork with intelligent business management.",
+    tagline: "Replace spreadsheets and paperwork with one system that runs the day-to-day.",
     heroHeadline: "Run your operations from one place",
     heroAccent: "— not twenty.",
     primaryGoal: "Digitise daily operations",
@@ -259,7 +259,7 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Sales, expenses, and cash in different places",
-        description: "Sales live in one notebook, expenses in another, payment alerts on a phone, cash in a drawer. The real numbers live in your head — and your head is full.",
+        description: "Sales live in one notebook, expenses in another, payment alerts on a phone, cash in a drawer. The real numbers live in your head, and your head is full.",
       },
       {
         title: "Customer records that walk out the door",
@@ -267,40 +267,40 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Reconciling by hand, line by line",
-        description: "Every night, you match payment alerts against receipts against a sales book. It's slow, error-prone, and the kind of work that drains a founder.",
+        description: "Every night, you match payment alerts against receipts against a sales book. It's slow and error-prone, the kind of work that drains a founder.",
       },
     ],
     observations: [
       {
         title: "Most of your week is admin, not selling",
-        description: "When we audit a business like yours, the owner spends 15–25 hours a week on tasks a system should be doing — counting stock, typing receipts, chasing payments, building reports. That's time you'll never get back.",
+        description: "When we audit a business like yours, the owner spends 15–25 hours a week on tasks a system should be doing: counting stock, typing receipts, chasing payments, building reports, hours you'll never get back.",
       },
       {
         title: "Your margins are leaking in places you can't see",
-        description: "Without a single source of truth, expenses get miscategorised, stock gets misplaced, and small losses compound. We see it in every business we walk into.",
+        description: "Nothing sits in one system, so expenses get miscategorised, stock gets misplaced, and small losses compound. We see it in every business we walk into.",
       },
     ],
     howWeHelp: [
       {
         title: "A single system for sales, stock, and customers",
-        description: "One login, one place. Every sale, every expense, every customer is recorded in real time. The system tells you what sold, what's left, and who owes you — without you asking.",
+        description: "One login, one place: every sale, expense, and customer recorded in real time. The system tells you what sold, what's left, and who owes you without you asking.",
         image: "/assets/services/business-operations-dashboard.jpg",
       },
       {
         title: "Mobile money, cash, and bank in one view",
-        description: "We connect the payment channels you already use — mobile money, bank, cash — so reconciliation happens automatically. No more matching alerts to receipts at midnight.",
+        description: "We connect the payment channels you already use (mobile money, bank, cash) so reconciliation happens automatically. No more matching alerts to receipts at midnight.",
         image: "/assets/services/business-operations-payments.jpg",
       },
       {
         title: "Reports you actually read",
-        description: "Daily sales, weekly expenses, monthly profit, branch-by-branch comparison. We build the reports that matter for your business — not a generic dashboard you'll never open.",
+        description: "Daily sales, weekly expenses, monthly profit, and branch-by-branch comparison, all built for your business rather than pulled from a generic dashboard you'll never open.",
         image: "/assets/services/business-operations-reports.jpg",
       },
     ],
     outcomes: [
-      { label: "Hours back every week", description: "The admin work that consumed your evenings gets done in minutes. You get your time back." },
+      { label: "Hours back every week", description: "The admin work that consumed your evenings gets done in minutes." },
       { label: "Stock you can trust", description: "Real-time inventory means no more 'we thought we had it' conversations. You know what's on the shelf right now." },
-      { label: "Decisions on real numbers", description: "When you know your margins, you can price, hire, and invest with confidence — not gut feel." },
+      { label: "Decisions on real numbers", description: "When you know your margins, you can price, hire, and invest with confidence instead of gut feel." },
     ],
     faqs: [
       {
@@ -309,7 +309,7 @@ export const servicePackages: Service[] = [
       },
       {
         question: "Can you migrate my existing data?",
-        answer: "Yes. We import your current customer list, inventory, and historical sales so you start with a complete picture — not an empty system.",
+        answer: "Yes. We import your current customer list, inventory, and historical sales, so you start with a complete picture, not an empty system.",
       },
       {
         question: "Does it work without internet?",
@@ -351,7 +351,7 @@ export const servicePackages: Service[] = [
     problems: [
       {
         title: "Enquiries lost in chat threads",
-        description: "Customers message your business number. The chats mix with personal messages. Someone on the team says they'll follow up — and forgets.",
+        description: "Customers message your business number. The chats mix with personal messages. Someone on the team says they'll follow up, then forgets.",
       },
       {
         title: "No view of your sales pipeline",
@@ -359,7 +359,7 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Customers buy once, then disappear",
-        description: "You have no way to stay in touch, no loyalty programme, no email list. Every new sale is a stranger again — and you start the trust-building from zero.",
+        description: "You have no way to stay in touch: no loyalty programme, no email list. Every new sale is a stranger again, and trust-building starts from zero.",
       },
     ],
     observations: [
@@ -369,18 +369,18 @@ export const servicePackages: Service[] = [
       },
       {
         title: "Your competitors are building the relationship you aren't",
-        description: "The businesses winning your customers are running email follow-ups, chat broadcasts, and loyalty programmes. The customers don't leave because they feel remembered. You can do the same — without a marketing team.",
+        description: "The businesses winning your customers are running email follow-ups, chat broadcasts, and loyalty programmes. Customers stay because they feel remembered, and you can do the same without a marketing team.",
       },
     ],
     howWeHelp: [
       {
         title: "A CRM built for the way small businesses actually sell",
-        description: "Capture every chat, call, and form enquiry in one place. Assign it to a salesperson, set a follow-up reminder, and never lose a lead to a forgotten conversation again.",
+        description: "Capture every chat, call, and form enquiry in one place. Assign it to a salesperson with a follow-up reminder, so a forgotten conversation never costs you a lead.",
         image: "/assets/services/customer-growth-crm.jpg",
       },
       {
-        title: "Chat and email — automated, not spammy",
-        description: "Send order updates, appointment reminders, and re-engagement messages through chat and email. Personalised to the customer, not a blast.",
+        title: "Chat and email, automated",
+        description: "Send order updates, appointment reminders, and re-engagement messages through chat and email, personalised to each customer rather than a blast.",
         image: "/assets/services/customer-growth-whatsapp.jpg",
       },
       {
@@ -390,9 +390,9 @@ export const servicePackages: Service[] = [
       },
     ],
     outcomes: [
-      { label: "No enquiry falls through", description: "Every chat, call, and form lands in the CRM with a follow-up assigned. Nothing slips." },
+      { label: "No enquiry falls through", description: "Every chat, call, and form lands in the CRM with a follow-up assigned, so nothing slips." },
       { label: "Repeat customers, not strangers", description: "Email and chat re-engagement turn one-time buyers into recurring revenue." },
-      { label: "A pipeline you can forecast", description: "See exactly what's closing this month, what's stalled, and what to push. No more guessing." },
+      { label: "A pipeline you can forecast", description: "See exactly what's closing this month, what's stalled, and what to push, instead of guessing." },
     ],
     faqs: [
       {
@@ -442,7 +442,7 @@ export const servicePackages: Service[] = [
     problems: [
       {
         title: "Decisions on gut feel",
-        description: "You price, hire, and invest based on what feels right. Sometimes it works, sometimes it doesn't — and you can't tell which was which.",
+        description: "You price, hire, and invest based on what feels right. Sometimes it works and sometimes it doesn't, and you can't tell which was which.",
       },
       {
         title: "Reports that take a week to build",
@@ -455,40 +455,40 @@ export const servicePackages: Service[] = [
     ],
     observations: [
       {
-        title: "You have the data — it's just scattered",
-        description: "Your sales system, your bank, your payment alerts, and your spreadsheets are all telling parts of the story. Nobody's put them together. We do.",
+        title: "You have the data, it's just scattered",
+        description: "Your sales system, your bank, your payment alerts, and your spreadsheets are all telling parts of the story. Nobody's put them together; we do.",
       },
       {
         title: "The businesses growing fastest have a weekly review rhythm",
-        description: "The owners we work with who scale consistently sit down once a week with one dashboard and make three decisions. That's the pattern we build for you.",
+        description: "The owners we work with who scale consistently sit down once a week with one dashboard and make three decisions, which is the pattern we build for you.",
       },
     ],
     howWeHelp: [
       {
         title: "One dashboard, every source, real time",
-        description: "Sales, expenses, inventory, customer data — all in one view. The dashboard updates as your business does, so the numbers you see are the numbers right now.",
+        description: "Sales, expenses, inventory, and customer data in one view. The dashboard updates as your business does, so what you see is what's happening right now.",
         image: "/assets/services/business-intelligence-dashboard.jpg",
       },
       {
         title: "Automated weekly and monthly reports",
-        description: "Your key numbers arrive in your inbox every Monday morning. No more chasing the accountant. No more stale PDFs.",
+        description: "Your key numbers arrive in your inbox every Monday morning: no chasing the accountant, no stale PDFs.",
         image: "/assets/services/business-intelligence-reports.jpg",
       },
       {
         title: "Forecasting and AI insights (Enterprise)",
-        description: "Predict next quarter's revenue, identify customers at risk of churning, and surface the products that are quietly losing you money. The data tells you what to do next.",
+        description: "Predict next quarter's revenue, identify customers at risk of churning, and surface the products that are quietly losing you money, so you know what to do next.",
         image: "/assets/services/business-intelligence-ai.jpg",
       },
     ],
     outcomes: [
-      { label: "Decisions on real numbers", description: "Pricing, hiring, inventory — every decision backed by data, not instinct." },
+      { label: "Decisions on real numbers", description: "Pricing, hiring, and inventory choices backed by data instead of instinct." },
       { label: "Stale reports, eliminated", description: "Weekly automated reports mean you always know where you stand, not where you stood a month ago." },
-      { label: "Predictable growth", description: "When you can see what's coming, you can prepare for it. No more surprises." },
+      { label: "Predictable growth", description: "When you can see what's coming, you can prepare for it instead of being caught by surprise." },
     ],
     faqs: [
       {
         question: "What data sources can you connect?",
-        answer: "Any system that exports data — your POS, your accounting software, your bank, mobile-money reports, spreadsheets, even other CRMs. We connect to all of them and normalise the data.",
+        answer: "Any system that exports data: your POS, your accounting software, your bank, mobile-money reports, spreadsheets, even other CRMs. We connect to all of them and normalise the data.",
       },
       {
         question: "Do I need a data analyst on my team?",
@@ -505,7 +505,7 @@ export const servicePackages: Service[] = [
     slug: "automation-efficiency",
     order: 5,
     name: "Automation & Efficiency",
-    tagline: "Make your business work smarter.",
+    tagline: "Automate the repetitive work your team keeps doing by hand.",
     heroHeadline: "Make the work that doesn't need you",
     heroAccent: "— disappear.",
     primaryGoal: "Reduce manual work",
@@ -531,11 +531,11 @@ export const servicePackages: Service[] = [
     problems: [
       {
         title: "The same task done a hundred times",
-        description: "Every order triggers the same six manual steps: copy from email, paste to spreadsheet, send a Slack message, update a tracker, send a confirmation, file a copy. Every time.",
+        description: "Copy from email, paste to spreadsheet, send a Slack message, update a tracker, send a confirmation, file a copy. The same six steps run for every order.",
       },
       {
         title: "Approvals stuck in someone's inbox",
-        description: "A request sits in an email for three days. The boss is on holiday. The customer is waiting. The team is blocked. Nobody knows whose job it is to chase it.",
+        description: "A request sits in an email for three days. The boss is on holiday, the customer is waiting, the team is blocked, and nobody knows whose job it is to chase it.",
       },
       {
         title: "Data entered twice, then again",
@@ -544,48 +544,48 @@ export const servicePackages: Service[] = [
     ],
     observations: [
       {
-        title: "Automation isn't the future — it's the gap",
-        description: "Your competitors are starting to automate the repetitive work that eats your team's day. Every month you wait, the gap widens. We close it in weeks, not years.",
+        title: "The gap widens every month you wait",
+        description: "Your competitors are starting to automate the repetitive work that eats your team's day, and every month you wait widens the gap. We close it in weeks, not years.",
       },
       {
         title: "The work that drains your best people is the work to automate first",
-        description: "The tasks your skilled team hates are almost always the ones a system can do. Free them up for the work that actually requires a human.",
+        description: "The tasks your skilled team hates are almost always the ones a system can do, so free them up for the work that actually requires a human.",
       },
     ],
     howWeHelp: [
       {
         title: "Workflow automation end to end",
-        description: "We map your process, identify the handoffs, and build the automation. From the trigger to the final notification — without a human in the loop.",
+        description: "We map your process, identify the handoffs, and build the automation from the trigger to the final notification, with no human in the loop.",
         image: "/assets/services/automation-workflow.jpg",
       },
       {
         title: "Smart document processing",
-        description: "Invoices, receipts, applications, contracts. We build the extraction so your team reads the exceptions, not every line.",
+        description: "Invoices, receipts, applications, contracts: we build the extraction so your team reads the exceptions, not every line.",
         image: "/assets/services/automation-documents.jpg",
       },
       {
         title: "Approval systems and notifications",
-        description: "Every request gets routed, every approval gets a deadline, every notification reaches the right person. No more 'I thought you were handling that'.",
+        description: "Every request is routed with a deadline attached, and every notification reaches the right person. No more 'I thought you were handling that'.",
         image: "/assets/services/automation-approvals.jpg",
       },
     ],
     outcomes: [
       { label: "Hours back per employee, per week", description: "The work that used to take 30 minutes of typing now takes 30 seconds of review." },
-      { label: "Faster turnaround", description: "Approvals that took three days now take three hours. Customers feel the difference." },
-      { label: "Zero lost requests", description: "Every request is tracked, every status is visible, nothing disappears into an inbox." },
+      { label: "Faster turnaround", description: "Approvals that took three days now take three hours, and customers feel the difference." },
+      { label: "Zero lost requests", description: "Every request is tracked with a visible status, so nothing disappears into an inbox." },
     ],
     faqs: [
       {
         question: "What can be automated?",
-        answer: "Almost any rule-based, repetitive process. Order handling, invoicing, approvals, data entry, notifications, report generation, customer onboarding — if it follows a pattern, we can automate it.",
+        answer: "Almost any rule-based, repetitive process: order handling, invoicing, approvals, data entry, notifications, report generation, customer onboarding. If it follows a pattern, we can automate it.",
       },
       {
         question: "Do you use off-the-shelf tools or custom code?",
-        answer: "Both, depending on the job. For most workflows we use proven platforms (Zapier, n8n, custom Node). For complex integrations we write code. The right tool for the work.",
+        answer: "Both, depending on the job. Most workflows run on proven platforms (Zapier, n8n, custom Node); for complex integrations we write code.",
       },
       {
         question: "What if the process changes after you build it?",
-        answer: "We document every automation so your team can adjust it. We also offer ongoing support — if a process changes, we update the automation with you.",
+        answer: "We document every automation so your team can adjust it, and if a process changes later we update it with you as part of ongoing support.",
       },
     ],
   },

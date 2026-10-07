@@ -86,7 +86,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  These are the same four problems we hear, in different words, every time we talk to a business that needs {service.name.toLowerCase()}.
+                  Businesses that need {service.name.toLowerCase()} describe these same problems in different words, every time we talk to them.
                 </p>
               </RevealText>
             </div>
@@ -176,7 +176,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  Three concrete things that change the day your service goes live.
+                  Three things change the day your service goes live.
                 </p>
               </RevealText>
             </div>
@@ -275,7 +275,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
-                  Three tiers. Managed services included from day one. No hidden costs. USD pricing — pay in cedis at our published rate.
+                  Three tiers, each with managed services included from the start. The monthly price is the full price, set in USD and payable in cedis at our published rate.
                 </p>
               </RevealText>
             </div>
@@ -334,7 +334,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
             <span className="italic text-accent-cyan">{service.name.toLowerCase()}.</span>
           </>
         }
-        body="Thirty minutes, free. Walk us through what's hard about running your business and we'll help you think through it — even if the answer turns out to be something we don't do."
+        body="Thirty minutes, free. Walk us through what's hard about running your business and we'll help you think through it, even if the answer turns out to be something we don't do."
       />
 
       {/* ── 9. RELATED SERVICES ─────────────────────────────────── */}

@@ -64,7 +64,7 @@ export default function Footer() {
               Gileara
             </div>
             <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs">
-              We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone. Currently piloting in Ghana, designed to scale globally.
+              We build the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone. Currently piloting in Ghana, designed to scale worldwide.
             </p>
             <p className="text-on-surface-variant text-xs font-mono mt-6">
               {siteConfig.location} · {siteConfig.timezone}

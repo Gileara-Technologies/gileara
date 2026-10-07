@@ -7,7 +7,7 @@ import { faqs } from "@/content/faqs";
 export const metadata: Metadata = {
   title: "FAQ | Gileara Technologies",
   description:
-    "Where we work, who we work with, how the engagement works, contracts and data ownership — straight answers about working with Gileara.",
+    "Where we work, who we work with, how the engagement works, contracts, and data ownership: straight answers about working with Gileara.",
   alternates: { canonical: "/faq" },
   robots: { index: true, follow: true },
   openGraph: {

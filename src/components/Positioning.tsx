@@ -54,18 +54,18 @@ export default function Positioning() {
   const props = [
     {
       num: "01",
-      title: "Outcomes over code",
-      desc: "Every system we build ties to a business result — more revenue, lower costs, fewer hours lost to manual work. We advise on what your business needs, not the fanciest stack.",
+      title: "Built to earn its keep",
+      desc: "Every system we build ties to a business result: more revenue, lower costs, fewer hours lost to manual work. We advise on what your business needs and pick the stack to fit it.",
     },
     {
       num: "02",
-      title: "Supported, not abandoned",
-      desc: "IT support, software updates, backups and security monitoring are built into the system from day one — with SLA-backed response. Nothing bolted on later.",
+      title: "Support that stays after launch",
+      desc: "IT support, software updates, backups and security monitoring are built into the system from day one, with SLA-backed response.",
     },
     {
       num: "03",
-      title: "Built for how business actually runs",
-      desc: "Chat-based ordering, mobile money, and offline-tolerant builds come standard — because that's how small businesses actually run, whether you're in Accra, Lagos, Nairobi, or Johannesburg.",
+      title: "Made for how business actually runs",
+      desc: "Chat-based ordering, mobile money, and offline-tolerant builds come standard, because that's how small businesses run, whether you're in Accra, Lagos, Nairobi, or Johannesburg.",
     },
   ];
 
@@ -93,12 +93,12 @@ export default function Positioning() {
             </RevealText>
             <DisplayHeading size="lg" as="h2" className="mb-8">
               Built for{" "}
-              <span className="italic text-accent-cyan">small business</span>{" "}
-              — everywhere.
+              <span className="italic text-accent-cyan">small business</span>,
+              {" "}everywhere.
             </DisplayHeading>
             <RevealText delay={0.15}>
               <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                Real outcomes, not slideware. Currently piloting in Ghana, designed to scale globally. Every package is independently useful and stacks cleanly as you grow.
+                We ship real outcomes, piloting in Ghana first and designed to scale globally. Start with one package and add more as you grow. Each one works on its own.
               </p>
             </RevealText>
           </div>
@@ -169,7 +169,7 @@ export default function Positioning() {
           <div className="mt-32 pt-16 border-t border-on-background/10 max-w-4xl">
             <p className="font-serif text-2xl md:text-display-sm text-on-background leading-snug tracking-[-0.02em]">
               &ldquo;The technology partner that helps small and growing businesses become{" "}
-              <span className="italic text-accent-cyan">efficient, digital, and scalable</span> — currently piloting in Ghana, built to scale globally.&rdquo;
+              <span className="italic text-accent-cyan">efficient, digital, and scalable</span>. Currently piloting in Ghana, built to scale globally.&rdquo;
             </p>
           </div>
         </RevealText>

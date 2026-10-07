@@ -26,22 +26,22 @@ export default function Approach() {
     {
       num: "01",
       title: "Diagnose",
-      desc: "We map how your business actually runs — sales, stock, customers, cashflow. Not how you wish it ran.",
+      desc: "We map what actually happens day to day: sales, stock, customers, cashflow.",
     },
     {
       num: "02",
       title: "Design",
-      desc: "A system + small customisations that fit your operations. We don't ask you to change the way you work — we meet you where you are.",
+      desc: "A system with small customisations that fit your operations. You keep working the way you already do; we build around it.",
     },
     {
       num: "03",
       title: "Deploy",
-      desc: "Live in 7 days. You keep operating. We handle the build, the migration, the training.",
+      desc: "Live in 7 days. Your team keeps running the business while we handle the build, the migration, and the training.",
     },
     {
       num: "04",
       title: "Stay with you",
-      desc: "We monitor, fix, and improve. Every day. Backups, security, real support — included, not bolted on.",
+      desc: "We monitor, fix, and improve every day. Backups, security, and real support come as standard.",
     },
   ];
 
@@ -60,7 +60,7 @@ export default function Approach() {
             </DisplayHeading>
             <RevealText delay={0.15}>
               <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                A predictable, four-step engagement. We&apos;ve done this enough times to know what works — and what to avoid.
+                A predictable, four-step engagement. We&apos;ve done this enough times to know what works and what to avoid.
               </p>
             </RevealText>
           </div>
@@ -116,7 +116,7 @@ export default function Approach() {
         <RevealText delay={0.4}>
           <div className="mt-24 pt-8 border-t border-on-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <p className="text-on-surface-variant text-base">
-              <span className="text-on-background font-medium">Once it&apos;s live, it stays live</span> — we monitor, back up, secure, and support it every day, included in the system. Nothing bolted on later.
+              <span className="text-on-background font-medium">Once it&apos;s live, it stays live</span>. Every day after launch is covered by what you already bought. Nothing bolted on later.
             </p>
           </div>
         </RevealText>
