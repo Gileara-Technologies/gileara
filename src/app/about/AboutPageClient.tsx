@@ -24,22 +24,22 @@ const values = [
   {
     num: "01",
     title: "Stewardship",
-    desc: "We treat every client's business, data, and trust as something we have been entrusted with — not something we have earned. The work belongs to the people who will use it long after we leave.",
+    desc: "We treat every client's business, data, and trust as something entrusted to us. The work belongs to the people who will still be using it long after we leave.",
   },
   {
     num: "02",
     title: "Practical excellence",
-    desc: "We build systems that work first and look beautiful second. Beauty follows reliability. Every decision is weighed by what it will do for the business owner on a Tuesday afternoon, not what it scores on a slide deck.",
+    desc: "We build systems that work first and look beautiful second. Every decision is weighed by what it will do for the business owner on a Tuesday afternoon, not by what it scores on a slide deck.",
   },
   {
     num: "03",
     title: "Help in the critical moment",
-    desc: "We exist for the small business owner who has run out of answers and cannot afford another bad guess. When the books are confused, the customers are drifting, the technology is failing — that is when we are most useful.",
+    desc: "We exist for the small business owner who has run out of ideas and cannot afford another bad guess. When the books are confused, the customers are drifting, and the technology keeps failing, that is when we are most useful.",
   },
   {
     num: "04",
     title: "Honesty over comfort",
-    desc: "We will tell a client when their plan will not work. We will not promise a result we cannot deliver. We will not bill for hours we did not earn. The relationship is worth more than any single engagement.",
+    desc: "We tell a client when their plan will not work. We never promise a result we cannot deliver, and we do not bill for hours we did not earn. The relationship is worth more than any single engagement.",
   },
 ];
 
@@ -109,13 +109,13 @@ export default function AboutPageClient() {
                   Gileara is from the name <em className="text-on-surface not-italic">Gilead</em>.
                 </p>
                 <p className="text-on-surface-variant leading-relaxed mb-6">
-                  In the old scripture, Gilead was the place where healing balm came from — and the prophet&apos;s question was sharp: the medicine exists, the healer exists, so why is the people still in pain?
+                  In the old scripture, Gilead was where the healing balm came from, and the prophet&apos;s question was sharp: the medicine exists, the healer exists, so why are the people still in pain?
                 </p>
                 <p className="text-on-surface-variant leading-relaxed mb-6">
-                  That question is the reason this company exists. We see the same situation in the small business world around us every day. The work that should be invisible — stock, sales, customers, cashflow — is still eating the week. The owners have run out of answers. The technology is there, the help is there, and yet the business is not getting better.
+                  That question is the reason this company exists. We see the same situation in the small businesses around us every day. The work that should be invisible (stock, sales, customers, cashflow) still eats the whole week. The owners have run out of answers. The technology is there, the help is there, and still the business does not get better.
                 </p>
                 <p className="text-on-surface-variant leading-relaxed">
-                  We are not the balm. We are the physician who sits down with the business owner, diagnoses what is actually wrong, and builds the system that makes the recovery visible. Gileara is rooted in Christ and in the conviction that honest, practical work in this area is a calling, not a commodity.
+                  We are not the balm. We are the physician who sits down with the business owner, diagnoses what is actually wrong, and builds the system that makes the recovery visible. Gileara is rooted in Christ and in the conviction that honest, practical work in this area is a calling.
                 </p>
               </RevealText>
             </div>
@@ -137,7 +137,7 @@ export default function AboutPageClient() {
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  Not slogans we put on a slide. Working standards we hold ourselves to when the easy thing and the right thing are not the same.
+                  Standards we hold ourselves to, especially when the easy thing and the right thing are not the same.
                 </p>
               </RevealText>
             </div>
@@ -186,7 +186,7 @@ export default function AboutPageClient() {
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  When you work with Gileara, you work with the people who decided the company should exist in the first place. No hand-offs, no account managers between you and the founders.
+                  When you work with Gileara, you work with the people who decided the company should exist in the first place. There are no hand-offs and no account managers between you and the founders.
                 </p>
               </RevealText>
             </div>
@@ -310,7 +310,7 @@ export default function AboutPageClient() {
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  One company, one team. Engineering, finance, and operations all live here — see the whole group at a glance.
+                  Engineering, finance, and operations are all in one list, so you can see the whole group at a glance.
                 </p>
               </RevealText>
             </div>
@@ -368,11 +368,12 @@ export default function AboutPageClient() {
         eyebrow="JOIN US"
         headline={
           <>
-            Ready to build the{" "}
-            <span className="italic text-accent-cyan">future?</span>
+            Think you&apos;d be{" "}
+            <span className="italic text-accent-cyan">a fit?</span>
           </>
         }
-        body="We're always looking for brilliant minds to join our mission. If you're passionate about engineering excellence, we want to hear from you."
+        body="We're always looking for engineers and designers who want to build for small businesses in Ghana. See the open roles and apply, or get in touch and tell us what you work on."
+        secondaryLink={{ href: "/careers", label: "See open roles" }}
       />
     </>
   );

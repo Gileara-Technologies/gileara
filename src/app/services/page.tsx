@@ -7,12 +7,12 @@ import { servicePackages, MANAGED_SERVICES_NOTE } from "@/content/packages";
 export const metadata: Metadata = {
   title: "What we build | Gileara Technologies",
   description:
-    "The five problems we see most in small business, and the systems we build to solve each one — with full pricing, feature matrices, and what's included. Currently piloting in Ghana, built to scale globally.",
+    "The five problems we see most in small business and the systems we build to solve each one, with full pricing, feature matrices, and what's included. Currently piloting in Ghana, built to scale globally.",
   alternates: { canonical: "/services" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "What we build | Gileara Technologies",
-    description: "The five problems we see most in small business, and the systems we build to solve each one. With full pricing and feature matrices.",
+    description: "The five problems we see most in small business and the systems we build to solve each one, plus full pricing and feature matrices.",
     url: "/services",
     siteName: "Gileara Technologies",
     type: "website",

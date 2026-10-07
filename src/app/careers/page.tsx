@@ -10,7 +10,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Join Gileara | Careers in Technology and Innovation",
   description:
-    "Explore careers, jobs, and growth-focused opportunities at Gileara. Join exceptional talent building innovative technology across remote and on-site roles.",
+    "Open roles at Gileara Technologies: full-stack engineering (two seats), UI/UX design, DevOps, and project management. Accra hybrid and remote.",
   alternates: {
     canonical: "/careers",
   },
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Join Gileara | Careers in Technology and Innovation",
     description:
-      "Discover remote and on-site opportunities at Gileara and help build the future with exceptional technology talent.",
+      "Build the systems small businesses run on. Four roles open now: full-stack (two seats), UI/UX, DevOps, and project management.",
     url: "/careers",
     siteName: "Gileara Technologies",
     type: "website",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Join Gileara | Careers in Technology and Innovation",
     description:
-      "Explore careers, jobs, and growth-focused opportunities with Gileara's technology and innovation teams.",
+      "Four roles open at Gileara: full-stack (two seats), UI/UX, DevOps, and project management. Accra hybrid and remote.",
     // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
@@ -65,7 +65,7 @@ const jsonLd = {
       "@id": "https://gileara.org/careers/#webpage",
       name: "Join Gileara | Careers in Technology and Innovation",
       description:
-        "Explore careers, jobs, and growth-focused opportunities at Gileara. Join exceptional talent building innovative technology across remote and on-site roles.",
+        "Open roles at Gileara Technologies: full-stack engineering (two seats), UI/UX design, DevOps, and project management. Accra hybrid and remote.",
       url: "https://gileara.org/careers",
       dateModified: currentDate,
       publisher: {

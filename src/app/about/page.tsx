@@ -7,7 +7,7 @@ import { founders } from "@/content/founders";
 export const metadata: Metadata = {
   title: "About Us | Gileara Technologies",
   description:
-    "Engineering the future of high-performance digital ecosystems. Meet the leadership and engineering teams at Gileara Technologies.",
+    "Meet the founders, leaders, and engineering team at Gileara Technologies, and where the name comes from.",
   alternates: {
     canonical: "/about",
   },
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About Us | Gileara Technologies",
     description:
-      "The visionary leadership steering Gileara's technological dominance. Meet Amos, Julian, and Rodney.",
+      "Meet Amos, Julian, and Rodney, the three founders behind Gileara Technologies.",
     url: "/about",
     siteName: "Gileara Technologies",
     type: "website",
@@ -40,7 +40,7 @@ const jsonLd = {
       "@id": "https://gileara.org/about/#webpage",
       name: "About Us | Gileara Technologies",
       description:
-        "Meet the team at Gileara Technologies — a lean group of engineers, designers, and strategists building technology that moves businesses forward.",
+        "Meet the team at Gileara Technologies: a small group of engineers, designers, and strategists building the systems small businesses run on.",
       url: "https://gileara.org/about",
       publisher: {
         "@type": "Organization",

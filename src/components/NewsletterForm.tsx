@@ -107,7 +107,7 @@ export default function NewsletterForm({
           ✓ Subscribed
         </div>
         <p className={`font-serif text-xl md:text-2xl leading-snug ${headlineClass}`}>
-          Thanks — you&apos;re on the list. We&apos;ll send the next one to <span className="text-accent-bright">{email}</span>.
+          Thanks. You&apos;re on the list. We&apos;ll send the next one to <span className="text-accent-bright">{email}</span>.
         </p>
       </div>
     );

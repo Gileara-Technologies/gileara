@@ -34,7 +34,7 @@ export default function Founders() {
             </DisplayHeading>
             <RevealText delay={0.15}>
               <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                When you work with Gileara, you work directly with the founders. No account managers. No hand-offs.
+                When you work with Gileara, you work directly with the founders. There are no account managers and no hand-offs.
               </p>
             </RevealText>
           </div>
