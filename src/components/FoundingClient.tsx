@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
