@@ -22,32 +22,32 @@ export default function WhyJoinUs() {
   const benefits = [
     {
       title: "Career Growth",
-      desc: "Clear progression paths and mentorship from industry veterans to help you level up your skills.",
+      desc: "Clear progression paths, plus mentorship from people who have been building software for a long time.",
       icon: "trending_up",
     },
     {
       title: "Learning Opportunities",
-      desc: "Dedicated time for R&D, tech talks, and access to learning resources to stay ahead of the curve.",
+      desc: "Dedicated time for R&D, tech talks, and access to learning resources.",
       icon: "school",
     },
     {
       title: "Collaborative Environment",
-      desc: "A blameless culture where every voice matters and cross-functional teamwork is celebrated.",
+      desc: "A blameless culture where every voice counts and people from different disciplines work together on the same problems.",
       icon: "handshake",
     },
     {
       title: "Modern Technologies",
-      desc: "Work with a cutting-edge stack including Next.js, Cloudflare Workers, and modern tooling.",
+      desc: "Work with Next.js, Cloudflare Workers, and modern tooling.",
       icon: "code",
     },
     {
       title: "Flexible Work Culture",
-      desc: "We focus on outcomes and deliverables, not micromanagement. Enjoy a healthy work-life balance.",
+      desc: "We focus on outcomes and deliverables, nobody micromanages, and there is room for a healthy work-life balance.",
       icon: "schedule",
     },
     {
       title: "Meaningful Impact",
-      desc: "Build systems that solve real problems for real businesses. See the direct result of your work.",
+      desc: "Build systems that solve real problems for small businesses, and see the direct result of your work.",
       icon: "lightbulb",
     },
   ];

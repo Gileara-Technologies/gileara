@@ -30,11 +30,11 @@ export const openRoles: OpenRole[] = [
     icon: "code_blocks",
     location: "Accra · Hybrid",
     description:
-      "Ship the systems small businesses run on — from Next.js interfaces to Postgres schemas and service-account integrations. We currently pilot in Ghana and design for global scale.",
+      "Ship the systems small businesses run on, from Next.js interfaces to Postgres schemas and service-account integrations. We currently pilot in Ghana and design for global scale.",
     responsibilities: [
       "Build end-to-end features across our Next.js/TypeScript stack, from data model to UI.",
       "Implement package capabilities clients rely on daily: inventory, sales recording, customer pipelines, dashboards.",
-      "Integrate third-party rails — Google Calendar APIs, messaging platforms, payment reconciliation flows.",
+      "Integrate third-party rails: Google Calendar APIs, messaging platforms, payment reconciliation flows.",
       "Write and maintain unit tests (Vitest) so delivery stays repeatable as the package catalogue grows.",
     ],
     requiredSkills: [
@@ -58,12 +58,12 @@ export const openRoles: OpenRole[] = [
     icon: "palette",
     location: "Accra · Hybrid",
     description:
-      "Design interfaces first-time MSME owners can use confidently — on mid-range phones, over patchy connections.",
+      "Design interfaces first-time MSME owners can use confidently, on mid-range phones and over patchy connections.",
     responsibilities: [
       "Design package experiences across web and mobile-web, grounded in Material-style token systems.",
       "Prototype flows for low-bandwidth and offline-tolerant behaviour rather than assuming ideal networks.",
       "Run lightweight research with real MSME operators and turn findings into shipped decisions.",
-      "Keep accessibility (a11y) standards inside the design system, not bolted on after review.",
+      "Keep accessibility (a11y) standards inside the design system from the first draft.",
     ],
     requiredSkills: [
       "User-centered design",
@@ -102,7 +102,7 @@ export const openRoles: OpenRole[] = [
     icon: "assignment_turned_in",
     location: "Accra · Hybrid",
     description:
-      "Run package implementations from Diagnose to Grow — so clients always know what happens next.",
+      "Run package implementations from Diagnose to Grow, so clients always know what happens next.",
     responsibilities: [
       "Own delivery of client implementations across the Diagnose → Implement → Run → Grow lifecycle.",
       "Keep scope, timelines, and tier-based SLA expectations honest with clients in plain language.",

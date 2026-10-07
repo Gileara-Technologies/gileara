@@ -43,7 +43,7 @@ export default function Pricing() {
             </DisplayHeading>
             <RevealText delay={0.15}>
               <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                The five problems we keep seeing in small business, and the systems we build to solve each one. Pick where your business hurts first — every system is independently useful and stacks cleanly as you grow.
+                The five problems we keep seeing in small business, and the systems we build to solve each one. Pick where your business hurts first. Each system is independently useful and stacks cleanly as you grow.
               </p>
             </RevealText>
           </div>

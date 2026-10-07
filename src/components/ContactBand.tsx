@@ -19,6 +19,12 @@ interface ContactBandProps {
    * is wired (e.g. the /contact page already shows everything). Default false.
    */
   showChannels?: boolean;
+  /**
+   * Optional second action next to the booking CTA — e.g. a link to
+   * /careers on the about page's "JOIN US" band, so prospective hires
+   * get a direct path to the open roles.
+   */
+  secondaryLink?: { href: string; label: string };
 }
 
 const phoneReady = !siteConfig.phone.includes("XX");
@@ -35,10 +41,11 @@ const whatsappReady = !siteConfig.whatsapp.includes("XX");
 export default function ContactBand({
   eyebrow = "Get in touch",
   headline,
-  body = "Thirty minutes, free. Tell us what's hard about running your business today and we'll help you think through it — even if the answer turns out to be something we don't do.",
+  body = "Thirty minutes, free. Tell us what's hard about running your business today and we'll help you think through it, even if the answer turns out to be something we don't do.",
   align = "start",
   bg = "surface-container-lowest",
   showChannels = true,
+  secondaryLink,
 }: ContactBandProps) {
   const bgClass: Record<NonNullable<ContactBandProps["bg"]>, string> = {
     "background": "bg-background",
@@ -99,6 +106,19 @@ export default function ContactBand({
                   arrow_forward
                 </span>
               </Link>
+
+              {/* Secondary action, when the section needs one (e.g. careers) */}
+              {secondaryLink && (
+                <Link
+                  href={secondaryLink.href}
+                  className="group inline-flex items-center px-5 py-3.5 rounded-pill border border-on-background/20 hover:border-accent-bright text-on-background font-medium text-base transition-colors duration-300"
+                >
+                  <span className="material-symbols-outlined text-lg mr-2.5 text-accent-bright">
+                    work
+                  </span>
+                  {secondaryLink.label}
+                </Link>
+              )}
 
               {showChannels && (
                 <>

@@ -9,13 +9,13 @@ const base = "https://gileara.org";
 export const metadata: Metadata = {
   title: "How We Transform | Gileara Technologies",
   description:
-    "Vertical transformation playbooks for small and growing businesses — pharmacy, school, restaurant, retail, salon. The exact problems and the exact systems for each. Currently informed by our Ghana pilot.",
+    "Vertical transformation playbooks for small and growing businesses: pharmacy, school, restaurant, retail, salon, with the exact problems and the exact systems for each. Currently informed by our Ghana pilot.",
   alternates: { canonical: "/how-we-transform" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "How We Solve It | Gileara Technologies",
     description:
-      "The exact problems and the exact systems for pharmacy, school, restaurant, retail, salon — honest about being scenarios, not client claims.",
+      "The exact problems and the exact systems for pharmacy, school, restaurant, retail, salon. Each one is a scenario we're ready to implement, not a client claim.",
     url: "/how-we-transform",
     siteName: "Gileara Technologies",
     type: "website",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "How We Solve It | Gileara Technologies",
-    description: "The five problems and the exact systems for pharmacy, school, restaurant, retail, salon — currently informed by our Ghana pilot.",
+    description: "The exact problems and the exact systems for pharmacy, school, restaurant, retail, salon, currently informed by our Ghana pilot.",
     // twitter:image is auto-injected by /opengraph-image.tsx
   },
 };
@@ -38,7 +38,7 @@ const jsonLd = {
       url: `${base}/how-we-transform`,
       name: "How We Transform | Gileara Technologies",
       description:
-        "Vertical transformation playbooks for small and growing businesses. Honest about being scenarios, not client claims.",
+        "Vertical transformation playbooks for small and growing businesses. Each one is a scenario we're ready to implement, with every outcome stated as a goal.",
       isPartOf: { "@id": `${base}/#website` },
       breadcrumb: { "@id": `${base}/how-we-transform/#breadcrumb` },
     },
@@ -55,7 +55,7 @@ const jsonLd = {
       "@id": `${base}/how-we-transform/#playbook-list`,
       name: "Vertical transformation playbooks",
       description:
-        "Playbooks for the verticals we serve. Each is a scenario we're ready to implement — not a client claim.",
+        "Playbooks for the verticals we serve. Each one is a scenario we're ready to implement, never a client claim.",
       numberOfItems: scenarios.length,
       itemListOrder: "https://schema.org/ItemListOrderAscending",
       itemListElement: scenarios.map((s, i) => ({

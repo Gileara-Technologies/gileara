@@ -84,7 +84,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
             <span className="italic text-accent-cyan">small business</span> operators.
           </>
         }
-        subtitle="On operations, growth, automation, and the realities of going digital — written from the field, not from a slide deck. Currently informed by our Ghana pilot, applicable to any small or growing business."
+        subtitle="On operations, growth, automation, and the realities of going digital, written from the field. Currently informed by our Ghana pilot, applicable to any small or growing business."
       />
 
       {/* FEATURED ARTICLE — asymmetric layout */}
@@ -171,7 +171,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
             </div>
           ) : (
             <p className="text-on-surface-variant py-16 text-center border-t border-on-background/10">
-              More {activeTag === "All" ? "" : `${activeTag} `}insights are on the way — this section grows as we do.
+              More {activeTag === "All" ? "" : `${activeTag} `}insights are on the way; we add them as they&apos;re published.
             </p>
           )}
         </div>
@@ -186,7 +186,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
             <span className="italic text-accent-cyan">didn&apos;t answer?</span>
           </>
         }
-        body="Skip the inbox-warming. Book a free consultation and ask us directly — a real person replies, usually the same day."
+        body="Skip the inbox-warming. Book a free consultation and ask us directly; a real person replies, usually the same day."
       />
     </>
   );

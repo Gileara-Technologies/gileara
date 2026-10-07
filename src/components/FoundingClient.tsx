@@ -52,16 +52,16 @@ export default function FoundingClient() {
             <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-8 mb-12">
               <div className="col-span-12 md:col-span-7 text-body-lg text-on-surface-variant leading-relaxed max-w-2xl">
                 <p>
-                  As we launch, we&apos;re taking a limited set of founding clients — one per vertical. You get priority onboarding and direct founder involvement. In return, we document your transformation story and publish it with your approval when the results are real.
+                  As we launch, we&apos;re taking a limited set of founding clients, one per vertical. You get priority onboarding and direct founder involvement. In return, we document your transformation story and publish it with your approval when the results are real.
                 </p>
               </div>
               <div className="col-span-12 md:col-span-4 md:col-start-9">
                 <div className="border-t border-on-background/20 pt-6">
                   <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
-                    What it isn&apos;t
+                    The terms
                   </div>
                   <p className="text-on-surface text-sm">
-                    No discounts. Founding means more attention, not less value.
+                    No discounts. Founding means more attention at the standard price.
                   </p>
                 </div>
               </div>

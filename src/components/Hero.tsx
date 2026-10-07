@@ -139,7 +139,7 @@ export default function Hero() {
 
             <RevealText delay={0.2}>
               <p className="text-body-lg md:text-2xl text-on-background/85 max-w-2xl leading-relaxed font-sans mb-10 md:mb-12">
-                We see the same problem in small business everywhere: the work that should be invisible — stock, sales, customers, cashflow — is still eating your week. We build the systems that fix it, currently piloting in Ghana and built to scale with you.
+                We see the same problem in small business everywhere. Stock, sales, customers, cashflow: work that should be invisible is still eating your week. We build the systems that fix it, piloting in Ghana today and built to scale with you.
               </p>
             </RevealText>
 

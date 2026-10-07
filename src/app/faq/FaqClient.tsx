@@ -21,7 +21,7 @@ export default function FaqClient() {
             <span className="italic text-accent-cyan">questions.</span>
           </>
         }
-        subtitle="Everything you need to know about working with Gileara — who we work with, how the engagement works, contracts, data ownership."
+        subtitle="What working with Gileara looks like: who we work with, how the engagement works, contracts, and data ownership."
       />
 
       <section className="bg-background py-24 md:py-32 px-6 md:px-12">
@@ -87,7 +87,7 @@ export default function FaqClient() {
             <span className="italic text-accent-cyan">we missed?</span>
           </>
         }
-        body="We're happy to answer it on a free 30-minute call. No pitch — just straight answers."
+        body="We're happy to answer it on a free 30-minute call, and nobody will pitch you."
       />
     </>
   );
