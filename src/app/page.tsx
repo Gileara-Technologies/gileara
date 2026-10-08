@@ -7,6 +7,7 @@ import Approach from "@/components/Approach";
 import Positioning from "@/components/Positioning";
 import Founders from "@/components/Founders";
 import FoundingClient from "@/components/FoundingClient";
+import AuditSection from "@/components/audit/AuditSection";
 import ContactBand from "@/components/ContactBand";
 import Footer from "@/components/Footer";
 import { servicePackages, customServices, MANAGED_SERVICES_NOTE } from "@/content/packages";
@@ -201,6 +202,7 @@ export default function Home() {
         <Positioning />
         <Founders />
         <FoundingClient />
+        <AuditSection />
         <ContactBand
           headline={
             <>
