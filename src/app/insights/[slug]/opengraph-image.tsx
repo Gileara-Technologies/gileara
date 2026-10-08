@@ -6,6 +6,10 @@ export const alt = "Insights | Gileara Technologies";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
+export function generateStaticParams() {
+  return posts.map((p) => ({ slug: p.slug }));
+}
+
 export async function generateImageMetadata({ params }: { params: { slug: string } }) {
   const post = posts.find((p) => p.slug === params.slug);
   if (!post) return [];

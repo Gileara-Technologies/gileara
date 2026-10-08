@@ -10,7 +10,7 @@ import { siteConfig } from "@/content/site-config";
 export const metadata: Metadata = {
   title: "Talk to Gileara | Gileara Technologies",
   description:
-    "Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it, even if the answer turns out to be something we don't do.",
+    "Thirty minutes, free. Tell us what's hard about running your business and we'll help you think it through, even if the answer is something we don't do.",
   alternates: { canonical: "/contact" },
   robots: { index: true, follow: true },
   openGraph: {
@@ -19,13 +19,14 @@ export const metadata: Metadata = {
     url: "/contact",
     siteName: "Gileara Technologies",
     type: "website",
-    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
+    locale: "en_US",
+    // og:image is auto-injected by /contact/opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Talk to Gileara | Gileara Technologies",
     description: "Tell us what's hard about running your business and we'll help you think through it.",
-    // twitter:image is auto-injected by /opengraph-image.tsx
+    // twitter:image is auto-injected by /contact/opengraph-image.tsx
   },
 };
 

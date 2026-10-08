@@ -5,15 +5,16 @@ import Navbar from "@/components/Navbar";
 export const metadata: Metadata = {
   title: "404 - Page Not Found | Gileara Technologies",
   description: "The page you're looking for doesn't exist. Let's get you back on track.",
-  alternates: {
-    canonical: "/404",
-  },
+  // No canonical on purpose: /404 is not a real route, and the response
+  // already carries a 404 status. Belt-and-braces noindex for soft-404s.
+  robots: { index: false, follow: true },
   openGraph: {
     title: "404 - Page Not Found | Gileara Technologies",
     description: "The page you're looking for doesn't exist. Let's get you back on track.",
     url: "/404",
     siteName: "Gileara Technologies",
     type: "website",
+    locale: "en_US",
     images: [
       {
         url: "/assets/gileara/logo-full.png",

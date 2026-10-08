@@ -179,7 +179,7 @@ const privacySections = [
 export const metadata: Metadata = {
   title: "Privacy Policy | Gileara Technologies",
   description:
-    "Read Gileara Technologies' privacy policy, including what information we collect, how we use it, data security practices, retention, user rights, GDPR and CCPA considerations.",
+    "What information Gileara collects and how we use it, how we protect and retain it, and your rights, including GDPR and CCPA.",
   alternates: {
     canonical: "/privacy",
   },
@@ -201,14 +201,15 @@ export const metadata: Metadata = {
     type: "article",
     publishedTime: "2026-06-12",
     modifiedTime: "2026-06-12",
-    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
+    locale: "en_US",
+    // og:image is auto-injected by /privacy/opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Privacy Policy | Gileara Technologies",
     description:
       "How Gileara handles information, security, retention, user rights, GDPR, and CCPA privacy considerations.",
-    // twitter:image is auto-injected by /opengraph-image.tsx
+    // twitter:image is auto-injected by /privacy/opengraph-image.tsx
   },
 };
 
