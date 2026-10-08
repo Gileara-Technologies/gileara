@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { createApplication, listRoles, type D1Like } from "@/lib/portal/db";
 import { slugify } from "@/lib/portal/slug";
+import { notifyHrByEmail } from "@/lib/portal/notify";
 
 const MAX_RESUME_BYTES = 5 * 1024 * 1024; // 5MB
 const ALLOWED_RESUME_TYPES = new Set([
@@ -184,10 +185,32 @@ export async function POST(request: Request) {
     `);
     }
 
-    return NextResponse.json(
+    // Success decision made above: the candidate gets the same
+    // { success, message } response whether or not D1 was reachable.
+    const response = NextResponse.json(
       { success: true, message: CONFIRMATION_MESSAGE },
       { status: 200 },
     );
+
+    // Phase 6: fire-and-forget HR notification (docs/PORTAL-PLAN.md).
+    // Sent on BOTH success paths (D1 save and the legacy fallback), only
+    // after the response content is decided, and never awaited: a Resend
+    // outage must not fail or delay the candidate's submission.
+    // notifyHrByEmail swallows its own errors (logged with an "[apply]"
+    // prefix); the extra .catch below guards even a synchronous throw.
+    void notifyHrByEmail({
+      position,
+      name,
+      email,
+      phone,
+      coverLetter,
+      whyThisRole,
+      submittedAt: new Date().toISOString(),
+    }).catch((error: unknown) => {
+      console.error("[apply] HR email notification dispatch failed:", error);
+    });
+
+    return response;
   } catch (error) {
     console.error("Error processing application:", error);
     return NextResponse.json(

@@ -68,3 +68,22 @@ Ship a minimal admin-gated Careers Portal to replace manual role management. Can
 
 ## Recommended Next Action
 Get answers to the 5 questions above, then start Phase 1 (infra + migrations) in a focused subagent. The audit UI is shipped and independent.
+
+---
+
+## Phase 6 note — HR email notification (implemented)
+
+**Built**
+- `src/lib/portal/notify.ts` — pure `buildApplicationEmail(app)` produces the subject/body in the `docs/PORTAL-DESIGN.md` format (`New application: {name} for {role}`; plain-text body with role, candidate name/email/phone, submitted time, cover letter, why-this-role; empty optional fields are omitted). `notifyHrByEmail(app, opts)` POSTs to `https://api.resend.com/emails` with native `fetch` (same pattern as `/api/newsletter`), and accepts an injectable `fetchImpl` so tests never touch the network. It never throws upward: disabled / no recipient / no API key / non-2xx / network error all resolve to `false` after an `[apply]`-prefixed log.
+- `src/app/api/apply/route.ts` — fire-and-forget dispatch **after** the success decision, on **both** success paths (D1 save and the legacy no-D1 fallback), never awaited: a Resend failure can never change the `{ success, message }` response shape or its 200 status.
+- `tests/lib/portal/notify.test.ts` — 16 tests: body content (all fields, empty-field omission, plain-wording checks), recipient fallback, gating, and fake-fetch success / non-2xx / throw.
+
+**Env vars still needed in `wrangler.toml` `[vars]`** (not edited as part of this phase):
+
+| Var | Suggested value | Purpose |
+|---|---|---|
+| `APPLICATION_NOTIFY_EMAIL` | `hr.gileara@gmail.com` (the HR inbox already in `HR_EMAILS`), or `""` to fall back to `CONTACT_EMAIL` | HR recipient; `APPLICATION_NOTIFY_EMAIL` → `CONTACT_EMAIL` → skip |
+| `APPLICATION_NOTIFY_ENABLED` | `"1"` | `"0"` disables sending; default is enabled |
+| `RESEND_FROM` | `"Gileara Careers <careers@gileara.org>"` (once `gileara.org` is verified in Resend) | Sender; falls back to Resend's `onboarding@resend.dev`, which only delivers to the Resend account address |
+
+Already provisioned (no change): `RESEND_API_KEY` (Wrangler secret), `CONTACT_EMAIL` (existing fallback recipient). Not part of this note: rate limiting and the remaining Phase 6 polish items.
