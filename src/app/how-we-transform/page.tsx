@@ -9,7 +9,7 @@ const base = "https://gileara.org";
 export const metadata: Metadata = {
   title: "How We Transform | Gileara Technologies",
   description:
-    "Vertical transformation playbooks for small and growing businesses: pharmacy, school, restaurant, retail, salon, with the exact problems and the exact systems for each. Currently informed by our Ghana pilot.",
+    "Playbooks for pharmacy, school, restaurant, retail, and salon businesses: the problems each one faces and the systems we'd build. Informed by our Ghana pilot.",
   alternates: { canonical: "/how-we-transform" },
   robots: { index: true, follow: true },
   openGraph: {
@@ -19,13 +19,14 @@ export const metadata: Metadata = {
     url: "/how-we-transform",
     siteName: "Gileara Technologies",
     type: "website",
-    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
+    locale: "en_US",
+    // og:image is auto-injected by /how-we-transform/opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "How We Solve It | Gileara Technologies",
     description: "The exact problems and the exact systems for pharmacy, school, restaurant, retail, salon, currently informed by our Ghana pilot.",
-    // twitter:image is auto-injected by /opengraph-image.tsx
+    // twitter:image is auto-injected by /how-we-transform/opengraph-image.tsx
   },
 };
 

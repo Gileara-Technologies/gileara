@@ -22,13 +22,14 @@ export const metadata: Metadata = {
     url: "/about",
     siteName: "Gileara Technologies",
     type: "website",
-    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
+    locale: "en_US",
+    // og:image is auto-injected by /about/opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "About Us | Gileara Technologies",
     description: "Meet the team behind Gileara Technologies.",
-    // twitter:image is auto-injected by /opengraph-image.tsx
+    // twitter:image is auto-injected by /about/opengraph-image.tsx
   },
 };
 

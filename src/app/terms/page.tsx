@@ -131,7 +131,7 @@ const legalSections = [
 export const metadata: Metadata = {
   title: "Legal Terms | Gileara Technologies",
   description:
-    "Review Gileara Technologies legal terms, website usage rules, intellectual property notices, acceptable use guidelines, liability terms, and legal contact information.",
+    "Website usage rules, intellectual property notices, acceptable use guidelines, liability terms, and how to contact Gileara about legal matters.",
   alternates: {
     canonical: "/terms",
   },
@@ -152,14 +152,16 @@ export const metadata: Metadata = {
     type: "article",
     publishedTime: "2026-06-12",
     modifiedTime: "2026-06-12",
-    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
+    locale: "en_US",
+    // og:image is auto-injected by /terms/opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Legal Terms | Gileara Technologies",
     description:
       "Website terms, acceptable use, intellectual property notices, and legal contact details for Gileara Technologies.",
-    images: ["/assets/gileara/logo-full.png"],
+    // twitter:image derives from the OG image (/terms/opengraph-image.tsx);
+    // no explicit images array here so the generated card art is used.
   },
 };
 

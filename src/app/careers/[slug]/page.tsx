@@ -38,6 +38,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `/careers/${slug}`,
       siteName: "Gileara Technologies",
       type: "website",
+      locale: "en_US",
+      // og:image is auto-injected by /careers/[slug]/opengraph-image.tsx
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${role.title} | Careers | Gileara Technologies`,
+      description: role.description,
+      // twitter:image is auto-injected by /careers/[slug]/opengraph-image.tsx
     },
   };
 }
