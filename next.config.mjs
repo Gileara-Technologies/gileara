@@ -1,3 +1,11 @@
+// Make Cloudflare bindings (D1, R2, ...) available under plain `next dev`.
+// No-op outside the dev server: initOpenNextCloudflareForDev checks
+// internally whether it is running in a next dev process, so production
+// builds and the deployed worker are unaffected.
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+
+initOpenNextCloudflareForDev();
+
 /** @type {import('next').NextConfig} */
 const securityHeaders = [
     {

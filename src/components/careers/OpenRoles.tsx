@@ -1,11 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { openRoles } from "@/content/roles";
+import type { OpenRole } from "@/content/roles";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
 
-export default function OpenRoles() {
+interface OpenRolesProps {
+  /**
+   * Open roles to render, fetched on the server by the /careers page
+   * (D1 first, src/content/roles.ts fallback — decision Q5).
+   */
+  roles: OpenRole[];
+}
+
+export default function OpenRoles({ roles }: OpenRolesProps) {
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -37,7 +46,7 @@ export default function OpenRoles() {
           viewport={{ once: true, margin: "-50px" }}
           className="space-y-0 border-t border-on-background/10"
         >
-          {openRoles.map((role, i) => (
+          {roles.map((role, i) => (
             <motion.div
               key={role.id}
               variants={item}
@@ -58,7 +67,12 @@ export default function OpenRoles() {
                 <div className="col-span-12 md:col-span-10">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3">
                     <h3 className="font-serif text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em]">
-                      {role.title}
+                      <Link
+                        href={`/careers/${role.id}`}
+                        className="hover:text-accent-cyan transition-colors duration-200"
+                      >
+                        {role.title}
+                      </Link>
                     </h3>
                     {role.openings > 1 && (
                       <span className="px-3 py-1 rounded-full border border-accent-bright text-accent-bright text-xs font-mono uppercase tracking-wider">
@@ -69,6 +83,13 @@ export default function OpenRoles() {
                       <span className="material-symbols-outlined text-sm">location_on</span>
                       {role.location}
                     </span>
+                    <Link
+                      href={`/careers/${role.id}`}
+                      className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-accent-bright hover:text-accent-cyan transition-colors duration-200"
+                    >
+                      View role
+                      <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
+                    </Link>
                   </div>
                   <p className="text-on-surface-variant text-lg leading-relaxed mb-8 max-w-3xl">
                     {role.description}

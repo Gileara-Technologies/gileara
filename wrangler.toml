@@ -35,6 +35,18 @@ NEWSLETTER_ENABLED = "1"
 RESEND_AUDIENCE_ID = "88fe6734-a36f-4cb4-aa06-a0f5c6ac3d94"
 MAINTENANCE_MODE = ""
 MAINTENANCE_BYPASS_SECRET = ""
+# Careers portal HR whitelist: comma-separated exact emails allowed to
+# sign in (in addition to @gileara.org, which is always allowed).
+# Empty = domain check only. See docs/PORTAL-PLAN.md phase 3.
+HR_EMAILS = "hr.gileara@gmail.com"
+# Phase 6 HR notification on every application submit. Recipient falls
+# back to CONTACT_EMAIL when empty. OFF until gileara.org is verified
+# as a Resend sender domain — Resend's sandbox sender only delivers to
+# the account address, so HR would never receive them. To enable:
+# verify gileara.org in Resend, set RESEND_FROM = "Gileara Careers
+# <careers@gileara.org>", flip this to "1".
+APPLICATION_NOTIFY_EMAIL = "hr.gileara@gmail.com"
+APPLICATION_NOTIFY_ENABLED = "0"
 
 [env.production.vars]
 CONTACT_EMAIL = "tech.gileara@gmail.com"
@@ -46,7 +58,28 @@ MAINTENANCE_MODE = ""
 MAINTENANCE_BYPASS_SECRET = ""
 GOOGLE_SITE_VERIFICATION = "geJv_jYswjRaXUok8DCV7Ddh4ZKZeIv2f3r0tchWDYs"
 BING_SITE_VERIFICATION = "BC132592A4C7C6B69DFAA4E05B97FA4B"
+HR_EMAILS = "hr.gileara@gmail.com"
+APPLICATION_NOTIFY_EMAIL = "hr.gileara@gmail.com"
+APPLICATION_NOTIFY_ENABLED = "0"
 
 # Secrets (set via `npx wrangler secret put NAME`):
 # - GOOGLE_PRIVATE_KEY (full BEGIN...END block)
 # - RESEND_API_KEY (starts with re_)
+# - GOOGLE_OAUTH_CLIENT_ID / GOOGLE_OAUTH_CLIENT_SECRET (careers portal
+#   admin sign-in; see docs/PORTAL-PLAN.md phase 3)
+# - SESSION_KEY (admin session-cookie encryption key; generate with
+#   `openssl rand -hex 32` or similar)
+
+# Careers portal database (Phase 2-3, docs/PORTAL-PLAN.md).
+# Schema lives in migrations/ — apply with:
+#   npx wrangler d1 migrations apply gileara-careers-db --remote
+[[d1_databases]]
+binding = "gileara_careers_db"
+database_name = "gileara-careers-db"
+database_id = "a028a5ba-588e-46aa-936c-e3ee1a87fd98"
+
+# Career resumes (docs/PORTAL-PLAN.md decision Q2 — object keys are
+# applications/{roleSlug}/{timestamp}-{candidateId}.{ext}).
+[[r2_buckets]]
+binding = "gileara_resumes"
+bucket_name = "gileara-careers-resumes"
