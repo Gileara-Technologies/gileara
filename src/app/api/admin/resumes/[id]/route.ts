@@ -2,10 +2,10 @@
 // src/app/admin/layout.tsx, then loads the application row from D1 and reads
 // the file from R2.
 //
-// The R2 bucket is NOT bound yet (pending Cloudflare account enablement) and
-// no r2_buckets entry may be added to wrangler.toml, so this route answers
-// 503 with a plain message whenever the binding is absent. The expected
-// binding name is `gileara_resumes`.
+// Bound to `gileara_resumes` in wrangler.toml (bucket
+// gileara-careers-resumes). The binding is absent on any worker deployed
+// before that config landed, so the route still answers 503 with a plain
+// message whenever the binding is missing.
 
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -15,7 +15,7 @@ import { DB_UNAVAILABLE_MESSAGE, tryGetCloudflareEnv } from "@/app/admin/admin-d
 
 export const dynamic = "force-dynamic";
 
-/** R2 binding name (to be added to wrangler.toml when the bucket exists). */
+/** R2 binding name (wrangler.toml [[r2_buckets]]). */
 const R2_BINDING = "gileara_resumes";
 
 /** The subset of R2ObjectBody this route reads. */

@@ -38,7 +38,13 @@ MAINTENANCE_BYPASS_SECRET = ""
 # Careers portal HR whitelist: comma-separated exact emails allowed to
 # sign in (in addition to @gileara.org, which is always allowed).
 # Empty = domain check only. See docs/PORTAL-PLAN.md phase 3.
-HR_EMAILS = ""
+HR_EMAILS = "hr.gileara@gmail.com"
+# Phase 6 HR notification on every application submit. Recipient falls
+# back to CONTACT_EMAIL when empty; APPLICATION_NOTIFY_ENABLED=0 turns
+# sending off. Sender falls back to Resend's sandbox address until
+# RESEND_FROM is set (needs gileara.org verified in Resend).
+APPLICATION_NOTIFY_EMAIL = "hr.gileara@gmail.com"
+APPLICATION_NOTIFY_ENABLED = "1"
 
 [env.production.vars]
 CONTACT_EMAIL = "tech.gileara@gmail.com"
@@ -50,7 +56,9 @@ MAINTENANCE_MODE = ""
 MAINTENANCE_BYPASS_SECRET = ""
 GOOGLE_SITE_VERIFICATION = "geJv_jYswjRaXUok8DCV7Ddh4ZKZeIv2f3r0tchWDYs"
 BING_SITE_VERIFICATION = "BC132592A4C7C6B69DFAA4E05B97FA4B"
-HR_EMAILS = ""
+HR_EMAILS = "hr.gileara@gmail.com"
+APPLICATION_NOTIFY_EMAIL = "hr.gileara@gmail.com"
+APPLICATION_NOTIFY_ENABLED = "1"
 
 # Secrets (set via `npx wrangler secret put NAME`):
 # - GOOGLE_PRIVATE_KEY (full BEGIN...END block)
@@ -67,3 +75,9 @@ HR_EMAILS = ""
 binding = "gileara_careers_db"
 database_name = "gileara-careers-db"
 database_id = "a028a5ba-588e-46aa-936c-e3ee1a87fd98"
+
+# Career resumes (docs/PORTAL-PLAN.md decision Q2 — object keys are
+# applications/{roleSlug}/{timestamp}-{candidateId}.{ext}).
+[[r2_buckets]]
+binding = "gileara_resumes"
+bucket_name = "gileara-careers-resumes"
