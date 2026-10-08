@@ -40,11 +40,13 @@ MAINTENANCE_BYPASS_SECRET = ""
 # Empty = domain check only. See docs/PORTAL-PLAN.md phase 3.
 HR_EMAILS = "hr.gileara@gmail.com"
 # Phase 6 HR notification on every application submit. Recipient falls
-# back to CONTACT_EMAIL when empty; APPLICATION_NOTIFY_ENABLED=0 turns
-# sending off. Sender falls back to Resend's sandbox address until
-# RESEND_FROM is set (needs gileara.org verified in Resend).
+# back to CONTACT_EMAIL when empty. OFF until gileara.org is verified
+# as a Resend sender domain — Resend's sandbox sender only delivers to
+# the account address, so HR would never receive them. To enable:
+# verify gileara.org in Resend, set RESEND_FROM = "Gileara Careers
+# <careers@gileara.org>", flip this to "1".
 APPLICATION_NOTIFY_EMAIL = "hr.gileara@gmail.com"
-APPLICATION_NOTIFY_ENABLED = "1"
+APPLICATION_NOTIFY_ENABLED = "0"
 
 [env.production.vars]
 CONTACT_EMAIL = "tech.gileara@gmail.com"
@@ -58,7 +60,7 @@ GOOGLE_SITE_VERIFICATION = "geJv_jYswjRaXUok8DCV7Ddh4ZKZeIv2f3r0tchWDYs"
 BING_SITE_VERIFICATION = "BC132592A4C7C6B69DFAA4E05B97FA4B"
 HR_EMAILS = "hr.gileara@gmail.com"
 APPLICATION_NOTIFY_EMAIL = "hr.gileara@gmail.com"
-APPLICATION_NOTIFY_ENABLED = "1"
+APPLICATION_NOTIFY_ENABLED = "0"
 
 # Secrets (set via `npx wrangler secret put NAME`):
 # - GOOGLE_PRIVATE_KEY (full BEGIN...END block)

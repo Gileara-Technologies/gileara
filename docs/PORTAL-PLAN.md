@@ -78,12 +78,11 @@ Get answers to the 5 questions above, then start Phase 1 (infra + migrations) in
 - `src/app/api/apply/route.ts` — fire-and-forget dispatch **after** the success decision, on **both** success paths (D1 save and the legacy no-D1 fallback), never awaited: a Resend failure can never change the `{ success, message }` response shape or its 200 status.
 - `tests/lib/portal/notify.test.ts` — 16 tests: body content (all fields, empty-field omission, plain-wording checks), recipient fallback, gating, and fake-fetch success / non-2xx / throw.
 
-**Env vars still needed in `wrangler.toml` `[vars]`** (not edited as part of this phase):
+**Env vars in `wrangler.toml` `[vars]`** (added in `chore(portal): bind R2 resume bucket and portal notify env vars`):
 
-| Var | Suggested value | Purpose |
+| Var | Shipped value | Purpose |
 |---|---|---|
 | `APPLICATION_NOTIFY_EMAIL` | `hr.gileara@gmail.com` (the HR inbox already in `HR_EMAILS`), or `""` to fall back to `CONTACT_EMAIL` | HR recipient; `APPLICATION_NOTIFY_EMAIL` → `CONTACT_EMAIL` → skip |
-| `APPLICATION_NOTIFY_ENABLED` | `"1"` | `"0"` disables sending; default is enabled |
-| `RESEND_FROM` | `"Gileara Careers <careers@gileara.org>"` (once `gileara.org` is verified in Resend) | Sender; falls back to Resend's `onboarding@resend.dev`, which only delivers to the Resend account address |
+| `APPLICATION_NOTIFY_ENABLED` | `"0"` | Sending stays off until gileara.org is a verified Resend sender — the sandbox sender `onboarding@resend.dev` only delivers to the Resend account address, so HR would never receive the mail. Flip to `"1"` after verifying the domain and setting `RESEND_FROM = "Gileara Careers <careers@gileara.org>"` |
 
 Already provisioned (no change): `RESEND_API_KEY` (Wrangler secret), `CONTACT_EMAIL` (existing fallback recipient). Not part of this note: rate limiting and the remaining Phase 6 polish items.
