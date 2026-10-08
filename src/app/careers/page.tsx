@@ -4,8 +4,12 @@ import CareersHero from "@/components/careers/CareersHero";
 import OpenRoles from "@/components/careers/OpenRoles";
 import WhyJoinUs from "@/components/careers/WhyJoinUs";
 import ApplicationForm from "@/components/careers/ApplicationForm";
-import { openRoles } from "@/content/roles";
+import { getPublicRoles } from "@/lib/portal/public-roles";
 import { Metadata } from "next";
+
+// D1 is read per request (D1 first, src/content/roles.ts fallback —
+// decision Q5 in docs/PORTAL-PLAN.md), so this page is never prerendered.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Join Gileara | Careers in Technology and Innovation",
@@ -48,73 +52,74 @@ export const metadata: Metadata = {
   },
 };
 
-const currentDate = new Date().toISOString().split("T")[0];
+const jobPostingUrl = (title: string) =>
+  `https://gileara.org/careers#${title.toLowerCase().replace(/\s+/g, "-")}`;
 
-const jobPostings = openRoles.map((role) => ({
-  title: role.title,
-  description: role.description,
-  skills: role.requiredSkills.join(", "),
-  employmentType: "FULL_TIME",
-}));
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": "https://gileara.org/careers/#webpage",
-      name: "Join Gileara | Careers in Technology and Innovation",
-      description:
-        "Open roles at Gileara Technologies: full-stack engineering (two seats), UI/UX design, DevOps, and project management. Accra hybrid and remote.",
-      url: "https://gileara.org/careers",
-      dateModified: currentDate,
-      publisher: {
-        "@type": "Organization",
-        name: "Gileara Technologies",
-        url: "https://gileara.org",
-        logo: "https://gileara.org/assets/gileara/logo-icon.png",
-      },
-      breadcrumb: { "@id": "https://gileara.org/careers/#breadcrumb" },
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://gileara.org/careers/#breadcrumb",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
-        { "@type": "ListItem", position: 2, name: "Careers", item: "https://gileara.org/careers" },
-      ],
-    },
-    ...jobPostings.map((job) => ({
-      "@type": "JobPosting",
-      title: job.title,
-      description: job.description,
-      datePosted: currentDate,
-      hiringOrganization: {
-        "@type": "Organization",
-        name: "Gileara Technologies",
-        sameAs: "https://www.linkedin.com/company/gileara",
-      },
-      jobLocation: {
-        "@type": "Place",
-        address: {
-          "@type": "PostalAddress",
-          addressCountry: "GH",
-          addressLocality: "Accra",
+/** JobPosting JSON-LD for the fetched open roles (fallback keeps the current behavior). */
+function buildJsonLd(roles: { title: string; description: string; requiredSkills: string[] }[], currentDate: string) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://gileara.org/careers/#webpage",
+        name: "Join Gileara | Careers in Technology and Innovation",
+        description:
+          "Open roles at Gileara Technologies: full-stack engineering (two seats), UI/UX design, DevOps, and project management. Accra hybrid and remote.",
+        url: "https://gileara.org/careers",
+        dateModified: currentDate,
+        publisher: {
+          "@type": "Organization",
+          name: "Gileara Technologies",
+          url: "https://gileara.org",
+          logo: "https://gileara.org/assets/gileara/logo-icon.png",
         },
+        breadcrumb: { "@id": "https://gileara.org/careers/#breadcrumb" },
       },
-      employmentType: job.employmentType,
-      applicantLocationRequirements: {
-        "@type": "Country",
-        name: "GH",
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://gileara.org/careers/#breadcrumb",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
+          { "@type": "ListItem", position: 2, name: "Careers", item: "https://gileara.org/careers" },
+        ],
       },
-      skills: job.skills,
-      directApply: true,
-      url: `https://gileara.org/careers#${job.title.toLowerCase().replace(/\s+/g, "-")}`,
-    })),
-  ],
-};
+      ...roles.map((job) => ({
+        "@type": "JobPosting",
+        title: job.title,
+        description: job.description,
+        datePosted: currentDate,
+        hiringOrganization: {
+          "@type": "Organization",
+          name: "Gileara Technologies",
+          sameAs: "https://www.linkedin.com/company/gileara",
+        },
+        jobLocation: {
+          "@type": "Place",
+          address: {
+            "@type": "PostalAddress",
+            addressCountry: "GH",
+            addressLocality: "Accra",
+          },
+        },
+        employmentType: "FULL_TIME",
+        applicantLocationRequirements: {
+          "@type": "Country",
+          name: "GH",
+        },
+        skills: job.requiredSkills.join(", "),
+        directApply: true,
+        url: jobPostingUrl(job.title),
+      })),
+    ],
+  };
+}
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const roles = await getPublicRoles();
+  const currentDate = new Date().toISOString().split("T")[0];
+  const jsonLd = buildJsonLd(roles, currentDate);
+
   return (
     <>
       <script
@@ -124,9 +129,9 @@ export default function CareersPage() {
       <Navbar variant="careers" />
       <main>
         <CareersHero />
-        <OpenRoles />
+        <OpenRoles roles={roles} />
         <WhyJoinUs />
-        <ApplicationForm />
+        <ApplicationForm positionOptions={roles.map((role) => role.title)} />
       </main>
       <Footer />
     </>

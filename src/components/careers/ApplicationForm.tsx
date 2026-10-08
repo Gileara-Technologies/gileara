@@ -20,21 +20,35 @@ const positions = [
 ];
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_TEXT_LENGTH = 10000;
 
-export default function ApplicationForm() {
+/** Approved confirmation wording (docs/PORTAL-DESIGN.md). */
+const CONFIRMATION_MESSAGE = "Thanks — we'll review and reach out within 5 business days.";
+
+interface ApplicationFormProps {
+  /** Preselect and lock the position field (role detail pages pass the role title). */
+  position?: string;
+  /** roles.id to save with the application (role detail pages pass role.id). */
+  roleId?: string;
+  /** Options for the position select. Defaults to the Stage-1 list. */
+  positionOptions?: string[];
+}
+
+export default function ApplicationForm({ position, roleId, positionOptions }: ApplicationFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    position: "",
+    position: position ?? "",
     github: "",
     linkedin: "",
     yearsExperience: "",
-    experienceLevel: ""
+    experienceLevel: "",
+    coverLetter: "",
+    whyThisRole: ""
   });
 
   const [file, setFile] = useState<File | null>(null);
-  const [coverLetterFile, setCoverLetterFile] = useState<File | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
@@ -42,7 +56,6 @@ export default function ApplicationForm() {
   const [serverMessage, setServerMessage] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const coverLetterFileInputRef = useRef<HTMLInputElement>(null);
 
   const validateField = (name: string, value: string) => {
     let error = "";
@@ -79,6 +92,14 @@ export default function ApplicationForm() {
         break;*/
       case "experienceLevel":
         if (!value) error = "Experience level is required";
+        break;
+      case "coverLetter":
+        if (!value.trim()) error = "Cover letter is required";
+        else if (value.length > MAX_TEXT_LENGTH) error = "Cover letter must be 10,000 characters or fewer";
+        break;
+      case "whyThisRole":
+        if (!value.trim()) error = "Why this role is required";
+        else if (value.length > MAX_TEXT_LENGTH) error = "Why this role must be 10,000 characters or fewer";
         break;
     }
     return error;
@@ -129,34 +150,6 @@ export default function ApplicationForm() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const handleCoverLetterChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-
-      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-
-      if (!allowedTypes.includes(selectedFile.type)) {
-        setErrors(prev => ({ ...prev, coverLetterFile: "Must be a PDF, DOC, or DOCX file" }));
-        setCoverLetterFile(null);
-        return;
-      }
-
-      if (selectedFile.size > MAX_FILE_SIZE) {
-        setErrors(prev => ({ ...prev, coverLetterFile: "File size must be less than 5MB" }));
-        setCoverLetterFile(null);
-        return;
-      }
-
-      setErrors(prev => ({ ...prev, coverLetterFile: "" }));
-      setCoverLetterFile(selectedFile);
-    }
-  };
-
-  const clearCoverLetter = () => {
-    setCoverLetterFile(null);
-    if (coverLetterFileInputRef.current) coverLetterFileInputRef.current.value = "";
-  };
-
   const validateAll = () => {
     const newErrors: Record<string, string> = {};
     let isValid = true;
@@ -171,11 +164,6 @@ export default function ApplicationForm() {
 
     if (!file) {
       newErrors.file = "Resume is required";
-      isValid = false;
-    }
-
-    if (!coverLetterFile) {
-      newErrors.coverLetterFile = "Cover letter is required";
       isValid = false;
     }
 
@@ -202,9 +190,9 @@ export default function ApplicationForm() {
         submitData.append(key, value);
       });
       if (file) submitData.append("resume", file);
-      if (coverLetterFile) submitData.append("coverLetter", coverLetterFile);
+      if (roleId) submitData.append("roleId", roleId);
 
-      // Simulate API call for now (mock API route will be implemented)
+      // Submit to the careers API (D1 save on the deployed worker)
       const res = await fetch("/api/apply", {
         method: "POST",
         body: submitData
@@ -243,17 +231,18 @@ export default function ApplicationForm() {
         </div>
         <h3 className="font-display text-3xl font-bold text-on-surface mb-4">Application Submitted!</h3>
         <p className="text-on-surface-variant text-lg mb-8">
-          Thank you for applying to Gileara Technologies. We have received your application and will review it shortly. A confirmation email has been sent to {formData.email}.
+          {CONFIRMATION_MESSAGE}
         </p>
         <button
           onClick={() => {
             setStatus("idle");
             setFormData({
-              name: "", email: "", phone: "", position: "", github: "", linkedin: "", yearsExperience: "", experienceLevel: ""
+              name: "", email: "", phone: "", position: position ?? "", github: "", linkedin: "", yearsExperience: "", experienceLevel: "", coverLetter: "", whyThisRole: ""
             });
             setFile(null);
-            setCoverLetterFile(null);
             setTouched({});
+            setErrors({});
+            if (fileInputRef.current) fileInputRef.current.value = "";
           }}
           className="btn-outline"
         >
@@ -313,14 +302,16 @@ export default function ApplicationForm() {
                   <input type="tel" name="phone" value={formData.phone} onChange={handleChange} onBlur={handleBlur} className={inputClass("phone")} placeholder="(+233) 54 321 0000" />
                   {touched.phone && errors.phone && <p className="text-error text-xs mt-1 font-medium">{errors.phone}</p>}
                 </div>
-                <div>
-                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Position Applying For *</label>
-                  <select name="position" value={formData.position} onChange={handleChange} onBlur={handleBlur} className={`${inputClass("position")} appearance-none`}>
-                    <option value="" disabled>Select a position</option>
-                    {positions.map(p => <option key={p} value={p}>{p}</option>)}
-                  </select>
-                  {touched.position && errors.position && <p className="text-error text-xs mt-1 font-medium">{errors.position}</p>}
-                </div>
+                {!position && (
+                  <div>
+                    <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Position Applying For *</label>
+                    <select name="position" value={formData.position} onChange={handleChange} onBlur={handleBlur} className={`${inputClass("position")} appearance-none`}>
+                      <option value="" disabled>Select a position</option>
+                      {(positionOptions ?? positions).map(p => <option key={p} value={p}>{p}</option>)}
+                    </select>
+                    {touched.position && errors.position && <p className="text-error text-xs mt-1 font-medium">{errors.position}</p>}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -407,36 +398,38 @@ export default function ApplicationForm() {
                 )}
                 {errors.file && <p className="text-error text-xs mt-2 font-medium">{errors.file}</p>}
               </div>
+            </div>
 
+            {/* Cover Letter & Why This Role */}
+            <div className="space-y-6">
+              <h3 className="text-lg font-bold text-on-surface border-b border-outline-variant/20 pb-2">Cover Letter & Why This Role</h3>
               <div>
-                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Cover Letter Upload (PDF, DOC, DOCX) *</label>
-
-                {!coverLetterFile ? (
-                  <div className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-colors ${errors.coverLetterFile ? 'border-error bg-error/5' : 'border-outline-variant/30 hover:border-primary bg-surface/50 hover:bg-surface'}`}>
-                    <input
-                      type="file"
-                      ref={coverLetterFileInputRef}
-                      onChange={handleCoverLetterChange}
-                      accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                    <span className={`material-symbols-outlined text-5xl mx-auto mb-3 ${errors.coverLetterFile ? 'text-error' : 'text-on-surface-variant'}`} aria-hidden="true">cloud_upload</span>
-                    <p className="text-sm text-on-surface font-medium mb-1">Click to upload or drag and drop</p>
-                    <p className="text-xs text-on-surface-variant">Max file size: 5MB</p>
-                  </div>
-                ) : (
-                  <div className="bg-surface border border-primary/30 rounded-xl p-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3 overflow-hidden">
-                      <span className="material-symbols-outlined text-lg text-primary shrink-0" aria-hidden="true">check_circle</span>
-                      <span className="text-sm font-medium text-on-surface truncate">{coverLetterFile.name}</span>
-                      <span className="text-xs text-on-surface-variant shrink-0">({(coverLetterFile.size / 1024 / 1024).toFixed(2)} MB)</span>
-                    </div>
-                    <button type="button" onClick={clearCoverLetter} className="p-2 hover:bg-error/10 text-on-surface-variant hover:text-error rounded-lg transition-colors" aria-label="Remove cover letter">
-                      <span className="material-symbols-outlined" aria-hidden="true">close</span>
-                    </button>
-                  </div>
-                )}
-                {errors.coverLetterFile && <p className="text-error text-xs mt-2 font-medium">{errors.coverLetterFile}</p>}
+                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Cover Letter *</label>
+                <textarea
+                  name="coverLetter"
+                  value={formData.coverLetter}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  rows={6}
+                  maxLength={MAX_TEXT_LENGTH}
+                  className={inputClass("coverLetter")}
+                  placeholder="Introduce yourself and the work you are proudest of."
+                />
+                {touched.coverLetter && errors.coverLetter && <p className="text-error text-xs mt-1 font-medium">{errors.coverLetter}</p>}
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Why This Role *</label>
+                <textarea
+                  name="whyThisRole"
+                  value={formData.whyThisRole}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  rows={4}
+                  maxLength={MAX_TEXT_LENGTH}
+                  className={inputClass("whyThisRole")}
+                  placeholder="What draws you to this role and to Gileara?"
+                />
+                {touched.whyThisRole && errors.whyThisRole && <p className="text-error text-xs mt-1 font-medium">{errors.whyThisRole}</p>}
               </div>
             </div>
 
