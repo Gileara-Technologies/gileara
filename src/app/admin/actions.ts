@@ -8,6 +8,10 @@
  * an unreachable D1 binding under plain `next dev`) surface in the UI without
  * crashing. setRoleStatusAction is posted from plain dashboard forms and
  * redirects back to /admin, carrying an ?error= code when nothing changed.
+ *
+ * Every action starts with await requireAdminSession(): server actions run
+ * without rendering the layout, so the layout guard alone would let
+ * unauthenticated POSTs mutate D1.
  */
 
 import { redirect } from "next/navigation";
@@ -19,6 +23,7 @@ import {
   validateStatusActionForm,
   type ActionState,
 } from "./form-logic";
+import { requireAdminSession } from "./session-guard";
 
 const CREATE_FAILED_MESSAGE = "The role could not be created. Nothing was saved.";
 const UPDATE_FAILED_MESSAGE = "That change could not be saved, so nothing changed.";
@@ -27,6 +32,7 @@ export async function createRoleAction(
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
+  await requireAdminSession();
   const parsed = validateRoleForm(formData);
   if (!parsed.ok) {
     return { error: parsed.error };
@@ -61,6 +67,7 @@ export async function updateRoleAction(
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
+  await requireAdminSession();
   const roleId = String(formData.get("roleId") ?? "").trim();
   if (!roleId) {
     return { error: "That role could not be found." };
@@ -98,6 +105,7 @@ export async function updateRoleAction(
 }
 
 export async function setRoleStatusAction(formData: FormData): Promise<void> {
+  await requireAdminSession();
   const parsed = validateStatusActionForm(formData);
   if (!parsed) {
     redirect("/admin?error=invalid");
