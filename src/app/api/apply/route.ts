@@ -3,6 +3,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { createApplication, listRoles, type D1Like } from "@/lib/portal/db";
 import { slugify } from "@/lib/portal/slug";
 import { notifyHrByEmail } from "@/lib/portal/notify";
+import { persistResume, type R2PutLike } from "@/lib/portal/resume-storage";
 
 const MAX_RESUME_BYTES = 5 * 1024 * 1024; // 5MB
 const ALLOWED_RESUME_TYPES = new Set([
@@ -39,64 +40,6 @@ function isAllowedResumeFile(file: File): boolean {
   );
 }
 
-/**
- * Save the application to D1. R2 is not available yet (bucket pending
- * account enablement), so the resume is validated but not stored: the
- * original filename goes into `resume_filename` and `resume_key` stays
- * "" until uploads are wired up. Throws whenever D1 cannot be reached
- * (plain `next dev` / `next build` without a Cloudflare context) so the
- * caller can fall back to the pre-portal success path.
- */
-async function saveApplicationToD1(input: {
-  roleId: string;
-  position: string;
-  name: string;
-  email: string;
-  phone: string;
-  resumeFilename: string;
-  coverLetter: string;
-  whyThisRole: string;
-}): Promise<void> {
-  const { env } = getCloudflareContext();
-  const db = (env as unknown as { gileara_careers_db?: D1Like }).gileara_careers_db;
-  if (!db) {
-    throw new Error("gileara_careers_db binding is missing from the Cloudflare env");
-  }
-
-  // Role id: role detail pages pass it directly; the general form on
-  // /careers only sends the position title, so match it against the
-  // roles table (and fall back to the slugified title).
-  let roleId = input.roleId;
-  if (!roleId) {
-    const roles = await listRoles(db);
-    const match = roles.find(
-      (role) => role.title.toLowerCase() === input.position.toLowerCase(),
-    );
-    roleId = match?.id ?? slugify(input.position);
-    if (!roleId) {
-      throw new Error(`Cannot resolve a role id for position "${input.position}"`);
-    }
-  }
-
-  const stored = await createApplication(db, {
-    roleId,
-    name: input.name,
-    email: input.email,
-    phone: input.phone || null,
-    // R2 upload pending bucket enablement; bytes are intentionally not stored.
-    resumeKey: "",
-    resumeFilename: input.resumeFilename,
-    coverLetter: input.coverLetter || null,
-    whyThisRole: input.whyThisRole || null,
-  });
-  if (!stored) {
-    throw new Error("createApplication did not store the application");
-  }
-  console.log(
-    `[apply] Stored application #${stored.id} for role "${roleId}" (${input.name} <${input.email}>)`,
-  );
-}
-
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -109,7 +52,8 @@ export async function POST(request: Request) {
     const whyThisRole = asText(formData.get("whyThisRole"));
     const roleId = asText(formData.get("roleId"));
     const resumeEntry = formData.get("resume");
-    const resume = resumeEntry !== null && typeof resumeEntry !== "string" ? resumeEntry : null;
+    const resume =
+      resumeEntry !== null && typeof resumeEntry !== "string" ? resumeEntry : null;
 
     // Required fields: at least as strict as the previous implementation.
     if (!name || !email || !position || !resume) {
@@ -156,23 +100,86 @@ export async function POST(request: Request) {
     }
 
     let saved = false;
+    let usedD1Path = false;
+
     try {
-      await saveApplicationToD1({
-        roleId,
-        position,
+      // Only attempt R2 on the D1 success path (Cloudflare context needed).
+      const { env } = getCloudflareContext();
+      const db = (env as unknown as { gileara_careers_db?: D1Like })
+        .gileara_careers_db;
+      if (!db) {
+        throw new Error("gileara_careers_db binding is missing from the Cloudflare env");
+      }
+
+      // Role id: role detail pages pass it directly; the general form on
+      // /careers only sends the position title, so match it against the
+      // roles table (and fall back to the slugified title).
+      let resolvedRoleId = roleId;
+      if (!resolvedRoleId) {
+        const roles = await listRoles(db);
+        const match = roles.find(
+          (role) => role.title.toLowerCase() === position.toLowerCase(),
+        );
+        resolvedRoleId = match?.id ?? slugify(position);
+        if (!resolvedRoleId) {
+          throw new Error(
+            `Cannot resolve a role id for position "${position}"`,
+          );
+        }
+      }
+
+      // Order matters: insert first (resume_key "") to get autoincrement id,
+      // then upload to R2, then update resume_key (fail-open).
+      const stored = await createApplication(db, {
+        roleId: resolvedRoleId,
         name,
         email,
-        phone,
+        phone: phone || null,
+        resumeKey: "",
         resumeFilename: resume.name,
-        coverLetter,
-        whyThisRole,
+        coverLetter: coverLetter || null,
+        whyThisRole: whyThisRole || null,
       });
+      if (!stored) {
+        throw new Error("createApplication did not store the application");
+      }
+      usedD1Path = true;
+
+      const bucket = (env as unknown as { gileara_resumes?: R2PutLike })
+        .gileara_resumes;
+      const roleSlug = resolvedRoleId || slugify(position) || "general";
+      // Awaited so the worker cannot freeze before the R2 put lands;
+      // persistResume never throws, so the candidate is never affected.
+      await persistResume({
+        bucket,
+        db,
+        applicationId: stored.id,
+        roleSlug,
+        file: resume,
+      });
+
+      console.log(
+        `[apply] Stored application #${stored.id} for role "${resolvedRoleId}" (${name} <${email}>)`,
+      );
       saved = true;
     } catch (error) {
-      console.warn(
-        "[apply] Application was not saved to D1, responding without a database write:",
-        error,
-      );
+      // If we already inserted but storage/update failed mid-flight, the
+      // application row exists with resume_key "" (fail-open) — still count as
+      // saved so candidate gets success response. If D1 was unreachable before
+      // insert, fall back to legacy logging path.
+      if (usedD1Path) {
+        console.warn(
+          "[apply] Resume storage failed after D1 insert (fail-open):",
+          error,
+        );
+        saved = true;
+      } else {
+        console.warn(
+          "[apply] Application was not saved to D1, responding without a database write:",
+          error,
+        );
+        saved = false;
+      }
     }
 
     if (!saved) {
@@ -194,10 +201,7 @@ export async function POST(request: Request) {
 
     // Phase 6: fire-and-forget HR notification (docs/PORTAL-PLAN.md).
     // Sent on BOTH success paths (D1 save and the legacy fallback), only
-    // after the response content is decided, and never awaited: a Resend
-    // outage must not fail or delay the candidate's submission.
-    // notifyHrByEmail swallows its own errors (logged with an "[apply]"
-    // prefix); the extra .catch below guards even a synchronous throw.
+    // after the response content is decided, and never awaited.
     void notifyHrByEmail({
       position,
       name,
