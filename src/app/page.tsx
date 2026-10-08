@@ -15,6 +15,8 @@ import { siteConfig } from "@/content/site-config";
 import { founders } from "@/content/founders";
 
 export const metadata: Metadata = {
+  description:
+    "Gileara builds the operations, sales, customer, and reporting systems small businesses run on. Piloting in Ghana, built to scale globally.",
   alternates: {
     canonical: "https://gileara.org",
   },

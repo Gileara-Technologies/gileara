@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!scenario) return {};
   return {
     title: `${scenario.vertical} Playbook | How We Transform | Gileara Technologies`,
-    description: `${scenario.headline} — a transformation playbook for ${scenario.vertical.toLowerCase()} businesses. Goals stated honestly as goals. Currently informed by our Ghana pilot.`,
+    description: `${scenario.headline}. A transformation playbook for ${scenario.vertical.toLowerCase()} businesses. Every outcome is a goal. Informed by our Ghana pilot.`,
     alternates: { canonical: `/how-we-transform/${scenario.id}` },
     robots: { index: true, follow: true },
     openGraph: {
@@ -31,6 +31,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: `/how-we-transform/${scenario.id}`,
       siteName: "Gileara Technologies",
       type: "article",
+      locale: "en_US",
+      // og:image is auto-injected by /how-we-transform/[slug]/opengraph-image.tsx
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${scenario.vertical} Playbook | Gileara Technologies`,
+      description: scenario.headline,
+      // twitter:image is auto-injected by /how-we-transform/[slug]/opengraph-image.tsx
     },
   };
 }

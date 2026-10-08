@@ -21,7 +21,7 @@ export async function generateMetadata({
   if (!service) return { title: "Service not found — Gileara" };
   return {
     title: `${service.name} — ${service.tagline} | Gileara`,
-    description: service.tagline,
+    description: `${service.tagline} Full pricing, features, and what's included.`,
     alternates: { canonical: `/services/${service.slug}` },
     openGraph: {
       title: `Gileara ${service.name} — ${service.tagline}`,
@@ -29,6 +29,7 @@ export async function generateMetadata({
       url: `/services/${service.slug}`,
       siteName: "Gileara Technologies",
       type: "website",
+      locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",

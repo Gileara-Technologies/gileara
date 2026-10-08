@@ -4,6 +4,8 @@ import { logoutAction } from './logout/action';
 
 export const metadata = {
   title: 'Admin Portal - Gileara',
+  // Auth-only area: never index, and don't pass link equity through it.
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminLayout({

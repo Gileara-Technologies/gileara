@@ -7,7 +7,7 @@ import { servicePackages, MANAGED_SERVICES_NOTE } from "@/content/packages";
 export const metadata: Metadata = {
   title: "What we build | Gileara Technologies",
   description:
-    "The five problems we see most in small business and the systems we build to solve each one, with full pricing, feature matrices, and what's included. Currently piloting in Ghana, built to scale globally.",
+    "The five problems we see most in small business, and the systems we build to solve each one, with full pricing and feature matrices for every package.",
   alternates: { canonical: "/services" },
   robots: { index: true, follow: true },
   openGraph: {
@@ -16,13 +16,14 @@ export const metadata: Metadata = {
     url: "/services",
     siteName: "Gileara Technologies",
     type: "website",
-    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
+    locale: "en_US",
+    // og:image is auto-injected by /services/opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "What we build | Gileara Technologies",
     description: "The five problems we see most in small business, and the systems we build to solve each one.",
-    // twitter:image is auto-injected by /opengraph-image.tsx
+    // twitter:image is auto-injected by /services/opengraph-image.tsx
   },
 };
 

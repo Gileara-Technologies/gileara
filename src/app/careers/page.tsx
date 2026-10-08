@@ -41,14 +41,15 @@ export const metadata: Metadata = {
     url: "/careers",
     siteName: "Gileara Technologies",
     type: "website",
-    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
+    locale: "en_US",
+    // og:image is auto-injected by /careers/opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Join Gileara | Careers in Technology and Innovation",
     description:
       "Four roles open at Gileara: full-stack (two seats), UI/UX, DevOps, and project management. Accra hybrid and remote.",
-    // twitter:image is auto-injected by /opengraph-image.tsx
+    // twitter:image is auto-injected by /careers/opengraph-image.tsx
   },
 };
 

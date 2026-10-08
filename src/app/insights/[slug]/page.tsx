@@ -30,7 +30,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: "Gileara Technologies",
       type: "article",
       publishedTime: post.date,
+      locale: "en_US",
       // og:image is auto-injected by /insights/[slug]/opengraph-image.tsx
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${post.title} | Insights | Gileara Technologies`,
+      description: post.excerpt,
+      // twitter:image is auto-injected by /insights/[slug]/opengraph-image.tsx
     },
   };
 }

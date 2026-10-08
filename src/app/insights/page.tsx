@@ -7,7 +7,7 @@ import { posts, postReadTime } from "@/content/posts";
 export const metadata: Metadata = {
   title: "Insights | Gileara Technologies",
   description:
-    "Practical insights for small and growing businesses on operations, growth, automation, and the realities of going digital. Currently informed by our Ghana pilot, applicable globally.",
+    "Practical insights for small and growing businesses on operations, growth, automation, and going digital, from our work in Ghana.",
   alternates: { canonical: "/insights" },
   robots: { index: true, follow: true },
   openGraph: {
@@ -16,13 +16,14 @@ export const metadata: Metadata = {
     url: "/insights",
     siteName: "Gileara Technologies",
     type: "website",
-    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
+    locale: "en_US",
+    // og:image is auto-injected by /insights/opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Insights | Gileara Technologies",
     description: "Practical insights for small and growing businesses going digital, currently informed by our Ghana pilot and applicable globally.",
-    // twitter:image is auto-injected by /opengraph-image.tsx
+    // twitter:image is auto-injected by /insights/opengraph-image.tsx
   },
 };
 

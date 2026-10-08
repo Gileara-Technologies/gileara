@@ -9,7 +9,7 @@ import { siteConfig } from "@/content/site-config";
 export const metadata: Metadata = {
   title: "Security & Reliability | Gileara Technologies",
   description:
-    "How we keep the systems we build running safely — support, updates, backups, and monitoring — plus how to report vulnerabilities. Numeric SLA tables publish after readiness sign-off.",
+    "What managed services include at each tier: support, updates, backups, and monitoring, plus how to report a vulnerability.",
   alternates: {
     canonical: "/security",
   },
@@ -27,14 +27,15 @@ export const metadata: Metadata = {
     url: "/security",
     siteName: "Gileara Technologies",
     type: "website",
-    // og:image is auto-injected by /opengraph-image.tsx (1200x630 PNG)
+    locale: "en_US",
+    // og:image is auto-injected by /security/opengraph-image.tsx (1200x630 PNG)
   },
   twitter: {
     card: "summary_large_image",
     title: "Security & Reliability | Gileara Technologies",
     description:
       "Managed-services coverage, data protection, and vulnerability reporting at Gileara Technologies.",
-    // twitter:image is auto-injected by /opengraph-image.tsx
+    // twitter:image is auto-injected by /security/opengraph-image.tsx
   },
 };
 
