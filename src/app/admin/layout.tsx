@@ -1,30 +1,17 @@
 // Admin layout - server component that checks auth
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { readSessionToken } from '@/lib/portal/session';
-import Link from 'next/link';
+import { requireAdminSession } from './session-guard';
+import { logoutAction } from './logout/action';
+
+export const metadata = {
+  title: 'Admin Portal - Gileara',
+};
 
 export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const sessionToken = cookieStore.get('admin_session')?.value;
-  const sessionSecret = process.env.SESSION_KEY;
-
-  if (!sessionSecret) {
-    redirect('/admin/login');
-  }
-
-  if (!sessionToken) {
-    redirect('/admin/login');
-  }
-
-  const payload = await readSessionToken(sessionToken, sessionSecret);
-  if (!payload) {
-    redirect('/admin/login');
-  }
+  const payload = await requireAdminSession();
 
   return (
     <div className="min-h-screen bg-background text-on-background">
@@ -34,12 +21,19 @@ export default async function AdminLayout({
             <h1 className="text-lg font-semibold">Admin Portal</h1>
             <span className="text-sm text-on-surface-variant">Signed in as {payload.email}</span>
           </div>
-          <Link
-            href="/admin/logout"
-            className="text-sm text-on-surface-variant hover:text-on-background transition-colors"
-          >
-            Sign out
-          </Link>
+          {/*
+            POST form instead of <Link href="/admin/logout">: Next.js prefetches
+            visible links in production, and prefetching a stateful GET logged
+            the admin out as soon as the dashboard rendered.
+          */}
+          <form action={logoutAction}>
+            <button
+              type="submit"
+              className="text-sm text-on-surface-variant hover:text-on-background transition-colors cursor-pointer"
+            >
+              Sign out
+            </button>
+          </form>
         </div>
       </header>
       <main className="container mx-auto px-4 py-8">{children}</main>
