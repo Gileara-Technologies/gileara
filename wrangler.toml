@@ -50,3 +50,11 @@ BING_SITE_VERIFICATION = "BC132592A4C7C6B69DFAA4E05B97FA4B"
 # Secrets (set via `npx wrangler secret put NAME`):
 # - GOOGLE_PRIVATE_KEY (full BEGIN...END block)
 # - RESEND_API_KEY (starts with re_)
+
+# Careers portal database (Phase 2-3, docs/PORTAL-PLAN.md).
+# Schema lives in migrations/ — apply with:
+#   npx wrangler d1 migrations apply gileara-careers-db --remote
+[[d1_databases]]
+binding = "gileara_careers_db"
+database_name = "gileara-careers-db"
+database_id = "a028a5ba-588e-46aa-936c-e3ee1a87fd98"
