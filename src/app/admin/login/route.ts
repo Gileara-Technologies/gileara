@@ -86,6 +86,7 @@ export async function GET(request: NextRequest) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Admin Sign In - Gileara</title>
   <style>${pageStyles}</style>
 </head>
@@ -120,6 +121,10 @@ export async function GET(request: NextRequest) {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'no-store',
+      // Auth surface: layouts do not apply to route handlers, so the
+      // noindex that lives in admin/layout.tsx metadata never reaches
+      // this route. Send it the way route handlers can: headers.
+      'X-Robots-Tag': 'noindex, nofollow',
     },
   });
 }
