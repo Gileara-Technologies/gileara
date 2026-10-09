@@ -75,14 +75,17 @@ Get answers to the 5 questions above, then start Phase 1 (infra + migrations) in
 
 **Built**
 - `src/lib/portal/notify.ts` — pure `buildApplicationEmail(app)` produces the subject/body in the `docs/PORTAL-DESIGN.md` format (`New application: {name} for {role}`; plain-text body with role, candidate name/email/phone, submitted time, cover letter, why-this-role; empty optional fields are omitted). `notifyHrByEmail(app, opts)` POSTs to `https://api.resend.com/emails` with native `fetch` (same pattern as `/api/newsletter`), and accepts an injectable `fetchImpl` so tests never touch the network. It never throws upward: disabled / no recipient / no API key / non-2xx / network error all resolve to `false` after an `[apply]`-prefixed log.
-- `src/app/api/apply/route.ts` — fire-and-forget dispatch **after** the success decision, on **both** success paths (D1 save and the legacy no-D1 fallback), never awaited: a Resend failure can never change the `{ success, message }` response shape or its 200 status.
+- `src/app/api/apply/route.ts` — dispatch **after** the success decision, on **both** success paths (D1 save and the legacy no-D1 fallback), and handed to `ctx.waitUntil`: a Resend failure can never change the `{ success, message }` response shape or its 200 status, and the candidate never waits on Resend.
+  - This route is the cautionary example for the whole feature. The notification was originally a floating promise, "fire and forget". In the Workers runtime the isolate may be torn down the moment the response is returned, which cancelled the Resend request before it left the worker — and because the promise never survived to its first `console.log`, the failure produced **no log line at all**. Every notification was silently dropped until `ctx.waitUntil` was added (guard: `tests/api/apply.test.ts` "hands the HR notification to ctx.waitUntil"). Anything that must outlive a Worker response has to be registered this way.
 - `tests/lib/portal/notify.test.ts` — 16 tests: body content (all fields, empty-field omission, plain-wording checks), recipient fallback, gating, and fake-fetch success / non-2xx / throw.
+- `tests/api/apply.test.ts` — adds the `ctx.waitUntil` hand-off regression test (the route's Cloudflare context is stubbed; `null` reproduces the real throw outside Workers).
 
 **Env vars in `wrangler.toml` `[vars]`** (added in `chore(portal): bind R2 resume bucket and portal notify env vars`):
 
 | Var | Shipped value | Purpose |
 |---|---|---|
 | `APPLICATION_NOTIFY_EMAIL` | `hr.gileara@gmail.com` (the HR inbox already in `HR_EMAILS`), or `""` to fall back to `CONTACT_EMAIL` | HR recipient; `APPLICATION_NOTIFY_EMAIL` → `CONTACT_EMAIL` → skip |
-| `APPLICATION_NOTIFY_ENABLED` | `"0"` | Sending stays off until gileara.org is a verified Resend sender — the sandbox sender `onboarding@resend.dev` only delivers to the Resend account address, so HR would never receive the mail. Flip to `"1"` after verifying the domain and setting `RESEND_FROM = "Gileara Careers <careers@gileara.org>"` |
+| `APPLICATION_NOTIFY_ENABLED` | `"1"` | Opt-out flag: sending is on unless this is exactly `"0"`. Off while gileara.org was unverified — the sandbox sender `onboarding@resend.dev` only delivers to the Resend account address, so HR would never receive the mail. Now enabled: gileara.org is verified in Resend (same account as the newsletter) and `RESEND_FROM = "Gileara Careers <careers@gileara.org>"` |
+| `RESEND_FROM` | `"Gileara Careers <careers@gileara.org>"` | Verified-domain sender. Unset falls back to `DEFAULT_FROM` (`onboarding@resend.dev`), which only reaches the Resend account address |
 
 Already provisioned (no change): `RESEND_API_KEY` (Wrangler secret), `CONTACT_EMAIL` (existing fallback recipient). Not part of this note: rate limiting and the remaining Phase 6 polish items.
