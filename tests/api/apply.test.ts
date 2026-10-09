@@ -1,7 +1,28 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { POST } from "@/app/api/apply/route";
 
 const BASE = "http://localhost:3000/api/apply";
+
+/**
+ * Cloudflare context stub. `null` reproduces the real behavior outside
+ * Workers (getCloudflareContext throws), which is what most tests
+ * exercise; tests that need a context install one.
+ */
+const cfState = vi.hoisted(() => ({
+  context: null as null | {
+    env: unknown;
+    ctx: { waitUntil: (promise: Promise<unknown>) => void };
+  },
+}));
+
+vi.mock("@opennextjs/cloudflare", () => ({
+  getCloudflareContext: () => {
+    if (!cfState.context) {
+      throw new Error("Cloudflare context is not available");
+    }
+    return cfState.context;
+  },
+}));
 
 function makeForm(overrides: Partial<Record<string, string | File>> = {}) {
   const form = new FormData();
@@ -55,5 +76,33 @@ describe("POST /api/apply", () => {
     const res = await post("not-a-form");
     // A plain-text body makes formData() throw; the route should handle it.
     expect([400, 500]).toContain(res.status);
+  });
+
+  // Regression: the notification used to be a floating promise, which the
+  // Workers runtime cancelled as soon as the response was returned, so no
+  // HR email was ever sent. It must be handed to ctx.waitUntil.
+  it("hands the HR notification to ctx.waitUntil instead of dropping it", async () => {
+    const waitUntil = vi.fn();
+    cfState.context = { env: {}, ctx: { waitUntil } };
+    const previous = process.env.APPLICATION_NOTIFY_ENABLED;
+    // Force the offline early-return path; this test is about the hand-off,
+    // not the Resend call.
+    process.env.APPLICATION_NOTIFY_ENABLED = "0";
+
+    try {
+      const res = await post(makeForm());
+      expect(res.status).toBe(200);
+      expect(waitUntil).toHaveBeenCalledTimes(1);
+      const passed = waitUntil.mock.calls[0][0] as Promise<unknown>;
+      expect(passed).toBeInstanceOf(Promise);
+      await expect(passed).resolves.toBe(false);
+    } finally {
+      cfState.context = null;
+      if (previous === undefined) {
+        delete process.env.APPLICATION_NOTIFY_ENABLED;
+      } else {
+        process.env.APPLICATION_NOTIFY_ENABLED = previous;
+      }
+    }
   });
 });
