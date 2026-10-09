@@ -36,6 +36,7 @@
 
 import type {
   ApplicationRow,
+  ApplicationStatus,
   ParsedRole,
   RoleRow,
   RoleStatus,
@@ -116,6 +117,8 @@ const INSERT_ROLE = `INSERT INTO roles (id, title, openings, icon, location, des
 const INSERT_APPLICATION = `INSERT INTO applications (role_id, name, email, phone, resume_key, resume_filename, cover_letter, why_this_role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 const UPDATE_ROLE_STATUS =
   "UPDATE roles SET status = ?, updated_at = datetime('now') WHERE id = ?";
+const UPDATE_APPLICATION_STATUS =
+  "UPDATE applications SET status = ?, status_updated_at = datetime('now'), status_updated_by = ? WHERE id = ?";
 
 /**
  * Parse a stored JSON string-array column. Anything that is not a non-empty
@@ -139,6 +142,13 @@ function parseJsonList(value: string | null | undefined): string[] {
 
 const isRoleStatus = (value: unknown): value is RoleStatus =>
   value === "open" || value === "paused" || value === "closed";
+
+const isApplicationStatus = (value: unknown): value is ApplicationStatus =>
+  value === "new" ||
+  value === "reviewing" ||
+  value === "shortlisted" ||
+  value === "rejected" ||
+  value === "hired";
 
 const asRecord = (value: unknown): Record<string, unknown> | null =>
   typeof value === "object" && value !== null
@@ -207,6 +217,13 @@ function toApplicationRow(value: unknown): ApplicationRow | null {
     cover_letter: typeof row.cover_letter === "string" ? row.cover_letter : null,
     why_this_role: typeof row.why_this_role === "string" ? row.why_this_role : null,
     created_at: typeof row.created_at === "string" ? row.created_at : "",
+    // Migration 0003 columns: a row without them (or with garbage) reads as
+    // "not yet reviewed", which is what an unreviewed application is.
+    status: isApplicationStatus(row.status) ? row.status : "new",
+    status_updated_at:
+      typeof row.status_updated_at === "string" ? row.status_updated_at : null,
+    status_updated_by:
+      typeof row.status_updated_by === "string" ? row.status_updated_by : null,
   };
 }
 
@@ -326,6 +343,26 @@ export async function setRoleStatus(
 ): Promise<ParsedRole | null> {
   await db.prepare(UPDATE_ROLE_STATUS).bind(status, id).run();
   return getRole(db, id);
+}
+
+/**
+ * Move an application to a new status and stamp who did it and when
+ * (migration 0003). Returns the updated row, or null when the id does not
+ * exist — a stale admin tab posting an old id then fails loudly instead of
+ * quietly no-op'ing.
+ */
+export async function setApplicationStatus(
+  db: D1Like,
+  id: number,
+  status: ApplicationStatus,
+  actorEmail: string,
+): Promise<ApplicationRow | null> {
+  await db
+    .prepare(UPDATE_APPLICATION_STATUS)
+    .bind(status, actorEmail, id)
+    .run();
+  const raw = await db.prepare(SELECT_APPLICATION_BY_ID).bind(id).first();
+  return toApplicationRow(raw);
 }
 
 /** Applications for one role, newest first. */

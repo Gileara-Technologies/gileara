@@ -7,6 +7,7 @@ import {
   listApplications,
   listRoles,
   parseRoleRow,
+  setApplicationStatus,
   setRoleStatus,
   updateRole,
   type D1Like,
@@ -64,8 +65,21 @@ function makeFakeD1(seeded: { roles?: RoleRow[]; applications?: ApplicationRow[]
       }
       return { results: [] };
     }
-    if (sql.startsWith("INSERT INTO roles")) {
-      const [id, title, openings, icon, location, description, responsibilities, requiredSkills, niceToHave, status, displayOrder] =
+    if (sql.startsWith("UPDATE applications SET status")) {
+      const [status, actorEmail, id] = binds as unknown as [
+        ApplicationRow["status"],
+        string,
+        number,
+      ];
+      const row = state.applications.find((a) => a.id === id);
+      if (row) {
+        row.status = status;
+        row.status_updated_at = state.now();
+        row.status_updated_by = actorEmail;
+      }
+      return { results: [] };
+    }
+    if (sql.startsWith("INSERT INTO roles")) {      const [id, title, openings, icon, location, description, responsibilities, requiredSkills, niceToHave, status, displayOrder] =
         binds as unknown as [
           string,
           string,
@@ -133,6 +147,11 @@ function makeFakeD1(seeded: { roles?: RoleRow[]; applications?: ApplicationRow[]
         cover_letter: coverLetter,
         why_this_role: whyThisRole,
         created_at: state.now(),
+        // Migration 0003 defaults: untouched rows sit in 'new' with no
+        // audit stamp.
+        status: "new",
+        status_updated_at: null,
+        status_updated_by: null,
       };
       state.nextApplicationId += 1;
       state.applications.push(row);
@@ -211,6 +230,9 @@ function application(overrides: Partial<ApplicationRow> = {}): ApplicationRow {
     cover_letter: "I would love to join Gileara.",
     why_this_role: "The mission resonates with me.",
     created_at: "2026-01-02 00:00:00",
+    status: "new",
+    status_updated_at: null,
+    status_updated_by: null,
     ...overrides,
   };
 }
@@ -447,6 +469,64 @@ describe("setRoleStatus", () => {
 // ---------------------------------------------------------------------------
 // Applications
 // ---------------------------------------------------------------------------
+
+describe("setApplicationStatus", () => {
+  it("moves the row and stamps who did it and when", async () => {
+    const fake = makeFakeD1({ applications: [application()] });
+
+    const updated = await setApplicationStatus(
+      fake.db,
+      1,
+      "reviewing",
+      "hr.gileara@gmail.com",
+    );
+
+    expect(updated?.status).toBe("reviewing");
+    expect(updated?.status_updated_by).toBe("hr.gileara@gmail.com");
+    expect(updated?.status_updated_at).toBeTruthy();
+
+    const [stored] = await listApplications(fake.db, "full-stack-engineer");
+    expect(stored?.status).toBe("reviewing");
+  });
+
+  it("overwrites the audit stamp on a later move", async () => {
+    const fake = makeFakeD1({ applications: [application()] });
+    await setApplicationStatus(fake.db, 1, "shortlisted", "a.gileara@gmail.com");
+
+    const second = await setApplicationStatus(
+      fake.db,
+      1,
+      "hired",
+      "b.gileara@gmail.com",
+    );
+
+    expect(second?.status).toBe("hired");
+    expect(second?.status_updated_by).toBe("b.gileara@gmail.com");
+  });
+
+  it("returns null for an unknown id and changes nothing", async () => {
+    const fake = makeFakeD1({ applications: [application()] });
+
+    expect(
+      await setApplicationStatus(fake.db, 999, "rejected", "hr.gileara@gmail.com"),
+    ).toBeNull();
+
+    const [stored] = await listApplications(fake.db, "full-stack-engineer");
+    expect(stored?.status).toBe("new");
+    expect(stored?.status_updated_at).toBeNull();
+  });
+
+  it("reads a row without audit columns (pre-migration-0003) as 'new'", async () => {
+    const legacy = application({ status: undefined, status_updated_at: undefined });
+    expect(legacy.status).toBeUndefined();
+
+    const fake = makeFakeD1({ applications: [legacy] });
+    const [stored] = await listApplications(fake.db, "full-stack-engineer");
+
+    expect(stored?.status).toBe("new");
+    expect(stored?.status_updated_at).toBeNull();
+  });
+});
 
 describe("createApplication", () => {
   it("inserts with defaults for omitted nullable fields", async () => {

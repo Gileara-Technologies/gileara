@@ -6,6 +6,7 @@ import { getRole, listApplications } from "@/lib/portal/db";
 import type { ApplicationRow, ParsedRole } from "@/lib/portal/types";
 import { tryGetPortalDb } from "../../admin-db";
 import { BackToDashboard, DbUnavailableNotice, StatusBadge } from "../../ui";
+import { ActionErrorBanner } from "../../ui";
 import { ApplicationsSection } from "../applications";
 import { RoleForm } from "../role-form";
 
@@ -13,10 +14,15 @@ export const dynamic = "force-dynamic";
 
 interface EditRolePageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string }>;
 }
 
-export default async function EditRolePage({ params }: EditRolePageProps) {
+export default async function EditRolePage({
+  params,
+  searchParams,
+}: EditRolePageProps) {
   const { id } = await params;
+  const { error } = await searchParams;
   const db = tryGetPortalDb();
   if (!db) {
     return (
@@ -54,6 +60,11 @@ export default async function EditRolePage({ params }: EditRolePageProps) {
     <div className="mx-auto max-w-3xl space-y-8">
       <div>
         <BackToDashboard />
+        {error && (
+          <div className="mt-3">
+            <ActionErrorBanner code={error} />
+          </div>
+        )}
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <h2 className="text-2xl font-semibold">{role.title}</h2>
           <StatusBadge status={role.status} />
