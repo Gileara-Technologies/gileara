@@ -199,10 +199,16 @@ export async function POST(request: Request) {
       { status: 200 },
     );
 
-    // Phase 6: fire-and-forget HR notification (docs/PORTAL-PLAN.md).
-    // Sent on BOTH success paths (D1 save and the legacy fallback), only
-    // after the response content is decided, and never awaited.
-    void notifyHrByEmail({
+    // Phase 6: HR notification (docs/PORTAL-PLAN.md). Sent on BOTH success
+    // paths (D1 save and the legacy fallback), only after the response
+    // content is decided.
+    //
+    // Registered with ctx.waitUntil rather than left as a floating promise:
+    // the Workers runtime is free to tear the isolate down the moment the
+    // response is returned, which cancelled the Resend fetch before it left
+    // the worker. The failure was invisible — the promise never survived to
+    // its first log line — so every notification was silently dropped.
+    const notification = notifyHrByEmail({
       position,
       name,
       email,
@@ -213,6 +219,14 @@ export async function POST(request: Request) {
     }).catch((error: unknown) => {
       console.error("[apply] HR email notification dispatch failed:", error);
     });
+
+    try {
+      getCloudflareContext().ctx.waitUntil(notification);
+    } catch {
+      // No Cloudflare context (unit tests, plain `next dev`): the promise
+      // still settles, it just is not kept alive by the runtime.
+      void notification;
+    }
 
     return response;
   } catch (error) {
