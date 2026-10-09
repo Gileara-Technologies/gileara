@@ -6,9 +6,9 @@
  */
 
 import Link from "next/link";
-import type { RoleStatus } from "@/lib/portal/types";
+import type { ApplicationStatus, RoleStatus } from "@/lib/portal/types";
 import { DB_UNAVAILABLE_MESSAGE } from "./admin-db";
-import { statusLabel } from "./form-logic";
+import { applicationStatusLabel, statusLabel } from "./form-logic";
 
 const STATUS_BADGE_CLASSES: Record<RoleStatus, string> = {
   open: "bg-secondary-container text-on-secondary-container",
@@ -22,6 +22,29 @@ export function StatusBadge({ status }: { status: RoleStatus }) {
       className={`inline-flex items-center rounded-pill px-2.5 py-0.5 text-xs font-medium ${STATUS_BADGE_CLASSES[status]}`}
     >
       {statusLabel(status)}
+    </span>
+  );
+}
+
+const APPLICATION_STATUS_BADGE_CLASSES: Record<ApplicationStatus, string> = {
+  new: "bg-secondary-container text-on-secondary-container",
+  reviewing: "bg-tertiary-container text-on-tertiary-container",
+  shortlisted: "bg-primary-container text-on-primary-container",
+  rejected: "bg-error-container text-on-error-container",
+  hired: "bg-primary text-on-primary",
+};
+
+/** Review-state pill for one application (Phase 7, migrations/0003). */
+export function ApplicationStatusBadge({
+  status,
+}: {
+  status: ApplicationStatus;
+}) {
+  return (
+    <span
+      className={`inline-flex items-center rounded-pill px-2.5 py-0.5 text-xs font-medium ${APPLICATION_STATUS_BADGE_CLASSES[status]}`}
+    >
+      {applicationStatusLabel(status)}
     </span>
   );
 }

@@ -1,7 +1,8 @@
 /**
  * Pure helpers for the admin UI: role-form validation, dynamic list-field
- * parsing, status-action mapping, and timestamp display. No I/O, no React,
- * no Cloudflare context — unit tested in tests/lib/portal/admin.test.ts.
+ * parsing, status-action mapping (roles and applications), and timestamp
+ * display. No I/O, no React, no Cloudflare context — unit tested in
+ * tests/lib/portal/admin.test.ts.
  *
  * Fields mirror the roles schema (migrations/0001): title, openings, icon,
  * location, description, and the three JSON list columns. docs/PORTAL-DESIGN.md
@@ -10,7 +11,7 @@
  */
 
 import { slugify } from "@/lib/portal/slug";
-import type { RoleStatus } from "@/lib/portal/types";
+import type { ApplicationStatus, RoleStatus } from "@/lib/portal/types";
 
 /** Result shape returned by the admin server actions to useActionState. */
 export interface ActionState {
@@ -62,6 +63,42 @@ export const CLOSE_ACTION: StatusAction = {
 
 export function canClose(status: RoleStatus): boolean {
   return status !== "closed";
+}
+
+// ---------------------------------------------------------------------------
+// Application status (migration 0003)
+// ---------------------------------------------------------------------------
+
+/** Order offered in the status select. `new` is the schema default. */
+export const APPLICATION_STATUSES: readonly ApplicationStatus[] = [
+  "new",
+  "reviewing",
+  "shortlisted",
+  "rejected",
+  "hired",
+];
+
+const APPLICATION_STATUS_SET: ReadonlySet<string> = new Set(
+  APPLICATION_STATUSES,
+);
+
+export function isApplicationStatus(
+  value: unknown,
+): value is ApplicationStatus {
+  return typeof value === "string" && APPLICATION_STATUS_SET.has(value);
+}
+
+const APPLICATION_STATUS_LABELS: Record<ApplicationStatus, string> = {
+  new: "New",
+  reviewing: "Reviewing",
+  shortlisted: "Shortlisted",
+  rejected: "Rejected",
+  hired: "Hired",
+};
+
+/** Human label for an application status (badge text, select options). */
+export function applicationStatusLabel(status: ApplicationStatus): string {
+  return APPLICATION_STATUS_LABELS[status];
 }
 
 /**
@@ -161,6 +198,34 @@ export function validateStatusActionForm(
     return null;
   }
   return { id, status };
+}
+
+export interface ApplicationStatusFormValue {
+  id: number;
+  status: ApplicationStatus;
+  roleId: string;
+}
+
+/**
+ * Validate the hidden fields of an application status form (row id, target
+ * status, and the role to redirect back to). Returns null when anything is
+ * missing or malformed — the action then bounces to /admin?error=invalid
+ * instead of writing a bad row.
+ */
+export function validateApplicationStatusForm(
+  formData: FormData,
+): ApplicationStatusFormValue | null {
+  const idRaw = String(formData.get("id") ?? "").trim();
+  const id = Number(idRaw);
+  const status = formData.get("status");
+  const roleId = String(formData.get("roleId") ?? "").trim();
+  if (!idRaw || !Number.isInteger(id) || id < 1) {
+    return null;
+  }
+  if (!roleId || !isApplicationStatus(status)) {
+    return null;
+  }
+  return { id, status, roleId };
 }
 
 /**

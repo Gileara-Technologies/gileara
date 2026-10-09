@@ -1,12 +1,16 @@
 import { describe, expect, it } from "vitest";
 import {
+  APPLICATION_STATUSES,
   CLOSE_ACTION,
   DEFAULT_ICON,
   ROLE_STATUSES,
+  applicationStatusLabel,
   canClose,
   formatDbTimestamp,
+  isApplicationStatus,
   statusActionFor,
   statusLabel,
+  validateApplicationStatusForm,
   validateRoleForm,
   validateStatusActionForm,
 } from "@/app/admin/form-logic";
@@ -212,6 +216,94 @@ describe("validateStatusActionForm", () => {
 
   it("rejects an empty form", () => {
     expect(validateStatusActionForm(new FormData())).toBeNull();
+  });
+});
+
+describe("validateApplicationStatusForm", () => {
+  it("accepts a numeric id, a known status and the owning role id", () => {
+    const formData = new FormData();
+    formData.set("id", "7");
+    formData.set("status", "shortlisted");
+    formData.set("roleId", "full-stack-engineer");
+    expect(validateApplicationStatusForm(formData)).toEqual({
+      id: 7,
+      status: "shortlisted",
+      roleId: "full-stack-engineer",
+    });
+  });
+
+  it("rejects a non-integer or non-positive id", () => {
+    const fractional = new FormData();
+    fractional.set("id", "1.5");
+    fractional.set("status", "new");
+    fractional.set("roleId", "full-stack-engineer");
+    expect(validateApplicationStatusForm(fractional)).toBeNull();
+
+    const zero = new FormData();
+    zero.set("id", "0");
+    zero.set("status", "new");
+    zero.set("roleId", "full-stack-engineer");
+    expect(validateApplicationStatusForm(zero)).toBeNull();
+
+    const negative = new FormData();
+    negative.set("id", "-3");
+    negative.set("status", "new");
+    negative.set("roleId", "full-stack-engineer");
+    expect(validateApplicationStatusForm(negative)).toBeNull();
+  });
+
+  it("rejects an unknown status", () => {
+    const formData = new FormData();
+    formData.set("id", "7");
+    formData.set("status", "archived");
+    formData.set("roleId", "full-stack-engineer");
+    expect(validateApplicationStatusForm(formData)).toBeNull();
+  });
+
+  it("rejects a missing or blank roleId", () => {
+    const missing = new FormData();
+    missing.set("id", "7");
+    missing.set("status", "new");
+    expect(validateApplicationStatusForm(missing)).toBeNull();
+
+    const blank = new FormData();
+    blank.set("id", "7");
+    blank.set("status", "new");
+    blank.set("roleId", "   ");
+    expect(validateApplicationStatusForm(blank)).toBeNull();
+  });
+
+  it("rejects an empty form", () => {
+    expect(validateApplicationStatusForm(new FormData())).toBeNull();
+  });
+});
+
+describe("application statuses", () => {
+  it("offers the five Phase 7 statuses in review order", () => {
+    expect([...APPLICATION_STATUSES]).toEqual([
+      "new",
+      "reviewing",
+      "shortlisted",
+      "rejected",
+      "hired",
+    ]);
+  });
+
+  it("labels every known status", () => {
+    expect(APPLICATION_STATUSES.map(applicationStatusLabel)).toEqual([
+      "New",
+      "Reviewing",
+      "Shortlisted",
+      "Rejected",
+      "Hired",
+    ]);
+  });
+
+  it("rejects anything outside the known set", () => {
+    expect(isApplicationStatus("new")).toBe(true);
+    expect(isApplicationStatus("archived")).toBe(false);
+    expect(isApplicationStatus(undefined)).toBe(false);
+    expect(isApplicationStatus(7)).toBe(false);
   });
 });
 

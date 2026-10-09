@@ -47,6 +47,11 @@ HR_EMAILS = "hr.gileara@gmail.com"
 APPLICATION_NOTIFY_EMAIL = "hr.gileara@gmail.com"
 APPLICATION_NOTIFY_ENABLED = "1"
 RESEND_FROM = "Gileara Careers <careers@gileara.org>"
+# Phase 7 candidate receipt: the applicant gets a confirmation email as well.
+# Same opt-out shape as APPLICATION_NOTIFY_ENABLED ("0" turns it off). It is
+# only sent when the application row was actually stored — see
+# src/app/api/apply/route.ts.
+APPLICATION_CONFIRM_ENABLED = "1"
 
 [env.production.vars]
 CONTACT_EMAIL = "tech.gileara@gmail.com"
@@ -62,6 +67,7 @@ HR_EMAILS = "hr.gileara@gmail.com"
 APPLICATION_NOTIFY_EMAIL = "hr.gileara@gmail.com"
 APPLICATION_NOTIFY_ENABLED = "1"
 RESEND_FROM = "Gileara Careers <careers@gileara.org>"
+APPLICATION_CONFIRM_ENABLED = "1"
 
 # Secrets (set via `npx wrangler secret put NAME`):
 # - GOOGLE_PRIVATE_KEY (full BEGIN...END block)

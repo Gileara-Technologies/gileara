@@ -8,7 +8,7 @@
 
 ## What we're building
 
-A **minimal admin-gated careers portal** where HR can post roles and receive applications via email. No complex ATS, no status tracking — just role posting + application capture.
+A **minimal admin-gated careers portal** where HR can post roles and receive applications. Phase 7 added lightweight status tracking (new → reviewing → shortlisted / rejected / hired) so HR has an in-system queue — still no full ATS, follow-up itself stays by email.
 
 ### User flows
 
@@ -19,7 +19,7 @@ A **minimal admin-gated careers portal** where HR can post roles and receive app
 4. Role goes live immediately at `/careers/{slug}` (auto-generated from title)
 5. Edit/pause/close existing roles
 6. View applications per role (name, email, phone, submitted date)
-7. No status tracking — HR manages follow-ups via email
+7. Move an application through its status (new → reviewing → shortlisted / rejected / hired); HR still manages follow-up replies by email
 
 #### Candidate (public)
 1. Visit `/careers` → see all open roles
@@ -107,7 +107,10 @@ CREATE TABLE hr_users (
 
 ## What's NOT in scope
 
-❌ **Application status tracking** — HR manages follow-ups in their inbox  
+> Application status tracking was moved **into** scope by Phase 7
+> (`migrations/0003_add-application-status.sql`) — see `docs/PORTAL-PLAN.md`.
+> It is an admin-side queue only: still no candidate portal below.
+
 ❌ **In-app notes/comments** — HR discusses candidates via email/Slack  
 ❌ **CSV export** — use D1 console or write a one-off query  
 ❌ **Candidate portal** — no login for applicants to check status  
