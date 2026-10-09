@@ -56,6 +56,7 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
   const [serverMessage, setServerMessage] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const validateField = (name: string, value: string) => {
     let error = "";
@@ -192,6 +193,17 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
       if (file) submitData.append("resume", file);
       if (roleId) submitData.append("roleId", roleId);
 
+      // Honeypot: read the hidden field off the form element so the value is
+      // whatever was actually typed into it. Applicants never see this field;
+      // /api/apply answers a filled one exactly like a stored application.
+      const honeypot = formRef.current
+        ? new FormData(formRef.current).get("honeypot")
+        : null;
+      submitData.append(
+        "honeypot",
+        typeof honeypot === "string" ? honeypot : ""
+      );
+
       // Submit to the careers API (D1 save on the deployed worker)
       const res = await fetch("/api/apply", {
         method: "POST",
@@ -281,7 +293,21 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
             )}
           </AnimatePresence>
 
-          <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-8" noValidate>
+
+            {/* Honeypot. Off-screen and skipped by the keyboard, so no
+                applicant ever meets it; bots that fill every input do. */}
+            <div className="sr-only" aria-hidden="true">
+              <label htmlFor="apply-website">Website</label>
+              <input
+                id="apply-website"
+                type="text"
+                name="honeypot"
+                tabIndex={-1}
+                autoComplete="off"
+                defaultValue=""
+              />
+            </div>
 
             {/* Personal Info */}
             <div className="space-y-6">

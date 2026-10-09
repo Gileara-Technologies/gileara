@@ -1,9 +1,32 @@
 import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { createApplication, listRoles, type D1Like } from "@/lib/portal/db";
-import { slugify } from "@/lib/portal/slug";
+import {
+  createApplication,
+  getRole,
+  listRoles,
+  type D1Like,
+} from "@/lib/portal/db";
+import {
+  APPLY_RATE_LIMIT_MAX,
+  APPLY_RATE_LIMIT_WINDOW_MS,
+  createRateLimiter,
+} from "@/lib/portal/rate-limit";
 import { notifyCandidateByEmail, notifyHrByEmail } from "@/lib/portal/notify";
 import { persistResume, type R2PutLike } from "@/lib/portal/resume-storage";
+
+/**
+ * POST /api/apply — store a careers application and notify both sides.
+ *
+ * Guards, cheapest first: per-IP rate limit (before the body is even read),
+ * honeypot field, then the field/file validation below, then a check that
+ * the named role exists and is still open. Only then is anything written.
+ *
+ * Status codes:
+ *   200 — stored (also the honeypot's answer, so bots learn nothing)
+ *   400 — missing/invalid fields, or a role that is unknown or not open
+ *   429 — too many submissions from this IP; see Retry-After
+ *   500 — unexpected failure (unparseable body, and the like)
+ */
 
 const MAX_RESUME_BYTES = 5 * 1024 * 1024; // 5MB
 const ALLOWED_RESUME_TYPES = new Set([
@@ -40,9 +63,121 @@ function isAllowedResumeFile(file: File): boolean {
   );
 }
 
+/**
+ * Per-isolate counter, deliberately module-level so it survives between
+ * requests. Rate limiting is best-effort on Workers (see rate-limit.ts).
+ */
+const applyLimiter = createRateLimiter({
+  limit: APPLY_RATE_LIMIT_MAX,
+  windowMs: APPLY_RATE_LIMIT_WINDOW_MS,
+});
+
+/** Copy for a refused role. Both read as instructions, not as error codes. */
+const ROLE_REJECTION_MESSAGES = {
+  unknown:
+    "We don't recognise that role. Please pick one from the careers page and try again.",
+  closed: "That role isn't accepting applications right now.",
+} as const;
+
+type RoleResolution =
+  | { ok: true; roleId: string }
+  | { ok: false; reason: string; message: string };
+
+/**
+ * Resolve the role an application belongs to, and refuse anything that is
+ * not an open role in the roles table.
+ *
+ * The form only offers open roles, but a POST can name any id or any
+ * position string, so the check has to live here. Without it an application
+ * lands against a closed role — or against an id that exists nowhere — and
+ * then shows up in no admin view, because applications are read per role.
+ */
+async function resolveRoleForApplication(
+  db: D1Like,
+  roleId: string,
+  position: string,
+): Promise<RoleResolution> {
+  if (roleId) {
+    const role = await getRole(db, roleId);
+    if (!role) {
+      return {
+        ok: false,
+        reason: `unknown-role "${roleId}"`,
+        message: ROLE_REJECTION_MESSAGES.unknown,
+      };
+    }
+    if (role.status !== "open") {
+      return {
+        ok: false,
+        reason: `role "${role.id}" is ${role.status}`,
+        message: ROLE_REJECTION_MESSAGES.closed,
+      };
+    }
+    return { ok: true, roleId: role.id };
+  }
+
+  // The general form on /careers sends a position title instead of an id.
+  const roles = await listRoles(db);
+  const match = roles.find(
+    (role) => role.title.toLowerCase() === position.toLowerCase(),
+  );
+  if (!match) {
+    return {
+      ok: false,
+      reason: `unknown-position "${position}"`,
+      message: ROLE_REJECTION_MESSAGES.unknown,
+    };
+  }
+  if (match.status !== "open") {
+    return {
+      ok: false,
+      reason: `role "${match.id}" is ${match.status}`,
+      message: ROLE_REJECTION_MESSAGES.closed,
+    };
+  }
+  return { ok: true, roleId: match.id };
+}
+
 export async function POST(request: Request) {
   try {
+    // Cheapest guard first: decide not to read the body at all. Cloudflare
+    // injects cf-connecting-ip, so a missing header means we are off
+    // Cloudflare (local dev, unit tests) and there is nothing to count.
+    const clientIp = request.headers.get("cf-connecting-ip")?.trim();
+    if (clientIp) {
+      const rate = applyLimiter.check(clientIp);
+      if (!rate.allowed) {
+        console.warn(
+          `[apply] Rate limited ${clientIp} — retry in ${rate.retryAfterSeconds}s`,
+        );
+        return NextResponse.json(
+          {
+            error:
+              "Too many applications have come from this network. Please try again shortly.",
+          },
+          {
+            status: 429,
+            headers: { "Retry-After": String(rate.retryAfterSeconds) },
+          },
+        );
+      }
+    }
+
     const formData = await request.formData();
+
+    // Honeypot, the same trick as /api/newsletter: a field no applicant can
+    // see, so a filled one means a bot walking the inputs. Answer exactly
+    // like a stored application — a bot that gets an error just retries —
+    // and skip D1, R2 and Resend entirely.
+    if (asText(formData.get("honeypot")) !== "") {
+      console.warn(
+        `[apply] Honeypot filled (${clientIp ?? "unknown ip"}) — submission ignored`,
+      );
+      return NextResponse.json(
+        { success: true, message: CONFIRMATION_MESSAGE },
+        { status: 200 },
+      );
+    }
 
     const name = asText(formData.get("name"));
     const email = asText(formData.get("email"));
@@ -111,22 +246,21 @@ export async function POST(request: Request) {
         throw new Error("gileara_careers_db binding is missing from the Cloudflare env");
       }
 
-      // Role id: role detail pages pass it directly; the general form on
-      // /careers only sends the position title, so match it against the
-      // roles table (and fall back to the slugified title).
-      let resolvedRoleId = roleId;
-      if (!resolvedRoleId) {
-        const roles = await listRoles(db);
-        const match = roles.find(
-          (role) => role.title.toLowerCase() === position.toLowerCase(),
+      // Role enforcement: it must exist and still be open. A refusal returns
+      // before anything is written or emailed.
+      const roleResolution = await resolveRoleForApplication(
+        db,
+        roleId,
+        position,
+      );
+      if (!roleResolution.ok) {
+        console.warn(`[apply] Rejected application — ${roleResolution.reason}`);
+        return NextResponse.json(
+          { error: roleResolution.message },
+          { status: 400 },
         );
-        resolvedRoleId = match?.id ?? slugify(position);
-        if (!resolvedRoleId) {
-          throw new Error(
-            `Cannot resolve a role id for position "${position}"`,
-          );
-        }
       }
+      const resolvedRoleId = roleResolution.roleId;
 
       // Order matters: insert first (resume_key "") to get autoincrement id,
       // then upload to R2, then update resume_key (fail-open).
@@ -147,14 +281,13 @@ export async function POST(request: Request) {
 
       const bucket = (env as unknown as { gileara_resumes?: R2PutLike })
         .gileara_resumes;
-      const roleSlug = resolvedRoleId || slugify(position) || "general";
       // Awaited so the worker cannot freeze before the R2 put lands;
       // persistResume never throws, so the candidate is never affected.
       await persistResume({
         bucket,
         db,
         applicationId: stored.id,
-        roleSlug,
+        roleSlug: resolvedRoleId,
         file: resume,
       });
 

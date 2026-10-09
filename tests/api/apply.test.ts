@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { POST } from "@/app/api/apply/route";
+import { APPLY_RATE_LIMIT_MAX } from "@/lib/portal/rate-limit";
 
 const BASE = "http://localhost:3000/api/apply";
 
@@ -43,19 +44,75 @@ function makeForm(overrides: Partial<Record<string, string | File>> = {}) {
   return form;
 }
 
-function post(body: BodyInit) {
-  return POST(new Request(BASE, { method: "POST", body }));
+/**
+ * Every POST gets its own TEST-NET-2 address unless a test asks for a
+ * specific one. The route rate-limits per IP, so sharing a key across tests
+ * would make them depend on execution order.
+ */
+let ipCounter = 0;
+function nextIp(): string {
+  ipCounter += 1;
+  return `198.51.100.${(ipCounter % 250) + 1}`;
 }
 
+function post(body: BodyInit, ip: string = nextIp()) {
+  return POST(
+    new Request(BASE, {
+      method: "POST",
+      body,
+      headers: { "cf-connecting-ip": ip },
+    }),
+  );
+}
+
+/** Set env vars for one test, restoring whatever was there before. */
+async function withEnv(vars: Record<string, string>, run: () => Promise<void>) {
+  const previous = new Map(
+    Object.keys(vars).map((key) => [key, process.env[key]] as const),
+  );
+  for (const [key, value] of Object.entries(vars)) {
+    process.env[key] = value;
+  }
+  try {
+    await run();
+  } finally {
+    for (const [key, value] of previous) {
+      if (value === undefined) {
+        delete process.env[key];
+      } else {
+        process.env[key] = value;
+      }
+    }
+  }
+}
+
+interface FakeRoleSeed {
+  id: string;
+  title: string;
+  status: string;
+}
+
+/** Mirrors production: one open role, one closed role. */
+const DEFAULT_ROLES: FakeRoleSeed[] = [
+  { id: "full-stack-engineer", title: "Full-Stack Engineer", status: "open" },
+  {
+    id: "administration-officer",
+    title: "Administration Officer",
+    status: "closed",
+  },
+];
+
 /**
- * Minimal D1 fake — just the surface createApplication touches (INSERT via
- * run(), then SELECT-by-id via first()) so a POST can take the real
- * saved=true path instead of the legacy fallback.
+ * Minimal D1 fake — just the surface the apply route touches: role lookups
+ * (getRole / listRoles), the INSERT via run(), then SELECT-by-id via first(),
+ * so a POST can take the real saved=true path instead of the legacy fallback.
  */
-function makeFakeD1() {
+function makeFakeD1(options: { roles?: FakeRoleSeed[] } = {}) {
+  const roles = options.roles ?? DEFAULT_ROLES;
   const rows: Record<string, unknown>[] = [];
   let nextId = 1;
   return {
+    rows,
     prepare(sql: string) {
       const binds: unknown[] = [];
       const statement = {
@@ -90,9 +147,15 @@ function makeFakeD1() {
           if (sql.startsWith("SELECT * FROM applications WHERE id")) {
             return rows.find((row) => row.id === binds[0]) ?? null;
           }
+          if (sql.startsWith("SELECT * FROM roles WHERE id")) {
+            return roles.find((role) => role.id === binds[0]) ?? null;
+          }
           return null;
         },
         async all() {
+          if (sql.startsWith("SELECT * FROM roles")) {
+            return { results: roles };
+          }
           return { results: [] };
         },
       };
@@ -222,6 +285,182 @@ describe("POST /api/apply", () => {
       } else {
         process.env.APPLICATION_NOTIFY_ENABLED = notify;
       }
+    }
+  });
+
+  // Hardening (docs/PORTAL-PLAN.md, "Hardening note"). The honeypot mirrors
+  // /api/newsletter: answer like a stored application so a bot has nothing to
+  // learn, but write nothing and send nothing.
+  it("accepts a honeypot submission silently, without a write or an email", async () => {
+    const waitUntil = vi.fn();
+    const db = makeFakeD1();
+    cfState.context = { env: { gileara_careers_db: db }, ctx: { waitUntil } };
+
+    try {
+      const res = await post(
+        makeForm({
+          roleId: "full-stack-engineer",
+          position: "Full-Stack Engineer",
+          honeypot: "http://spam.example",
+        }),
+      );
+      expect(res.status).toBe(200);
+      // Indistinguishable from the real thing, on purpose.
+      await expect(res.json()).resolves.toMatchObject({
+        success: true,
+        message: expect.stringContaining("5 business days"),
+      });
+      expect(db.rows).toHaveLength(0);
+      expect(waitUntil).not.toHaveBeenCalled();
+    } finally {
+      cfState.context = null;
+    }
+  });
+
+  it("lets a submission through when the honeypot is present but empty", async () => {
+    const db = makeFakeD1();
+    cfState.context = {
+      env: { gileara_careers_db: db },
+      ctx: { waitUntil: vi.fn() },
+    };
+
+    try {
+      await withEnv(
+        {
+          APPLICATION_NOTIFY_ENABLED: "0",
+          APPLICATION_CONFIRM_ENABLED: "0",
+        },
+        async () => {
+          const res = await post(
+            makeForm({
+              roleId: "full-stack-engineer",
+              position: "Full-Stack Engineer",
+              honeypot: "",
+            }),
+          );
+          expect(res.status).toBe(200);
+          expect(db.rows).toHaveLength(1);
+        },
+      );
+    } finally {
+      cfState.context = null;
+    }
+  });
+
+  it("answers 429 with Retry-After once one address exceeds the limit", async () => {
+    const ip = "203.0.113.77";
+    // These submissions fail validation — and still count: the limiter runs
+    // before the body is read, which is exactly what makes it cheap.
+    const incomplete = makeForm({ resume: undefined });
+
+    for (let i = 0; i < APPLY_RATE_LIMIT_MAX; i += 1) {
+      const res = await post(incomplete, ip);
+      expect(res.status).toBe(400);
+    }
+
+    const limited = await post(incomplete, ip);
+    expect(limited.status).toBe(429);
+    const retryAfter = Number(limited.headers.get("Retry-After"));
+    expect(retryAfter).toBeGreaterThan(0);
+    expect(retryAfter).toBeLessThanOrEqual(600);
+    await expect(limited.json()).resolves.toMatchObject({
+      error: expect.stringContaining("Too many applications"),
+    });
+
+    // Another network is untouched by that address's spending.
+    const other = await post(incomplete, "203.0.113.78");
+    expect(other.status).toBe(400);
+  });
+
+  it("refuses an application for a role that is not open", async () => {
+    const waitUntil = vi.fn();
+    const db = makeFakeD1();
+    cfState.context = { env: { gileara_careers_db: db }, ctx: { waitUntil } };
+
+    try {
+      const res = await post(
+        makeForm({
+          roleId: "administration-officer",
+          position: "Administration Officer",
+        }),
+      );
+      expect(res.status).toBe(400);
+      await expect(res.json()).resolves.toMatchObject({
+        error: expect.stringContaining("isn't accepting applications"),
+      });
+      expect(db.rows).toHaveLength(0);
+      expect(waitUntil).not.toHaveBeenCalled();
+    } finally {
+      cfState.context = null;
+    }
+  });
+
+  // Regression: the route used to fall back to slugify(position), which saved
+  // applications against ids that exist in no table — invisible in the admin,
+  // because applications are read per role.
+  it("refuses a role id that does not exist instead of inventing a slug", async () => {
+    const db = makeFakeD1();
+    cfState.context = {
+      env: { gileara_careers_db: db },
+      ctx: { waitUntil: vi.fn() },
+    };
+
+    try {
+      const res = await post(
+        makeForm({
+          roleId: "chief-vibes-officer",
+          position: "Chief Vibes Officer",
+        }),
+      );
+      expect(res.status).toBe(400);
+      await expect(res.json()).resolves.toMatchObject({
+        error: expect.stringContaining("don't recognise that role"),
+      });
+      expect(db.rows).toHaveLength(0);
+    } finally {
+      cfState.context = null;
+    }
+  });
+
+  it("resolves the general form's position title against the roles table", async () => {
+    const db = makeFakeD1();
+    cfState.context = {
+      env: { gileara_careers_db: db },
+      ctx: { waitUntil: vi.fn() },
+    };
+
+    try {
+      await withEnv(
+        {
+          APPLICATION_NOTIFY_ENABLED: "0",
+          APPLICATION_CONFIRM_ENABLED: "0",
+        },
+        async () => {
+          // No roleId: same shape the /careers form sends.
+          const res = await post(makeForm({ position: "Full-Stack Engineer" }));
+          expect(res.status).toBe(200);
+          expect(db.rows).toHaveLength(1);
+          expect(db.rows[0].role_id).toBe("full-stack-engineer");
+        },
+      );
+    } finally {
+      cfState.context = null;
+    }
+  });
+
+  it("refuses a position title that matches no role", async () => {
+    const db = makeFakeD1();
+    cfState.context = {
+      env: { gileara_careers_db: db },
+      ctx: { waitUntil: vi.fn() },
+    };
+
+    try {
+      const res = await post(makeForm({ position: "Astronaut" }));
+      expect(res.status).toBe(400);
+      expect(db.rows).toHaveLength(0);
+    } finally {
+      cfState.context = null;
     }
   });
 });
