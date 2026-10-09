@@ -1,7 +1,7 @@
 /**
  * Row and domain shapes for the careers portal data layer.
- * Schema: migrations/0001_create-portal-schema.sql (binding
- * `gileara_careers_db` in wrangler.toml).
+ * Schema: migrations/0001_create-portal-schema.sql + 0003_add-application-status.sql
+ * (binding `gileara_careers_db` in wrangler.toml).
  *
  * RoleRow / ApplicationRow mirror the D1 columns 1:1 (snake_case); the three
  * role list fields arrive as JSON TEXT and are parsed by the db layer.
@@ -11,6 +11,18 @@
  */
 
 export type RoleStatus = "open" | "paused" | "closed";
+
+/**
+ * Application review state (migration 0003). `new` is the schema default and
+ * means "nobody has moved this yet" — the same applications 0001 collected
+ * while HR tracked everything in their inbox.
+ */
+export type ApplicationStatus =
+  | "new"
+  | "reviewing"
+  | "shortlisted"
+  | "rejected"
+  | "hired";
 
 /** Raw `roles` row as stored in D1. List fields are serialized JSON arrays. */
 export interface RoleRow {
@@ -65,4 +77,10 @@ export interface ApplicationRow {
   cover_letter: string | null;
   why_this_role: string | null;
   created_at: string;
+  /** Review state; schema default 'new' (migration 0003). */
+  status: ApplicationStatus;
+  /** D1 datetime of the last transition; null until someone moves it. */
+  status_updated_at: string | null;
+  /** Admin email that made the last transition; null until someone moves it. */
+  status_updated_by: string | null;
 }

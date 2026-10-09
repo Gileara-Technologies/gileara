@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { createApplication, listRoles, type D1Like } from "@/lib/portal/db";
 import { slugify } from "@/lib/portal/slug";
-import { notifyHrByEmail } from "@/lib/portal/notify";
+import { notifyCandidateByEmail, notifyHrByEmail } from "@/lib/portal/notify";
 import { persistResume, type R2PutLike } from "@/lib/portal/resume-storage";
 
 const MAX_RESUME_BYTES = 5 * 1024 * 1024; // 5MB
@@ -208,6 +208,7 @@ export async function POST(request: Request) {
     // response is returned, which cancelled the Resend fetch before it left
     // the worker. The failure was invisible — the promise never survived to
     // its first log line — so every notification was silently dropped.
+    const submittedAt = new Date().toISOString();
     const notification = notifyHrByEmail({
       position,
       name,
@@ -215,7 +216,7 @@ export async function POST(request: Request) {
       phone,
       coverLetter,
       whyThisRole,
-      submittedAt: new Date().toISOString(),
+      submittedAt,
     }).catch((error: unknown) => {
       console.error("[apply] HR email notification dispatch failed:", error);
     });
@@ -226,6 +227,31 @@ export async function POST(request: Request) {
       // No Cloudflare context (unit tests, plain `next dev`): the promise
       // still settles, it just is not kept alive by the runtime.
       void notification;
+    }
+
+    // Phase 7: the candidate gets a receipt too — but ONLY when the row
+    // exists. Dispatching it on an unsaved POST would email an address we
+    // never stored, which is exactly how a public endpoint becomes an
+    // amplification vector. `saved` is the gate; Resend failure still can
+    // never touch the response.
+    if (saved) {
+      const confirmation = notifyCandidateByEmail({
+        position,
+        name,
+        email,
+        phone,
+        coverLetter,
+        whyThisRole,
+        submittedAt,
+      }).catch((error: unknown) => {
+        console.error("[apply] Candidate confirmation dispatch failed:", error);
+      });
+
+      try {
+        getCloudflareContext().ctx.waitUntil(confirmation);
+      } catch {
+        void confirmation;
+      }
     }
 
     return response;

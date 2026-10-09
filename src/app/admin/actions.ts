@@ -15,10 +15,16 @@
  */
 
 import { redirect } from "next/navigation";
-import { createRole, setRoleStatus, updateRole } from "@/lib/portal/db";
+import {
+  createRole,
+  setApplicationStatus,
+  setRoleStatus,
+  updateRole,
+} from "@/lib/portal/db";
 import type { ParsedRole } from "@/lib/portal/types";
 import { DB_UNAVAILABLE_MESSAGE, tryGetPortalDb } from "./admin-db";
 import {
+  validateApplicationStatusForm,
   validateRoleForm,
   validateStatusActionForm,
   type ActionState,
@@ -125,4 +131,41 @@ export async function setRoleStatusAction(formData: FormData): Promise<void> {
     redirect("/admin?error=save");
   }
   redirect("/admin");
+}
+
+/**
+ * Move one application to a new status (Phase 7) and record session.email as
+ * the actor. Posted by the plain select+button form inside the application
+ * detail, so it redirects back to the role page HR was already on — with an
+ * ?error= code the page banners when nothing changed.
+ */
+export async function setApplicationStatusAction(
+  formData: FormData,
+): Promise<void> {
+  const session = await requireAdminSession();
+  const parsed = validateApplicationStatusForm(formData);
+  if (!parsed) {
+    redirect("/admin?error=invalid");
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    redirect(`/admin/roles/${parsed.roleId}?error=unavailable`);
+  }
+  let saved = false;
+  try {
+    const updated = await setApplicationStatus(
+      db,
+      parsed.id,
+      parsed.status,
+      session.email,
+    );
+    saved = updated !== null;
+  } catch {
+    saved = false;
+  }
+  const back = `/admin/roles/${parsed.roleId}`;
+  if (!saved) {
+    redirect(`${back}?error=save`);
+  }
+  redirect(back);
 }
