@@ -11,9 +11,14 @@
  *  - `notifyHrByEmail(app, opts)` performs the POST. It NEVER throws or
  *    rejects: every failure (disabled, no recipient, no API key, non-2xx,
  *    network error) resolves to `false` after a `console.error`/`warn`
- *    with an `[apply]` prefix, so /api/apply can fire it without ever
+ *    with an `[apply]` prefix, so /api/apply can call it without ever
  *    risking the candidate's response. The `fetchImpl` option lets tests
  *    inject a fake fetch.
+ *
+ *    Callers on Workers MUST register the returned promise with
+ *    `ctx.waitUntil`, not leave it floating: the runtime may tear the
+ *    isolate down as soon as the response is returned, which silently
+ *    cancels the request (see docs/PORTAL-PLAN.md, Phase 6 note).
  *
  * Env vars (see wrangler.toml [vars]; RESEND_API_KEY is a Wrangler secret):
  *  - APPLICATION_NOTIFY_EMAIL — HR recipient; falls back to CONTACT_EMAIL
@@ -134,7 +139,8 @@ export interface NotifyHrOptions {
  * Send the HR notification for one application. Resolves `true` only when
  * Resend accepted the message (2xx). Resolves `false` when disabled, not
  * configured, or when the upstream call fails — it never throws upward,
- * so callers may fire and forget.
+ * so callers may dispatch it without guarding the candidate's response.
+ * Register the promise with `ctx.waitUntil` on Workers.
  */
 export async function notifyHrByEmail(
   app: ApplicationEmailInput,
