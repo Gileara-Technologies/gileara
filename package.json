@@ -32,6 +32,9 @@
     "typescript": "^6.0.3",
     "vitest": "^4.1.11"
   },
+  "overrides": {
+    "esbuild": "0.28.2"
+  },
   "dependencies": {
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
