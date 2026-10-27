@@ -50,3 +50,11 @@ next-env.d.ts
 *.njsproj
 *.sln
 *.sw?
+
+# Research/temp files from competitor analysis
+.research/
+_acc_*.html
+_accenture_*.html
+*.bmp
+.phase7-test.pdf
+

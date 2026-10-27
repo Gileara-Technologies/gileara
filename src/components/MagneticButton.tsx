@@ -14,35 +14,29 @@ interface MagneticButtonProps {
   showArrow?: boolean;
 }
 
+/**
+ * MagneticButton — Terminal / Operator aesthetic.
+ *
+ * Primary: white fill on black (Vercel-style inversion).
+ * Secondary: 1px border, transparent bg.
+ * Ghost: text only.
+ *
+ * Keeps the magnetic hover behaviour from before.
+ */
 const variantClasses: Record<NonNullable<MagneticButtonProps["variant"]>, string> = {
-  primary:
-    "bg-accent-bright text-background hover:bg-accent-bright/90 hover:text-background shadow-[0_0_0_0_rgba(94,234,212,0)] hover:shadow-[0_0_32px_rgba(94,234,212,0.35)] transition-shadow",
-  secondary:
-    "border border-on-background/20 text-on-background hover:border-accent-bright hover:text-accent-bright",
-  ghost:
-    "text-on-surface-variant hover:text-accent-bright",
+  primary:   "bg-white text-black hover:bg-white/90",
+  secondary: "border border-white/15 text-white/70 hover:border-white/30 hover:text-white",
+  ghost:     "text-white/50 hover:text-white",
 };
 
 const sizeClasses: Record<NonNullable<MagneticButtonProps["size"]>, string> = {
-  sm: "px-5 py-2.5 text-sm",
-  md: "pl-6 pr-12 py-3.5 text-base",
-  lg: "pl-8 pr-14 py-4 text-lg",
+  sm: "px-4 py-2 text-xs",
+  md: "px-6 py-3 text-sm",
+  lg: "px-8 py-4 text-base",
 };
 
-/** Next's Link, wrapped so Framer Motion can drive it with motion values. */
 const MotionLink = motion.create(Link);
 
-/**
- * Andela-style pill button with subtle magnetic hover.
- * - Pill shape (rounded-pill)
- * - Asymmetric horizontal padding so the arrow has its own "lane"
- * - On hover near the button, the button drifts toward the cursor (magnetic)
- * - Variants: primary (bright accent), secondary (outline), ghost (text only)
- * - Motion: the pointer offset lives in motion values, so moving the mouse
- *   writes straight to the DOM transform instead of re-rendering React on
- *   every event, and the drift is skipped under `prefers-reduced-motion`
- *   (the button then stays perfectly still).
- */
 export default function MagneticButton({
   children,
   href,
@@ -62,59 +56,35 @@ export default function MagneticButton({
     const el = btnRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    x.set((e.clientX - rect.left - rect.width / 2) * 0.15);
-    y.set((e.clientY - rect.top - rect.height / 2) * 0.15);
+    x.set((e.clientX - rect.left - rect.width / 2) * 0.12);
+    y.set((e.clientY - rect.top - rect.height / 2) * 0.12);
   };
 
-  const handleLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+  const handleLeave = () => { x.set(0); y.set(0); };
 
-  // Same 300 ms ease-out the previous inline transform string carried.
-  const style = {
-    x,
-    y,
-    transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
-  };
+  const style = { x, y, transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)" };
 
-  const baseClass = `group inline-flex items-center justify-center rounded-pill font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+  const baseClass = `inline-flex items-center justify-center rounded-md font-sans font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-bright focus-visible:ring-offset-1 focus-visible:ring-offset-black ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
 
   const arrow = showArrow ? (
-    <span className="ml-6 inline-block transition-transform duration-300 group-hover:translate-x-1.5">
-      <span className="material-symbols-outlined align-middle text-xl">arrow_forward</span>
+    <span className="ml-2 inline-block material-symbols-outlined align-middle text-base transition-transform duration-200 group-hover:translate-x-0.5">
+      arrow_forward
     </span>
   ) : null;
 
   if (external) {
     return (
-      <motion.a
-        ref={btnRef}
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={baseClass}
-        style={style}
-        onMouseMove={handleMove}
-        onMouseLeave={handleLeave}
-      >
-        {children}
-        {arrow}
+      <motion.a ref={btnRef} href={href} target="_blank" rel="noopener noreferrer"
+        className={`group ${baseClass}`} style={style} onMouseMove={handleMove} onMouseLeave={handleLeave}>
+        {children}{arrow}
       </motion.a>
     );
   }
 
   return (
-    <MotionLink
-      ref={btnRef as React.RefObject<HTMLAnchorElement>}
-      href={href}
-      className={baseClass}
-      style={style}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-    >
-      {children}
-      {arrow}
+    <MotionLink ref={btnRef as React.RefObject<HTMLAnchorElement>} href={href}
+      className={`group ${baseClass}`} style={style} onMouseMove={handleMove} onMouseLeave={handleLeave}>
+      {children}{arrow}
     </MotionLink>
   );
 }

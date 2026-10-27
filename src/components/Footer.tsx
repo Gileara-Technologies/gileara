@@ -1,227 +1,164 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 import { FaLinkedin, FaWhatsapp } from "react-icons/fa6";
+import { motion } from "framer-motion";
 import { siteConfig } from "@/content/site-config";
 import NewsletterForm from "@/components/NewsletterForm";
 
 /**
- * Footer — cinematic typographic statement.
+ * Footer — Terminal / Operator aesthetic.
  *
- * The top half is a full-bleed editorial moment: a massive serif headline
- * "Let's build what's next" with a teal accent word, a subtle parallax
- * offset as the visitor scrolls into it, and an ambient radial glow.
- *
- * The bottom half is a tight, clean link grid with the legal strip.
+ * Vercel-style: clean link grid above a minimal legal strip.
+ * The top section carries a large mono headline with a teal
+ * accent word — the last thing a visitor reads before leaving.
  */
 export default function Footer() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "center center"],
-  });
-  // Parallax: the headline drifts up slightly as it enters
-  const y = useTransform(scrollYProgress, [0, 1], [60, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
-
   const columns = [
     {
-      title: "Solutions",
+      title: "Product",
       links: [
-        { name: "Operations", href: "/services" },
-        { name: "Customer Engagement", href: "/services" },
-        { name: "Commerce", href: "/services" },
-        { name: "Growth", href: "/services" },
-        { name: "Bespoke", href: "/services" },
+        { name: "Packages",       href: "/services" },
+        { name: "How We Transform", href: "/how-we-transform" },
+        { name: "Operations Audit", href: "/#audit" },
+        { name: "Pricing",        href: "/services" },
       ],
     },
     {
       title: "Company",
       links: [
-        { name: "About", href: "/about" },
-        { name: "How We Transform", href: "/how-we-transform" },
-        { name: "Careers", href: "/careers" },
+        { name: "About",    href: "/about" },
+        { name: "Careers",  href: "/careers" },
         { name: "Insights", href: "/insights" },
-        { name: "Contact", href: "/contact" },
+        { name: "Contact",  href: "/contact" },
       ],
     },
     {
-      title: "Connect",
+      title: "Legal",
       links: [
-        { name: "LinkedIn", href: "https://www.linkedin.com/company/gileara", external: true },
-        { name: "WhatsApp", href: `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}`, external: true },
-        { name: "Email", href: `mailto:${siteConfig.email}` },
-        { name: "FAQ", href: "/faq" },
+        { name: "Privacy",  href: "/privacy" },
+        { name: "Terms",    href: "/terms" },
+        { name: "Security", href: "/security" },
+        { name: "FAQ",      href: "/faq" },
       ],
     },
   ];
 
   return (
-    <footer ref={ref} className="relative bg-surface-container-lowest overflow-hidden border-t border-on-background/10">
-      {/* ── Cinematic statement ───────────────────────────────────────────── */}
-      <div className="relative min-h-[70vh] flex flex-col justify-center px-6 md:px-12 py-32 overflow-hidden border-b border-on-background/10">
-        {/* Ambient glow — teal radial, top-center */}
+    <footer className="relative bg-black border-t border-white/[0.06] overflow-hidden">
+      {/* Grid bg */}
+      <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" aria-hidden="true" />
+
+      {/* ── Statement section ──────────────────────────────────────────── */}
+      <div className="relative border-b border-white/[0.06] px-6 md:px-12 py-24 md:py-32">
+        {/* Top-center glow */}
         <div
-          className="absolute inset-x-0 top-0 h-[700px] pointer-events-none"
+          className="absolute inset-x-0 -top-20 h-[400px] pointer-events-none"
           style={{
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(94,234,212,0.22) 0%, transparent 65%)",
-          }}
-          aria-hidden="true"
-        />
-        {/* Faint grid lines for depth */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(216,227,245,1) 1px, transparent 1px), linear-gradient(90deg, rgba(216,227,245,1) 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
+            background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(94,234,212,0.08) 0%, transparent 70%)",
           }}
           aria-hidden="true"
         />
 
-        <motion.div
-          style={{ y, opacity }}
-          className="max-w-[1440px] mx-auto w-full relative z-10"
-        >
-          <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-10">
-            Gileara Technologies · {siteConfig.location}
+        <div className="max-w-[1200px] mx-auto">
+          <div className="font-mono text-[11px] text-accent-bright/50 tracking-widest uppercase mb-8">
+            gileara.technologies
           </div>
-
-          {/* Massive editorial headline */}
-          <h2 className="font-serif text-[clamp(3rem,8vw,9rem)] leading-[0.9] tracking-[-0.04em] text-on-background mb-12 max-w-5xl">
-            Let&apos;s build{" "}
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="font-display text-[clamp(2.5rem,6vw,7rem)] leading-[0.92] tracking-tight text-white mb-10 max-w-4xl"
+          >
+            Let&apos;s build
             <br />
             what&apos;s{" "}
-            <span className="italic text-accent-bright relative">
-              next.
-              {/* Underline accent */}
-              <span
-                className="absolute -bottom-1 left-0 w-full h-[2px] rounded-full"
-                style={{
-                  background: "linear-gradient(90deg, #5EEAD4 0%, transparent 100%)",
-                }}
-                aria-hidden="true"
-              />
-            </span>
-          </h2>
+            <span className="text-accent-bright">next.</span>
+          </motion.h2>
 
-          {/* Sub-line + CTA row */}
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-10">
-            <p className="text-on-surface-variant text-lg max-w-md leading-relaxed">
-              Small businesses everywhere run on manual work. We build the systems that fix it — starting in Ghana, scaling globally.
-            </p>
+          <div className="flex flex-col sm:flex-row items-start gap-4">
             <Link
               href="/contact"
-              className="group inline-flex items-center pl-7 pr-14 py-4 rounded-pill bg-accent-bright text-background font-medium text-base hover:bg-accent-bright/90 transition-all duration-300 shrink-0"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-white text-black text-sm font-sans font-medium hover:bg-white/90 transition-colors duration-150"
             >
               Book a Free Consultation
-              <span className="ml-6 material-symbols-outlined text-lg transition-transform duration-300 group-hover:translate-x-1.5">
-                arrow_forward
-              </span>
+              <span className="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
             </Link>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* ── Newsletter strip ──────────────────────────────────────────────── */}
-      <div className="px-6 md:px-12 py-12 border-b border-on-background/10">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="max-w-xl">
-            <NewsletterForm source="footer" />
+            <a
+              href="https://www.linkedin.com/company/gileara"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-white/10 text-white/50 text-sm font-sans hover:border-white/20 hover:text-white/70 transition-colors duration-150"
+            >
+              <FaLinkedin className="w-4 h-4" />
+              LinkedIn
+            </a>
+            <a
+              href={`https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-white/10 text-white/50 text-sm font-sans hover:border-white/20 hover:text-white/70 transition-colors duration-150"
+            >
+              <FaWhatsapp className="w-4 h-4" />
+              WhatsApp
+            </a>
           </div>
         </div>
       </div>
 
-      {/* ── Link grid ─────────────────────────────────────────────────────── */}
-      <div className="px-6 md:px-12 pt-16 pb-8">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 mb-16">
-            {/* Brand column */}
-            <div className="col-span-2 md:col-span-1">
-              <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
-                Gileara
-              </div>
-              <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs">
-                We build the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone. Piloting in Ghana, designed to scale worldwide.
-              </p>
-              {/* Social icons */}
-              <div className="flex items-center gap-4 mt-6">
-                <a
-                  href="https://www.linkedin.com/company/gileara"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Gileara on LinkedIn"
-                  className="w-9 h-9 rounded-full border border-on-background/15 flex items-center justify-center text-on-surface-variant hover:border-accent-bright hover:text-accent-bright transition-colors duration-200"
-                >
-                  <FaLinkedin className="w-4 h-4" />
-                </a>
-                <a
-                  href={`https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Chat on WhatsApp"
-                  className="w-9 h-9 rounded-full border border-on-background/15 flex items-center justify-center text-on-surface-variant hover:border-accent-bright hover:text-accent-bright transition-colors duration-200"
-                >
-                  <FaWhatsapp className="w-4 h-4" />
-                </a>
-              </div>
-              <p className="text-on-surface-variant text-xs font-mono mt-6">
-                {siteConfig.location} · {siteConfig.timezone}
-              </p>
+      {/* ── Newsletter ─────────────────────────────────────────────────── */}
+      <div className="relative border-b border-white/[0.06] px-6 md:px-12 py-10">
+        <div className="max-w-[1200px] mx-auto max-w-lg">
+          <NewsletterForm source="footer" />
+        </div>
+      </div>
+
+      {/* ── Link grid ──────────────────────────────────────────────────── */}
+      <div className="relative px-6 md:px-12 pt-12 pb-8">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+          {/* Brand col */}
+          <div>
+            <div className="font-mono text-[11px] text-accent-bright/60 tracking-widest uppercase mb-4">
+              Gileara
             </div>
-
-            {columns.map((col) => (
-              <div key={col.title}>
-                <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-5">
-                  {col.title}
-                </div>
-                <ul className="space-y-3">
-                  {col.links.map((link) => (
-                    <li key={link.name}>
-                      {"external" in link && link.external ? (
-                        <a
-                          href={link.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="animated-underline text-on-surface hover:text-accent-bright transition-colors duration-200 inline-block"
-                        >
-                          {link.name}
-                        </a>
-                      ) : (
-                        <Link
-                          href={link.href}
-                          className="animated-underline text-on-surface hover:text-accent-bright transition-colors duration-200 inline-block"
-                        >
-                          {link.name}
-                        </Link>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Legal strip */}
-          <div className="pt-8 border-t border-on-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <p className="text-on-surface-variant text-xs font-mono">
-              © {new Date().getFullYear()} Gileara Technologies. All rights reserved.
+            <p className="font-sans text-xs text-white/30 leading-relaxed mb-4">
+              We build the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone.
             </p>
-            <div className="flex items-center gap-6 text-xs font-mono">
-              <Link href="/privacy" className="text-on-surface-variant hover:text-accent-bright transition-colors">
-                Privacy
-              </Link>
-              <Link href="/terms" className="text-on-surface-variant hover:text-accent-bright transition-colors">
-                Terms
-              </Link>
-              <Link href="/security" className="text-on-surface-variant hover:text-accent-bright transition-colors">
-                Security
-              </Link>
-            </div>
+            <p className="font-mono text-[11px] text-white/20">
+              {siteConfig.location}<br />{siteConfig.timezone}
+            </p>
           </div>
+
+          {columns.map((col) => (
+            <div key={col.title}>
+              <div className="font-mono text-[11px] text-white/25 tracking-widest uppercase mb-4">
+                {col.title}
+              </div>
+              <ul className="space-y-2.5">
+                {col.links.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="font-sans text-sm text-white/40 hover:text-white/70 transition-colors duration-150"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Legal strip */}
+        <div className="border-t border-white/[0.04] pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <p className="font-mono text-[11px] text-white/20">
+            © {new Date().getFullYear()} Gileara Technologies. All rights reserved.
+          </p>
+          <p className="font-mono text-[11px] text-white/15">
+            Piloting in Accra, Ghana · Building for global scale
+          </p>
         </div>
       </div>
     </footer>

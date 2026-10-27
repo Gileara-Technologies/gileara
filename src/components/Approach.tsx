@@ -1,158 +1,83 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
 import { useRef } from "react";
-import DisplayHeading from "@/components/DisplayHeading";
-import SectionLabel from "@/components/SectionLabel";
-import RevealText from "@/components/RevealText";
+
+const STEPS = [
+  { num: "01", cmd: "diagnose", title: "Diagnose", desc: "We map what actually happens day to day: sales, stock, customers, cashflow. One week of observation before a single line of code." },
+  { num: "02", cmd: "design",   title: "Design",   desc: "A system built around how you already work. Small customisations, not a workflow revolution. You keep running the business." },
+  { num: "03", cmd: "deploy",   title: "Deploy",   desc: "Live in 7 days. Your team keeps operating while we handle the build, the migration, and the training." },
+  { num: "04", cmd: "stay",     title: "Stay",     desc: "IT support, software updates, backups, security monitoring — built into the price from day one. SLA-backed." },
+];
 
 /**
- * How We Work — numbered process steps with photography and connector line.
+ * Approach — Terminal / Operator aesthetic.
  *
- * Visual upgrades:
- * - Step cards now sit on a subtle raised surface (bg-surface-container-low)
- *   on hover with a teal left-border flash — tactile, not flat
- * - The progress line is thicker and animated to the full width instead of
- *   70%, finishing the thought rather than stopping mid-way
- * - The image gets a parallax treatment matching CinematicStory
- * - Numbers are slightly larger and hover to accent-bright
+ * Steps render as a command-log — each step is a "process" with a
+ * command name, a mono number, and a description. The animated
+ * connector line becomes a vertical terminal trace on mobile,
+ * horizontal on desktop.
  */
 export default function Approach() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start center", "end center"],
-  });
-  const lineWidth = useTransform(scrollYProgress, [0, 0.85], ["0%", "100%"]);
-
-  // Image parallax
-  const imgScrollYProgress = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  }).scrollYProgress;
-  const imgY = useTransform(imgScrollYProgress, [0, 1], [40, -40]);
-
-  const steps = [
-    {
-      num: "01",
-      title: "Diagnose",
-      desc: "We map what actually happens day to day: sales, stock, customers, cashflow.",
-    },
-    {
-      num: "02",
-      title: "Design",
-      desc: "A system with small customisations that fit your operations. You keep working the way you already do; we build around it.",
-    },
-    {
-      num: "03",
-      title: "Deploy",
-      desc: "Live in 7 days. Your team keeps running the business while we handle the build, the migration, and the training.",
-    },
-    {
-      num: "04",
-      title: "Stay with you",
-      desc: "We monitor, fix, and improve every day. Backups, security, and real support come as standard.",
-    },
-  ];
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start center", "end center"] });
+  const lineWidth = useTransform(scrollYProgress, [0, 0.9], ["0%", "100%"]);
 
   return (
-    <section
-      ref={ref}
-      id="approach"
-      className="relative bg-surface-container py-section px-6 md:px-12 overflow-hidden"
-    >
-      {/* Decorative radial glow — bottom right */}
-      <div
-        className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(94,234,212,0.07) 0%, transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
+    <section ref={ref} id="approach" className="relative bg-black border-t border-white/[0.06] py-section px-6 md:px-12">
+      <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" aria-hidden="true" />
 
-      <div className="max-w-[1440px] mx-auto relative z-10">
-        {/* Header + image */}
-        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-20 md:mb-28">
-          {/* Header — cols 1-7 */}
-          <div className="col-span-12 lg:col-span-7">
-            <RevealText>
-              <SectionLabel label="HOW WE WORK" className="mb-8" />
-            </RevealText>
-            <DisplayHeading size="lg" as="h2" className="mb-8">
-              How we work{" "}
-              <span className="italic text-accent-bright">with you.</span>
-            </DisplayHeading>
-            <RevealText delay={0.15}>
-              <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                A predictable, four-step engagement. We&apos;ve done this enough times to know what works and what to avoid.
-              </p>
-            </RevealText>
-          </div>
-
-          {/* Image — cols 9-12 */}
-          <div className="col-span-12 lg:col-span-5 lg:col-start-9">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-surface-container-high">
-              <motion.div className="absolute inset-0" style={{ y: imgY }}>
-                <Image
-                  src="/assets/imagery/howwework-team.jpg"
-                  alt="Diverse colleagues collaborating in an office"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                  className="object-cover scale-[1.08]"
-                />
-              </motion.div>
-              {/* Teal edge glow */}
-              <div
-                className="absolute inset-0 rounded-2xl pointer-events-none"
-                style={{
-                  boxShadow: "inset 0 0 0 1px rgba(94,234,212,0.12)",
-                }}
-                aria-hidden="true"
-              />
+      <div className="max-w-[1200px] mx-auto relative z-10">
+        {/* Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 md:mb-20">
+          <div className="lg:col-span-6">
+            <div className="font-mono text-[11px] text-accent-bright tracking-widest uppercase mb-5 flex items-center gap-2">
+              <span className="text-accent-bright/40">▸</span>
+              how we work
             </div>
+            <h2 className="font-display text-display-md text-white mb-5">
+              Four steps. Predictable every time.
+            </h2>
+            <p className="font-sans text-body-lg text-white/40 leading-relaxed max-w-md">
+              We&apos;ve done this enough to know what breaks. The process is fixed so you can predict exactly what you&apos;re buying.
+            </p>
           </div>
         </div>
 
-        {/* Steps with connector line */}
-        <div className="relative">
-          {/* Track */}
-          <div
-            className="absolute left-0 right-0 top-[68px] md:top-[80px] h-[1.5px] bg-on-background/10 hidden md:block"
-            aria-hidden="true"
-          />
-          {/* Fill */}
+        {/* Progress line — horizontal on desktop */}
+        <div className="relative mb-0">
+          <div className="absolute left-0 right-0 top-[28px] h-px bg-white/[0.06] hidden md:block" aria-hidden="true" />
           <motion.div
-            className="absolute left-0 top-[68px] md:top-[80px] h-[1.5px] bg-accent-bright hidden md:block"
+            className="absolute left-0 top-[28px] h-px bg-accent-bright hidden md:block"
             style={{ width: lineWidth }}
             aria-hidden="true"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-y-16 md:gap-y-0 md:gap-x-8">
-            {steps.map((step, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-0">
+            {STEPS.map((step, i) => (
               <motion.div
                 key={step.num}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.65, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative"
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.1 }}
+                className="group relative border-l border-white/[0.06] md:border-l-0 pl-6 md:pl-0 pb-10 md:pb-0 md:pr-8"
               >
-                {/* Dot on the connector */}
+                {/* Node dot */}
                 <div
-                  className="hidden md:block absolute -top-[4.5px] left-0 w-3 h-3 rounded-full bg-accent-bright ring-4 ring-surface-container transition-transform duration-300 group-hover:scale-125"
+                  className="hidden md:block absolute -top-[3px] left-0 w-[7px] h-[7px] rounded-full bg-black border border-accent-bright/60 group-hover:bg-accent-bright/20 transition-colors duration-200"
                   aria-hidden="true"
                 />
 
-                {/* Step card — subtle lift on hover */}
-                <div className="md:pt-14 transition-all duration-300">
-                  <div className="font-serif text-display-sm text-on-background/[0.12] group-hover:text-accent-bright/60 leading-none mb-6 transition-colors duration-400">
-                    {step.num}
+                <div className="md:pt-14">
+                  {/* Command line */}
+                  <div className="font-mono text-[11px] text-white/20 mb-4 group-hover:text-accent-bright/50 transition-colors duration-200">
+                    <span className="text-accent-bright/30">$</span>{" "}run {step.cmd}
                   </div>
-                  <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em] mb-3 group-hover:text-accent-bright transition-colors duration-300">
+                  <div className="font-display text-xl text-white mb-3 group-hover:text-accent-bright transition-colors duration-300">
                     {step.title}
-                  </h3>
-                  <p className="text-on-surface-variant text-base leading-relaxed max-w-[28ch]">
+                  </div>
+                  <p className="font-sans text-sm text-white/40 leading-relaxed max-w-[26ch]">
                     {step.desc}
                   </p>
                 </div>
@@ -161,14 +86,13 @@ export default function Approach() {
           </div>
         </div>
 
-        {/* Closing statement */}
-        <RevealText delay={0.4}>
-          <div className="mt-24 pt-8 border-t border-on-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <p className="text-on-surface-variant text-base max-w-xl leading-relaxed">
-              <span className="text-on-background font-medium">Once it&apos;s live, it stays live</span>. Every day after launch is covered by what you already bought. Nothing bolted on later.
-            </p>
-          </div>
-        </RevealText>
+        {/* Footer note */}
+        <div className="mt-16 pt-8 border-t border-white/[0.06] flex items-start gap-3">
+          <span className="font-mono text-accent-bright text-[11px] mt-0.5">✓</span>
+          <p className="font-sans text-sm text-white/35 max-w-xl">
+            Once it&apos;s live, it stays live. Every day after launch is covered by what you already bought. Nothing bolted on later.
+          </p>
+        </div>
       </div>
     </section>
   );
