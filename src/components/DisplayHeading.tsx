@@ -25,7 +25,8 @@ const sizeClasses: Record<Size, string> = {
  * tailwind.config.js) so they scale from mobile to desktop without
  * overflowing the viewport.
  *
- * `accent` colors the entire heading in the bright cyan accent.
+ * `accent` colors the entire heading in the bright accent
+ * (`accent-bright`, a bright teal).
  */
 export default function DisplayHeading({
   children,
@@ -40,7 +41,7 @@ export default function DisplayHeading({
     <Tag
       id={id}
       className={`font-serif font-normal ${sizeClasses[size]} ${italic ? "italic" : ""} ${
-        accent ? "text-accent-cyan" : "text-on-background"
+        accent ? "text-accent-bright" : "text-on-background"
       } ${className}`}
     >
       {children}

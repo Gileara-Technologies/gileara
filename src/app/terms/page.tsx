@@ -218,7 +218,7 @@ export default function TermsPage() {
               </div>
               <h1 className="max-w-4xl font-serif text-display-sm md:text-display-lg text-on-background leading-[0.95] tracking-[-0.03em]">
                 Legal terms for a{" "}
-                <span className="italic text-accent-cyan">trusted</span> technology partnership.
+                <span className="italic text-accent-bright">trusted</span> technology partnership.
               </h1>
               <p className="mt-8 max-w-3xl text-body-lg leading-relaxed text-on-surface-variant">
                 These terms explain how visitors, prospects, clients, and partners may use
@@ -287,7 +287,7 @@ export default function TermsPage() {
                         {section.title}
                       </h2>
                     </div>
-                    <div className="space-y-4 text-base leading-8 text-on-surface-variant">
+                    <div className="max-w-[72ch] space-y-4 text-base leading-8 text-on-surface-variant">
                       {section.body.map((paragraph) => (
                         <p key={paragraph}>{paragraph}</p>
                       ))}

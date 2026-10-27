@@ -38,7 +38,7 @@ export default function ServicesPageClient() {
         headline={
           <>
             Five problems,{" "}
-            <span className="italic text-accent-cyan">one system each.</span>
+            <span className="italic text-accent-bright">one system each.</span>
           </>
         }
         subtitle="The five problems we see most in small business and the systems we build to solve each one, with pricing, features, and what's included all on this page."
@@ -82,7 +82,7 @@ export default function ServicesPageClient() {
       </section>
 
       {/* ── ACTIVE SERVICE SUMMARY — quick at-a-glance card ───── */}
-      <section className="bg-background py-20 md:py-24 px-6 md:px-12">
+      <section className="bg-background py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <motion.div
             key={activeService.id}
@@ -144,7 +144,7 @@ export default function ServicesPageClient() {
       </section>
 
       {/* ── PRICING MATRIX (the actual pricing sheet) ──────────── */}
-      <section id="matrix" className="bg-surface-container-lowest py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
+      <section id="matrix" className="bg-surface-container-lowest py-section-loose px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="mb-16">
             <RevealText>
@@ -152,7 +152,7 @@ export default function ServicesPageClient() {
             </RevealText>
             <DisplayHeading size="md" as="h2">
               All five services,{" "}
-              <span className="italic text-accent-cyan">all three tiers.</span>
+              <span className="italic text-accent-bright">all three tiers.</span>
             </DisplayHeading>
           </div>
 
@@ -185,7 +185,7 @@ export default function ServicesPageClient() {
                 </div>
               ))}
             </div>
-            <p className="text-on-surface-variant text-sm mt-6 max-w-2xl">
+            <p className="text-on-surface-variant text-sm mt-6 max-w-[72ch]">
               Bespoke projects are quoted per scope. We&apos;ll scope yours during the free consultation.
             </p>
           </div>
@@ -193,13 +193,13 @@ export default function ServicesPageClient() {
       </section>
 
       {/* ── WHAT'S INCLUDED — managed services note ───────────── */}
-      <section className="bg-background py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
+      <section className="bg-background py-section-loose px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-3xl mx-auto">
           <RevealText>
             <SectionLabel label="WHAT'S INCLUDED" className="mb-8" />
           </RevealText>
           <DisplayHeading size="sm" as="h2" className="mb-8">
-            <span className="italic text-accent-cyan">Every service</span> includes:
+            <span className="italic text-accent-bright">Every service</span> includes:
           </DisplayHeading>
           <p className="text-on-surface-variant text-lg leading-relaxed italic">
             {MANAGED_SERVICES_NOTE}
@@ -213,7 +213,7 @@ export default function ServicesPageClient() {
         headline={
           <>
             Let&apos;s pick the{" "}
-            <span className="italic text-accent-cyan">right place together.</span>
+            <span className="italic text-accent-bright">right place together.</span>
           </>
         }
         body="Thirty minutes, free. Tell us what's hard about running your business and we'll help you think through it, even if the answer turns out to be something we don't do."

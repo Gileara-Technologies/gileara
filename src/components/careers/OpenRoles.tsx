@@ -29,7 +29,7 @@ export default function OpenRoles({ roles }: OpenRolesProps) {
   };
 
   return (
-    <section id="roles" className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
+    <section id="roles" className="bg-surface-container py-section px-6 md:px-12">
       <div className="max-w-[1440px] mx-auto">
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
           <div className="col-span-12 lg:col-span-7">
@@ -69,7 +69,7 @@ export default function OpenRoles({ roles }: OpenRolesProps) {
                     <h3 className="font-serif text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em]">
                       <Link
                         href={`/careers/${role.id}`}
-                        className="hover:text-accent-cyan transition-colors duration-200"
+                        className="hover:text-accent-bright transition-colors duration-200"
                       >
                         {role.title}
                       </Link>
@@ -85,13 +85,13 @@ export default function OpenRoles({ roles }: OpenRolesProps) {
                     </span>
                     <Link
                       href={`/careers/${role.id}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-accent-bright hover:text-accent-cyan transition-colors duration-200"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-accent-bright hover:text-accent-bright transition-colors duration-200"
                     >
                       View role
                       <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
                     </Link>
                   </div>
-                  <p className="text-on-surface-variant text-lg leading-relaxed mb-8 max-w-3xl">
+                  <p className="text-on-surface-variant text-lg leading-relaxed mb-8 max-w-[72ch]">
                     {role.description}
                   </p>
 

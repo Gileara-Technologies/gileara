@@ -53,7 +53,7 @@ export default function WhyJoinUs() {
   ];
 
   return (
-    <section className="bg-background py-32 md:py-48 px-6 md:px-12">
+    <section className="bg-background py-section px-6 md:px-12">
       <div className="max-w-[1440px] mx-auto">
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
           <div className="col-span-12 lg:col-span-7">
@@ -62,7 +62,7 @@ export default function WhyJoinUs() {
             </RevealText>
             <DisplayHeading size="lg" as="h2" className="mb-8">
               Why build{" "}
-              <span className="italic text-accent-cyan">with us?</span>
+              <span className="italic text-accent-bright">with us?</span>
             </DisplayHeading>
           </div>
         </div>

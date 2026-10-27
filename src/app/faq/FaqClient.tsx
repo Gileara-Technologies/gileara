@@ -12,19 +12,18 @@ export default function FaqClient() {
   return (
     <>
       <PageHero
-        number="01"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "FAQ", href: "/faq" }]}
         eyebrow="QUESTIONS?"
         headline={
           <>
             Frequently asked{" "}
-            <span className="italic text-accent-cyan">questions.</span>
+            <span className="italic text-accent-bright">questions.</span>
           </>
         }
         subtitle="What working with Gileara looks like: who we work with, how the engagement works, contracts, and data ownership."
       />
 
-      <section className="bg-background py-24 md:py-32 px-6 md:px-12">
+      <section className="bg-background py-section-loose px-6 md:px-12">
         <div className="max-w-3xl mx-auto">
           <div className="space-y-0 border-t border-on-background/10">
             {faqs.map((faq, i) => {
@@ -66,7 +65,7 @@ export default function FaqClient() {
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         className="overflow-hidden"
                       >
-                        <div className="pl-16 pr-12 pb-8 text-on-surface-variant text-base leading-relaxed max-w-2xl">
+                        <div className="pl-16 pr-12 pb-8 text-on-surface-variant text-base leading-relaxed max-w-[72ch]">
                           {faq.answer}
                         </div>
                       </motion.div>
@@ -84,7 +83,7 @@ export default function FaqClient() {
         headline={
           <>
             Have a question{" "}
-            <span className="italic text-accent-cyan">we missed?</span>
+            <span className="italic text-accent-bright">we missed?</span>
           </>
         }
         body="We're happy to answer it on a free 30-minute call, and nobody will pitch you."

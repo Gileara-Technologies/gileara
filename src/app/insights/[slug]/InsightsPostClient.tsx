@@ -79,7 +79,7 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
                   <p className="text-on-surface leading-relaxed mb-4">{block.text}</p>
                   <Link
                     href={block.href}
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent-bright text-sm font-semibold text-background hover:bg-accent-bright/90 hover:text-background group"
                   >
                     {block.label}
                     <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
@@ -88,7 +88,7 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
               );
             }
             return (
-              <p key={i} className="text-on-surface leading-[1.8] text-[15px] md:text-base">
+              <p key={i} className="text-on-surface leading-[1.8] text-[15px] md:text-base max-w-[72ch]">
                 {block.text}
               </p>
             );

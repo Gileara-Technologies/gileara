@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Application Submission Flow — Frontend and Backend",
+    "subtitle": "gileara.org careers portal: role page form to HR notification",
+    "output": "diagrams/application-submission-flow.html",
+    "viewBox": [1080, 560],
+    "column_fit": "spread",
+    "animation": "none",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    { "id": "candidate", "type": "external", "label": "Candidate", "sublabel": "browser session" },
+    { "id": "form", "type": "frontend", "label": "Application Form", "sublabel": "client component" },
+    { "id": "apply", "type": "backend", "label": "POST /api/apply", "sublabel": "Cloudflare Worker" },
+    { "id": "d1", "type": "database", "label": "D1", "sublabel": "applications table" },
+    { "id": "r2", "type": "cloud", "label": "R2", "sublabel": "resume bucket" },
+    { "id": "resend", "type": "external", "label": "Resend", "sublabel": "email API" },
+    { "id": "hr", "type": "external", "label": "HR Inbox", "sublabel": "hr.gileara@gmail.com" }
+  ],
+  "segments": [
+    { "from": 150, "to": 230, "label": "Frontend: capture and client validation" },
+    { "from": 236, "to": 420, "label": "Backend: validate, store, respond" },
+    { "from": 428, "to": 486, "label": "After the response" }
+  ],
+  "messages": [
+    { "id": "fill-form", "from": "candidate", "to": "form", "y": 160, "label": "open role, fill form + resume", "variant": "emphasis" },
+    { "id": "client-gate", "from": "form", "to": "candidate", "y": 188, "label": "inline fix: field, email, >5MB", "variant": "dashed", "note": "Blocked in the browser; nothing is sent." },
+    { "id": "submit", "from": "form", "to": "apply", "y": 216, "label": "POST /api/apply (multipart)", "variant": "emphasis" },
+    { "id": "server-reject", "from": "apply", "to": "form", "y": 244, "label": "400 missing / invalid / oversize", "variant": "dashed", "note": "No database write and no email." },
+    { "id": "insert-row", "from": "apply", "to": "d1", "y": 272, "label": "INSERT application (resume_key '')", "variant": "emphasis" },
+    { "id": "new-id", "from": "d1", "to": "apply", "y": 300, "label": "id = N", "variant": "return" },
+    { "id": "put-resume", "from": "apply", "to": "r2", "y": 328, "label": "put applications/{role}/{ts}-{id}.ext", "variant": "default" },
+    { "id": "backfill-key", "from": "apply", "to": "d1", "y": 356, "label": "UPDATE resume_key", "variant": "dashed", "note": "Fail-open: a storage error leaves the key empty." },
+    { "id": "respond", "from": "apply", "to": "form", "y": 384, "label": "200 { success, message }", "variant": "return" },
+    { "id": "show-success", "from": "form", "to": "candidate", "y": 412, "label": "\"Application Submitted!\"", "variant": "return" },
+    { "id": "notify-hr", "from": "apply", "to": "resend", "y": 440, "label": "POST /emails (ctx.waitUntil)", "variant": "emphasis", "note": "Runs after the response content is decided." },
+    { "id": "deliver", "from": "resend", "to": "hr", "y": 468, "label": "New application: {name} for {role}", "variant": "dashed" }
+  ],
+  "activations": [
+    { "participant": "candidate", "from": 156, "to": 194, "type": "external" },
+    { "participant": "candidate", "from": 408, "to": 418, "type": "external" },
+    { "participant": "form", "from": 184, "to": 422, "type": "frontend" },
+    { "participant": "apply", "from": 210, "to": 476, "type": "backend" },
+    { "participant": "d1", "from": 268, "to": 306, "type": "database" },
+    { "participant": "d1", "from": 352, "to": 362, "type": "database" },
+    { "participant": "r2", "from": 323, "to": 338, "type": "cloud" },
+    { "participant": "resend", "from": 435, "to": 454, "type": "external" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Response Decides First",
+      "items": [
+        "The 200 body is built before any email work",
+        "Resend runs under ctx.waitUntil, never awaited",
+        "A send failure cannot change the response"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Fail-Open Storage",
+      "items": [
+        "Insert first: the R2 key embeds the new id",
+        "A failed upload leaves resume_key empty",
+        "The candidate still sees success"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Degraded Paths",
+      "items": [
+        "D1 unreachable: logged, no record exists",
+        "A floating promise was cancelled at freeze",
+        "ctx.waitUntil keeps the send alive"
+      ]
+    }
+  ]
+}

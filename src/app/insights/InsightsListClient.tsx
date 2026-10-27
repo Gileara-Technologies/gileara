@@ -81,7 +81,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
         headline={
           <>
             Practical insights for{" "}
-            <span className="italic text-accent-cyan">small business</span> operators.
+            <span className="italic text-accent-bright">small business</span> operators.
           </>
         }
         subtitle="On operations, growth, automation, and the realities of going digital, written from the field. Currently informed by our Ghana pilot, applicable to any small or growing business."
@@ -89,7 +89,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
 
       {/* FEATURED ARTICLE — asymmetric layout */}
       {featured && (
-        <section className="bg-background py-24 md:py-32 px-6 md:px-12 border-t border-on-background/10">
+        <section className="bg-background py-section-tight px-6 md:px-12 border-t border-on-background/10">
           <div className="max-w-[1440px] mx-auto">
             <RevealText>
               <SectionLabel number="02" label="FEATURED" className="mb-10" />
@@ -122,7 +122,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
                 </p>
                 <Link
                   href={`/insights/${featured.slug}`}
-                  className="mt-2 group inline-flex items-center pl-6 pr-10 py-3 rounded-pill bg-accent-bright text-background font-medium hover:bg-accent-cyan transition-colors duration-300 w-fit"
+                  className="mt-2 group inline-flex items-center pl-6 pr-10 py-3 rounded-pill bg-accent-bright text-background font-medium hover:bg-accent-bright/90 transition-colors duration-300 w-fit"
                 >
                   Read Full Insight
                   <span className="ml-4 material-symbols-outlined text-base transition-transform duration-300 group-hover:translate-x-1">
@@ -136,7 +136,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
       )}
 
       {/* TAG FILTER + ARTICLE LIST */}
-      <section className="bg-surface-container py-24 md:py-32 px-6 md:px-12">
+      <section className="bg-surface-container py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <RevealText>
             <SectionLabel number="03" label="ALL ARTICLES" className="mb-10" />
@@ -183,7 +183,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
         headline={
           <>
             Questions these{" "}
-            <span className="italic text-accent-cyan">didn&apos;t answer?</span>
+            <span className="italic text-accent-bright">didn&apos;t answer?</span>
           </>
         }
         body="Skip the inbox-warming. Book a free consultation and ask us directly; a real person replies, usually the same day."

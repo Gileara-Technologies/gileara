@@ -209,7 +209,7 @@ export default function Home() {
           headline={
             <>
               Ready when{" "}
-              <span className="italic text-accent-cyan">you are.</span>
+              <span className="italic text-accent-bright">you are.</span>
             </>
           }
         />

@@ -266,7 +266,7 @@ export default function PrivacyPage() {
               </div>
               <h1 className="max-w-4xl font-serif text-display-sm md:text-display-lg text-on-background leading-[0.95] tracking-[-0.03em]">
                 Privacy practices built for{" "}
-                <span className="italic text-accent-cyan">trust, security, and clarity.</span>
+                <span className="italic text-accent-bright">trust, security, and clarity.</span>
               </h1>
               <p className="mt-8 max-w-3xl text-body-lg leading-relaxed text-on-surface-variant">
                 This policy explains how Gileara Technologies handles personal information
@@ -355,7 +355,7 @@ export default function PrivacyPage() {
                         {section.title}
                       </h2>
                     </div>
-                    <div className="space-y-4 text-base leading-8 text-on-surface-variant">
+                    <div className="max-w-[72ch] space-y-4 text-base leading-8 text-on-surface-variant">
                       {section.body.map((paragraph) => (
                         <p key={paragraph}>{paragraph}</p>
                       ))}

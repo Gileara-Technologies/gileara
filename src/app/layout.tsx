@@ -114,6 +114,10 @@ export default function RootLayout({
       <body className="antialiased bg-background text-on-background">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preload" href="/assets/gileara/logo-full.png" as="image" />
+        {/* Grain overlay — analogue warmth, pointer-events: none */}
+        <div className="grain-overlay" aria-hidden="true" />
+        {/* Cursor spotlight — low-opacity teal radial glow */}
+        <div className="cursor-glow" aria-hidden="true" id="cursor-glow" />
         <MotionProvider>
           <SmoothScroll>
             <div className="flex flex-col min-h-screen">

@@ -24,7 +24,7 @@ function StatusChip({ status }: { status: ScenarioStatus }) {
     status === "case-study"
       ? "border-accent-bright text-accent-bright"
       : status === "pilot"
-        ? "border-accent-cyan text-accent-cyan"
+        ? "border-accent-bright text-accent-bright"
         : "border-on-background/20 text-on-surface-variant";
   return (
     <span className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider border ${styles}`}>
@@ -43,14 +43,14 @@ export default function HowWeTransformClient() {
         headline={
           <>
             What we&apos;d change,{" "}
-            <span className="italic text-accent-cyan">and how.</span>
+            <span className="italic text-accent-bright">and how.</span>
           </>
         }
         subtitle="We're new, and we won't pretend otherwise: there are no client logos on this page yet. What you get instead is an exact playbook for a business like yours, with every outcome stated as a goal rather than a claim."
       />
 
       {/* Status legend */}
-      <section className="bg-background py-16 px-6 md:px-12 border-t border-on-background/10">
+      <section className="bg-background py-section-tight px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
             {(Object.keys(SCENARIO_STATUS_LEGEND) as ScenarioStatus[]).map((key) => (
@@ -66,7 +66,7 @@ export default function HowWeTransformClient() {
       </section>
 
       {/* Scenario grid */}
-      <section className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
+      <section className="bg-surface-container py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <RevealText>
             <SectionLabel number="02" label="VERTICAL PLAYBOOKS" className="mb-10" />
@@ -146,7 +146,7 @@ export default function HowWeTransformClient() {
               </p>
               <Link
                 href="/contact"
-                className="group inline-flex items-center pl-6 pr-10 py-3 rounded-pill bg-accent-bright text-background font-medium hover:bg-accent-cyan transition-colors duration-300 w-fit"
+                className="group inline-flex items-center pl-6 pr-10 py-3 rounded-pill bg-accent-bright text-background font-medium hover:bg-accent-bright/90 transition-colors duration-300 w-fit"
               >
                 Ask about it
                 <span className="ml-4 material-symbols-outlined text-base transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
@@ -164,7 +164,7 @@ export default function HowWeTransformClient() {
         headline={
           <>
             Let&apos;s build your{" "}
-            <span className="italic text-accent-cyan">playbook</span> together.
+            <span className="italic text-accent-bright">playbook</span> together.
           </>
         }
         body="If you run a pharmacy, school, restaurant, salon, or retail store, we'd like to write your transformation story together."

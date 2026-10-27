@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, useSpring, AnimatePresence } from "framer-motion";
 
 
 import { siteConfig } from "@/content/site-config";
@@ -40,7 +40,9 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const pathname = usePathname();
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
+  // Spring-smoothed progress for the progress bar — feels physically weighted
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 50);
@@ -78,6 +80,9 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
   }, [isMobileMenuOpen, closeMenu]);
 
   const navId = variant === "legal" ? `${page}-navbar` : `${variant}-navbar`;
+
+  const navLabel =
+    variant === "default" ? "Primary" : variant === "careers" ? "Careers" : "Legal resources";
 
   const links =
     variant === "default"
@@ -129,13 +134,25 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
     return false;
   };
 
+  const focusRing =
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+
   const linkClass = (href: string) =>
     variant === "default"
-      ? "px-2 lg:px-3 py-1.5 rounded-lg text-on-surface hover:text-accent-bright transition-colors duration-200 whitespace-nowrap"
-      : `relative px-1 py-1 transition-colors ${isActive(href) ? "text-primary" : "hover:text-primary"}`;
+      ? `px-2 lg:px-3 py-1.5 rounded-lg text-on-surface hover:text-accent-bright transition-colors duration-200 whitespace-nowrap ${focusRing}`
+      : `relative px-1 py-1 transition-colors ${focusRing} ${isActive(href) ? "text-primary" : "hover:text-primary"}`;
 
   return (
-    <>
+    <header>
+      {/* Scroll progress bar — a 2px teal line that runs across the very top of the viewport */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 z-[60] h-[2px] origin-left"
+        style={{
+          scaleX,
+          background: "linear-gradient(90deg, #5EEAD4 0%, #44DDC1 100%)",
+        }}
+        aria-hidden="true"
+      />
       <motion.nav
         initial={{ y: -100, x: "-50%" }}
         animate={{ y: 0, x: "-50%" }}
@@ -148,6 +165,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
             : "top-6 py-3"
         }`}
         id={navId}
+        aria-label={navLabel}
       >
         <div className="flex justify-between items-center w-full gap-2">
           <Link
@@ -190,16 +208,16 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
             {variant === "default" && (
               <Link
                 href="/contact"
-                className="hidden md:inline-flex items-center gap-2 pl-5 pr-10 py-2.5 rounded-pill text-xs font-medium bg-accent-bright text-background hover:bg-accent-cyan transition-colors duration-300 group"
+                className={`hidden md:inline-flex items-center gap-2 pl-5 pr-10 py-2.5 rounded-pill text-xs font-medium bg-accent-bright text-background hover:bg-accent-bright/90 transition-colors duration-300 group ${focusRing}`}
               >
-                Book Free Consultation
+                Book a Free Consultation
                 <span className="material-symbols-outlined text-xs group-hover:translate-x-0.5 transition-transform duration-200" aria-hidden="true">arrow_forward</span>
               </Link>
             )}
             {legalDetails && (
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="hidden md:inline-flex items-center gap-2 rounded-pill bg-accent-bright text-background px-5 py-2 text-xs font-medium hover:bg-accent-cyan transition-colors"
+                className={`hidden md:inline-flex items-center gap-2 rounded-pill bg-accent-bright text-background px-5 py-2 text-xs font-medium hover:bg-accent-bright/90 transition-colors ${focusRing}`}
               >
                 {legalDetails.cta}
                 <span className="material-symbols-outlined text-xs" aria-hidden="true">mail</span>
@@ -208,7 +226,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
             {variant === "careers" && (
               <a
                 href="#apply"
-                className="hidden md:inline-flex items-center gap-2 pl-5 pr-10 py-2.5 rounded-pill text-xs font-medium bg-accent-bright text-background hover:bg-accent-cyan transition-colors duration-300 group"
+                className={`hidden md:inline-flex items-center gap-2 pl-5 pr-10 py-2.5 rounded-pill text-xs font-medium bg-accent-bright text-background hover:bg-accent-bright/90 transition-colors duration-300 group ${focusRing}`}
               >
                 Apply Now
                 <span className="material-symbols-outlined text-xs" aria-hidden="true">send</span>
@@ -251,7 +269,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`text-3xl font-bold transition-colors flex items-center gap-4 ${
+                  className={`text-3xl font-bold transition-colors flex items-center gap-4 ${focusRing} ${
                     isActive(link.href) ? "text-primary" : "text-on-surface hover:text-primary"
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -265,17 +283,17 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
                 {variant === "default" && (
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-xl font-bold teal-gradient-btn"
+                    className={`inline-flex items-center justify-center gap-3 w-full rounded-pill bg-accent-bright text-background hover:bg-accent-bright/90 hover:text-background px-6 py-4 text-base font-medium transition-colors duration-300 ${focusRing}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Book Free Consultation
+                    Book a Free Consultation
                     <span className="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
                   </Link>
                 )}
                 {legalDetails && (
                   <a
                     href={`mailto:${siteConfig.email}`}
-                    className="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-primary py-4 text-lg font-bold text-on-primary shadow-lg"
+                    className={`inline-flex w-full items-center justify-center gap-3 rounded-xl bg-primary py-4 text-lg font-bold text-on-primary shadow-lg ${focusRing}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {legalDetails.cta}
@@ -285,7 +303,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
                 {variant === "careers" && (
                   <a
                     href="#apply"
-                    className="inline-flex items-center justify-center gap-3 w-full py-4 rounded-2xl text-xl font-bold teal-gradient-btn"
+                    className={`inline-flex items-center justify-center gap-3 w-full rounded-pill bg-accent-bright text-background hover:bg-accent-bright/90 hover:text-background px-6 py-4 text-base font-medium transition-colors duration-300 ${focusRing}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Apply Now
@@ -297,6 +315,6 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </header>
   );
 }

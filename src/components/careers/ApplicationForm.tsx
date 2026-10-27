@@ -241,7 +241,7 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
         <div className="w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
           <span className="material-symbols-outlined text-5xl" aria-hidden="true">check_circle</span>
         </div>
-        <h3 className="font-display text-3xl font-bold text-on-surface mb-4">Application Submitted!</h3>
+        <h3 className="font-sans text-3xl font-bold text-on-surface mb-4">Application Submitted!</h3>
         <p className="text-on-surface-variant text-lg mb-8">
           {CONFIRMATION_MESSAGE}
         </p>
@@ -265,7 +265,7 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
   }
 
   return (
-    <section id="apply" className="bg-surface-container-lowest py-32 md:py-48 px-6 md:px-12">
+    <section id="apply" className="bg-surface-container-lowest py-section px-6 md:px-12">
       <div className="max-w-4xl mx-auto">
         <div className="mb-16">
           <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
@@ -273,7 +273,7 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
           </div>
           <h2 className="font-serif text-display-md md:text-display-lg text-on-background leading-tight tracking-[-0.02em]">
             Submit your{" "}
-            <span className="italic text-accent-cyan">application.</span>
+            <span className="italic text-accent-bright">application.</span>
           </h2>
         </div>
 
@@ -314,24 +314,24 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
               <h3 className="text-lg font-bold text-on-surface border-b border-outline-variant/20 pb-2">Personal Information</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Full Name *</label>
-                  <input type="text" name="name" value={formData.name} onChange={handleChange} onBlur={handleBlur} className={inputClass("name")} placeholder="Kofi Joe" />
+                  <label htmlFor="apply-name" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Full Name *</label>
+                  <input id="apply-name" type="text" name="name" required value={formData.name} onChange={handleChange} onBlur={handleBlur} className={inputClass("name")} placeholder="Kofi Joe" />
                   {touched.name && errors.name && <p className="text-error text-xs mt-1 font-medium">{errors.name}</p>}
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Email Address *</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleChange} onBlur={handleBlur} className={inputClass("email")} placeholder="name@example.com" />
+                  <label htmlFor="apply-email" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Email Address *</label>
+                  <input id="apply-email" type="email" name="email" required value={formData.email} onChange={handleChange} onBlur={handleBlur} className={inputClass("email")} placeholder="name@example.com" />
                   {touched.email && errors.email && <p className="text-error text-xs mt-1 font-medium">{errors.email}</p>}
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Phone Number *</label>
-                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange} onBlur={handleBlur} className={inputClass("phone")} placeholder="(+233) 54 321 0000" />
+                  <label htmlFor="apply-phone" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Phone Number *</label>
+                  <input id="apply-phone" type="tel" name="phone" required value={formData.phone} onChange={handleChange} onBlur={handleBlur} className={inputClass("phone")} placeholder="(+233) 54 321 0000" />
                   {touched.phone && errors.phone && <p className="text-error text-xs mt-1 font-medium">{errors.phone}</p>}
                 </div>
                 {!position && (
                   <div>
-                    <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Position Applying For *</label>
-                    <select name="position" value={formData.position} onChange={handleChange} onBlur={handleBlur} className={`${inputClass("position")} appearance-none`}>
+                    <label htmlFor="apply-position" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Position Applying For *</label>
+                    <select id="apply-position" name="position" required value={formData.position} onChange={handleChange} onBlur={handleBlur} className={`${inputClass("position")} appearance-none`}>
                       <option value="" disabled>Select a position</option>
                       {(positionOptions ?? positions).map(p => <option key={p} value={p}>{p}</option>)}
                     </select>
@@ -346,13 +346,13 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
               <h3 className="text-lg font-bold text-on-surface border-b border-outline-variant/20 pb-2">Links & Profiles</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">GitHub Profile URL</label>
-                  <input type="url" name="github" value={formData.github} onChange={handleChange} onBlur={handleBlur} className={inputClass("github")} placeholder="https://github.com/username" />
+                  <label htmlFor="apply-github" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">GitHub Profile URL</label>
+                  <input id="apply-github" type="url" name="github" value={formData.github} onChange={handleChange} onBlur={handleBlur} className={inputClass("github")} placeholder="https://github.com/username" />
                   {touched.github && errors.github && <p className="text-error text-xs mt-1 font-medium">{errors.github}</p>}
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">LinkedIn Profile URL</label>
-                  <input type="url" name="linkedin" value={formData.linkedin} onChange={handleChange} onBlur={handleBlur} className={inputClass("linkedin")} placeholder="https://linkedin.com/in/username" />
+                  <label htmlFor="apply-linkedin" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">LinkedIn Profile URL</label>
+                  <input id="apply-linkedin" type="url" name="linkedin" value={formData.linkedin} onChange={handleChange} onBlur={handleBlur} className={inputClass("linkedin")} placeholder="https://linkedin.com/in/username" />
                   {touched.linkedin && errors.linkedin && <p className="text-error text-xs mt-1 font-medium">{errors.linkedin}</p>}
                 </div>
               </div>
@@ -368,8 +368,8 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
                   {touched.yearsExperience && errors.yearsExperience && <p className="text-error text-xs mt-1 font-medium">{errors.yearsExperience}</p>}
                 </div> */}
                 <div>
-                  <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Experience Level *</label>
-                  <select name="experienceLevel" value={formData.experienceLevel} onChange={handleChange} onBlur={handleBlur} className={`${inputClass("experienceLevel")} appearance-none`}>
+                  <label htmlFor="apply-experience-level" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Experience Level *</label>
+                  <select id="apply-experience-level" name="experienceLevel" required value={formData.experienceLevel} onChange={handleChange} onBlur={handleBlur} className={`${inputClass("experienceLevel")} appearance-none`}>
                     <option value="" disabled>Select your level</option>
                     {experienceLevels.map(l => <option key={l.value} value={l.value}>{l.label}</option>)}
                   </select>
@@ -385,7 +385,7 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
                     exit={{ opacity: 0, height: 0 }}
                     className="bg-primary/5 border border-primary/20 rounded-xl p-4 overflow-hidden"
                   >
-                    <p className="text-sm text-on-surface-variant"><strong className="text-primary">{selectedLevel.label}:</strong> {selectedLevel.desc}</p>
+                    <p className="text-sm text-on-surface-variant max-w-[72ch]"><strong className="text-primary">{selectedLevel.label}:</strong> {selectedLevel.desc}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -394,21 +394,29 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
             {/* Document Upload */}
             <div className="space-y-6">
               <h3 className="text-lg font-bold text-on-surface border-b border-outline-variant/20 pb-2">Documents</h3>
-              <div>
-                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Resume Upload (PDF, DOC, DOCX) *</label>
+              <div className="relative">
+                <label htmlFor="apply-resume" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Resume Upload (PDF, DOC, DOCX) *</label>
+
+                {/* One input for both states: while empty it is the invisible overlay
+                    that makes the whole drop zone trigger the picker, and after a file
+                    is chosen it stays mounted so the label association and the
+                    required state survive. */}
+                <input
+                  id="apply-resume"
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  required
+                  aria-describedby="apply-resume-hint"
+                  className={file ? "sr-only" : "absolute inset-0 w-full h-full opacity-0 cursor-pointer"}
+                />
 
                 {!file ? (
                   <div className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-colors ${errors.file ? 'border-error bg-error/5' : 'border-outline-variant/30 hover:border-primary bg-surface/50 hover:bg-surface'}`}>
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      onChange={handleFileChange}
-                      accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
                     <span className={`material-symbols-outlined text-5xl mx-auto mb-3 ${errors.file ? 'text-error' : 'text-on-surface-variant'}`} aria-hidden="true">cloud_upload</span>
                     <p className="text-sm text-on-surface font-medium mb-1">Click to upload or drag and drop</p>
-                    <p className="text-xs text-on-surface-variant">Max file size: 5MB</p>
+                    <p id="apply-resume-hint" className="text-xs text-on-surface-variant">Max file size: 5MB</p>
                   </div>
                 ) : (
                   <div className="bg-surface border border-primary/30 rounded-xl p-4 flex items-center justify-between">
@@ -430,9 +438,11 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
             <div className="space-y-6">
               <h3 className="text-lg font-bold text-on-surface border-b border-outline-variant/20 pb-2">Cover Letter & Why This Role</h3>
               <div>
-                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Cover Letter *</label>
+                <label htmlFor="apply-cover-letter" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Cover Letter *</label>
                 <textarea
+                  id="apply-cover-letter"
                   name="coverLetter"
+                  required
                   value={formData.coverLetter}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -444,9 +454,11 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
                 {touched.coverLetter && errors.coverLetter && <p className="text-error text-xs mt-1 font-medium">{errors.coverLetter}</p>}
               </div>
               <div>
-                <label className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Why This Role *</label>
+                <label htmlFor="apply-why-this-role" className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Why This Role *</label>
                 <textarea
+                  id="apply-why-this-role"
                   name="whyThisRole"
+                  required
                   value={formData.whyThisRole}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -462,7 +474,7 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
             <button
               type="submit"
               disabled={status === "submitting"}
-              className={`w-full pl-8 pr-14 py-4 rounded-pill text-lg font-medium flex items-center justify-center gap-3 transition-colors duration-300 ${status === "submitting" ? "bg-surface-container text-on-surface-variant cursor-not-allowed" : "bg-accent-bright text-background hover:bg-accent-cyan"
+              className={`w-full pl-8 pr-14 py-4 rounded-pill text-lg font-medium flex items-center justify-center gap-3 transition-colors duration-300 ${status === "submitting" ? "bg-surface-container text-on-surface-variant cursor-not-allowed" : "bg-accent-bright text-background hover:bg-accent-bright/90"
                 }`}
             >
               {status === "submitting" ? (

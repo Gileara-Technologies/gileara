@@ -98,7 +98,7 @@ export default function ContactStepper() {
             className="w-full max-w-2xl space-y-6"
           >
             <div className="text-center space-y-2 mb-8">
-              <h3 className="text-3xl font-bold text-on-surface">Tell us about your business</h3>
+              <h2 className="text-3xl font-bold text-on-surface">Tell us about your business</h2>
               <p className="text-on-surface-variant text-lg">Thirty minutes, free, and we&apos;ll come prepared.</p>
             </div>
 
@@ -174,7 +174,7 @@ export default function ContactStepper() {
 
             <button
               type="submit"
-              className="w-full btn-primary py-5 text-lg font-bold flex items-center justify-center gap-3 mt-4"
+              className="w-full rounded-pill bg-accent-bright text-background hover:bg-accent-bright/90 hover:text-background py-5 text-lg font-bold flex items-center justify-center gap-3 mt-4"
             >
               <span>Next: Pick a Time</span>
               <span className="material-symbols-outlined text-xl" aria-hidden="true">send</span>
@@ -223,7 +223,7 @@ export default function ContactStepper() {
             <div className="w-24 h-24 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="material-symbols-outlined text-5xl" aria-hidden="true">check_circle</span>
             </div>
-            <h3 className="text-3xl font-bold text-on-surface">You&apos;re booked!</h3>
+            <h2 className="text-3xl font-bold text-on-surface">You&apos;re booked!</h2>
             <p className="text-on-surface-variant text-lg">
               Your request is in. We&apos;ll confirm the slot in your calendar within 24 hours, and a real person will reply.
             </p>

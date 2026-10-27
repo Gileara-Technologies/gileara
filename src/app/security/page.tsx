@@ -117,9 +117,9 @@ export default function SecurityPage() {
           </div>
           <h1 className="font-serif text-display-sm md:text-display-lg text-on-background leading-[0.95] tracking-[-0.03em] mb-8">
             Security &amp;{" "}
-            <span className="italic text-accent-cyan">reliability.</span>
+            <span className="italic text-accent-bright">reliability.</span>
           </h1>
-          <p className="text-body-lg text-on-surface-variant leading-relaxed max-w-3xl">
+          <p className="text-body-lg text-on-surface-variant leading-relaxed max-w-[72ch]">
             Every Gileara package includes managed services from day one. This page explains what that covers at each
             tier, how we protect your data, and how to reach us when something matters.
           </p>
@@ -167,7 +167,7 @@ export default function SecurityPage() {
 
           {/* Honest SLA note */}
           <section className="mt-8 p-5 rounded-xl border border-secondary/30 dark:border-primary/25 bg-surface-container dark:bg-surface-container-high">
-            <p className="text-sm text-on-surface-variant leading-relaxed">
+            <p className="text-sm text-on-surface-variant leading-relaxed max-w-[72ch]">
               <span className="font-semibold text-primary dark:text-on-background">Numeric SLAs are coming — deliberately.</span>{" "}
               We publish specific response-time commitments only after our readiness review confirms we can meet them
               consistently. Until then, this page stays qualitative on purpose: we won&apos;t quote numbers we can&apos;t
@@ -178,12 +178,12 @@ export default function SecurityPage() {
           {/* Data protection */}
           <section className="mt-12 space-y-4">
             <h2 className="text-2xl font-bold text-on-surface">How we protect your data</h2>
-            <p className="text-on-surface-variant leading-relaxed">
+            <p className="text-on-surface-variant leading-relaxed max-w-[72ch]">
               Your business data lives in systems you own, backed up on a regular schedule so a bad day never becomes a
               lost year. Access is limited to the engineers who need it to keep your systems running, and we build on
               reputable infrastructure providers rather than hobbyist setups.
             </p>
-            <p className="text-on-surface-variant leading-relaxed">
+            <p className="text-on-surface-variant leading-relaxed max-w-[72ch]">
               We handle personal data in line with Ghana&apos;s Data Protection Act, 2012 (Act 843) — see the{" "}
               <Link href="/privacy#ghana-dpa" className="text-primary hover:underline">privacy policy</Link> for what
               that means for your rights.
@@ -193,12 +193,12 @@ export default function SecurityPage() {
           {/* Vulnerability reporting */}
           <section className="mt-12 space-y-4">
             <h2 className="text-2xl font-bold text-on-surface">Vulnerability reporting</h2>
-            <p className="text-on-surface-variant leading-relaxed">
+            <p className="text-on-surface-variant leading-relaxed max-w-[72ch]">
               If you believe you&apos;ve found a security vulnerability in our systems, report it to us before making it
               public and give us a reasonable window to respond. We take every report seriously, investigate promptly,
               and won&apos;t take legal action against good-faith researchers following these guidelines.
             </p>
-            <p className="text-on-surface-variant">
+            <p className="text-on-surface-variant max-w-[72ch]">
               Send reports to{" "}
               <a href={`mailto:${siteConfig.email}`} className="text-primary font-medium hover:underline">
                 {siteConfig.email}
@@ -217,7 +217,7 @@ export default function SecurityPage() {
             </div>
             <Link
               href="/services"
-              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold teal-gradient-btn text-white dark:text-on-primary group"
+              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent-bright text-sm font-semibold text-background hover:bg-accent-bright/90 hover:text-background group"
             >
               Compare packages
               <span className="material-symbols-outlined text-sm group-hover:scale-110 transition-transform duration-200" aria-hidden="true">check</span>

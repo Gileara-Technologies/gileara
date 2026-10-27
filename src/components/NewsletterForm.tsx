@@ -50,7 +50,7 @@ export default function NewsletterForm({
     ? "bg-surface-container-low border-on-background/15"
     : "bg-surface-container border-on-surface/15";
   const buttonClass =
-    "bg-accent-bright text-background hover:bg-accent-cyan transition-colors duration-200";
+    "bg-accent-bright text-background hover:bg-accent-bright/90 transition-colors duration-200";
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

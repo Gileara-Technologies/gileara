@@ -132,13 +132,13 @@ export default function ContactPage() {
           headline={
             <>
               Tell us what&apos;s hard about{" "}
-              <span className="italic text-accent-cyan">running your business.</span>
+              <span className="italic text-accent-bright">running your business.</span>
             </>
           }
           subtitle="Thirty minutes, free. Bring the mess: sales, stock, customers, cashflow, all of it. We'll help you think through it."
         />
 
-        <section className="bg-background py-20 md:py-28 px-6 md:px-12 border-t border-on-background/10">
+        <section className="bg-background py-section px-6 md:px-12 border-t border-on-background/10">
           <div className="max-w-[1440px] mx-auto">
             <div className="grid lg:grid-cols-12 gap-x-8 gap-y-16 items-start">
               {/* Left: contact rails */}

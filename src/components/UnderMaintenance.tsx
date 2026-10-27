@@ -79,12 +79,12 @@ export default function UnderMaintenance({ fullPage = true }: UnderMaintenancePr
           </motion.div>
 
           {/* Heading */}
-          <motion.h2
+          <motion.h1
             variants={itemVariants}
             className="font-display text-2xl md:text-4xl font-bold leading-tight text-on-background tracking-tight"
           >
             Under Maintenance
-          </motion.h2>
+          </motion.h1>
 
           {/* Description */}
           <motion.p

@@ -152,7 +152,7 @@ export default function AuditTool() {
             ref={startButtonRef}
             type="button"
             onClick={handleStart}
-            className="group inline-flex items-center justify-center gap-3 rounded-pill bg-accent-bright px-8 py-4 font-medium text-background transition-colors motion-safe:duration-300 hover:bg-accent-cyan focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-surface-container-lowest"
+            className="group inline-flex items-center justify-center gap-3 rounded-pill bg-accent-bright px-8 py-4 font-medium text-background transition-colors motion-safe:duration-300 hover:bg-accent-bright/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-bright focus-visible:ring-offset-2 focus-visible:ring-offset-surface-container-lowest"
           >
             {auditSection.startLabel}
             <span
@@ -274,9 +274,9 @@ export default function AuditTool() {
               type="button"
               onClick={handleNext}
               aria-disabled={!answered}
-              className={`group inline-flex items-center gap-2 rounded-pill px-7 py-3 text-sm font-semibold transition-colors motion-safe:duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-surface-container-lowest ${
+              className={`group inline-flex items-center gap-2 rounded-pill px-7 py-3 text-sm font-semibold transition-colors motion-safe:duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-bright focus-visible:ring-offset-2 focus-visible:ring-offset-surface-container-lowest ${
                 answered
-                  ? "bg-accent-bright text-background hover:bg-accent-cyan"
+                  ? "bg-accent-bright text-background hover:bg-accent-bright/90"
                   : "cursor-not-allowed bg-on-background/15 text-on-background/50"
               }`}
             >
@@ -313,7 +313,7 @@ export default function AuditTool() {
             <span className="sr-only">{auditSection.reportEyebrow}: </span>
             {primaryPkg.name}
           </h3>
-          <p className="mb-5 font-serif text-xl italic leading-snug text-accent-cyan md:text-2xl">
+          <p className="mb-5 font-serif text-xl italic leading-snug text-accent-bright md:text-2xl">
             {primaryPkg.tagline}
           </p>
           <p className="mb-8 max-w-2xl text-body-lg leading-relaxed text-on-surface-variant">

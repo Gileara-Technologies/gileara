@@ -54,14 +54,14 @@ export default function AboutPageClient() {
         headline={
           <>
             A small team, called to a specific{" "}
-            <span className="italic text-accent-cyan">work.</span>
+            <span className="italic text-accent-bright">work.</span>
           </>
         }
         subtitle="We build the systems your business runs on. The work began with a question, and the question came from a scripture. This page is the story of how the two are connected."
       />
 
       {/* 02 — SCRIPTURE & NAME ORIGIN */}
-      <section className="bg-surface-container-lowest py-32 md:py-48 px-6 md:px-12 relative overflow-hidden">
+      <section className="bg-surface-container-lowest py-section-tight px-6 md:px-12 relative overflow-hidden">
         {/* Ambient teal glow on the left, like the other dark sections */}
         <div
           className="absolute inset-x-0 -top-40 h-[600px] pointer-events-none"
@@ -80,7 +80,7 @@ export default function AboutPageClient() {
               </RevealText>
               <DisplayHeading size="lg" as="h2" className="mb-8">
                 A name carried out of{" "}
-                <span className="italic text-accent-cyan">Gilead.</span>
+                <span className="italic text-accent-bright">Gilead.</span>
               </DisplayHeading>
             </div>
           </div>
@@ -105,16 +105,16 @@ export default function AboutPageClient() {
 
             <div className="col-span-12 lg:col-span-5">
               <RevealText delay={0.1}>
-                <p className="text-body-lg text-on-surface-variant leading-relaxed mb-6">
+                <p className="text-body-lg text-on-surface-variant leading-relaxed mb-6 max-w-[72ch]">
                   Gileara is from the name <em className="text-on-surface not-italic">Gilead</em>.
                 </p>
-                <p className="text-on-surface-variant leading-relaxed mb-6">
+                <p className="text-on-surface-variant leading-relaxed mb-6 max-w-[72ch]">
                   In the old scripture, Gilead was where the healing balm came from, and the prophet&apos;s question was sharp: the medicine exists, the healer exists, so why are the people still in pain?
                 </p>
-                <p className="text-on-surface-variant leading-relaxed mb-6">
+                <p className="text-on-surface-variant leading-relaxed mb-6 max-w-[72ch]">
                   That question is the reason this company exists. We see the same situation in the small businesses around us every day. The work that should be invisible (stock, sales, customers, cashflow) still eats the whole week. The owners have run out of answers. The technology is there, the help is there, and still the business does not get better.
                 </p>
-                <p className="text-on-surface-variant leading-relaxed">
+                <p className="text-on-surface-variant leading-relaxed max-w-[72ch]">
                   We are not the balm. We are the physician who sits down with the business owner, diagnoses what is actually wrong, and builds the system that makes the recovery visible. Gileara is rooted in Christ and in the conviction that honest, practical work in this area is a calling.
                 </p>
               </RevealText>
@@ -124,7 +124,7 @@ export default function AboutPageClient() {
       </section>
 
       {/* 03 — VALUES */}
-      <section className="bg-background py-32 md:py-48 px-6 md:px-12">
+      <section className="bg-background py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
@@ -133,7 +133,7 @@ export default function AboutPageClient() {
               </RevealText>
               <DisplayHeading size="lg" as="h2" className="mb-8">
                 Four principles,{" "}
-                <span className="italic text-accent-cyan">lived out.</span>
+                <span className="italic text-accent-bright">lived out.</span>
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
@@ -173,7 +173,7 @@ export default function AboutPageClient() {
       </section>
 
       {/* 04 — FOUNDATION (the 3 founding partners) */}
-      <section className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
+      <section className="bg-surface-container py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
@@ -182,7 +182,7 @@ export default function AboutPageClient() {
               </RevealText>
               <DisplayHeading size="lg" as="h2" className="mb-8">
                 The three who{" "}
-                <span className="italic text-accent-cyan">started this.</span>
+                <span className="italic text-accent-bright">started this.</span>
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
@@ -241,7 +241,7 @@ export default function AboutPageClient() {
       </section>
 
       {/* 05 — LEADERS (department heads, report into Julian) */}
-      <section className="bg-background py-32 md:py-48 px-6 md:px-12">
+      <section className="bg-background py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
@@ -250,7 +250,7 @@ export default function AboutPageClient() {
               </RevealText>
               <DisplayHeading size="lg" as="h2" className="mb-8">
                 The people running{" "}
-                <span className="italic text-accent-cyan">the day-to-day.</span>
+                <span className="italic text-accent-bright">the day-to-day.</span>
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
@@ -297,7 +297,7 @@ export default function AboutPageClient() {
       </section>
 
       {/* 06 — COMPANY MEMBERS (unified list, grouped by reporting line) */}
-      <section className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
+      <section className="bg-surface-container py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
@@ -306,7 +306,7 @@ export default function AboutPageClient() {
               </RevealText>
               <DisplayHeading size="lg" as="h2" className="mb-8">
                 The people who{" "}
-                <span className="italic text-accent-cyan">do the work.</span>
+                <span className="italic text-accent-bright">do the work.</span>
               </DisplayHeading>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
@@ -369,7 +369,7 @@ export default function AboutPageClient() {
         headline={
           <>
             Think you&apos;d be{" "}
-            <span className="italic text-accent-cyan">a fit?</span>
+            <span className="italic text-accent-bright">a fit?</span>
           </>
         }
         body="We're always looking for engineers and designers who want to build for small businesses in Ghana. See the open roles and apply, or get in touch and tell us what you work on."
