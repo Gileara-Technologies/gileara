@@ -22,7 +22,7 @@ export default function NewRolePage() {
           </span>
           Dashboard
         </Link>
-        <h2 className="mt-3 text-2xl font-semibold">New role</h2>
+        <h2 className="mt-3 font-display text-2xl">New role</h2>
         <p className="mt-1 text-sm text-on-surface-variant">
           The slug is generated from the title when you save. New roles start
           as open, and you can pause or close them from the dashboard.

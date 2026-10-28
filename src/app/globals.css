@@ -4,68 +4,76 @@
 
 @layer base {
   /**
-   * Terminal / Operator theme — Vercel + Linear aesthetic.
+   * Operator theme — Gileara's teal↔black brand gradient, Vercel/Linear
+   * structure.
    *
-   * Philosophy: pure black base, one teal accent, mono as the display face.
-   * Every value here is intentional; nothing is left to browser defaults.
+   * Philosophy: the canvas is never flat #000 — it's a deep teal-black
+   * that blends into the brand's bright teal at a few deliberate points
+   * per section. Mono is the display face. Borders everywhere. One
+   * accent (teal), used generously in the background wash, precisely
+   * in foreground UI.
    */
   :root {
     color-scheme: dark;
 
-    /* ── Core palette ────────────────────────────────────────────────── */
-    /* Background: pure black. No blue tint, no warmth. */
-    --background: 0 0 0;
-    --on-background: 237 237 237;
+    /* ── Core palette — deep teal-black, not pure #000 ─────────────────── */
+    --background: 3 10 12;
+    --on-background: 230 240 237;
 
-    /* Surface elevations — near-black steps for cards and panels */
-    --surface: 0 0 0;
-    --on-surface: 237 237 237;
-    --surface-variant: 24 24 24;
-    --on-surface-variant: 160 160 160;
+    --surface: 3 10 12;
+    --on-surface: 230 240 237;
+    --surface-variant: 16 28 29;
+    --on-surface-variant: 148 172 167;
 
-    --surface-container-lowest: 6 6 6;
-    --surface-container-low: 10 10 10;
-    --surface-container: 14 14 14;
-    --surface-container-high: 20 20 20;
-    --surface-container-highest: 28 28 28;
-    --surface-dim: 0 0 0;
-    --surface-bright: 32 32 32;
+    --surface-container-lowest: 1 6 7;
+    --surface-container-low: 7 17 18;
+    --surface-container: 11 23 24;
+    --surface-container-high: 17 31 32;
+    --surface-container-highest: 25 41 42;
+    --surface-dim: 1 6 7;
+    --surface-bright: 32 48 49;
 
-    /* Borders */
-    --outline: 38 38 38;
-    --outline-variant: 24 24 24;
+    /* Borders — teal-tinted, not neutral gray */
+    --outline: 40 62 60;
+    --outline-variant: 20 36 35;
 
-    /* Primary = teal, used for focus rings and links */
+    /* Primary = brand teal */
     --primary: 94 234 212;
-    --on-primary: 0 0 0;
-    --primary-container: 14 42 38;
-    --on-primary-container: 94 234 212;
+    --on-primary: 3 10 12;
+    --primary-container: 10 48 44;
+    --on-primary-container: 125 240 222;
 
-    /* Secondary = mid-gray for secondary UI */
-    --secondary: 115 115 115;
-    --on-secondary: 0 0 0;
-    --secondary-container: 28 28 28;
-    --on-secondary-container: 200 200 200;
+    /* Secondary = cooler teal-gray, used for less urgent UI (role badges) */
+    --secondary: 150 214 204;
+    --on-secondary: 3 14 13;
+    --secondary-container: 12 30 29;
+    --on-secondary-container: 180 224 216;
 
-    /* Tertiary (legacy compat) */
-    --tertiary: 115 115 115;
-    --on-tertiary: 0 0 0;
-    --tertiary-container: 20 20 20;
-    --on-tertiary-container: 180 180 180;
+    /* Tertiary = warm amber, the one deliberate second temperature — used
+       sparingly (paused-state badges) so the palette isn't monochrome teal */
+    --tertiary: 224 186 120;
+    --on-tertiary: 24 16 4;
+    --tertiary-container: 34 26 12;
+    --on-tertiary-container: 232 202 150;
 
     /* Error */
-    --error: 255 99 72;
-    --on-error: 0 0 0;
-    --error-container: 40 12 12;
-    --on-error-container: 255 180 170;
+    --error: 255 138 120;
+    --on-error: 20 6 4;
+    --error-container: 40 14 12;
+    --on-error-container: 255 190 180;
 
     /* Inverse */
-    --inverse-surface: 237 237 237;
-    --inverse-on-surface: 10 10 10;
-    --inverse-primary: 0 80 70;
+    --inverse-surface: 230 240 237;
+    --inverse-on-surface: 8 18 19;
+    --inverse-primary: 2 92 80;
 
-    /* Surface tint */
     --surface-tint: 94 234 212;
+
+    /* Brand gradient stops — used by .bg-brand / .bg-brand-soft below.
+       Kept as discrete vars so any section can reference them directly. */
+    --brand-teal: 94 234 212;
+    --brand-teal-deep: 10 90 80;
+    --brand-navy: 4 14 18;
 
     /* ── Section rhythm ───────────────────────────────────────────────── */
     --space-section-tight: 72px;
@@ -85,8 +93,7 @@
 
   /* ── Base resets ────────────────────────────────────────────────── */
   body {
-    @apply bg-black text-on-background font-sans overflow-x-hidden;
-    background-color: #000000;
+    @apply bg-background text-on-background font-sans overflow-x-hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -96,12 +103,10 @@
     @apply font-display;
   }
 
-  /* Anchor base */
   a {
     transition: color 150ms ease;
   }
 
-  /* Focus visible — teal, tight */
   :focus-visible {
     outline: 1.5px solid #5EEAD4;
     outline-offset: 3px;
@@ -127,7 +132,7 @@ html.lenis body {
   pointer-events: none;
 }
 
-/* ── Scrollbar — Vercel-style minimal ─────────────────────────────────── */
+/* ── Scrollbar ────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -145,18 +150,17 @@ html.lenis body {
 
 /* ── Selection ────────────────────────────────────────────────────────── */
 ::selection {
-  background: rgba(94, 234, 212, 0.2);
+  background: rgba(94, 234, 212, 0.25);
   color: #ffffff;
 }
 
 /* ── Grain overlay ────────────────────────────────────────────────────── */
-/* Fixed noise at 2% opacity — adds analogue depth to the flat black. */
 .grain-overlay {
   position: fixed;
   inset: 0;
   z-index: 40;
   pointer-events: none;
-  opacity: 0.02;
+  opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   background-repeat: repeat;
@@ -173,7 +177,6 @@ html.lenis body {
 }
 
 /* ── Grid lines ───────────────────────────────────────────────────────── */
-/* Vercel-style structural grid — always visible, very faint. */
 .grid-bg {
   background-image:
     linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
@@ -181,17 +184,43 @@ html.lenis body {
   background-size: 80px 80px;
 }
 
+/* ── Brand gradient backgrounds ──────────────────────────────────────────
+   Two strengths:
+   - .bg-brand       expressive — hero, footer, CTA bands. Strong teal bloom.
+   - .bg-brand-soft  content-dense sections — a single calm top glow so
+                     body text and tables stay legible.
+   Both sit on the deep teal-black base (--background), never pure black. */
+.bg-brand {
+  background-color: rgb(var(--background));
+  background-image:
+    radial-gradient(ellipse 70% 55% at 18% -5%, rgba(94,234,212,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 100% 105%, rgba(16,120,105,0.22) 0%, transparent 65%),
+    linear-gradient(165deg, rgba(3,10,12,0) 0%, rgba(6,26,24,0.75) 100%);
+}
+.bg-brand-soft {
+  background-color: rgb(var(--background));
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(94,234,212,0.09) 0%, transparent 65%),
+    linear-gradient(180deg, rgba(3,10,12,0) 0%, rgba(5,18,18,0.5) 100%);
+}
+/* Reversed anchor for visual rhythm between adjacent sections */
+.bg-brand-soft-alt {
+  background-color: rgb(var(--background));
+  background-image:
+    radial-gradient(ellipse 70% 45% at 85% 0%, rgba(94,234,212,0.07) 0%, transparent 65%),
+    linear-gradient(200deg, rgba(3,10,12,0) 0%, rgba(5,18,18,0.45) 100%);
+}
+
 /* ── Operator card ────────────────────────────────────────────────────── */
-/* 1px border card with subtle inner highlight. */
 .op-card {
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(94, 234, 212, 0.025);
   transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
 }
 .op-card:hover {
-  border-color: rgba(94, 234, 212, 0.25);
-  background: rgba(94, 234, 212, 0.03);
-  box-shadow: 0 0 30px rgba(94, 234, 212, 0.06), inset 0 1px 0 rgba(94, 234, 212, 0.06);
+  border-color: rgba(94, 234, 212, 0.3);
+  background: rgba(94, 234, 212, 0.05);
+  box-shadow: 0 0 30px rgba(94, 234, 212, 0.08), inset 0 1px 0 rgba(94, 234, 212, 0.08);
 }
 
 /* ── Hairline divider ─────────────────────────────────────────────────── */
@@ -200,7 +229,6 @@ html.lenis body {
 }
 
 /* ── Terminal prompt prefix ───────────────────────────────────────────── */
-/* Used before section labels: "▸ SECTION NAME" */
 .prompt::before {
   content: '▸';
   color: #5EEAD4;
@@ -243,7 +271,7 @@ html.lenis body {
   font-style: normal;
   font-weight: 100 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v375/kJEPBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzBwG-RpA6RzaxHMPdY40KH8nGzv3fzfVJO1Q.woff2?text=arrow_upward%7Ccheck_circle%7Cerror%7Ccloud_upload%7Cclose%7Csend%7Clocation_on%7Carrow_forward%7Cmail%7Cschedule%7Ccheck%7Carrow_back%7Cbuild%7Ccalendar_month%7Cchevron_left%7Cchevron_right%7Cmenu%7Carrow_downward%7Cpause%7Cplay_arrow%7Cwork) format('woff2');
+  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v375/kJEPBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzBwG-RpA6RzaxHMPdY40KH8nGzv3fzfVJO1Q.woff2?text=arrow_upward%7Ccheck_circle%7Cerror%7Ccloud_upload%7Cclose%7Csend%7Clocation_on%7Carrow_forward%7Cmail%7Cschedule%7Ccheck%7Carrow_back%7Cbuild%7Ccalendar_month%7Cchevron_left%7Cchevron_right%7Cmenu%7Carrow_downward%7Cpause%7Cplay_arrow%7Cwork%7Cgroups%7Cperson%7Caccount_tree%7Cbadge) format('woff2');
 }
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
@@ -273,4 +301,37 @@ html.lenis body {
 .gsap-reveal-text .char {
   display: inline-block;
   transform: translateY(100%);
+}
+
+/* ── Org chart connectors (About page) ───────────────────────────────── */
+/* Pure-CSS tree connectors, mobile-first: a left border acts as the
+   vertical trunk, overridden to top-border fan-out at md+. */
+.org-branch {
+  position: relative;
+  border-left: 1px solid rgba(94, 234, 212, 0.25);
+  padding-left: 1.5rem;
+}
+.org-branch::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 1.25rem;
+  width: 1rem;
+  height: 1px;
+  background: rgba(94, 234, 212, 0.25);
+}
+@media (min-width: 768px) {
+  .org-branch {
+    border-left: none;
+    border-top: 1px solid rgba(94, 234, 212, 0.25);
+    padding-left: 0;
+    padding-top: 1.75rem;
+  }
+  .org-branch::before {
+    left: 50%;
+    top: -1px;
+    width: 1px;
+    height: 1rem;
+    transform: translateX(-50%);
+  }
 }

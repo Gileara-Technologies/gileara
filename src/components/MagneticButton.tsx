@@ -64,7 +64,7 @@ export default function MagneticButton({
 
   const style = { x, y, transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)" };
 
-  const baseClass = `inline-flex items-center justify-center rounded-md font-sans font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-bright focus-visible:ring-offset-1 focus-visible:ring-offset-black ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+  const baseClass = `inline-flex items-center justify-center rounded-md font-sans font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-bright focus-visible:ring-offset-1 focus-visible:ring-offset-background ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
 
   const arrow = showArrow ? (
     <span className="ml-2 inline-block material-symbols-outlined align-middle text-base transition-transform duration-200 group-hover:translate-x-0.5">

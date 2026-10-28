@@ -66,7 +66,7 @@ export default async function EditRolePage({
           </div>
         )}
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          <h2 className="text-2xl font-semibold">{role.title}</h2>
+          <h2 className="font-display text-2xl">{role.title}</h2>
           <StatusBadge status={role.status} />
         </div>
         <p className="mt-2 flex flex-wrap items-center gap-2 text-sm text-on-surface-variant">

@@ -30,7 +30,7 @@ export default function CinematicStory() {
   ];
 
   return (
-    <section ref={ref} className="relative bg-black border-t border-white/[0.06] py-section-tight px-6 md:px-12">
+    <section ref={ref} className="relative bg-brand-soft-alt border-t border-white/[0.06] py-section-tight px-6 md:px-12">
       <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" aria-hidden="true" />
 
       <div className="max-w-[1200px] mx-auto relative z-10">
@@ -44,7 +44,7 @@ export default function CinematicStory() {
               the problem
             </div>
 
-            <h2 className="font-display text-display-md text-white mb-3 max-w-xl">
+            <h2 className="font-display text-display-md text-on-background mb-3 max-w-xl">
               Great businesses running on manual work.
             </h2>
             <p className="font-sans text-body-lg text-white/40 mb-10 max-w-xl leading-relaxed">

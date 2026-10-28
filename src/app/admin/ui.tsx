@@ -54,7 +54,7 @@ export function DbUnavailableNotice() {
   return (
     <div
       role="status"
-      className="flex items-start gap-3 rounded-md border border-outline-variant bg-surface-container-low p-4"
+      className="op-card flex items-start gap-3 rounded-md p-4"
     >
       <span
         className="material-symbols-outlined text-base text-on-surface-variant"

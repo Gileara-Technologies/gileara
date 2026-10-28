@@ -27,7 +27,7 @@ function DashboardHeader() {
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h2 className="text-2xl font-semibold">Roles</h2>
+        <h2 className="font-display text-2xl">Roles</h2>
         <p className="mt-1 text-sm text-on-surface-variant">
           Create roles, pause or close them, and read the applications each
           one has received.
@@ -155,7 +155,7 @@ export default async function AdminDashboardPage({ searchParams }: DashboardPage
           >
             work_outline
           </span>
-          <p className="mt-3 font-medium">No roles yet</p>
+          <p className="mt-3 font-display text-base">No roles yet</p>
           <p className="mt-1 text-sm text-on-surface-variant">
             Create the first role to open the board.
           </p>

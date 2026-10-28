@@ -124,7 +124,7 @@ export function RoleForm({ mode, roleId, initial }: RoleFormProps) {
   return (
     <form
       action={formAction}
-      className="space-y-6 rounded-lg border border-outline-variant bg-surface-container-lowest p-6"
+      className="op-card space-y-6 rounded-lg p-6"
     >
       {mode === "edit" && roleId ? (
         <input type="hidden" name="roleId" value={roleId} />

@@ -110,12 +110,12 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
     return false;
   };
 
-  const focusRing = "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-bright focus-visible:ring-offset-1 focus-visible:ring-offset-black";
+  const focusRing = "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-bright focus-visible:ring-offset-1 focus-visible:ring-offset-background";
 
   const linkClass = (href: string) =>
     variant === "default"
       ? `px-3 py-1.5 text-[13px] font-sans font-medium transition-colors duration-150 whitespace-nowrap ${focusRing} ${
-          pathname === href ? "text-white" : "text-white/50 hover:text-white/90"
+          pathname === href ? "text-on-background" : "text-white/50 hover:text-white/90"
         }`
       : `relative px-1 py-1 text-sm font-sans transition-colors ${focusRing} ${
           isActive(href) ? "text-accent-bright" : "text-white/50 hover:text-white/80"
@@ -137,8 +137,8 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 md:px-6 transition-all duration-300 ${
           isScrolled
-            ? "h-12 bg-black/95 backdrop-blur-sm border-b border-white/[0.06]"
-            : "h-14 bg-transparent"
+            ? "h-14 bg-background/85 backdrop-blur-md border-b border-white/[0.07]"
+            : "h-16 bg-transparent"
         }`}
         id={navId}
         aria-label={navLabel}
@@ -152,11 +152,11 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
           <Image
             src="/assets/gileara/logo-full.png"
             alt="Gileara"
-            width={120}
-            height={30}
+            width={160}
+            height={87}
             priority
-            sizes="120px"
-            className="h-6 w-auto brightness-0 invert opacity-90 hover:opacity-100 transition-opacity duration-150"
+            sizes="140px"
+            className="h-8 md:h-9 w-auto drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)] opacity-95 hover:opacity-100 transition-opacity duration-150"
           />
           {legalDetails && (
             <span className="rounded border border-accent-bright/30 bg-accent-bright/10 px-1.5 py-0.5 font-mono text-[10px] font-medium text-accent-bright tracking-wider uppercase hidden md:inline-block">
@@ -181,7 +181,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
               href="/contact"
               className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-white text-black text-[13px] font-sans font-medium hover:bg-white/90 transition-colors duration-150 ${focusRing}`}
             >
-              Book a call
+              Book a Free Consultation
               <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
             </Link>
           )}
@@ -225,7 +225,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[45] bg-black md:hidden flex flex-col pt-20 px-6 pb-10"
+            className="fixed inset-0 z-[45] bg-brand md:hidden flex flex-col pt-24 px-6 pb-10"
             id={`${navId}-drawer`}
           >
             {/* Grid bg in drawer */}

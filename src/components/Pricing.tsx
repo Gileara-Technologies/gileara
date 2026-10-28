@@ -17,7 +17,7 @@ export default function Pricing() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <section id="packages" className="relative bg-black py-section-loose px-6 md:px-12">
+    <section id="packages" className="relative bg-brand-soft py-section-loose px-6 md:px-12">
       {/* Grid bg */}
       <div className="absolute inset-0 grid-bg opacity-60 pointer-events-none" aria-hidden="true" />
 
@@ -28,7 +28,7 @@ export default function Pricing() {
             <span className="text-accent-bright/50">▸</span>
             packages.ts
           </div>
-          <h2 className="font-display text-display-lg text-white mb-5 max-w-2xl">
+          <h2 className="font-display text-display-lg text-on-background mb-5 max-w-2xl">
             Five systems. One each for where your business hurts.
           </h2>
           <p className="font-sans text-body-lg text-white/45 max-w-xl leading-relaxed">
@@ -85,7 +85,7 @@ export default function Pricing() {
                       {num}
                     </span>
                     <div className="min-w-0">
-                      <div className="font-display text-xl md:text-2xl text-white group-hover:text-accent-bright transition-colors duration-200 mb-0.5">
+                      <div className="font-display text-xl md:text-2xl text-on-background group-hover:text-accent-bright transition-colors duration-200 mb-0.5">
                         {pkg.name}
                       </div>
                       <div className="font-sans text-sm text-white/35 truncate max-w-md">
@@ -97,7 +97,7 @@ export default function Pricing() {
                   {/* Right: price + expand */}
                   <div className="flex items-center gap-6 shrink-0">
                     <div className="text-right hidden sm:block">
-                      <div className="font-mono text-lg text-white">
+                      <div className="font-mono text-lg text-on-background">
                         ${basic.monthlyFeeUsd.toLocaleString("en-US")}
                         <span className="text-xs text-white/30 font-sans">/mo</span>
                       </div>

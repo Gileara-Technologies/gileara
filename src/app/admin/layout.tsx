@@ -1,4 +1,5 @@
 // Admin layout - server component that checks auth
+import Link from 'next/link';
 import { requireAdminSession } from './session-guard';
 import { logoutAction } from './logout/action';
 
@@ -17,11 +18,13 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-background text-on-background">
-      <header className="border-b border-surface-container-high bg-surface/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-lg font-semibold">Admin Portal</h1>
-            <span className="text-sm text-on-surface-variant">Signed in as {payload.email}</span>
+      <header className="border-b border-outline-variant bg-surface/60 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4 min-w-0">
+            <Link href="/admin" className="font-display text-base shrink-0 hover:text-primary transition-colors">
+              Gileara <span className="text-on-surface-variant font-sans text-sm font-normal">· Admin</span>
+            </Link>
+            <span className="hidden sm:inline text-sm text-on-surface-variant truncate">Signed in as {payload.email}</span>
           </div>
           {/*
             POST form instead of <Link href="/admin/logout">: Next.js prefetches

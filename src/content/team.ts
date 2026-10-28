@@ -1,33 +1,24 @@
 /**
- * The team behind Gileara — three groups on the /about page:
+ * The team behind Gileara — rendered on the /about page as three things:
  *
- *  - Foundation: the 3 founding partners (Amos, Julian, Rodney)
- *  - Leaders:    3 department heads who report into Julian (COO)
- *  - Members:    one unified list of everyone else, grouped by
- *                reporting line (Engineering under Rodney; Finance
- *                & Admin under Julian)
+ *  - foundation: the 3 founding partners (Amos, Julian, Rodney), full
+ *    portrait + quote treatment.
+ *  - orgChart:   the reporting structure (who reports to whom), rendered
+ *    as a tree. CEO at the root, COO and CTO as the two branches, their
+ *    direct reports as leaves.
+ *  - roster:     one flat, uniform list of everyone who isn't a founder,
+ *    each tagged with a department instead of being grouped under a
+ *    department heading. This replaces the old leaders/memberGroups
+ *    split — see docs/CHANGELOG or git history for that shape.
  *
  * Founders are duplicated from src/content/founders.ts (their portraits
- * are required). Leaders and team members only need name + role.
+ * and quotes are required there for JSON-LD/homepage use). orgChart and
+ * roster are authored once, here, and used for both views so the
+ * hierarchy and the flat list never drift apart.
  *
  * To add a portrait later, drop the file at /public/assets/images/{slug}.jpg
- * and add an `image` field on the entry.
+ * and add an `image` field on the roster entry.
  */
-
-export interface TeamMember {
-  name: string;
-  role: string;
-}
-
-/**
- * A team member that may have a portrait photo on /public. Optional for
- * everyone (drop the file at /public/assets/images/{slug}.jpg and add
- * the field later).
- */
-export interface TeamMemberWithPhoto extends TeamMember {
-  /** Optional portrait path under /public; omit to render initials. */
-  image?: string;
-}
 
 export interface FoundationMember {
   name: string;
@@ -36,19 +27,6 @@ export interface FoundationMember {
   quote: string;
   /** Required portrait path under /public (founders all have photos). */
   image: string;
-}
-
-/**
- * A sub-grouping inside the unified "Company members" section. The
- * /about page renders these as labeled subgroups under one section
- * (no tabs), so visitors see the whole team at once.
- */
-export interface MemberGroup {
-  /** Subgroup title (e.g. "Engineering", "Finance & Admin") */
-  label: string;
-  /** Free-form caption shown next to the subgroup title */
-  lead: string;
-  members: TeamMemberWithPhoto[];
 }
 
 export const foundation: readonly FoundationMember[] = [
@@ -72,46 +50,65 @@ export const foundation: readonly FoundationMember[] = [
   },
 ] as const;
 
-export const leaders: readonly TeamMemberWithPhoto[] = [
-  {
-    name: "Jude Elorm Agbesinyale",
-    role: "Head of Marketing",
-    image: "/assets/images/elorm.jpg",
-  },
-  {
-    name: "Daniel Akpabli",
-    role: "Head of Communication & Executive Secretary",
-    image: "/assets/images/Daniel.jpg",
-  },
-  {
-    name: "Wisdom Segbedzi",
-    role: "HR & People Operations Officer",
-    image: "/assets/images/Wisdom.png",
-  },
-] as const;
+export type Department = "Marketing" | "Communication" | "Finance" | "Engineering";
+
+export interface RosterMember {
+  name: string;
+  role: string;
+  department: Department;
+  /** Optional portrait path under /public; omitted entries render initials. */
+  image?: string;
+}
 
 /**
- * One unified "Company members" list, grouped by reporting line.
- * Rendered as labeled subgroups on /about (no tabs). Order is the
- * render order.
+ * One flat roster — everyone who isn't a founder, in reporting order
+ * (COO's reports, then CTO's reports). Rendered as a single uniform
+ * grid on /about; the department is a tag on the card, not a section.
  */
-export const memberGroups: readonly MemberGroup[] = [
-  {
-    label: "Engineering",
-    lead: "Led by Rodney Hagan, CTO",
-    members: [
-      { name: "Lawrence Adusu", role: "Full Stack Engineer" },
-      { name: "Mekitonima Aliodi", role: "Full Stack Engineer" },
-      { name: "Mohammed Murshid", role: "Cross-Platform Mobile App Developer" },
-      { name: "Gyening Patrick Nyarko", role: "Frontend Developer" },
-      { name: "Samuel Quansah", role: "Frontend Developer" },
-    ],
-  },
-  {
-    label: "Finance & Admin",
-    lead: "Led by Julian Hagan, COO",
-    members: [
-      { name: "Theophilus Bruce", role: "Finance Secretary" },
-    ],
-  },
+export const roster: readonly RosterMember[] = [
+  { name: "Jude Elorm Agbesinyale", role: "Head of Marketing", department: "Marketing", image: "/assets/images/elorm.jpg" },
+  { name: "Daniel Akpabli", role: "Head of Communication & Executive Secretary", department: "Communication", image: "/assets/images/Daniel.jpg" },
+  { name: "Theophilus Bruce", role: "Finance Secretary", department: "Finance" },
+  { name: "Mekitonima Aliodi", role: "Full Stack Engineer", department: "Engineering" },
+  { name: "Mohammed Murshid", role: "Cross-Platform Mobile App Developer", department: "Engineering" },
+  { name: "Gyening Patrick Nyarko", role: "Frontend Developer", department: "Engineering" },
+  { name: "Samuel Quansah", role: "Frontend Developer", department: "Engineering" },
 ] as const;
+
+export interface OrgNode {
+  name: string;
+  role: string;
+  children?: readonly OrgNode[];
+}
+
+/**
+ * The reporting structure, authored by hand (not derived from `roster`)
+ * so the CEO/COO/CTO root nodes — which aren't in `roster` — fit
+ * naturally into the same shape. Two levels below the root: the COO and
+ * CTO branches, each with their direct reports as leaves.
+ */
+export const orgChart: OrgNode = {
+  name: "Amos Frederick Hughes",
+  role: "Founder & CEO",
+  children: [
+    {
+      name: "Julian Hagan",
+      role: "Co-Founder & COO",
+      children: [
+        { name: "Jude Elorm Agbesinyale", role: "Head of Marketing" },
+        { name: "Daniel Akpabli", role: "Head of Communication & Executive Secretary" },
+        { name: "Theophilus Bruce", role: "Finance Secretary" },
+      ],
+    },
+    {
+      name: "Rodney Hagan",
+      role: "Co-Founder & CTO",
+      children: [
+        { name: "Mekitonima Aliodi", role: "Full Stack Engineer" },
+        { name: "Mohammed Murshid", role: "Cross-Platform Mobile App Developer" },
+        { name: "Gyening Patrick Nyarko", role: "Frontend Developer" },
+        { name: "Samuel Quansah", role: "Frontend Developer" },
+      ],
+    },
+  ],
+} as const;

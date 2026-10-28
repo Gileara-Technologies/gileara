@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import DisplayHeading from "@/components/DisplayHeading";
 import MagneticButton from "@/components/MagneticButton";
 
 /**
@@ -30,16 +29,8 @@ export default function FoundingClient() {
     <section
       ref={ref}
       aria-labelledby="founding-clients-heading"
-      className="relative bg-surface-container-lowest py-section-tight px-6 md:px-12 overflow-hidden"
+      className="relative bg-brand-soft border-t border-white/[0.06] py-section-tight px-6 md:px-12 overflow-hidden"
     >
-      {/* Top accent rule */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[1px] pointer-events-none"
-        style={{
-          background: "linear-gradient(90deg, transparent 0%, rgba(94,234,212,0.4) 30%, rgba(94,234,212,0.6) 50%, rgba(94,234,212,0.4) 70%, transparent 100%)",
-        }}
-        aria-hidden="true"
-      />
 
       {/* Background photo with parallax */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -79,30 +70,30 @@ export default function FoundingClient() {
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8">
           <div className="col-span-12 lg:col-span-9">
             {/* Eyebrow */}
-            <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-10">
-              Founding clients
+            <div className="font-mono text-[11px] text-accent-bright tracking-widest uppercase mb-8 flex items-center gap-2">
+              <span className="text-accent-bright/40">▸</span>
+              founding clients
             </div>
 
-            <DisplayHeading size="lg" as="h2" id="founding-clients-heading" className="mb-10 max-w-4xl">
-              One business per vertical gets{" "}
-              <span className="italic text-accent-bright">founder-level attention.</span>
-            </DisplayHeading>
+            <h2 id="founding-clients-heading" className="font-display text-display-md text-on-background mb-8 max-w-2xl">
+              One business per vertical gets founder-level attention.
+            </h2>
 
             <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-8 mb-14">
-              <div className="col-span-12 md:col-span-7 text-body-lg text-on-surface-variant leading-relaxed max-w-2xl">
+              <div className="col-span-12 md:col-span-7 font-sans text-body-lg text-white/40 leading-relaxed max-w-2xl">
                 <p>
                   As we launch, we&apos;re taking a limited set of founding clients, one per vertical. You get priority onboarding and direct founder involvement. In return, we document your transformation story and publish it with your approval when the results are real.
                 </p>
               </div>
               <div className="col-span-12 md:col-span-4 md:col-start-9">
-                <div className="border-t border-on-background/20 pt-6">
-                  <div className="font-serif text-display-md text-on-background/90 leading-none mb-2">
+                <div className="border-t border-white/[0.08] pt-6">
+                  <div className="font-mono text-display-sm text-accent-bright leading-none mb-2">
                     5
                   </div>
-                  <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-3">
-                    Verticals open
+                  <div className="font-mono text-[11px] text-white/30 tracking-widest uppercase mb-3">
+                    verticals open
                   </div>
-                  <p className="text-on-surface-variant text-sm leading-relaxed max-w-[30ch]">
+                  <p className="font-sans text-white/35 text-sm leading-relaxed max-w-[30ch]">
                     No discounts. Founding means more attention at the standard price.
                   </p>
                 </div>

@@ -45,21 +45,12 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-black border-t border-white/[0.06] overflow-hidden">
+    <footer className="relative bg-background border-t border-white/[0.06] overflow-hidden">
       {/* Grid bg */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" aria-hidden="true" />
 
-      {/* ── Statement section ──────────────────────────────────────────── */}
-      <div className="relative border-b border-white/[0.06] px-6 md:px-12 py-24 md:py-32">
-        {/* Top-center glow */}
-        <div
-          className="absolute inset-x-0 -top-20 h-[400px] pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(94,234,212,0.08) 0%, transparent 70%)",
-          }}
-          aria-hidden="true"
-        />
-
+      {/* ── Statement section — the strongest brand-gradient moment ───────── */}
+      <div className="relative bg-brand border-b border-white/[0.06] px-6 md:px-12 py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto">
           <div className="font-mono text-[11px] text-accent-bright/50 tracking-widest uppercase mb-8">
             gileara.technologies
@@ -69,7 +60,7 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-display text-[clamp(2.5rem,6vw,7rem)] leading-[0.92] tracking-tight text-white mb-10 max-w-4xl"
+            className="font-display text-[clamp(2.5rem,6vw,7rem)] leading-[0.92] tracking-tight text-on-background mb-10 max-w-4xl"
           >
             Let&apos;s build
             <br />

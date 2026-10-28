@@ -10,7 +10,7 @@ interface ContactBandProps {
   headline: React.ReactNode;
   body?: string;
   align?: "start" | "center";
-  /** Background token — retained for API compat, visual is always black in this theme */
+  /** Background token — retained for API compat, visual always uses the brand gradient wash */
   bg?: "background" | "surface-container" | "surface-container-lowest";
   showChannels?: boolean;
   secondaryLink?: { href: string; label: string };
@@ -37,18 +37,9 @@ export default function ContactBand({
   const isCentered = align === "center";
 
   return (
-    <section className="relative bg-black border-t border-white/[0.06] py-section px-6 md:px-12 overflow-hidden">
+    <section className="relative bg-brand border-t border-white/[0.06] py-section px-6 md:px-12 overflow-hidden">
       {/* Grid bg */}
       <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" aria-hidden="true" />
-
-      {/* Radial glow */}
-      <div
-        className="absolute inset-x-0 -top-40 h-[600px] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse 70% 50% at 50% 5%, rgba(94,234,212,0.1) 0%, transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
 
       <div className="max-w-[1200px] mx-auto relative z-10">
         <div className={isCentered ? "text-center max-w-2xl mx-auto" : "max-w-2xl"}>
@@ -66,7 +57,7 @@ export default function ContactBand({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="font-display text-display-md text-white mb-5"
+            className="font-display text-display-md text-on-background mb-5"
           >
             {headline}
           </motion.h2>

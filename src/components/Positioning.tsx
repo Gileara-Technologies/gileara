@@ -4,8 +4,6 @@ import { motion, useInView, useReducedMotion, useScroll, useTransform } from "fr
 import { useRef } from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import DisplayHeading from "@/components/DisplayHeading";
-import RevealText from "@/components/RevealText";
 
 /**
  * Counter — animated number ticker.
@@ -84,42 +82,30 @@ export default function Positioning() {
   ];
 
   const stats = [
-    { num: 7, suffix: " days", label: "Average deployment time" },
-    { num: 24, suffix: "/7", label: "Managed monitoring" },
-    { num: 99, suffix: ".9%", label: "Uptime SLA" },
+    { num: 5, suffix: "", label: "Systems you can combine" },
+    { num: 3, suffix: "", label: "Founders you work with directly" },
+    { num: 100, suffix: "%", label: "Founder-led delivery" },
   ];
 
   return (
     <section
       ref={ref}
       id="positioning"
-      className="relative bg-background py-section-tight px-6 md:px-12 overflow-hidden"
+      className="relative bg-brand-soft-alt py-section-tight px-6 md:px-12 overflow-hidden"
     >
-      {/* Ambient teal glow — top right */}
-      <div
-        className="absolute -top-20 right-0 w-[700px] h-[700px] pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle at 100% 0%, rgba(94,234,212,0.07) 0%, transparent 60%)",
-        }}
-        aria-hidden="true"
-      />
-
-      <div className="max-w-[1440px] mx-auto relative z-10">
+      <div className="max-w-[1200px] mx-auto relative z-10">
         {/* Section header */}
-        <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-20 md:mb-28">
-          <div className="col-span-12 lg:col-span-7">
-            <DisplayHeading size="lg" as="h2" className="mb-8">
-              Built for{" "}
-              <span className="italic text-accent-bright">small business</span>,
-              {" "}everywhere.
-            </DisplayHeading>
-            <RevealText delay={0.15}>
-              <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                We ship real outcomes, piloting in Ghana first and designed to scale globally. Start with one package and add more as you grow. Each one works on its own.
-              </p>
-            </RevealText>
+        <div className="mb-16 md:mb-20">
+          <div className="font-mono text-[11px] text-accent-bright tracking-widest uppercase mb-5 flex items-center gap-2">
+            <span className="text-accent-bright/40">▸</span>
+            why gileara
           </div>
+          <h2 className="font-display text-display-md text-on-background mb-5 max-w-2xl">
+            Built for small business, everywhere.
+          </h2>
+          <p className="font-sans text-body-lg text-white/40 max-w-xl leading-relaxed">
+            We ship real outcomes, piloting in Ghana first and designed to scale globally. Start with one package and add more as you grow. Each one works on its own.
+          </p>
         </div>
 
         {/* Main grid: value props + photo + stats */}
@@ -135,14 +121,14 @@ export default function Positioning() {
                 transition={{ duration: 0.65, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="grid grid-cols-12 gap-x-6 group"
               >
-                <div className="col-span-2 font-serif text-display-sm text-on-background/[0.1] group-hover:text-accent-bright/30 leading-none transition-colors duration-500">
+                <div className="col-span-2 font-mono text-display-sm text-on-background/[0.1] group-hover:text-accent-bright/30 leading-none transition-colors duration-500">
                   {p.num}
                 </div>
                 <div className="col-span-10">
-                  <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em] mb-3 group-hover:text-accent-bright transition-colors duration-300">
+                  <h3 className="font-display text-xl md:text-2xl text-on-background leading-tight tracking-[-0.01em] mb-3 group-hover:text-accent-bright transition-colors duration-300">
                     {p.title}
                   </h3>
-                  <p className="text-on-surface-variant text-base leading-relaxed max-w-xl">
+                  <p className="text-white/40 font-sans text-base leading-relaxed max-w-xl">
                     {p.desc}
                   </p>
                 </div>
@@ -192,10 +178,10 @@ export default function Positioning() {
                   transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                   className="flex items-baseline justify-between gap-6 py-5 border-b border-on-background/10 first:border-t"
                 >
-                  <dt className="text-on-surface-variant text-sm font-mono uppercase tracking-wider">
+                  <dt className="text-white/40 text-sm font-mono uppercase tracking-wider max-w-[18ch]">
                     {s.label}
                   </dt>
-                  <dd className="font-serif text-display-sm text-accent-bright leading-none tabular-nums">
+                  <dd className="font-mono text-display-sm text-accent-bright leading-none tabular-nums">
                     <Counter to={s.num} suffix={s.suffix} />
                   </dd>
                 </motion.div>
@@ -205,14 +191,18 @@ export default function Positioning() {
         </div>
 
         {/* Closing statement */}
-        <RevealText delay={0.4}>
-          <div className="mt-32 pt-16 border-t border-on-background/10 max-w-4xl">
-            <p className="font-serif text-display-md text-on-background leading-[1.1] tracking-[-0.03em]">
-              &ldquo;The technology partner that helps small and growing businesses become{" "}
-              <span className="italic text-accent-bright">efficient, digital, and scalable</span>. Currently piloting in Ghana, built to scale globally.&rdquo;
-            </p>
-          </div>
-        </RevealText>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-24 pt-12 border-t border-white/[0.06] max-w-3xl"
+        >
+          <p className="font-display text-display-sm text-on-background leading-[1.2] tracking-[-0.01em]">
+            &ldquo;The technology partner that helps small and growing businesses become{" "}
+            <span className="text-accent-bright">efficient, digital, and scalable</span>. Currently piloting in Ghana, built to scale globally.&rdquo;
+          </p>
+        </motion.div>
       </div>
     </section>
   );

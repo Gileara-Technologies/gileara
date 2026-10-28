@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import IndustryStrip from "@/components/IndustryStrip";
 import CinematicStory from "@/components/CinematicStory";
 import Pricing from "@/components/Pricing";
 import Approach from "@/components/Approach";
-import Positioning from "@/components/Positioning";
-import Founders from "@/components/Founders";
-import FoundingClient from "@/components/FoundingClient";
 import AuditSection from "@/components/audit/AuditSection";
+import Positioning from "@/components/Positioning";
+import FoundersTeaser from "@/components/FoundersTeaser";
+import FoundingClient from "@/components/FoundingClient";
 import ContactBand from "@/components/ContactBand";
 import Footer from "@/components/Footer";
 import { servicePackages, customServices, MANAGED_SERVICES_NOTE } from "@/content/packages";
@@ -198,13 +199,14 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <IndustryStrip />
         <CinematicStory />
         <Pricing />
         <Approach />
-        <Positioning />
-        <Founders />
-        <FoundingClient />
         <AuditSection />
+        <Positioning />
+        <FoundersTeaser />
+        <FoundingClient />
         <ContactBand
           headline={
             <>

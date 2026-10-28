@@ -24,7 +24,7 @@ export default function Approach() {
   const lineWidth = useTransform(scrollYProgress, [0, 0.9], ["0%", "100%"]);
 
   return (
-    <section ref={ref} id="approach" className="relative bg-black border-t border-white/[0.06] py-section px-6 md:px-12">
+    <section ref={ref} id="approach" className="relative bg-brand-soft border-t border-white/[0.06] py-section px-6 md:px-12">
       <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" aria-hidden="true" />
 
       <div className="max-w-[1200px] mx-auto relative z-10">
@@ -35,7 +35,7 @@ export default function Approach() {
               <span className="text-accent-bright/40">▸</span>
               how we work
             </div>
-            <h2 className="font-display text-display-md text-white mb-5">
+            <h2 className="font-display text-display-md text-on-background mb-5">
               Four steps. Predictable every time.
             </h2>
             <p className="font-sans text-body-lg text-white/40 leading-relaxed max-w-md">
@@ -65,7 +65,7 @@ export default function Approach() {
               >
                 {/* Node dot */}
                 <div
-                  className="hidden md:block absolute -top-[3px] left-0 w-[7px] h-[7px] rounded-full bg-black border border-accent-bright/60 group-hover:bg-accent-bright/20 transition-colors duration-200"
+                  className="hidden md:block absolute -top-[3px] left-0 w-[7px] h-[7px] rounded-full bg-background border border-accent-bright/60 group-hover:bg-accent-bright/20 transition-colors duration-200"
                   aria-hidden="true"
                 />
 
@@ -74,7 +74,7 @@ export default function Approach() {
                   <div className="font-mono text-[11px] text-white/20 mb-4 group-hover:text-accent-bright/50 transition-colors duration-200">
                     <span className="text-accent-bright/30">$</span>{" "}run {step.cmd}
                   </div>
-                  <div className="font-display text-xl text-white mb-3 group-hover:text-accent-bright transition-colors duration-300">
+                  <div className="font-display text-xl text-on-background mb-3 group-hover:text-accent-bright transition-colors duration-300">
                     {step.title}
                   </div>
                   <p className="font-sans text-sm text-white/40 leading-relaxed max-w-[26ch]">
