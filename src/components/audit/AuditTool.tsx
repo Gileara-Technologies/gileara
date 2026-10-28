@@ -141,7 +141,7 @@ export default function AuditTool() {
           transition={STEP_TRANSITION}
         >
           <div className="mb-8 flex items-baseline gap-4" aria-hidden="true">
-            <span className="font-serif text-display-md leading-none text-on-background/[0.08] select-none">
+            <span className="font-mono text-display-md leading-none text-on-background/[0.08] select-none">
               {pad(TOTAL)}
             </span>
             <span className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant">
@@ -196,7 +196,7 @@ export default function AuditTool() {
             id="audit-question-heading"
             ref={questionHeadingRef}
             tabIndex={-1}
-            className={`mb-6 font-serif text-2xl leading-snug text-on-background md:text-3xl ${headingFocusClass}`}
+            className={`mb-6 font-display text-2xl leading-snug text-on-background md:text-3xl ${headingFocusClass}`}
           >
             {question.text}
           </h3>
@@ -308,12 +308,12 @@ export default function AuditTool() {
             id="audit-report-heading"
             ref={reportHeadingRef}
             tabIndex={-1}
-            className={`mb-3 font-serif text-display-sm text-on-background ${headingFocusClass}`}
+            className={`mb-3 font-display text-display-sm text-on-background ${headingFocusClass}`}
           >
             <span className="sr-only">{auditSection.reportEyebrow}: </span>
             {primaryPkg.name}
           </h3>
-          <p className="mb-5 font-serif text-xl italic leading-snug text-accent-bright md:text-2xl">
+          <p className="mb-5 font-display text-xl leading-snug text-accent-bright md:text-2xl">
             {primaryPkg.tagline}
           </p>
           <p className="mb-8 max-w-2xl text-body-lg leading-relaxed text-on-surface-variant">
@@ -339,7 +339,7 @@ export default function AuditTool() {
                   href={`/services/${secondaryPkg.slug}`}
                   className="group inline-flex items-center gap-2"
                 >
-                  <span className="font-serif text-xl text-on-background transition-colors motion-safe:duration-300 group-hover:text-accent-bright">
+                  <span className="font-display text-xl text-on-background transition-colors motion-safe:duration-300 group-hover:text-accent-bright">
                     {secondaryPkg.name}
                   </span>
                   <span

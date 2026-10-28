@@ -167,7 +167,7 @@ export default async function CareerRolePage({ params }: Props) {
           subtitle={role.description}
         />
 
-        <section className="bg-background py-section px-6 md:px-12 border-t border-on-background/10">
+        <section className="bg-brand-soft py-section px-6 md:px-12 border-t border-on-background/10">
           <div className="max-w-[1440px] mx-auto grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12">
             {/* Icon + role facts */}
             <div className="col-span-12 md:col-span-3 lg:col-span-2">

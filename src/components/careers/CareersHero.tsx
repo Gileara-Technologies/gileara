@@ -19,7 +19,7 @@ export default function CareersHero() {
         subtitle="We're always looking for engineers and designers who want to grow with the team. Four roles are open now: full-stack (two seats), UI/UX, DevOps, and project management."
       />
 
-      <section className="bg-background py-section px-6 md:px-12 border-t border-on-background/10">
+      <section className="bg-brand-soft py-section px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -31,7 +31,7 @@ export default function CareersHero() {
             <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
               Who we are
             </div>
-            <h2 className="font-serif text-2xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-6">
+            <h2 className="font-display text-2xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-6">
               Ghana first,{" "}
               <span className="italic text-accent-bright">global by design.</span>
             </h2>

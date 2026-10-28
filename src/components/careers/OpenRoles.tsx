@@ -29,7 +29,7 @@ export default function OpenRoles({ roles }: OpenRolesProps) {
   };
 
   return (
-    <section id="roles" className="bg-surface-container py-section px-6 md:px-12">
+    <section id="roles" className="bg-brand-soft-alt py-section px-6 md:px-12">
       <div className="max-w-[1440px] mx-auto">
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
           <div className="col-span-12 lg:col-span-7">
@@ -66,7 +66,7 @@ export default function OpenRoles({ roles }: OpenRolesProps) {
                 {/* Title + meta */}
                 <div className="col-span-12 md:col-span-10">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3">
-                    <h3 className="font-serif text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em]">
+                    <h3 className="font-display text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em]">
                       <Link
                         href={`/careers/${role.id}`}
                         className="hover:text-accent-bright transition-colors duration-200"

@@ -35,7 +35,7 @@ function StatusChip({ status }: { status: ScenarioStatus }) {
 
 export default function HowWeTransformClient() {
   return (
-    <div className="bg-background">
+    <div className="bg-brand-soft-alt">
       <PageHero
         number="01"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "How we solve it", href: "/how-we-transform" }]}
@@ -50,7 +50,7 @@ export default function HowWeTransformClient() {
       />
 
       {/* Status legend */}
-      <section className="bg-background py-section-tight px-6 md:px-12 border-t border-on-background/10">
+      <section className="bg-brand-soft-alt py-section-tight px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
             {(Object.keys(SCENARIO_STATUS_LEGEND) as ScenarioStatus[]).map((key) => (
@@ -66,7 +66,7 @@ export default function HowWeTransformClient() {
       </section>
 
       {/* Scenario grid */}
-      <section className="bg-surface-container py-section px-6 md:px-12">
+      <section className="bg-brand-soft py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <RevealText>
             <SectionLabel number="02" label="VERTICAL PLAYBOOKS" className="mb-10" />
@@ -105,7 +105,7 @@ export default function HowWeTransformClient() {
                       </span>
                       <StatusChip status={scenario.status} />
                     </div>
-                    <h2 className="font-serif text-2xl text-on-background leading-tight tracking-[-0.02em] group-hover:text-accent-bright transition-colors duration-300">
+                    <h2 className="font-display text-2xl text-on-background leading-tight tracking-[-0.02em] group-hover:text-accent-bright transition-colors duration-300">
                       {scenario.vertical}
                     </h2>
                     <p className="mt-2 text-on-surface-variant text-base leading-snug font-medium">
@@ -138,7 +138,7 @@ export default function HowWeTransformClient() {
               <span className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
                 Founding clients
               </span>
-              <h2 className="font-serif text-2xl text-on-background leading-tight tracking-[-0.02em] mb-4">
+              <h2 className="font-display text-2xl text-on-background leading-tight tracking-[-0.02em] mb-4">
                 Be the first real story in your vertical.
               </h2>
               <p className="text-on-surface-variant text-base leading-relaxed mb-6">

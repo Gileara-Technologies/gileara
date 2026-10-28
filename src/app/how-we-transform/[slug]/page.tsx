@@ -88,7 +88,7 @@ export default async function ScenarioPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Navbar />
-      <main className="bg-background pt-36 pb-24 px-4 md:px-10">
+      <main className="bg-brand-soft-alt pt-36 pb-24 px-4 md:px-10">
         <div className="max-w-3xl mx-auto">
           <Breadcrumbs
             items={[

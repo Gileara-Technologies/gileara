@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
-import DisplayHeading from "@/components/DisplayHeading";
 
 export default function WhyJoinUs() {
   const container = {
@@ -53,17 +52,17 @@ export default function WhyJoinUs() {
   ];
 
   return (
-    <section className="bg-background py-section px-6 md:px-12">
+    <section className="bg-brand-soft py-section px-6 md:px-12">
       <div className="max-w-[1440px] mx-auto">
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
           <div className="col-span-12 lg:col-span-7">
             <RevealText>
               <SectionLabel number="03" label="PERKS & CULTURE" className="mb-8" />
             </RevealText>
-            <DisplayHeading size="lg" as="h2" className="mb-8">
+            <h2 className="font-display text-display-lg text-on-background mb-8">
               Why build{" "}
               <span className="italic text-accent-bright">with us?</span>
-            </DisplayHeading>
+            </h2>
           </div>
         </div>
 
@@ -90,7 +89,7 @@ export default function WhyJoinUs() {
                     {num}
                   </span>
                 </div>
-                <h3 className="font-serif text-2xl text-on-background leading-tight tracking-[-0.02em] mb-3">
+                <h3 className="font-display text-2xl text-on-background leading-tight tracking-[-0.02em] mb-3">
                   {benefit.title}
                 </h3>
                 <p className="text-on-surface-variant text-sm leading-relaxed">

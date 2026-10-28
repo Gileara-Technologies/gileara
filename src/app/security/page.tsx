@@ -115,7 +115,7 @@ export default function SecurityPage() {
           <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
             Security Resource
           </div>
-          <h1 className="font-serif text-display-sm md:text-display-lg text-on-background leading-[0.95] tracking-[-0.03em] mb-8">
+          <h1 className="font-display text-display-sm md:text-display-lg text-on-background leading-[0.95] tracking-[-0.03em] mb-8">
             Security &amp;{" "}
             <span className="italic text-accent-bright">reliability.</span>
           </h1>

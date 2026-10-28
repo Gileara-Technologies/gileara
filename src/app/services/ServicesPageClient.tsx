@@ -11,7 +11,6 @@ import {
   type Service,
 } from "@/content/packages";
 import PageHero from "@/components/PageHero";
-import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
 import MagneticButton from "@/components/MagneticButton";
@@ -82,7 +81,7 @@ export default function ServicesPageClient() {
       </section>
 
       {/* ── ACTIVE SERVICE SUMMARY — quick at-a-glance card ───── */}
-      <section className="bg-background py-section px-6 md:px-12">
+      <section className="bg-brand-soft py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <motion.div
             key={activeService.id}
@@ -95,7 +94,7 @@ export default function ServicesPageClient() {
               <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-3">
                 {String(activeService.order).padStart(2, "0")} · {activeService.status === "available" ? "Available now" : "Rolling out Q4 2026"}
               </div>
-              <h2 className="font-serif text-4xl md:text-display-md text-on-background leading-[1.05] tracking-[-0.02em] mb-4">
+              <h2 className="font-display text-4xl md:text-display-md text-on-background leading-[1.05] tracking-[-0.02em] mb-4">
                 {activeService.name}
               </h2>
               <p className="text-on-surface-variant text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
@@ -128,7 +127,7 @@ export default function ServicesPageClient() {
                     <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-2">
                       {t.name}
                     </div>
-                    <div className="font-serif text-2xl text-on-background leading-none">
+                    <div className="font-mono text-2xl text-on-background leading-none">
                       ${t.monthlyFeeUsd}
                       <span className="text-xs font-sans text-on-surface-variant">/mo</span>
                     </div>
@@ -144,16 +143,16 @@ export default function ServicesPageClient() {
       </section>
 
       {/* ── PRICING MATRIX (the actual pricing sheet) ──────────── */}
-      <section id="matrix" className="bg-surface-container-lowest py-section-loose px-6 md:px-12 border-t border-on-background/10">
+      <section id="matrix" className="bg-brand-soft-alt py-section-loose px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="mb-16">
             <RevealText>
               <SectionLabel label="THE FULL PRICING SHEET" className="mb-8" />
             </RevealText>
-            <DisplayHeading size="md" as="h2">
+            <h2 className="font-display text-display-md text-on-background">
               All five services,{" "}
               <span className="italic text-accent-bright">all three tiers.</span>
-            </DisplayHeading>
+            </h2>
           </div>
 
           <div className="space-y-16">
@@ -164,7 +163,7 @@ export default function ServicesPageClient() {
 
           {/* Custom services block */}
           <div className="mt-20 border-t border-on-background/15 pt-12">
-            <h3 className="font-serif text-2xl text-on-background mb-6">
+            <h3 className="font-display text-2xl text-on-background mb-6">
               Custom work outside the standard five
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -176,7 +175,7 @@ export default function ServicesPageClient() {
                   <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-3">
                     Custom
                   </div>
-                  <div className="font-serif text-xl text-on-background leading-tight mb-2">
+                  <div className="font-display text-xl text-on-background leading-tight mb-2">
                     {c.name}
                   </div>
                   <div className="text-sm text-on-surface-variant">
@@ -193,14 +192,14 @@ export default function ServicesPageClient() {
       </section>
 
       {/* ── WHAT'S INCLUDED — managed services note ───────────── */}
-      <section className="bg-background py-section-loose px-6 md:px-12 border-t border-on-background/10">
+      <section className="bg-brand-soft py-section-loose px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-3xl mx-auto">
           <RevealText>
             <SectionLabel label="WHAT'S INCLUDED" className="mb-8" />
           </RevealText>
-          <DisplayHeading size="sm" as="h2" className="mb-8">
+          <h2 className="font-display text-display-sm text-on-background mb-8">
             <span className="italic text-accent-bright">Every service</span> includes:
-          </DisplayHeading>
+          </h2>
           <p className="text-on-surface-variant text-lg leading-relaxed italic">
             {MANAGED_SERVICES_NOTE}
           </p>
@@ -232,7 +231,7 @@ function PricingBlock({ service }: { service: Service }) {
             <span className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright">
               {String(service.order).padStart(2, "0")}
             </span>
-            <h3 className="font-serif text-3xl md:text-4xl text-on-background leading-tight tracking-[-0.02em]">
+            <h3 className="font-display text-3xl md:text-4xl text-on-background leading-tight tracking-[-0.02em]">
               {service.name}
             </h3>
             {service.status === "rollout" && (
@@ -272,7 +271,7 @@ function PricingBlock({ service }: { service: Service }) {
                 </div>
               )}
             </div>
-            <div className="font-serif text-3xl text-on-background leading-none mb-1">
+            <div className="font-mono text-3xl text-on-background leading-none mb-1">
               ${t.monthlyFeeUsd}
               <span className="text-sm font-sans text-on-surface-variant">/mo</span>
             </div>

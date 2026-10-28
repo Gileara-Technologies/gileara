@@ -4,7 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import PageHero from "@/components/PageHero";
 import ContactBand from "@/components/ContactBand";
-import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
 import { foundation, orgChart, roster } from "@/content/team";
@@ -62,27 +61,17 @@ export default function AboutPageClient() {
       />
 
       {/* 02 — SCRIPTURE & NAME ORIGIN */}
-      <section className="bg-surface-container-lowest py-section-tight px-6 md:px-12 relative overflow-hidden">
-        {/* Ambient teal glow on the left, like the other dark sections */}
-        <div
-          className="absolute inset-x-0 -top-40 h-[600px] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at 30% 30%, rgba(94, 234, 212, 0.10) 0%, transparent 65%)",
-          }}
-          aria-hidden="true"
-        />
-
+      <section className="bg-brand-soft-alt py-section-tight px-6 md:px-12 relative overflow-hidden">
         <div className="max-w-[1440px] mx-auto relative z-10">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16 md:mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel number="02" label="WHERE THE NAME COMES FROM" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 A name carried out of{" "}
                 <span className="italic text-accent-bright">Gilead.</span>
-              </DisplayHeading>
+              </h2>
             </div>
           </div>
 
@@ -125,17 +114,17 @@ export default function AboutPageClient() {
       </section>
 
       {/* 03 — VALUES */}
-      <section className="bg-background py-section px-6 md:px-12">
+      <section className="bg-brand-soft py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel number="03" label="WHAT WE BELIEVE" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 Four principles,{" "}
                 <span className="italic text-accent-bright">lived out.</span>
-              </DisplayHeading>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
                   Standards we hold ourselves to, especially when the easy thing and the right thing are not the same.
@@ -154,11 +143,11 @@ export default function AboutPageClient() {
                 transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="grid grid-cols-12 gap-x-6 md:gap-x-8 items-start border-t border-on-background/10 pt-10"
               >
-                <div className="col-span-2 md:col-span-1 font-serif text-display-sm text-on-background/[0.15] leading-none">
+                <div className="col-span-2 md:col-span-1 font-mono text-display-sm text-on-background/[0.15] leading-none">
                   {v.num}
                 </div>
                 <div className="col-span-10 md:col-span-7">
-                  <h3 className="font-serif text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-3">
+                  <h3 className="font-display text-2xl md:text-display-sm text-on-background leading-tight tracking-[-0.01em] mb-3">
                     {v.title}
                   </h3>
                 </div>
@@ -174,17 +163,17 @@ export default function AboutPageClient() {
       </section>
 
       {/* 04 — FOUNDATION (the 3 founding partners) */}
-      <section className="bg-surface-container py-section px-6 md:px-12">
+      <section className="bg-brand-soft-alt py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel number="04" label="THE FOUNDATION" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 The three who{" "}
                 <span className="italic text-accent-bright">started this.</span>
-              </DisplayHeading>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
                   When you work with Gileara, you work with the people who decided the company should exist in the first place. There are no hand-offs and no account managers between you and the founders.
@@ -221,7 +210,7 @@ export default function AboutPageClient() {
                       <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
                         0{i + 1}
                       </div>
-                      <h3 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-3">
+                      <h3 className="font-display text-display-sm text-on-background leading-tight tracking-[-0.01em] mb-3">
                         {f.name}
                       </h3>
                       <div className="font-mono text-xs uppercase tracking-wider text-on-surface-variant mb-8">
@@ -242,17 +231,17 @@ export default function AboutPageClient() {
       </section>
 
       {/* 05 — ORG CHART (who reports to whom) */}
-      <section className="bg-background py-section px-6 md:px-12">
+      <section className="bg-brand-soft py-section px-6 md:px-12">
         <div className="max-w-[1200px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16 md:mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel number="05" label="REPORTING STRUCTURE" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 How the company{" "}
                 <span className="italic text-accent-bright">is organised.</span>
-              </DisplayHeading>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
                   A small, flat structure. Everyone below the founders reports into either the COO or the CTO.
@@ -266,17 +255,17 @@ export default function AboutPageClient() {
       </section>
 
       {/* 06 — ROSTER (everyone else, one uniform list tagged by department) */}
-      <section className="bg-surface-container py-section px-6 md:px-12">
+      <section className="bg-brand-soft-alt py-section px-6 md:px-12">
         <div className="max-w-[1200px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16 md:mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel number="06" label="THE ROSTER" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 The people who{" "}
                 <span className="italic text-accent-bright">do the work.</span>
-              </DisplayHeading>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
                   Marketing, communication, finance, and engineering — one list, so you can see the whole group at a glance.

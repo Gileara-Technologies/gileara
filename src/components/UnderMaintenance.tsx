@@ -116,7 +116,7 @@ export default function UnderMaintenance({ fullPage = true }: UnderMaintenancePr
 
   if (fullPage) {
     return (
-      <section className="bg-background min-h-screen pt-24 pb-12">
+      <section className="bg-brand-soft min-h-screen pt-24 pb-12">
         {content}
       </section>
     );

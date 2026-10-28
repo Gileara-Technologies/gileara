@@ -101,7 +101,7 @@ export default function Footer() {
       {/* ── Newsletter ─────────────────────────────────────────────────── */}
       <div className="relative border-b border-white/[0.06] px-6 md:px-12 py-10">
         <div className="max-w-[1200px] mx-auto max-w-lg">
-          <NewsletterForm source="footer" />
+          <NewsletterForm source="footer" variant="dark" />
         </div>
       </div>
 

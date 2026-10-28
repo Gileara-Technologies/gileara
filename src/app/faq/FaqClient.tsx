@@ -23,7 +23,7 @@ export default function FaqClient() {
         subtitle="What working with Gileara looks like: who we work with, how the engagement works, contracts, and data ownership."
       />
 
-      <section className="bg-background py-section-loose px-6 md:px-12">
+      <section className="bg-brand-soft py-section-loose px-6 md:px-12">
         <div className="max-w-3xl mx-auto">
           <div className="space-y-0 border-t border-on-background/10">
             {faqs.map((faq, i) => {
@@ -47,7 +47,7 @@ export default function FaqClient() {
                       <span className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant pt-1 shrink-0 w-10">
                         {num}
                       </span>
-                      <span className="font-serif text-xl md:text-2xl text-on-background leading-snug group-hover:text-accent-bright transition-colors duration-300">
+                      <span className="font-display text-xl md:text-2xl text-on-background leading-snug group-hover:text-accent-bright transition-colors duration-300">
                         {faq.question}
                       </span>
                     </div>

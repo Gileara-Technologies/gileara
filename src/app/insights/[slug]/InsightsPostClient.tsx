@@ -10,7 +10,7 @@ import type { InsightPost } from "@/content/posts";
 
 export default function InsightsPostClient({ post }: { post: InsightPost }) {
   return (
-    <section className="pt-36 pb-24 md:pb-32 px-4 md:px-10 bg-background">
+    <section className="pt-36 pb-24 md:pb-32 px-4 md:px-10 bg-brand-soft-alt">
       <div className="max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
           <Breadcrumbs
@@ -32,7 +32,7 @@ export default function InsightsPostClient({ post }: { post: InsightPost }) {
             {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })} &middot; {post.author}
           </p>
 
-          <h1 className="text-3xl md:text-5xl font-bold text-on-surface mb-6">
+          <h1 className="font-display text-3xl md:text-5xl text-on-surface mb-6">
             {post.title}
           </h1>
 

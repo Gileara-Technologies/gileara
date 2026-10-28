@@ -106,7 +106,7 @@ export default function NewsletterForm({
         <div className={`font-mono text-label uppercase tracking-[0.2em] mb-2 ${labelClass}`}>
           ✓ Subscribed
         </div>
-        <p className={`font-serif text-xl md:text-2xl leading-snug ${headlineClass}`}>
+        <p className={`font-display text-xl md:text-2xl leading-snug ${headlineClass}`}>
           Thanks. You&apos;re on the list. We&apos;ll send the next one to <span className="text-accent-bright">{email}</span>.
         </p>
       </div>
@@ -122,7 +122,7 @@ export default function NewsletterForm({
       <div className={`font-mono text-label uppercase tracking-[0.2em] mb-2 ${labelClass}`}>
         {eyebrow}
       </div>
-      <p className={`font-serif text-xl md:text-2xl leading-snug mb-5 ${headlineClass}`}>
+      <p className={`font-display text-xl md:text-2xl leading-snug mb-5 ${headlineClass}`}>
         {headline}
       </p>
 

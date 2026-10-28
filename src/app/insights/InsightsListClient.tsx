@@ -50,7 +50,7 @@ function ArticleCard({ post, index }: { post: PostMeta; index: number }) {
       <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-3">
         {num} · {formatDate(post.date)} · {post.readTime}
       </div>
-      <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em] mb-3 group-hover:text-accent-bright transition-colors duration-300">
+      <h3 className="font-display text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em] mb-3 group-hover:text-accent-bright transition-colors duration-300">
         {post.title}
       </h3>
       <p className="text-on-surface-variant text-base leading-relaxed line-clamp-3 mb-4">
@@ -89,7 +89,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
 
       {/* FEATURED ARTICLE — asymmetric layout */}
       {featured && (
-        <section className="bg-background py-section-tight px-6 md:px-12 border-t border-on-background/10">
+        <section className="bg-brand-soft-alt py-section-tight px-6 md:px-12 border-t border-on-background/10">
           <div className="max-w-[1440px] mx-auto">
             <RevealText>
               <SectionLabel number="02" label="FEATURED" className="mb-10" />
@@ -114,7 +114,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
                 <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant">
                   {formatDate(featured.date)} · {featured.readTime}
                 </div>
-                <h2 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em]">
+                <h2 className="font-display text-display-sm text-on-background leading-tight tracking-[-0.02em]">
                   {featured.title}
                 </h2>
                 <p className="text-on-surface-variant text-lg leading-relaxed">
@@ -136,7 +136,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
       )}
 
       {/* TAG FILTER + ARTICLE LIST */}
-      <section className="bg-surface-container py-section px-6 md:px-12">
+      <section className="bg-brand-soft py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <RevealText>
             <SectionLabel number="03" label="ALL ARTICLES" className="mb-10" />

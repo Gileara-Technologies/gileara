@@ -216,7 +216,7 @@ export default function TermsPage() {
               <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
                 Legal Resource
               </div>
-              <h1 className="max-w-4xl font-serif text-display-sm md:text-display-lg text-on-background leading-[0.95] tracking-[-0.03em]">
+              <h1 className="max-w-4xl font-display text-display-sm md:text-display-lg text-on-background leading-[0.95] tracking-[-0.03em]">
                 Legal terms for a{" "}
                 <span className="italic text-accent-bright">trusted</span> technology partnership.
               </h1>

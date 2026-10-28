@@ -3,7 +3,6 @@
 import { type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
-import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import Breadcrumbs, { type BreadcrumbItem } from "@/components/Breadcrumbs";
 
@@ -20,8 +19,6 @@ interface PageHeroProps {
   cta?: ReactNode;
   /** Background surface elevation. Default: surface-container-lowest (deepest dark) */
   bg?: "background" | "surface" | "surface-container" | "surface-container-lowest";
-  /** When true, shows the ambient teal glow (used on most pages) */
-  glow?: boolean;
   /**
    * Optional breadcrumb trail, rendered just under the H1. Mirrors
    * the JSON-LD BreadcrumbList on the same page.
@@ -50,15 +47,17 @@ export default function PageHero({
   subtitle,
   cta,
   bg = "surface-container-lowest",
-  glow = true,
   breadcrumbs,
   backgroundImage,
 }: PageHeroProps) {
+  // All four options now resolve to a brand-gradient wash rather than a
+  // flat fill; the prop is kept so call sites can still pick a slightly
+  // stronger (default) or calmer variant.
   const bgClass: Record<NonNullable<PageHeroProps["bg"]>, string> = {
-    "background": "bg-background",
-    "surface": "bg-surface",
-    "surface-container": "bg-surface-container",
-    "surface-container-lowest": "bg-surface-container-lowest",
+    "background": "bg-brand-soft-alt",
+    "surface": "bg-brand-soft-alt",
+    "surface-container": "bg-brand-soft",
+    "surface-container-lowest": "bg-brand-soft",
   };
 
   const containerVariants: Variants = {
@@ -114,9 +113,9 @@ export default function PageHero({
                   <SectionLabel number={number} label={eyebrow} />
                 </motion.div>
                 <motion.div variants={itemVariants}>
-                  <DisplayHeading size="xl" as="h1" className="mb-8 md:mb-10 text-on-background">
+                  <h1 className="font-display text-display-xl text-on-background mb-8 md:mb-10">
                     {headline}
-                  </DisplayHeading>
+                  </h1>
                 </motion.div>
                 {subtitle && (
                   <motion.p
@@ -148,18 +147,6 @@ export default function PageHero({
         aria-hidden="true"
       />
 
-      {/* Atmospheric glow — tall ellipse from top-center */}
-      {glow && (
-        <div
-          className="absolute inset-x-0 -top-60 h-[800px] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 100% 60% at 50% 5%, rgba(94,234,212,0.14) 0%, rgba(94,234,212,0.05) 40%, transparent 70%)",
-          }}
-          aria-hidden="true"
-        />
-      )}
-
       {/* Accent stripe at the very top */}
       <div
         className="absolute top-0 left-0 right-0 h-[1px] pointer-events-none"
@@ -189,9 +176,9 @@ export default function PageHero({
               </motion.div>
 
               <motion.div variants={itemVariants}>
-                <DisplayHeading size="xl" as="h1" className="mb-10">
+                <h1 className="font-display text-display-xl text-on-background mb-10">
                   {headline}
-                </DisplayHeading>
+                </h1>
               </motion.div>
 
               {subtitle && (

@@ -271,7 +271,7 @@ export default function ApplicationForm({ position, roleId, positionOptions }: A
           <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
             04 / Ready to Build?
           </div>
-          <h2 className="font-serif text-display-md md:text-display-lg text-on-background leading-tight tracking-[-0.02em]">
+          <h2 className="font-display text-display-md md:text-display-lg text-on-background leading-tight tracking-[-0.02em]">
             Submit your{" "}
             <span className="italic text-accent-bright">application.</span>
           </h2>
