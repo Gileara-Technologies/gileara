@@ -20,7 +20,10 @@ const BASE_NAV_ITEMS: readonly NavItem[] = [
 
 /** Shown only to signed-in users who pass isAllowedContentEditorEmail --
  *  HR and content editing are separate permission tiers. */
-const CONTENT_NAV_ITEM: NavItem = { href: "/admin/content/faqs", label: "FAQs", icon: "help" };
+const CONTENT_NAV_ITEMS: readonly NavItem[] = [
+  { href: "/admin/content/insights", label: "Insights", icon: "article" },
+  { href: "/admin/content/faqs", label: "FAQs", icon: "help" },
+];
 
 /** `/admin` matches only the dashboard itself; every other item also
  *  matches its own sub-routes (e.g. /admin/roles/new, /admin/roles/abc). */
@@ -100,7 +103,7 @@ export default function AdminShell({
 }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navItems = isContentEditor ? [...BASE_NAV_ITEMS, CONTENT_NAV_ITEM] : BASE_NAV_ITEMS;
+  const navItems = isContentEditor ? [...BASE_NAV_ITEMS, ...CONTENT_NAV_ITEMS] : BASE_NAV_ITEMS;
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";

@@ -1,8 +1,14 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
+import type { MetadataRoute } from "next";
 import sitemap from "@/app/sitemap";
 import { servicePackages } from "@/content/packages";
 import { scenarios } from "@/content/scenarios";
-import { posts } from "@/content/posts";
+import { fallbackPosts } from "@/lib/cms/public-posts";
+
+// getPublicPosts() falls back to src/content/posts.ts in this environment
+// (no Cloudflare context) and logs a warning when it does -- expected
+// here, not a real problem, so it's silenced for the whole file.
+const posts = fallbackPosts();
 
 /**
  * Validates that the generated sitemap:
@@ -19,7 +25,13 @@ import { posts } from "@/content/posts";
  */
 describe("sitemap", () => {
   const base = "https://gileara.org";
-  const entries = sitemap();
+  let entries: MetadataRoute.Sitemap;
+
+  beforeAll(async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    entries = await sitemap();
+    warn.mockRestore();
+  });
 
   it("is non-empty", () => {
     expect(entries.length).toBeGreaterThan(0);

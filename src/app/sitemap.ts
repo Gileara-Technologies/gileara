@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
 import { scenarios } from "@/content/scenarios";
-import { posts } from "@/content/posts";
 import { servicePackages } from "@/content/packages";
+import { getPublicPosts } from "@/lib/cms/public-posts";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://gileara.org";
+  const posts = await getPublicPosts();
 
   return [
     {

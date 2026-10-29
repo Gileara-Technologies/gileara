@@ -1,14 +1,20 @@
 import { describe, expect, it } from "vitest";
 import {
   createFaq,
+  createPost,
   deleteFaq,
+  deletePost,
   getFaq,
+  getPost,
   listFaqs,
+  listPosts,
   setFaqStatus,
+  setPostStatus,
   updateFaq,
+  updatePost,
 } from "@/lib/cms/db";
 import type { D1Like } from "@/lib/portal/db";
-import type { FaqRow } from "@/lib/cms/types";
+import type { FaqRow, PostRow } from "@/lib/cms/types";
 
 // ---------------------------------------------------------------------------
 // Tiny in-memory fake D1 for cms_faqs: implements exactly the surface
@@ -235,5 +241,281 @@ describe("deleteFaq", () => {
     const ok = await deleteFaq(fake.db, 1);
     expect(ok).toBe(true);
     expect(await getFaq(fake.db, 1)).toBeNull();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Insight posts (migrations/0005_create-cms-posts.sql)
+// ---------------------------------------------------------------------------
+
+function post(overrides: Partial<PostRow> = {}): PostRow {
+  return {
+    id: 1,
+    slug: "a-post",
+    title: "A Post",
+    excerpt: "An excerpt.",
+    post_date: "2026-01-01",
+    author: "Amos Frederick Hughes",
+    tag: "Operations",
+    image: null,
+    body: "Some body text.",
+    status: "draft",
+    created_at: "2026-01-01 00:00:00",
+    updated_at: "2026-01-01 00:00:00",
+    updated_by: null,
+    ...overrides,
+  };
+}
+
+function makeFakePostsD1(seeded: { posts?: PostRow[] } = {}) {
+  const state = {
+    posts: [...(seeded.posts ?? [])],
+    nextId: (seeded.posts?.length ?? 0) + 1,
+    now: (): string => "2026-06-01 12:00:00",
+  };
+
+  const byDateDesc = (a: PostRow, b: PostRow): number =>
+    a.post_date < b.post_date ? 1 : a.post_date > b.post_date ? -1 : b.id - a.id;
+
+  const execute = (sql: string, binds: unknown[]): { results: unknown[]; lastRowId?: number } => {
+    if (sql.startsWith("UPDATE cms_posts SET status")) {
+      const [status, actorEmail, id] = binds as [PostRow["status"], string, number];
+      const row = state.posts.find((p) => p.id === id);
+      if (row) {
+        row.status = status;
+        row.updated_at = state.now();
+        row.updated_by = actorEmail;
+      }
+      return { results: [] };
+    }
+    if (sql.startsWith("UPDATE cms_posts SET title")) {
+      const [title, excerpt, postDate, author, tag, image, body, actorEmail, id] = binds as [
+        string,
+        string,
+        string,
+        string,
+        PostRow["tag"],
+        string | null,
+        string,
+        string,
+        number,
+      ];
+      const row = state.posts.find((p) => p.id === id);
+      if (row) {
+        row.title = title;
+        row.excerpt = excerpt;
+        row.post_date = postDate;
+        row.author = author;
+        row.tag = tag;
+        row.image = image;
+        row.body = body;
+        row.updated_at = state.now();
+        row.updated_by = actorEmail;
+      }
+      return { results: [] };
+    }
+    if (sql.startsWith("INSERT INTO cms_posts")) {
+      const [slug, title, excerpt, postDate, author, tag, image, body, actorEmail] = binds as [
+        string,
+        string,
+        string,
+        string,
+        string,
+        PostRow["tag"],
+        string | null,
+        string,
+        string,
+      ];
+      const row: PostRow = {
+        id: state.nextId,
+        slug,
+        title,
+        excerpt,
+        post_date: postDate,
+        author,
+        tag,
+        image,
+        body,
+        status: "draft",
+        created_at: state.now(),
+        updated_at: state.now(),
+        updated_by: actorEmail,
+      };
+      state.nextId += 1;
+      state.posts.push(row);
+      return { results: [], lastRowId: row.id };
+    }
+    if (sql.startsWith("DELETE FROM cms_posts")) {
+      const [id] = binds as [number];
+      const before = state.posts.length;
+      state.posts = state.posts.filter((p) => p.id !== id);
+      return { results: [], lastRowId: state.posts.length < before ? 1 : undefined };
+    }
+    if (sql.startsWith("SELECT * FROM cms_posts WHERE status")) {
+      const [status] = binds as [PostRow["status"]];
+      return { results: state.posts.filter((p) => p.status === status).sort(byDateDesc) };
+    }
+    if (sql.startsWith("SELECT * FROM cms_posts WHERE id")) {
+      const [id] = binds as [number];
+      return { results: state.posts.filter((p) => p.id === id) };
+    }
+    if (sql.startsWith("SELECT slug FROM cms_posts")) {
+      return { results: state.posts.map((p) => ({ slug: p.slug })) };
+    }
+    if (sql.startsWith("SELECT * FROM cms_posts ORDER")) {
+      return { results: [...state.posts].sort(byDateDesc) };
+    }
+    throw new Error(`fake D1: unhandled query: ${sql}`);
+  };
+
+  const db: D1Like = {
+    prepare(sql: string) {
+      const binds: unknown[] = [];
+      const statement = {
+        bind(...values: unknown[]) {
+          binds.splice(0, binds.length, ...values);
+          return statement;
+        },
+        async all<T = unknown>() {
+          const { results } = execute(sql, binds);
+          return { results: results as T[] };
+        },
+        async first<T = unknown>() {
+          const { results } = execute(sql, binds);
+          return (results[0] as T) ?? null;
+        },
+        async run() {
+          const { lastRowId } = execute(sql, binds);
+          return { success: true, meta: { last_row_id: lastRowId ?? null } };
+        },
+      };
+      return statement;
+    },
+  };
+
+  return { db, state };
+}
+
+describe("listPosts", () => {
+  it("returns posts ordered by post_date descending", async () => {
+    const fake = makeFakePostsD1({
+      posts: [
+        post({ id: 1, post_date: "2026-01-01" }),
+        post({ id: 2, post_date: "2026-03-01" }),
+        post({ id: 3, post_date: "2026-02-01" }),
+      ],
+    });
+    const rows = await listPosts(fake.db);
+    expect(rows.map((r) => r.id)).toEqual([2, 3, 1]);
+  });
+
+  it("filters by status when given", async () => {
+    const fake = makeFakePostsD1({
+      posts: [post({ id: 1, status: "draft" }), post({ id: 2, status: "published" })],
+    });
+    const published = await listPosts(fake.db, "published");
+    expect(published.map((r) => r.id)).toEqual([2]);
+  });
+
+  it("returns [] when there are no posts", async () => {
+    const fake = makeFakePostsD1();
+    expect(await listPosts(fake.db)).toEqual([]);
+  });
+});
+
+describe("getPost", () => {
+  it("returns the matching row", async () => {
+    const fake = makeFakePostsD1({ posts: [post({ id: 7, title: "Specific" })] });
+    const row = await getPost(fake.db, 7);
+    expect(row?.title).toBe("Specific");
+  });
+
+  it("returns null for an unknown id", async () => {
+    const fake = makeFakePostsD1();
+    expect(await getPost(fake.db, 999)).toBeNull();
+  });
+});
+
+describe("createPost", () => {
+  it("inserts a new post as draft, generating a slug from the title", async () => {
+    const fake = makeFakePostsD1();
+    const created = await createPost(
+      fake.db,
+      {
+        title: "A Brand New Post",
+        excerpt: "Excerpt.",
+        postDate: "2026-06-01",
+        author: "Jude",
+        tag: "Growth",
+        body: "Body.",
+      },
+      "jude.gileara@gmail.com",
+    );
+    expect(created?.slug).toBe("a-brand-new-post");
+    expect(created?.status).toBe("draft");
+    expect(created?.updated_by).toBe("jude.gileara@gmail.com");
+  });
+
+  it("appends a numeric suffix when the generated slug collides", async () => {
+    const fake = makeFakePostsD1({ posts: [post({ id: 1, slug: "a-post", title: "A Post" })] });
+    const created = await createPost(
+      fake.db,
+      { title: "A Post", excerpt: "E", postDate: "2026-06-01", author: "A", tag: "Growth", body: "B" },
+      "x@gmail.com",
+    );
+    expect(created?.slug).toBe("a-post-2");
+  });
+
+  it("stores a null image when omitted", async () => {
+    const fake = makeFakePostsD1();
+    const created = await createPost(
+      fake.db,
+      { title: "T", excerpt: "E", postDate: "2026-06-01", author: "A", tag: "Growth", body: "B" },
+      "x@gmail.com",
+    );
+    expect(created?.image).toBeNull();
+  });
+});
+
+describe("updatePost", () => {
+  it("updates only the given fields, keeping the rest, and stamps the actor", async () => {
+    const fake = makeFakePostsD1({
+      posts: [post({ id: 1, title: "Old Title", excerpt: "Old excerpt", tag: "Operations" })],
+    });
+    const updated = await updatePost(fake.db, 1, { excerpt: "New excerpt" }, "mary.gileara@gmail.com");
+    expect(updated?.title).toBe("Old Title");
+    expect(updated?.excerpt).toBe("New excerpt");
+    expect(updated?.tag).toBe("Operations");
+    expect(updated?.updated_by).toBe("mary.gileara@gmail.com");
+  });
+
+  it("does not touch the slug (it is fixed after creation)", async () => {
+    const fake = makeFakePostsD1({ posts: [post({ id: 1, slug: "fixed-slug" })] });
+    await updatePost(fake.db, 1, { title: "New title" }, "x@gmail.com");
+    const row = await getPost(fake.db, 1);
+    expect(row?.slug).toBe("fixed-slug");
+  });
+
+  it("returns null for an unknown id", async () => {
+    const fake = makeFakePostsD1();
+    expect(await updatePost(fake.db, 999, { title: "T" }, "x@gmail.com")).toBeNull();
+  });
+});
+
+describe("setPostStatus", () => {
+  it("moves a post from draft to published and stamps the actor", async () => {
+    const fake = makeFakePostsD1({ posts: [post({ id: 1, status: "draft" })] });
+    const updated = await setPostStatus(fake.db, 1, "published", "jude.gileara@gmail.com");
+    expect(updated?.status).toBe("published");
+    expect(updated?.updated_by).toBe("jude.gileara@gmail.com");
+  });
+});
+
+describe("deletePost", () => {
+  it("removes the row and returns true", async () => {
+    const fake = makeFakePostsD1({ posts: [post({ id: 1 })] });
+    const ok = await deletePost(fake.db, 1);
+    expect(ok).toBe(true);
+    expect(await getPost(fake.db, 1)).toBeNull();
   });
 });
