@@ -1,6 +1,6 @@
 # CMS Plan — Content Management Foundation
 
-**Status**: FAQ slice shipped (proof of pipeline). Insights and Playbooks not started.
+**Status**: FAQ and Insights slices shipped. Playbooks not started. Insights' cover-image field is a plain text path/URL -- the public R2 bucket for an actual upload pipeline (design question 4) still hasn't been provisioned.
 
 ## Goal
 
@@ -36,9 +36,16 @@ Simplest content type: no markdown, no images, no relations. Validated the whole
 - `src/app/faq/page.tsx` / `FaqClient.tsx` — swapped to read `getPublicFaqs()` server-side, passed down as a prop; FAQPage JSON-LD generated from the same list.
 - Tests: `tests/lib/cms/db.test.ts`, `tests/lib/cms/public-faqs.test.ts`, `tests/app/admin/content/form-logic.test.ts`, plus the `isAllowedContentEditorEmail` cases in `tests/lib/portal/session.test.ts`.
 
-### 2. Insights (blog posts) — not started, highest business value
+### 2. Insights (blog posts) — shipped
 
-Current shape (`src/content/posts.ts`): `slug, title, excerpt, date, author, tag, image?, content: PostBlock[]`. Planned change: replace `content: PostBlock[]` (paragraph/heading/cta block array) with a single **Markdown** `body` field, rendered through `remark`/`rehype` at request time — not a WYSIWYG/block editor, which is a much larger separate project (sanitization, schema versioning, a heavier admin bundle) that doesn't fit this codebase's bias toward plain, typed data. Needs the public R2 bucket from design question 4 for cover images.
+Plan changed slightly on implementation: rather than a `remark`/`rehype`-based Markdown pipeline (a new dependency), the body field uses a small **custom markdown-subset parser** (`src/lib/cms/markdown.ts`, zero new npm dependencies) supporting exactly the three constructs the real seeded content ever used — paragraphs, `## heading` lines, and a `::: cta / text / href: / label: / :::` fence. It parses into the existing `PostBlock[]` shape, so `InsightsPostClient.tsx`'s renderer needed no changes at all. No inline bold/italic/links — deliberately, since none of the real content uses them and adding that would mean touching the renderer.
+
+- `migrations/0005_create-cms-posts.sql` — `cms_posts` table (slug generated via `uniqueSlug`, fixed after creation like roles).
+- `src/lib/cms/db.ts` — `listPosts`, `getPost`, `createPost`, `updatePost`, `setPostStatus`, `deletePost`.
+- `src/lib/cms/public-posts.ts` — `getPublicPosts()` / `getPublicPost(slug)`, D1-first with `src/content/posts.ts` fallback, mapping a D1 row to the same `InsightPost` shape a fallback entry already has.
+- `src/app/admin/content/insights/` — list, create, edit; the body field is one textarea with an in-form hint box for the three constructs.
+- `/insights`, `/insights/[slug]`, `sitemap.ts` — swapped to the D1-first source, `force-dynamic`, `generateStaticParams` removed (a CMS-created post has no build-time-known slug).
+- **Cover image is a plain text path/URL for this pass** — the public R2 bucket (design question 4) still hasn't been provisioned. Building the actual upload pipeline (bucket binding, a public serve route, an authenticated upload route, a client-side upload control) is the clear next piece of remaining scope here.
 
 ### 3. How We Transform (playbooks) — not started
 
@@ -52,4 +59,7 @@ Current shape (`src/content/posts.ts`): `slug, title, excerpt, date, author, tag
 
 ## Recommended Next Action
 
-Insights next: provision the public R2 bucket (design question 4), add the Markdown body field + `remark`/`rehype` rendering pipeline, then the same migration → data layer → admin CRUD → public-page-swap shape the FAQ slice just proved.
+Two independent pieces of remaining work, either order:
+
+1. **Provision the public R2 bucket** (design question 4) and build the actual image-upload pipeline for Insights' cover-image field (bucket binding, a public serve route, an authenticated upload route, a small client-side upload control) — the field works today as a plain path/URL, this just removes the "a developer needs to add the file first" caveat.
+2. **How We Transform (playbooks) next**, same migration → data layer → admin CRUD → public-page-swap shape the FAQ and Insights slices both proved. The `status` transition (`scenario → pilot → case-study`) is the most valuable part — it currently requires a code change and a deploy, which is exactly the friction this CMS exists to remove.
