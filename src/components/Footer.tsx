@@ -64,12 +64,12 @@ export default function Footer() {
           {/* Brand col */}
           <div>
             <Image
-              src="/assets/gileara/logo-full.png"
+              src="/assets/gileara/logo-ui.png"
               alt="Gileara"
-              width={160}
-              height={87}
-              sizes="140px"
-              className="h-9 w-auto mb-5"
+              width={664}
+              height={246}
+              sizes="180px"
+              className="h-11 w-auto mb-5"
             />
             <p className="font-sans text-xs text-white/30 leading-relaxed mb-4">
               We build the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone.

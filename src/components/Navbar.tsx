@@ -137,8 +137,8 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 md:px-6 transition-all duration-300 ${
           isScrolled
-            ? "h-16 bg-background/85 backdrop-blur-md border-b border-white/[0.07]"
-            : "h-20 bg-transparent"
+            ? "h-20 bg-background/85 backdrop-blur-md border-b border-white/[0.07]"
+            : "h-24 bg-transparent"
         }`}
         id={navId}
         aria-label={navLabel}
@@ -150,13 +150,13 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
           className={`flex items-center gap-2.5 shrink-0 ${focusRing} rounded-sm`}
         >
           <Image
-            src="/assets/gileara/logo-full.png"
+            src="/assets/gileara/logo-ui.png"
             alt="Gileara"
-            width={160}
-            height={87}
+            width={664}
+            height={246}
             priority
-            sizes="200px"
-            className="h-11 md:h-14 w-auto drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)] opacity-95 hover:opacity-100 transition-opacity duration-150"
+            sizes="220px"
+            className="h-12 md:h-16 w-auto drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)] opacity-95 hover:opacity-100 transition-opacity duration-150"
           />
           {legalDetails && (
             <span className="rounded border border-accent-bright/30 bg-accent-bright/10 px-1.5 py-0.5 font-mono text-[10px] font-medium text-accent-bright tracking-wider uppercase hidden md:inline-block">
@@ -225,7 +225,7 @@ export default function Navbar({ variant = "default", page }: NavbarProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[45] bg-brand md:hidden flex flex-col pt-24 px-6 pb-10"
+            className="fixed inset-0 z-[45] bg-brand md:hidden flex flex-col pt-28 px-6 pb-10"
             id={`${navId}-drawer`}
           >
             {/* Grid bg in drawer */}
