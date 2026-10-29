@@ -16,6 +16,76 @@ interface ServiceLandingPageProps {
   service: Service;
 }
 
+/** Jump targets for the section-progress rail below. */
+const NAV_SECTIONS = [
+  { id: "problem", label: "Problem" },
+  { id: "observations", label: "What we see" },
+  { id: "solutions", label: "Solutions" },
+  { id: "outcomes", label: "Outcomes" },
+  { id: "pricing", label: "Pricing" },
+  { id: "faq", label: "FAQ" },
+] as const;
+
+/**
+ * SectionNav — a slim, desktop-only progress rail down the right edge
+ * of the viewport. This template runs nine full sections in a single
+ * scroll; a long page with no way to jump around is a real usability
+ * gap, not a decorative opportunity, so this is function first: an
+ * IntersectionObserver tracks which section is in view and highlights
+ * the matching dot, and every dot is a plain anchor link underneath.
+ */
+function SectionNav() {
+  const [active, setActive] = useState<string>(NAV_SECTIONS[0].id);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px" }
+    );
+    for (const s of NAV_SECTIONS) {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <nav
+      aria-label="Page sections"
+      className="hidden lg:flex fixed right-5 top-1/2 -translate-y-1/2 z-30 flex-col gap-4"
+    >
+      {NAV_SECTIONS.map((s) => {
+        const isActive = active === s.id;
+        return (
+          <a
+            key={s.id}
+            href={`#${s.id}`}
+            aria-current={isActive ? "true" : undefined}
+            className="group flex items-center justify-end gap-3"
+          >
+            <span
+              className={`font-mono text-[10px] uppercase tracking-wider whitespace-nowrap transition-opacity duration-200 ${
+                isActive ? "text-accent-bright opacity-100" : "text-on-surface-variant opacity-0 group-hover:opacity-100"
+              }`}
+            >
+              {s.label}
+            </span>
+            <span
+              className={`block rounded-full transition-all duration-300 ${
+                isActive ? "w-2.5 h-2.5 bg-accent-bright" : "w-1.5 h-1.5 bg-on-background/25 group-hover:bg-on-background/50"
+              }`}
+            />
+          </a>
+        );
+      })}
+    </nav>
+  );
+}
+
 /**
  * ServiceLandingPage — the reusable template for each of the 5
  * service landing pages (`/services/[slug]`).
@@ -37,6 +107,8 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
 
   return (
     <>
+      <SectionNav />
+
       {/* ── 1. HERO ───────────────────────────────────────────────── */}
       <PageHero
         number={num}
@@ -72,7 +144,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       />
 
       {/* ── 2. PROBLEMS ─────────────────────────────────────────── */}
-      <section className="bg-brand-soft py-section px-6 md:px-12 border-t border-on-background/10">
+      <section id="problem" className="bg-brand-soft py-section px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
             <div className="col-span-12 lg:col-span-7">
@@ -122,7 +194,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       </section>
 
       {/* ── 3. OBSERVATIONS ─────────────────────────────────────── */}
-      <section className="bg-brand-soft-alt py-section px-6 md:px-12">
+      <section id="observations" className="bg-brand-soft-alt py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-12">
             <div className="col-span-12 lg:col-span-7">
@@ -162,7 +234,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       </section>
 
       {/* ── 4. SOLUTIONS ────────────────────────────────────────── */}
-      <section className="bg-brand-soft py-section px-6 md:px-12 border-y border-on-background/10">
+      <section id="solutions" className="bg-brand-soft py-section px-6 md:px-12 border-y border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-20">
             <div className="col-span-12 lg:col-span-7">
@@ -218,7 +290,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       </section>
 
       {/* ── 5. OUTCOMES ─────────────────────────────────────────── */}
-      <section className="bg-brand-soft-alt py-section px-6 md:px-12">
+      <section id="outcomes" className="bg-brand-soft-alt py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-16">
             <div className="col-span-12 lg:col-span-7">
@@ -382,7 +454,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
 function ServiceFAQ({ faqs }: { faqs: { question: string; answer: string }[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
-    <section className="bg-brand-soft py-section-tight px-6 md:px-12 border-t border-on-background/10">
+    <section id="faq" className="bg-brand-soft py-section-tight px-6 md:px-12 border-t border-on-background/10">
       <div className="max-w-3xl mx-auto">
         <div className="mb-16">
           <RevealText>

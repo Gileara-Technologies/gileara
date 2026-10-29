@@ -58,3 +58,8 @@ _accenture_*.html
 *.bmp
 .phase7-test.pdf
 
+
+# Scratch commit-message files
+.commitmsg.txt
+.git-commit-msg.txt
+
