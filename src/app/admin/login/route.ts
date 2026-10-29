@@ -10,26 +10,38 @@ import { NextRequest, NextResponse } from 'next/server';
 const pageStyles = `
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: #0a0f1a;
-    color: #f8fafc;
+    background-color: #030a0c;
+    background-image: radial-gradient(ellipse 70% 50% at 50% -10%, rgba(94,234,212,0.16) 0%, rgba(94,234,212,0.05) 40%, transparent 70%);
+    color: #e6f0ed;
     font-family: Inter, system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 1rem;
   }
+  .brand {
+    display: block;
+    text-align: center;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #5EEAD4;
+    margin-bottom: 1.25rem;
+  }
   .card {
     max-width: 26rem;
     width: 100%;
-    background: #0f1729;
-    border: 1px solid #1e293b;
+    background: rgba(94, 234, 212, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 0.75rem;
     padding: 2rem;
   }
   .card h1 { font-size: 1.5rem; font-weight: 600; text-align: center; }
   .card .sub {
-    color: #94a3b8;
+    color: rgba(230, 240, 237, 0.45);
     font-size: 0.875rem;
     text-align: center;
     margin-top: 0.5rem;
@@ -37,10 +49,10 @@ const pageStyles = `
   .error {
     margin-top: 1.5rem;
     padding: 1rem;
-    background: rgba(127, 29, 29, 0.25);
-    border: 1px solid #991b1b;
+    background: rgba(127, 29, 29, 0.2);
+    border: 1px solid rgba(255, 138, 120, 0.3);
     border-radius: 0.5rem;
-    color: #fecaca;
+    color: #ffb4a8;
     font-size: 0.875rem;
   }
   .btn {
@@ -65,11 +77,11 @@ const pageStyles = `
     display: block;
     margin-top: 1.5rem;
     text-align: center;
-    color: #94a3b8;
+    color: rgba(230, 240, 237, 0.4);
     font-size: 0.875rem;
     text-decoration: none;
   }
-  .home:hover { color: #f8fafc; }
+  .home:hover { color: #5EEAD4; }
 `;
 
 export async function GET(request: NextRequest) {
@@ -91,6 +103,7 @@ export async function GET(request: NextRequest) {
   <style>${pageStyles}</style>
 </head>
 <body>
+  <span class="brand">Gileara</span>
   <main class="card">
     <h1>Admin Sign In</h1>
     <p class="sub">Access the careers portal admin</p>

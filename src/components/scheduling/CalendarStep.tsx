@@ -57,7 +57,7 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
   return (
     <div className="space-y-8 w-full max-w-2xl">
       <div className="text-center space-y-2">
-        <h3 className="text-2xl font-bold text-on-surface">Pick a time</h3>
+        <h2 className="text-2xl font-bold text-on-surface">Pick a time</h2>
         <p className="text-on-surface-variant">All slots shown in Ghana Time (GMT).</p>
       </div>
 
@@ -141,12 +141,12 @@ export default function CalendarStep({ onSelect, onBack, isSubmitting }: Calenda
           disabled={!selectedDate || !selectedTime || isSubmitting}
           onClick={handleConfirm}
           className={cn(
-            "btn-primary px-8 py-3 flex items-center gap-2",
+            "rounded-pill bg-accent-bright text-background hover:bg-accent-bright/90 hover:text-background px-8 py-3 flex items-center gap-2",
             (!selectedDate || !selectedTime || isSubmitting) && "opacity-50 cursor-not-allowed"
           )}
         >
           {isSubmitting ? (
-            <div className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+            <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
           ) : (
             <>
               <span>Lock in Proposal</span>

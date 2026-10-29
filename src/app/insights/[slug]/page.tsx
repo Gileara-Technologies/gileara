@@ -4,20 +4,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactBand from "@/components/ContactBand";
 import InsightsPostClient from "./InsightsPostClient";
-import { posts } from "@/content/posts";
+import { absoluteImageUrl, getPublicPost } from "@/lib/cms/public-posts";
 import { founderByName } from "@/content/founders";
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
-}
+// D1 is read per request (D1 first, src/content/posts.ts fallback -- same
+// hybrid rule as /faq and the careers portal), so this route is not
+// prerenderable -- generateStaticParams is gone, every slug (including
+// ones created through the CMS after the last build) resolves on demand.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = await getPublicPost(slug);
   if (!post) return {};
   return {
     title: `${post.title} | Insights | Gileara Technologies`,
@@ -46,7 +48,7 @@ const base = "https://gileara.org";
 
 export default async function InsightsPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = await getPublicPost(slug);
   if (!post) notFound();
 
   // Resolve the post author to a Person schema node if the author
@@ -91,7 +93,7 @@ export default async function InsightsPostPage({ params }: Props) {
           ? {
               image: {
                 "@type": "ImageObject",
-                url: `${base}${post.image}`,
+                url: absoluteImageUrl(post.image),
                 width: 1200,
                 height: 630,
               },
@@ -141,7 +143,7 @@ export default async function InsightsPostPage({ params }: Props) {
           headline={
             <>
               Have a question about{" "}
-              <span className="italic text-accent-cyan">your own business?</span>
+              <span className="italic text-accent-bright">your own business?</span>
             </>
           }
           body="Free 30-minute call — bring this post's idea (or any other) and we'll apply it to your situation."

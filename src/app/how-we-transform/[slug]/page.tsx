@@ -88,7 +88,7 @@ export default async function ScenarioPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Navbar />
-      <main className="bg-background pt-36 pb-24 px-4 md:px-10">
+      <main className="bg-brand-soft-alt pt-36 pb-24 px-4 md:px-10">
         <div className="max-w-3xl mx-auto">
           <Breadcrumbs
             items={[
@@ -152,7 +152,7 @@ export default async function ScenarioPage({ params }: PageProps) {
                   </div>
                   <div className="pt-1">
                     <p className="font-display font-bold text-on-surface">{step.phase}</p>
-                    <p className="mt-1 text-sm text-on-surface-variant leading-relaxed">{step.detail}</p>
+                    <p className="mt-1 text-sm text-on-surface-variant leading-relaxed max-w-[72ch]">{step.detail}</p>
                   </div>
                 </li>
               ))}
@@ -192,7 +192,7 @@ export default async function ScenarioPage({ params }: PageProps) {
 
           {/* Local-context pull-quote */}
           <section className="mt-8 border-l-4 border-secondary/50 dark:border-primary/40 pl-5 py-1">
-            <p className="text-sm md:text-base text-on-surface-variant italic leading-relaxed">{scenario.ghanaContext}</p>
+            <p className="text-sm md:text-base text-on-surface-variant italic leading-relaxed max-w-[72ch]">{scenario.ghanaContext}</p>
           </section>
         </div>
       </main>
@@ -204,7 +204,7 @@ export default async function ScenarioPage({ params }: PageProps) {
         headline={
           <>
             Be the founding client for your{" "}
-            <span className="italic text-accent-cyan">{scenario.vertical.toLowerCase()}</span>.
+            <span className="italic text-accent-bright">{scenario.vertical.toLowerCase()}</span>.
           </>
         }
         body={`Founding clients get priority onboarding and a documented ${scenario.vertical.toLowerCase()} transformation story — published with your approval, when the results are real.`}

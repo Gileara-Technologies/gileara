@@ -132,6 +132,25 @@ export function isAllowedHrEmail(email: string, hrEmails?: string): boolean {
 }
 
 /**
+ * Content-editor access is a separate permission tier from HR
+ * (isAllowedHrEmail above) -- someone can be HR, a content editor, both, or
+ * neither. Access requires the signed-in email to match the
+ * {name}.gileara@gmail.com convention: one or more dot-separated name
+ * segments (letters/digits), then a literal ".gileara@gmail.com" suffix.
+ * Matches "jude.gileara@gmail.com" and "mary.jane.gileara@gmail.com";
+ * does not match "gileara@gmail.com" (no name segment) or any @gileara.org
+ * address (that's the HR domain check, a different rule entirely).
+ */
+const CONTENT_EDITOR_EMAIL_PATTERN = /^[a-z0-9]+(?:\.[a-z0-9]+)*\.gileara@gmail\.com$/;
+
+export function isAllowedContentEditorEmail(email: string): boolean {
+  if (!email || typeof email !== 'string') {
+    return false;
+  }
+  return CONTENT_EDITOR_EMAIL_PATTERN.test(email.toLowerCase().trim());
+}
+
+/**
  * Create a session payload with 7-day expiry
  */
 export function createSessionPayload(email: string): SessionPayload {

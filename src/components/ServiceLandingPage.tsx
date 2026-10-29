@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import type { Service, ServiceSolution } from "@/content/packages";
 import PageHero from "@/components/PageHero";
 import SectionLabel from "@/components/SectionLabel";
-import DisplayHeading from "@/components/DisplayHeading";
 import MagneticButton from "@/components/MagneticButton";
 import RevealText from "@/components/RevealText";
 import ContactBand from "@/components/ContactBand";
@@ -15,6 +14,76 @@ import { MANAGED_SERVICES_NOTE, servicePackages } from "@/content/packages";
 
 interface ServiceLandingPageProps {
   service: Service;
+}
+
+/** Jump targets for the section-progress rail below. */
+const NAV_SECTIONS = [
+  { id: "problem", label: "Problem" },
+  { id: "observations", label: "What we see" },
+  { id: "solutions", label: "Solutions" },
+  { id: "outcomes", label: "Outcomes" },
+  { id: "pricing", label: "Pricing" },
+  { id: "faq", label: "FAQ" },
+] as const;
+
+/**
+ * SectionNav — a slim, desktop-only progress rail down the right edge
+ * of the viewport. This template runs nine full sections in a single
+ * scroll; a long page with no way to jump around is a real usability
+ * gap, not a decorative opportunity, so this is function first: an
+ * IntersectionObserver tracks which section is in view and highlights
+ * the matching dot, and every dot is a plain anchor link underneath.
+ */
+function SectionNav() {
+  const [active, setActive] = useState<string>(NAV_SECTIONS[0].id);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px" }
+    );
+    for (const s of NAV_SECTIONS) {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <nav
+      aria-label="Page sections"
+      className="hidden lg:flex fixed right-5 top-1/2 -translate-y-1/2 z-30 flex-col gap-4"
+    >
+      {NAV_SECTIONS.map((s) => {
+        const isActive = active === s.id;
+        return (
+          <a
+            key={s.id}
+            href={`#${s.id}`}
+            aria-current={isActive ? "true" : undefined}
+            className="group flex items-center justify-end gap-3"
+          >
+            <span
+              className={`font-mono text-[10px] uppercase tracking-wider whitespace-nowrap transition-opacity duration-200 ${
+                isActive ? "text-accent-bright opacity-100" : "text-on-surface-variant opacity-0 group-hover:opacity-100"
+              }`}
+            >
+              {s.label}
+            </span>
+            <span
+              className={`block rounded-full transition-all duration-300 ${
+                isActive ? "w-2.5 h-2.5 bg-accent-bright" : "w-1.5 h-1.5 bg-on-background/25 group-hover:bg-on-background/50"
+              }`}
+            />
+          </a>
+        );
+      })}
+    </nav>
+  );
 }
 
 /**
@@ -38,6 +107,8 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
 
   return (
     <>
+      <SectionNav />
+
       {/* ── 1. HERO ───────────────────────────────────────────────── */}
       <PageHero
         number={num}
@@ -50,7 +121,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
         headline={
           <>
             {service.heroHeadline}{" "}
-            <span className="italic text-accent-cyan">{service.heroAccent}</span>
+            <span className="italic text-accent-bright">{service.heroAccent}</span>
           </>
         }
         subtitle={service.tagline}
@@ -73,17 +144,17 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       />
 
       {/* ── 2. PROBLEMS ─────────────────────────────────────────── */}
-      <section className="bg-background py-32 md:py-48 px-6 md:px-12 border-t border-on-background/10">
+      <section id="problem" className="bg-brand-soft py-section px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel label="THE PROBLEM" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 What we hear from{" "}
-                <span className="italic text-accent-cyan">businesses like yours.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">businesses like yours.</span>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
                   Businesses that need {service.name.toLowerCase()} describe these same problems in different words, every time we talk to them.
@@ -104,15 +175,15 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
                   transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                   className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-4 items-start border-b border-on-background/10 py-10"
                 >
-                  <div className="col-span-2 md:col-span-1 font-serif text-display-sm text-on-background/[0.15] leading-none">
+                  <div className="col-span-2 md:col-span-1 font-mono text-display-sm text-on-background/[0.15] leading-none">
                     {pn}
                   </div>
                   <div className="col-span-10 md:col-span-4">
-                    <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em]">
+                    <h3 className="font-display text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em]">
                       {p.title}
                     </h3>
                   </div>
-                  <div className="col-span-12 md:col-span-7 text-on-surface-variant text-base leading-relaxed">
+                  <div className="col-span-12 md:col-span-7 text-on-surface-variant text-base leading-relaxed max-w-[72ch]">
                     {p.description}
                   </div>
                 </motion.div>
@@ -123,17 +194,17 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       </section>
 
       {/* ── 3. OBSERVATIONS ─────────────────────────────────────── */}
-      <section className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
+      <section id="observations" className="bg-brand-soft-alt py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-12">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel label="WHAT WE SEE" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 When we walk into a business{" "}
-                <span className="italic text-accent-cyan">that needs this.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">that needs this.</span>
+              </h2>
             </div>
           </div>
 
@@ -150,7 +221,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
                 <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
                   Observation {String(i + 1).padStart(2, "0")}
                 </div>
-                <h3 className="font-serif text-2xl text-on-background leading-tight tracking-[-0.02em] mb-4">
+                <h3 className="font-display text-2xl text-on-background leading-tight tracking-[-0.02em] mb-4">
                   {o.title}
                 </h3>
                 <p className="text-on-surface-variant text-base leading-relaxed">
@@ -163,17 +234,17 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       </section>
 
       {/* ── 4. SOLUTIONS ────────────────────────────────────────── */}
-      <section className="bg-background py-32 md:py-48 px-6 md:px-12 border-y border-on-background/10">
+      <section id="solutions" className="bg-brand-soft py-section px-6 md:px-12 border-y border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel label="HOW WE HELP" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 What we build{" "}
-                <span className="italic text-accent-cyan">for you.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">for you.</span>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
                   Three things change the day your service goes live.
@@ -199,7 +270,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
                     <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
                       {sn}
                     </div>
-                    <h3 className="font-serif text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-5">
+                    <h3 className="font-display text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-5">
                       {s.title}
                     </h3>
                     <p className="text-on-surface-variant text-lg leading-relaxed max-w-xl">
@@ -219,17 +290,17 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       </section>
 
       {/* ── 5. OUTCOMES ─────────────────────────────────────────── */}
-      <section className="bg-surface-container-lowest py-32 md:py-48 px-6 md:px-12">
+      <section id="outcomes" className="bg-brand-soft-alt py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-16">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel label="WHAT YOU GET" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 What to expect{" "}
-                <span className="italic text-accent-cyan">after go-live.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">after go-live.</span>
+              </h2>
             </div>
           </div>
 
@@ -248,7 +319,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
                   <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-3">
                     {on}
                   </div>
-                  <h3 className="font-serif text-2xl text-on-background leading-tight tracking-[-0.02em] mb-3">
+                  <h3 className="font-display text-2xl text-on-background leading-tight tracking-[-0.02em] mb-3">
                     {o.label}
                   </h3>
                   <p className="text-on-surface-variant text-base leading-relaxed">
@@ -262,17 +333,17 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
       </section>
 
       {/* ── 6. PRICING ──────────────────────────────────────────── */}
-      <section id="pricing" className="bg-background py-32 md:py-48 px-6 md:px-12 border-t border-on-background/10">
+      <section id="pricing" className="bg-brand-soft py-section px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-16">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel label="PRICING" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 All-inclusive{" "}
-                <span className="italic text-accent-cyan">monthly pricing.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">monthly pricing.</span>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
                   Three tiers, each with managed services included from the start. The monthly price is the full price, set in USD and payable in cedis at our published rate.
@@ -295,7 +366,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
                 <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-3">
                   {t.name}
                 </div>
-                <div className="font-serif text-display-md text-on-background leading-none tracking-[-0.03em] mb-2">
+                <div className="font-mono text-display-md text-on-background leading-none tracking-[-0.03em] mb-2">
                   ${t.monthlyFeeUsd.toLocaleString("en-US")}
                   <span className="text-base font-sans text-on-surface-variant">/mo</span>
                 </div>
@@ -318,7 +389,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
             ))}
           </div>
 
-          <p className="text-on-surface-variant text-sm italic max-w-2xl">{MANAGED_SERVICES_NOTE}</p>
+          <p className="text-on-surface-variant text-sm italic max-w-[72ch]">{MANAGED_SERVICES_NOTE}</p>
         </div>
       </section>
 
@@ -331,24 +402,24 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
         headline={
           <>
             Let&apos;s talk about your{" "}
-            <span className="italic text-accent-cyan">{service.name.toLowerCase()}.</span>
+            <span className="italic text-accent-bright">{service.name.toLowerCase()}.</span>
           </>
         }
         body="Thirty minutes, free. Walk us through what's hard about running your business and we'll help you think through it, even if the answer turns out to be something we don't do."
       />
 
       {/* ── 9. RELATED SERVICES ─────────────────────────────────── */}
-      <section className="bg-background py-32 md:py-48 px-6 md:px-12 border-t border-on-background/10">
+      <section className="bg-brand-soft py-section px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel label="OTHER SERVICES" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="md" as="h2">
+              <h2 className="font-display text-display-md text-on-background">
                 Explore{" "}
-                <span className="italic text-accent-cyan">the other four.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">the other four.</span>
+              </h2>
             </div>
           </div>
 
@@ -360,7 +431,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
                 className="group block border-t border-on-background/20 pt-6"
               >
                 <div className="flex items-baseline justify-between gap-4 mb-3">
-                  <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em] group-hover:text-accent-bright transition-colors duration-300">
+                  <h3 className="font-display text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em] group-hover:text-accent-bright transition-colors duration-300">
                     {r.name}
                   </h3>
                   <span className="material-symbols-outlined text-on-surface-variant group-hover:text-accent-bright group-hover:translate-x-1 transition-all duration-300">
@@ -383,16 +454,16 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
 function ServiceFAQ({ faqs }: { faqs: { question: string; answer: string }[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
-    <section className="bg-background py-32 md:py-48 px-6 md:px-12 border-t border-on-background/10">
+    <section id="faq" className="bg-brand-soft py-section-tight px-6 md:px-12 border-t border-on-background/10">
       <div className="max-w-3xl mx-auto">
         <div className="mb-16">
           <RevealText>
             <SectionLabel label="FAQ" className="mb-8" />
           </RevealText>
-          <DisplayHeading size="md" as="h2">
+          <h2 className="font-display text-display-md text-on-background">
             Questions about{" "}
-            <span className="italic text-accent-cyan">this service.</span>
-          </DisplayHeading>
+            <span className="italic text-accent-bright">this service.</span>
+          </h2>
         </div>
 
         <div className="space-y-0 border-t border-on-background/10">
@@ -410,7 +481,7 @@ function ServiceFAQ({ faqs }: { faqs: { question: string; answer: string }[] }) 
                     <span className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant pt-1 shrink-0 w-10">
                       {num}
                     </span>
-                    <span className="font-serif text-xl md:text-2xl text-on-background leading-snug group-hover:text-accent-bright transition-colors duration-300">
+                    <span className="font-display text-xl md:text-2xl text-on-background leading-snug group-hover:text-accent-bright transition-colors duration-300">
                       {f.question}
                     </span>
                   </div>

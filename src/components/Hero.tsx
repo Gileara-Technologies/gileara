@@ -1,231 +1,162 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import DisplayHeading from "@/components/DisplayHeading";
-import SectionLabel from "@/components/SectionLabel";
-import MagneticButton from "@/components/MagneticButton";
-import RevealText from "@/components/RevealText";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import DashboardMock from "@/components/DashboardMock";
 
-const SLIDES = [
-  {
-    src: "/assets/imagery/carousel-fashion-boutique.jpg",
-    alt: "Customers browsing a fashion boutique in Abuja",
-    caption: "Retail",
-  },
-  {
-    src: "/assets/imagery/carousel-flowers.jpg",
-    alt: "Couple browsing flowers at a market",
-    caption: "Hospitality",
-  },
-  {
-    src: "/assets/imagery/carousel-sale-card.jpg",
-    alt: "Smiling woman holding a sale card to inform customers",
-    caption: "Sales",
-  },
-  {
-    src: "/assets/imagery/carousel-crate.jpg",
-    alt: "A man holding a crate of produce",
-    caption: "Distribution",
-  },
-  {
-    src: "/assets/imagery/carousel-apron-workshop.jpg",
-    alt: "A man in an apron working in his workshop",
-    caption: "Services",
-  },
-  {
-    src: "/assets/imagery/carousel-barber.jpg",
-    alt: "Barber shaving a young boy's hair",
-    caption: "Personal services",
-  },
-];
-
-const ROTATE_MS = 5000;
+// ── Typewriter hook ──────────────────────────────────────────────────────
+function useTypewriter(text: string, speed = 38, startDelay = 600) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    const startTimer = setTimeout(() => {
+      setDisplayed("");
+      setDone(false);
+      let i = 0;
+      interval = setInterval(() => {
+        i += 1;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) {
+          clearInterval(interval);
+          setDone(true);
+        }
+      }, speed);
+    }, startDelay);
+    return () => {
+      clearTimeout(startTimer);
+      clearInterval(interval);
+    };
+  }, [text, speed, startDelay]);
+  return { displayed, done };
+}
 
 /**
- * Hero — full-bleed background image carousel.
+ * Hero — Operator aesthetic, brand gradient base.
  *
- * The hero section is a full-screen-height (min-h-[88vh]) block with
- * a 6-image carousel as the background. Headline + CTAs + benefits
- * sit centered on top of a dark gradient overlay so the text stays
- * readable. Auto-rotates every 5s; manual dot navigation at the
- * bottom. Caption chip on each slide.
+ * - The teal↔black brand gradient (.bg-brand) sits under a structural grid
+ * - Typewriter effect on the headline's accent phrase
+ * - Right column: an illustrative "systems" dashboard mock (DashboardMock),
+ *   not a photo — the proof-by-photography moved to IndustryStrip right
+ *   below the fold, so the Hero can say what Gileara does without relying
+ *   on stock-feeling imagery to carry it
+ * - Two CTAs: white fill (primary) + outline (secondary) — Vercel inversion
+ * - Mono stat strip at the bottom
  */
 export default function Hero() {
-  const benefits = [
-    "Spreadsheets → live data",
-    "Chat threads → one inbox",
-    "Lost leads → followed up",
-  ];
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-12%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const mockY = useTransform(scrollYProgress, [0, 1], ["0%", "-6%"]);
 
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (paused) return;
-    const t = setInterval(() => {
-      setIndex((i) => (i + 1) % SLIDES.length);
-    }, ROTATE_MS);
-    return () => clearInterval(t);
-  }, [paused]);
+  const { displayed, done } = useTypewriter("runs on.", 42, 800);
 
   return (
-    <section
-      className="relative min-h-[88vh] flex items-center bg-background overflow-hidden"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
-      {/* Background carousel */}
-      <div className="absolute inset-0 z-0">
-        <AnimatePresence mode="sync">
-          {SLIDES.map(
-            (slide, i) =>
-              i === index && (
-                <motion.div
-                  key={slide.src}
-                  initial={{ opacity: 0, scale: 1.02 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.0 }}
-                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0"
-                  aria-hidden={i !== index}
-                >
-                  <Image
-                    src={slide.src}
-                    alt={slide.alt}
-                    fill
-                    priority={i === 0}
-                    sizes="100vw"
-                    className="object-cover"
-                  />
-                  {/* Dark gradient for text readability */}
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, rgba(8, 20, 32, 0.55) 0%, rgba(8, 20, 32, 0.75) 50%, rgba(8, 20, 32, 0.95) 100%)",
-                    }}
-                    aria-hidden="true"
-                  />
-                </motion.div>
-              )
-          )}
-        </AnimatePresence>
-      </div>
+    <section ref={heroRef} className="relative min-h-screen bg-brand overflow-hidden flex flex-col">
+      {/* ── Structural grid bg ──────────────────────────────────────── */}
+      <div className="absolute inset-0 grid-bg pointer-events-none" aria-hidden="true" />
 
-      {/* Content */}
-      <div className="relative z-10 w-full pt-32 md:pt-40 pb-32 md:pb-40 px-6 md:px-12">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="max-w-4xl">
-            <RevealText>
-              <SectionLabel number="00" label="THE PROBLEM WE SEE" className="mb-8 md:mb-10" />
-            </RevealText>
+      {/* ── Content row: headline left, dashboard mock right ─────────── */}
+      <div className="relative z-10 flex-1 flex items-center px-6 md:px-12 pt-28 pb-16">
+        <div className="max-w-[1200px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left: headline */}
+          <motion.div
+            className="lg:col-span-7"
+            style={{ y: contentY, opacity: contentOpacity }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+              className="inline-flex items-center gap-2 mb-10"
+            >
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.04] font-mono text-[11px] text-white/50 tracking-widest uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-bright animate-pulse" />
+                Piloting in Accra, Ghana
+              </span>
+            </motion.div>
 
-            <DisplayHeading size="xl" as="h1" className="mb-8 md:mb-10 text-on-background">
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display text-display-xl text-on-background mb-6 tracking-tight"
+            >
               We build the systems
               <br />
               your business{" "}
-              <span className="italic text-accent-cyan">runs on.</span>
-            </DisplayHeading>
+              <span className="text-accent-bright">
+                {displayed}
+                {!done && <span className="typewriter-cursor" aria-hidden="true" />}
+              </span>
+            </motion.h1>
 
-            <RevealText delay={0.15}>
-              <p className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6 md:mb-8">
-                Outcomes over code · Managed from day one · Built for how business actually runs
-              </p>
-            </RevealText>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55, duration: 0.5 }}
+              className="font-sans text-body-lg text-white/50 max-w-xl leading-relaxed mb-10"
+            >
+              Small businesses everywhere run on manual work. We build the systems that fix it — operations, sales, customer, and reporting infrastructure your business can&apos;t build alone.
+            </motion.p>
 
-            <RevealText delay={0.2}>
-              <p className="text-body-lg md:text-2xl text-on-background/85 max-w-2xl leading-relaxed font-sans mb-10 md:mb-12">
-                We see the same problem in small business everywhere. Stock, sales, customers, cashflow: work that should be invisible is still eating your week. We build the systems that fix it, piloting in Ghana today and built to scale with you.
-              </p>
-            </RevealText>
-
-            <RevealText delay={0.35}>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8 mb-12 md:mb-16">
-                <MagneticButton href="/contact" variant="primary" size="lg">
-                  Book a Free Consultation
-                </MagneticButton>
-                <a
-                  href="#packages"
-                  className="text-on-background/85 hover:text-accent-bright font-medium transition-colors duration-200 underline-offset-4 hover:underline"
-                >
-                  See Our Packages
-                </a>
-              </div>
-            </RevealText>
-
-            <RevealText delay={0.5}>
-              <ul className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm md:text-base font-sans text-on-background/85">
-                {benefits.map((b) => (
-                  <li key={b} className="flex items-center gap-2.5">
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      className="text-accent-bright shrink-0"
-                    >
-                      <path
-                        d="M10.2003 14.8518L18.4731 6.57812L19.7466 7.85073L10.2003 17.397L4.47266 11.6694L5.74526 10.3968L10.2003 14.8518Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </RevealText>
-          </div>
-        </div>
-      </div>
-
-      {/* Carousel controls — bottom of viewport */}
-      <div className="absolute bottom-8 left-0 right-0 z-10 px-6 md:px-12">
-        <div className="max-w-[1440px] mx-auto flex items-end justify-between gap-6">
-          {/* Current caption */}
-          <AnimatePresence mode="wait">
             <motion.div
-              key={SLIDES[index].caption}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="hidden md:flex items-center gap-3"
+              transition={{ delay: 0.75, duration: 0.4 }}
+              className="flex flex-col sm:flex-row gap-3"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-accent-bright" />
-              <span className="font-mono text-label uppercase tracking-[0.2em] text-on-background">
-                {SLIDES[index].caption}
-              </span>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Dots */}
-          <div className="flex items-center gap-2 ml-auto">
-            {SLIDES.map((slide, i) => (
-              <button
-                key={slide.src}
-                onClick={() => setIndex(i)}
-                aria-label={`Show ${slide.caption} slide`}
-                aria-current={i === index}
-                className="group p-1.5"
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-white text-black text-sm font-sans font-medium hover:bg-white/90 transition-colors duration-150"
               >
-                <span
-                  className={`block rounded-full transition-all duration-300 ${
-                    i === index
-                      ? "w-8 h-1.5 bg-accent-bright"
-                      : "w-1.5 h-1.5 bg-on-background/30 group-hover:bg-on-background/60"
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
+                Book a Free Consultation
+                <span className="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
+              </Link>
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md border border-white/15 text-white/80 text-sm font-sans font-medium hover:border-white/30 hover:text-white transition-colors duration-150"
+              >
+                See our packages
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Right: dashboard mock */}
+          <motion.div
+            className="hidden lg:block lg:col-span-5"
+            style={{ y: mockY }}
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <DashboardMock />
+          </motion.div>
         </div>
       </div>
+
+      {/* ── Bottom stat strip ────────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="relative z-10 border-t border-white/[0.06] px-6 md:px-12"
+      >
+        <div className="max-w-[1200px] mx-auto grid grid-cols-3">
+          {[
+            { value: "7 days", label: "avg. deployment" },
+            { value: "24/7", label: "managed monitoring" },
+            { value: "99.9%", label: "uptime SLA" },
+          ].map((stat, i) => (
+            <div key={stat.value} className={`py-5 pr-8 ${i < 2 ? "border-r border-white/[0.06]" : ""}`}>
+              <div className="font-mono text-base text-accent-bright">{stat.value}</div>
+              <div className="font-sans text-[12px] text-white/35 mt-0.5">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 }

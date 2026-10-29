@@ -25,21 +25,37 @@ of the site.
 
 | Slot | File | Source | License | Description |
 |---|---|---|---|---|
-| Hero portrait | `public/assets/imagery/hero-business.jpg` | [Pexels 13801809](https://www.pexels.com/photo/man-in-business-attire-leaning-on-a-wall-and-holding-a-smart-phone-13801809/) — Anna Shvets | Pexels License | Confident Black business person holding a smartphone — the MSME owner who would benefit from our systems |
 | The Reality | `public/assets/imagery/reality-msme.jpg` | [Pexels 8475171](https://www.pexels.com/photo/a-man-in-white-sweater-and-brown-apron-holding-a-signage-8475171/) — fauxels | Pexels License | Small Ghanaian business owner with his shop signage — grounds the "manual work" pain in a real MSME context |
 | How We Work | `public/assets/imagery/howwework-team.jpg` | [Pexels 8463151](https://www.pexels.com/photo/colleagues-in-an-office-8463151/) — fauxels | Pexels License | Diverse colleagues collaborating in an office — represents the Gileara team partnership |
 | Why Gileara | `public/assets/imagery/whyghana-collaboration.jpg` | [Pexels 36765665](https://www.pexels.com/photo/young-women-collaborating-in-stylish-office-36765665/) — Mikhail Volkov | Pexels License | Young women collaborating in a stylish office — represents the outcomes of well-built systems |
 | Founding Clients | `public/assets/imagery/founding-founders.jpg` | [Pexels 36729740](https://www.pexels.com/photo/young-cafe-owners-smiling-in-apron-attire-36729740/) — Ketut Subiyanto | Pexels License | Young cafe founders smiling in aprons — the perfect "founding clients" archetype |
-| Contact CTA | `public/assets/imagery/cta-business.jpg` | [Pexels 8052215](https://www.pexels.com/photo/woman-in-black-blazer-holding-a-phone-and-tumbler-8052215/) — Christina Morillo | Pexels License | Professional Black business woman with phone — the "you" we're inviting to book a call |
+| Not rendered | `public/assets/imagery/cta-business.jpg` | [Pexels 8052215](https://www.pexels.com/photo/woman-in-black-blazer-holding-a-phone-and-tumbler-8052215/) — Christina Morillo | Pexels License | The file is on disk and nothing references it: `ContactBand` renders its copy, CTA and meta strip with no photo. Delete it or wire it before counting it as live |
 
 All photos are downloaded to `public/assets/imagery/` and rendered with
-`next/image` using `fill` + `sizes`. Files are 170-430 KB each (exported at
-`?auto=compress&cs=tinysrgb&w=1600` from Pexels's API).
+`next/image` using `fill` + `sizes`. Files run from 123 KB to 469 KB
+(exported at `?auto=compress&cs=tinysrgb&w=1600` from Pexels's API).
+
+## Homepage hero carousel (six slides)
+
+`src/components/Hero.tsx` uses these six files as its six slides, in this
+order, with a caption chip and dot navigation. They arrived with the same
+curated batch as the table above (commit `97d2c3e`); their individual Pexels
+photo IDs are not recorded in this repo.
+
+| Slide | File | Caption | Alt text in `Hero.tsx` |
+|---|---|---|---|
+| 1 | `public/assets/imagery/carousel-fashion-boutique.jpg` | Retail | Customers browsing a fashion boutique in Abuja |
+| 2 | `public/assets/imagery/carousel-flowers.jpg` | Hospitality | Couple browsing flowers at a market |
+| 3 | `public/assets/imagery/carousel-sale-card.jpg` | Sales | Smiling woman holding a sale card to inform customers |
+| 4 | `public/assets/imagery/carousel-crate.jpg` | Distribution | A man holding a crate of produce |
+| 5 | `public/assets/imagery/carousel-apron-workshop.jpg` | Services | A man in an apron working in his workshop |
+| 6 | `public/assets/imagery/carousel-barber.jpg` | Personal services | Barber shaving a young boy's hair |
 
 ## Service-page imagery (Phase 6)
 
-Each `/services/[slug]` landing page uses one hero photo + 3 solution
-photos (downloaded under `public/assets/services/`).
+Each `/services/[slug]` landing page uses one hero photo and three solution
+slots, and a slot can hold a two-image carousel (all downloaded under
+`public/assets/services/`).
 
 | Service | Hero | Solution 1 | Solution 2 | Solution 3 |
 |---|---|---|---|---|
@@ -54,27 +70,44 @@ Files: 50-500 KB each, 1600px wide, exported via Pexels's
 standard: Black or light-skinned African founders, operators, and teams
 in real business contexts.
 
+The table names 20 source photos. The repo holds 21 service images and
+`src/content/packages.ts` plus `src/app/services/[slug]/page.tsx` reference
+all 21: `digital-foundation` uses five, because its Google card is a
+two-image carousel (`digital-foundation-google.jpg` and
+`digital-foundation-google-alt.jpg`), while the other four packages use four
+each. The wiring in `packages.ts` is the authoritative list of filenames.
+
 ## Founders' portraits (pre-existing)
 
 | File | Source | Notes |
 |---|---|---|
-| `public/assets/images/amos.jpg` | Founders' own | Used in `/about` and homepage |
-| `public/assets/images/julian_hagan.jpg` | Founders' own | Used in `/about` and homepage |
-| `public/assets/images/rodney_hagan.jpg` | Founders' own | Used in `/about` and homepage |
+| `public/assets/images/amos.jpg` | Founders' own | Founder portrait, used in `/about` and homepage |
+| `public/assets/images/Julian.jpg` | Founders' own | Founder portrait, used in `/about` and homepage |
+| `public/assets/images/rodney.jpg` | Founders' own | Founder portrait, used in `/about` and homepage |
+| `public/assets/images/elorm.jpg` | Team's own | Leadership portrait on `/about`, referenced by `src/content/team.ts` |
+| `public/assets/images/Daniel.jpg` | Team's own | Leadership portrait on `/about`, referenced by `src/content/team.ts` |
+| `public/assets/images/Wisdom.png` | Team's own | Leadership portrait on `/about`, referenced by `src/content/team.ts` |
 
 ## Optional content-module slots (gradient fallback by default)
 
 | Slot | Content module field | Drop files under | Suggested size |
 |---|---|---|---|
 | Playbook card banner (`/how-we-transform`) | `scenarios.ts` → `image` on each scenario | `public/assets/gileara/photos/<scenario-id>.jpg` | 1200×800 (3:2) |
-| Insight card + featured hero (`/insights`) | `posts.ts` → `image` on each post | `public/assets/gileara/photos/<post-slug>.jpg` | 1600×1000 (16:10) |
+| Insight card + featured hero (`/insights`) | `posts.ts` → `image` on each post | `public/assets/insights/<post-slug>.jpg` | 1600×1000 (16:10) |
+
+No scenario sets an `image` today, so every playbook card shows its gradient,
+and `public/assets/gileara/photos/` does not exist yet: create it with the
+first playbook photo. All six posts set an `image`, and the six files are in
+`public/assets/insights/` under names that match their slugs.
 
 ## How to wire a new content-module slot
 
 1. Source a real Ghanaian/African business photo (Pexels, commissioned
    photographer, founder-supplied). Verify the licence permits commercial
    use. The Pexels License is the safest for free stock.
-2. Optimize and drop the JPG/WebP in `public/assets/gileara/photos/`.
+2. Optimize and drop the JPG/WebP in the folder the table above names for
+   that slot (`public/assets/gileara/photos/` for playbook banners,
+   `public/assets/insights/` for insight posts).
 3. Set the field in the content module:
 
 ```ts
@@ -95,12 +128,10 @@ in real business contexts.
   (export at `?auto=compress&cs=tinysrgb&w=1600`). Photos of people must
   have documented consent before publishing.
 - Alt text: homepage hero photos get descriptive alt text (they communicate
-  mood); scenario/post slot photos stay decorative (alt="") because the
-  heading carries meaning. If a future photo is informational, describe it
-  in the module and pass real alt text.
+  mood); scenario card photos and insight list cards stay decorative
+  (alt="") because the heading carries meaning, while the insight detail
+  page cover passes `Cover image for <title>`. If a future photo is
+  informational, describe it in the module and pass real alt text.
 - Homepage photos use a subtle dark gradient overlay at the bottom so they
   integrate with the dark Velocity Dark theme without overpowering the
   bright text.
-- The "04" giant background numeral in the Why Gileara section is hidden
-  on mobile (`hidden lg:block`) because `text-[28rem]` (448px) overflows
-  the viewport on phones. It re-appears on desktop where there's space.

@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FaqClient from "./FaqClient";
-import { faqs } from "@/content/faqs";
+import { getPublicFaqs } from "@/lib/cms/public-faqs";
+
+// D1 is read per request (D1 first, src/content/faqs.ts fallback -- same
+// hybrid rule as the careers portal), so this route is not prerenderable.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "FAQ | Gileara Technologies",
@@ -27,18 +31,21 @@ export const metadata: Metadata = {
   },
 };
 
-// Schema generated from the same module the accordion renders — always in sync.
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.question,
-    acceptedAnswer: { "@type": "Answer", text: f.answer },
-  })),
-};
+export default async function FaqPage() {
+  const faqs = await getPublicFaqs();
 
-export default function FaqPage() {
+  // Schema generated from the exact same list the accordion renders —
+  // always in sync, same as before the D1 move.
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
+
   return (
     <>
       <script
@@ -47,7 +54,7 @@ export default function FaqPage() {
       />
       <Navbar />
       <main>
-        <FaqClient />
+        <FaqClient faqs={faqs} />
       </main>
       <Footer />
     </>

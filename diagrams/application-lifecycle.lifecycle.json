@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Application Lifecycle and Handling",
+    "output": "diagrams/application-lifecycle.html",
+    "viewBox": [1080, 630],
+    "animation": "none",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "submission-rail", "label": "Submission rail", "focus": ["form", "clientcheck", "servercheck", "stored", "notified"], "note": "Role page to HR inbox." },
+      { "id": "degraded-paths", "label": "Degraded paths", "focus": ["servercheck", "badrequest", "stored", "partial", "diagnostics"], "note": "Fail-open storage, plus rejections." },
+      { "id": "handling", "label": "HR handling", "focus": ["notified", "inbox", "reviewed"], "note": "Notify, review, reply by email." }
+    ]
+  },
+  "lanes": [
+    { "id": "main", "label": "Application path" },
+    { "id": "rejected", "label": "Rejected / degraded" },
+    { "id": "terminal", "label": "Where it ends up" }
+  ],
+  "states": [
+    { "id": "form", "type": "start", "label": "Form Filled", "sublabel": "role page, in browser", "lane": "main", "col": 0, "width": 124, "step": "01", "tag": "client" },
+    { "id": "clientcheck", "type": "decision", "label": "Client Check", "sublabel": "fields, size, type", "lane": "main", "col": 1, "width": 140, "step": "02", "tag": "gate" },
+    { "id": "servercheck", "type": "decision", "label": "Server Check", "sublabel": "caps, 5MB, MIME", "lane": "main", "col": 2, "width": 140, "step": "03", "tag": "gate" },
+    { "id": "stored", "type": "active", "label": "Stored", "sublabel": "D1 row + R2 object", "lane": "main", "col": 3, "width": 140, "step": "04", "tag": "durable" },
+    { "id": "notified", "type": "success", "label": "HR Notified", "sublabel": "Resend accepted 2xx", "lane": "main", "col": 4, "width": 140, "step": "05", "tag": "async" },
+
+    { "id": "badrequest", "type": "failure", "label": "400 Response", "sublabel": "nothing stored", "lane": "rejected", "col": 0, "width": 140, "tag": "server-side" },
+    { "id": "partial", "type": "waiting", "label": "Partial Persistence", "sublabel": "no row, or no resume", "lane": "rejected", "col": 1, "width": 140, "tag": "fail-open" },
+    { "id": "inbox", "type": "waiting", "label": "Email in HR Inbox", "sublabel": "Resend 2xx only", "lane": "rejected", "col": 2, "width": 140, "tag": "handoff" },
+
+    { "id": "diagnostics", "type": "failure", "label": "Fix and Retry", "sublabel": "retries in the browser", "lane": "terminal", "col": 0, "width": 140, "tag": "client-side" },
+    { "id": "rowonly", "type": "failure", "label": "Row Without Resume", "sublabel": "download answers 404", "lane": "terminal", "col": 1, "width": 140, "tag": "admin view" },
+    { "id": "reviewed", "type": "success", "label": "Reviewed and Answered", "sublabel": "reply happens by email", "lane": "terminal", "col": 2, "width": 140, "tag": "off-system" }
+  ],
+  "transitions": [
+    { "from": "servercheck", "to": "badrequest", "variant": "dashed", "route": "straight", "fromSide": "bottom", "toSide": "top" },
+    { "from": "stored", "to": "partial", "variant": "dashed", "route": "straight", "fromSide": "bottom", "toSide": "top" },
+    { "from": "notified", "to": "inbox", "variant": "emphasis", "route": "straight", "fromSide": "bottom", "toSide": "top" },
+    { "from": "badrequest", "to": "diagnostics", "variant": "dashed", "route": "straight", "fromSide": "bottom", "toSide": "top" },
+    { "from": "partial", "to": "rowonly", "variant": "dashed", "route": "straight", "fromSide": "bottom", "toSide": "top" },
+    { "from": "inbox", "to": "reviewed", "variant": "emphasis", "route": "straight", "fromSide": "bottom", "toSide": "top" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Durable by Order",
+      "items": [
+        "R2 key embeds the new row id",
+        "D1 row drives the admin list"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Fail-Open by Choice",
+      "items": [
+        "Storage errors never block a send",
+        "Failed upload still notifies HR"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Handling Gaps",
+      "items": [
+        "No status column: HR emails back",
+        "POST ignores role status"
+      ]
+    }
+  ]
+}

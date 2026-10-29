@@ -5,8 +5,8 @@
 - **Next.js 16** (App Router) + **React 19** + **TypeScript 6** — Turbopack dev server
 - **Tailwind CSS 3** — CSS custom property tokens (Material Design 3-like), `dark` class mode
 - **Deployment**: Cloudflare Workers via OpenNext (`open-next.config.ts`)
-- **Animations**: Framer Motion (`"use client"`), Google Material Symbols (class `material-symbols-outlined`)
-- **Fonts**: Inter (sans), Hanken Grotesk (display), JetBrains Mono (mono) — loaded in `globals.css`; Plus Jakarta Sans & Space Grotesk loaded in `layout.tsx`
+- **Animations**: Framer Motion (`"use client"`) for scroll reveals and the hero cross-fade, Lenis smooth scroll via `src/components/SmoothScroll.tsx`
+- **Fonts**: Inter for both the `sans` and `display` tokens, IBM Plex Serif (the `serif` token), JetBrains Mono (the `mono` token), all loaded with `next/font/google` in `layout.tsx`; the Material Symbols Outlined subset is the only `@font-face` in `globals.css`. `tailwind.config.js` points `sans` and `display` at the same stack, `var(--font-inter)`, and one family covering both roles is the decision, so the two tokens stay identical
 - **Auth/API**: Native Web Crypto API (`crypto.subtle`) for JWT assertion, Google Calendar API v3 (service account), zero external auth dependencies.
 - **Lint**: ESLint 9 flat config (`eslint.config.mjs`) with `next/core-web-vitals` + `next/typescript`
 - **Tests**: Vitest (node environment) — unit tests for API routes and routing logic in `tests/`
@@ -27,10 +27,11 @@
 ## Architecture
 
 ### Routes (`src/app/`)
-- `/` — Section-scroll homepage: Navbar, Hero, TrustStrip, CinematicStory (MSME pains → package links), Pricing (five packages rendered from `src/content/packages.ts`), Approach, Positioning ("Why Gileara"), Founders, ContactCTA (slim band → `/contact`), Footer; JSON-LD generated from the same content modules
+- `/` — Section-scroll homepage in `src/app/page.tsx`: Navbar, Hero (six-slide background carousel), CinematicStory (MSME pains → package links), Pricing (five packages rendered from `src/content/packages.ts`), Approach, Positioning, Founders, FoundingClient, AuditSection, ContactBand (slim band → `/contact`), Footer; JSON-LD generated from the same content modules
 - `/about`, `/services`, `/faq` — Static marketing pages; `/services` renders all five packages with full tier tables from `src/content/packages.ts` (anchored sections per package); `/faq` renders `src/content/faqs.ts` + matching FAQPage JSON-LD
 - `/contact` — Dedicated booking page hosting the ContactStepper; canonical target for every "Book a Free Consultation" CTA
-- `/careers` — Careers portal: `Navbar variant="careers"`, CareersHero, OpenRoles, WhyJoinUs, ApplicationForm; open roles render from `src/content/roles.ts` (Stage-1 plan: Full-Stack ×2, UI/UX, DevOps, PM; QA parked) and JobPosting JSON-LD derives from the same module
+- `/careers` (+ `/careers/[slug]`) — Careers portal: `Navbar variant="careers"`, CareersHero, OpenRoles, WhyJoinUs, ApplicationForm; open roles render from `src/content/roles.ts` (Stage-1 plan: Full-Stack ×2, UI/UX, DevOps, PM; QA parked) and JobPosting JSON-LD derives from the same module
+- `/admin` (+ `/admin/login`, `/admin/roles/new`, `/admin/roles/[id]`) — HR portal for the careers pipeline: Google OAuth sign-in limited to `HR_EMAILS` plus the `@gileara.org` domain, a D1-backed roster of roles and applications, status changes and resume downloads from R2. Every page and server action checks the `admin_session` cookie through `src/app/admin/session-guard.ts`
 - `/how-we-transform` (+ `/how-we-transform/[slug]`) — Vertical transformation playbooks rendered from `src/content/scenarios.ts`; every entry carries a status label (`scenario | pilot | case-study`) and goals-not-results framing. `/case-studies/*` permanently redirects here (fabricated stories removed)
 - `/insights` (+ `/insights/[slug]`) — Articles list and detail pages from `src/content/posts.ts`, with tag filter (Packages / Operations / Growth / Automation / Ghana-market)
 - `/privacy`, `/terms`, `/security` — Static legal pages (Navbar + Footer layout)
@@ -39,6 +40,9 @@
 - `/api/contact` — `POST` only, reads `formData`, returns redirect
 - `/api/schedule` — `POST` only, JSON body, creates Google Calendar event via service account (native `crypto.subtle` JWT); `GET` returns an env healthcheck
 - `/api/apply` — `POST` only, careers application `formData` with resume upload validation (5MB limit)
+- `/api/newsletter` — `POST` only, adds an email to the Resend audience; returns 404 unless `NEWSLETTER_ENABLED` is `1`
+- `/api/env-check` — `GET` only, reports which env vars are present as booleans, plus the literal values of `NEWSLETTER_ENABLED` and `MAINTENANCE_MODE`
+- `/api/admin/resumes/[id]` — resume download for a signed-in HR session
 
 ### Request routing (`src/lib/request-proxy.ts`)
 Security headers (HSTS, nosniff, DENY framing, referrer policy) are applied via `next.config.mjs` `headers()` — **not** middleware. Next 16's middleware/proxy convention runs on the Node.js runtime, which `@opennextjs/cloudflare` cannot bundle yet, so the request proxy is parked as a plain (fully unit-tested) module.
@@ -47,14 +51,14 @@ Security headers (HSTS, nosniff, DENY framing, referrer policy) are applied via 
 ### Key conventions
 - **Path alias**: `@/*` maps to `./src/*`
 - **Client components**: Marked `"use client"` when using Framer Motion, React state, or browser APIs
-- **Theme**: `next-themes` with `attribute="class" defaultTheme="dark" enableSystem={false}` — **dark (Velocity Navy) is the brand-default** per `DESIGN.md`/`gileara_velocity_dark`; light mode remains as secondary toggle
-- **3-D system**: three tiers — CSS structural tilt (`src/components/Tilt3D.tsx`, max 6°, off for touch/reduced-motion), ONE WebGL signature effect (`src/components/three/OrbitScene.tsx`, lazy client-only, reduced-motion renders a single static frame, no-WebGL falls back to hero watermark/gradient), Framer Motion scroll reveals. Never add a second WebGL scene (fable-signature-effects rule); never let canvas intercept pointer events
+- **Theme**: dark only. `src/app/layout.tsx` hardcodes `className="dark"` on `<html>` and mounts no theme provider or toggle, so the `.dark` block in `globals.css` always applies. The light `:root` palette exists in `globals.css` but is unreachable from the UI today, so check any colour token change against the `.dark` values. `next-themes` is still listed in `package.json` and is imported nowhere under `src/`
+- **Motion**: Framer Motion scroll reveals in client components, Lenis smooth scroll, CSS transitions elsewhere. No tilt or WebGL layer ships: there is no `src/components/Tilt3D.tsx` and no `src/components/three/OrbitScene.tsx`, nothing under `src/` imports `three` or `@react-three/*`, and those `package.json` entries are unused today
 - **CSS**: Tailwind utility classes + CSS custom properties in `globals.css` (light/dark `:root` / `.dark` blocks)
 - **Tests live in `tests/`**, mirror `src/` layout, use the `@/` alias; no DOM environment needed yet
 - **Content modules** are the only sources for copy shown in UI or schema: `packages.ts`, `site-config.ts`, `faqs.ts`, `posts.ts`, `scenarios.ts`, `roles.ts` — never duplicate their data elsewhere; JSON-LD is generated from them
 - **Icons**: Material Symbols (`material-symbols-outlined`) is the single system for all UI glyphs — svg width/height classes don't apply to it (translate to `text-*` font sizes); react-icons remains ONLY for brand glyphs with no Material equivalent (`FaLinkedin`, `FaWhatsapp`). No other icon libraries (lucide-react removed)
-- **Imagery**: optional photo slots on playbook/insight cards come from content-module `image` fields with gradient fallbacks; see `docs/IMAGERY.md` (real Ghanaian contexts only — never Western/AI stock)
-- **Design references**: `DESIGN.md` (light) + `stitch_gileara_technologies_website/gileara_velocity_dark/DESIGN.md` (dark, authoritative for default theme); homepage follows Promise → Proof → Objection → Ask section order; keyword marquee after Hero; pricing uses numbered alternating-fill cards
+- **Imagery**: optional photo slots on playbook/insight cards come from content-module `image` fields and fall back to a gradient when unset (all six insight posts set one, no scenario does); see `docs/IMAGERY.md` (real Ghanaian and African contexts only, never Western or AI stock)
+- **Design references**: `DESIGN.md` (light) + `stitch_gileara_technologies_website/gileara_velocity_dark/DESIGN.md` (dark, authoritative for the shipped theme); homepage follows Promise → Proof → Objection → Ask section order; pricing renders numbered full-width rows from `src/components/Pricing.tsx`. No marquee ships: the `marquee` keyframes and `animate-marquee` animation in `tailwind.config.js` have no call site under `src/`
 
 ## Environment
 
@@ -82,7 +86,7 @@ Cloudflare's git integration auto-deploys **every merge into `main`** (worker `v
 
 ## Notable
 
-- **Tests cover** the request proxy (headers, maintenance modes, bypass flow), all three API routes' validation/error branches, and the maintenance-routes list shape. Component rendering is not tested yet.
+- **Tests cover** the request proxy (headers, maintenance modes, bypass flow), the contact, schedule, apply, and newsletter API routes' validation and error branches, the portal modules (sessions, roles, rate limits, resume storage), and the maintenance-routes list shape. Component rendering is not tested yet.
 - **GitHub workflows** in `.github/workflows/`: AI review, stale cleanup, issue triage, branch cleanup, auto-rebase, and smart-tests (runs `npm test`, `npm run lint`, `npm run build` on PRs)
 - **Performance**: no synthetic loading screens; capture Lighthouse baselines manually against production (no maintained snapshot in-repo)
 - **Single code owner**: `@thehiddendeveloper` per CODEOWNERS

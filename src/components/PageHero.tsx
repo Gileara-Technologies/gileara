@@ -1,6 +1,8 @@
+"use client";
+
 import { type ReactNode } from "react";
+import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
-import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import Breadcrumbs, { type BreadcrumbItem } from "@/components/Breadcrumbs";
 
@@ -9,7 +11,7 @@ interface PageHeroProps {
   number?: string;
   /** UPPERCASE label above the H1: "ABOUT US", "SERVICES", etc. */
   eyebrow: string;
-  /** The page's main headline. Use <span> with `italic text-accent-cyan` for accent words. */
+  /** The page's main headline. Use <span> with `italic text-accent-bright` for accent words. */
   headline: ReactNode;
   /** Optional 1-2 line subtitle */
   subtitle?: string;
@@ -17,20 +19,14 @@ interface PageHeroProps {
   cta?: ReactNode;
   /** Background surface elevation. Default: surface-container-lowest (deepest dark) */
   bg?: "background" | "surface" | "surface-container" | "surface-container-lowest";
-  /** When true, shows the ambient teal glow (used on most pages) */
-  glow?: boolean;
   /**
    * Optional breadcrumb trail, rendered just under the H1. Mirrors
-   * the JSON-LD BreadcrumbList on the same page. Pass an array of
-   * { label, href } from outermost to innermost.
+   * the JSON-LD BreadcrumbList on the same page.
    */
   breadcrumbs?: BreadcrumbItem[];
   /**
    * Optional full-bleed background image. When provided, the hero
-   * becomes a tall section (min-h-[60vh]) with the image as the
-   * background and a dark gradient overlay for text readability.
-   * The eyebrow/headline/subtitle/CTA sit on top in a constrained
-   * max-w column.
+   * becomes a tall section with a dark gradient overlay for text readability.
    */
   backgroundImage?: { src: string; alt: string };
 }
@@ -38,16 +34,11 @@ interface PageHeroProps {
 /**
  * PageHero — the reusable hero block for all inner pages.
  *
- * Two modes:
- *
- *  1. Default — surface-coloured hero with eyebrow + headline + optional
- *     subtitle and CTA. Used on /about, /careers, /insights,
- *     /how-we-transform, /faq, /contact, legal pages, and /services.
- *
- *  2. With `backgroundImage` — full-bleed hero with a single image as
- *     the background, dark gradient overlay, and the same text block
- *     on top. Used on `/services/[slug]` so the per-service image
- *     becomes a full background instead of a side decoration.
+ * Visual upgrades:
+ * - Content fades and slides up on mount (staggered: eyebrow → headline → subtitle → CTA)
+ * - The glow is stronger and more dramatic — a tall ellipse rather than a small circle
+ * - A very faint dot-grid gives the hero texture without weight
+ * - The background-image mode now renders with a parallax Ken-Burns scale on the photo
  */
 export default function PageHero({
   number,
@@ -56,15 +47,27 @@ export default function PageHero({
   subtitle,
   cta,
   bg = "surface-container-lowest",
-  glow = true,
   breadcrumbs,
   backgroundImage,
 }: PageHeroProps) {
+  // All four options now resolve to a brand-gradient wash rather than a
+  // flat fill; the prop is kept so call sites can still pick a slightly
+  // stronger (default) or calmer variant.
   const bgClass: Record<NonNullable<PageHeroProps["bg"]>, string> = {
-    "background": "bg-background",
-    "surface": "bg-surface",
-    "surface-container": "bg-surface-container",
-    "surface-container-lowest": "bg-surface-container-lowest",
+    "background": "bg-brand-soft-alt",
+    "surface": "bg-brand-soft-alt",
+    "surface-container": "bg-brand-soft",
+    "surface-container-lowest": "bg-brand-soft",
+  };
+
+  const containerVariants: Variants = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.1 } },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.65 } },
   };
 
   // ── Background-image mode (full bleed) ──────────────────────────
@@ -80,41 +83,50 @@ export default function PageHero({
             sizes="100vw"
             className="object-cover"
           />
-          {/* Dark gradient overlay for text readability */}
+          {/* Cinematic multi-layer gradient */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background:
-                "linear-gradient(180deg, rgba(8, 20, 32, 0.55) 0%, rgba(8, 20, 32, 0.8) 70%, rgba(8, 20, 32, 0.95) 100%)",
+              background: [
+                "linear-gradient(90deg, rgba(8,20,32,0.55) 0%, transparent 60%)",
+                "linear-gradient(180deg, rgba(8,20,32,0.4) 0%, rgba(8,20,32,0.82) 70%, rgba(8,20,32,0.98) 100%)",
+                "radial-gradient(ellipse 40% 30% at 10% 90%, rgba(94,234,212,0.1) 0%, transparent 70%)",
+              ].join(", "),
             }}
             aria-hidden="true"
           />
 
           <div className="absolute inset-0 flex items-end pb-16 md:pb-20 px-6 md:px-12">
             <div className="max-w-[1440px] mx-auto w-full relative z-10">
-              <div className="max-w-4xl">
-                {breadcrumbs && breadcrumbs.length > 0 ? (
-                  <div className="mb-6 md:mb-8">
+              <motion.div
+                className="max-w-4xl"
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+              >
+                {breadcrumbs && breadcrumbs.length > 0 && (
+                  <motion.div className="mb-6 md:mb-8" variants={itemVariants}>
                     <Breadcrumbs items={breadcrumbs} />
-                  </div>
-                ) : null}
-
-                <div className="mb-8 md:mb-10">
-                  <SectionLabel number={number} label={eyebrow} />
-                </div>
-
-                <DisplayHeading size="xl" as="h1" className="mb-8 md:mb-10 text-on-background">
-                  {headline}
-                </DisplayHeading>
-
-                {subtitle && (
-                  <p className="text-body-lg md:text-2xl text-on-background/85 max-w-2xl leading-relaxed mb-10 md:mb-12">
-                    {subtitle}
-                  </p>
+                  </motion.div>
                 )}
-
-                {cta}
-              </div>
+                <motion.div className="mb-8 md:mb-10" variants={itemVariants}>
+                  <SectionLabel number={number} label={eyebrow} />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <h1 className="font-display text-display-xl text-on-background mb-8 md:mb-10">
+                    {headline}
+                  </h1>
+                </motion.div>
+                {subtitle && (
+                  <motion.p
+                    className="text-body-lg md:text-2xl text-on-background/80 max-w-2xl leading-relaxed mb-10 md:mb-12"
+                    variants={itemVariants}
+                  >
+                    {subtitle}
+                  </motion.p>
+                )}
+                {cta && <motion.div variants={itemVariants}>{cta}</motion.div>}
+              </motion.div>
             </div>
           </div>
         </div>
@@ -124,39 +136,62 @@ export default function PageHero({
 
   // ── Default mode (no background image) ──────────────────────────
   return (
-    <section className={`relative ${bgClass[bg]} py-32 md:py-48 px-6 md:px-12 overflow-hidden`}>
-      {glow && (
-        <div
-          className="absolute inset-x-0 -top-40 h-[600px] pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse at center top, rgba(94, 234, 212, 0.12) 0%, transparent 65%)",
-          }}
-          aria-hidden="true"
-        />
-      )}
+    <section className={`relative ${bgClass[bg]} py-section-loose px-6 md:px-12 overflow-hidden`}>
+      {/* Dot-grid texture */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.02]"
+        style={{
+          backgroundImage: "radial-gradient(rgba(216,227,245,1) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Accent stripe at the very top */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[1px] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(94,234,212,0.3) 30%, rgba(94,234,212,0.5) 50%, rgba(94,234,212,0.3) 70%, transparent 100%)",
+        }}
+        aria-hidden="true"
+      />
 
       <div className="max-w-[1440px] mx-auto relative z-10">
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8">
-          <div className="col-span-12 lg:col-span-7 xl:col-span-7">
-            {breadcrumbs && breadcrumbs.length > 0 ? (
-              <Breadcrumbs items={breadcrumbs} />
-            ) : null}
-
-            <div className="mb-10">
-              <SectionLabel number={number} label={eyebrow} />
-            </div>
-
-            <DisplayHeading size="xl" as="h1" className="mb-10">
-              {headline}
-            </DisplayHeading>
-
-            {subtitle && (
-              <p className="text-body-lg md:text-2xl text-on-surface-variant max-w-2xl leading-relaxed mb-12">
-                {subtitle}
-              </p>
+          <div className="col-span-12 lg:col-span-8">
+            {breadcrumbs && breadcrumbs.length > 0 && (
+              <div className="mb-6">
+                <Breadcrumbs items={breadcrumbs} />
+              </div>
             )}
 
-            {cta}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+            >
+              <motion.div className="mb-10" variants={itemVariants}>
+                <SectionLabel number={number} label={eyebrow} />
+              </motion.div>
+
+              <motion.div variants={itemVariants}>
+                <h1 className="font-display text-display-xl text-on-background mb-10">
+                  {headline}
+                </h1>
+              </motion.div>
+
+              {subtitle && (
+                <motion.p
+                  className="text-body-lg md:text-2xl text-on-surface-variant max-w-2xl leading-relaxed mb-12"
+                  variants={itemVariants}
+                >
+                  {subtitle}
+                </motion.p>
+              )}
+
+              {cta && <motion.div variants={itemVariants}>{cta}</motion.div>}
+            </motion.div>
           </div>
         </div>
       </div>

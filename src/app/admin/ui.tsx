@@ -7,6 +7,7 @@
 
 import Link from "next/link";
 import type { ApplicationStatus, RoleStatus } from "@/lib/portal/types";
+import type { ContentStatus } from "@/lib/cms/types";
 import { DB_UNAVAILABLE_MESSAGE } from "./admin-db";
 import { applicationStatusLabel, statusLabel } from "./form-logic";
 
@@ -15,6 +16,22 @@ const STATUS_BADGE_CLASSES: Record<RoleStatus, string> = {
   paused: "bg-tertiary-container text-on-tertiary-container",
   closed: "bg-surface-container-highest text-on-surface-variant",
 };
+
+const CONTENT_STATUS_BADGE_CLASSES: Record<ContentStatus, string> = {
+  draft: "bg-tertiary-container text-on-tertiary-container",
+  published: "bg-secondary-container text-on-secondary-container",
+};
+
+/** Draft/published pill for any CMS content type (FAQs first). */
+export function ContentStatusBadge({ status }: { status: ContentStatus }) {
+  return (
+    <span
+      className={`inline-flex items-center rounded-pill px-2.5 py-0.5 text-xs font-medium capitalize ${CONTENT_STATUS_BADGE_CLASSES[status]}`}
+    >
+      {status}
+    </span>
+  );
+}
 
 export function StatusBadge({ status }: { status: RoleStatus }) {
   return (
@@ -54,7 +71,7 @@ export function DbUnavailableNotice() {
   return (
     <div
       role="status"
-      className="flex items-start gap-3 rounded-md border border-outline-variant bg-surface-container-low p-4"
+      className="op-card flex items-start gap-3 rounded-md p-4"
     >
       <span
         className="material-symbols-outlined text-base text-on-surface-variant"
@@ -77,6 +94,7 @@ const ACTION_ERROR_MESSAGES: Record<string, string> = {
   unavailable: DB_UNAVAILABLE_MESSAGE,
   invalid: "That action was not valid, so nothing changed.",
   save: "That change could not be saved, so nothing changed.",
+  "content-forbidden": "Your account isn't set up for content editing, so that page is not available to you.",
 };
 
 /** Banner for `?error=` codes appended by the status server action. */
@@ -101,16 +119,21 @@ export function ActionErrorBanner({ code }: { code?: string }) {
   );
 }
 
-export function BackToDashboard() {
+/**
+ * Back to the roles board. Named (and routed) for where role-centric pages
+ * actually came from — /admin is the dashboard overview now, not the
+ * roles list, so "Dashboard" here would silently skip past it.
+ */
+export function BackToRoles() {
   return (
     <Link
-      href="/admin"
+      href="/admin/roles"
       className="inline-flex items-center gap-1 text-sm text-on-surface-variant transition-colors hover:text-on-surface"
     >
       <span className="material-symbols-outlined text-base" aria-hidden="true">
         arrow_back
       </span>
-      Dashboard
+      Roles
     </Link>
   );
 }

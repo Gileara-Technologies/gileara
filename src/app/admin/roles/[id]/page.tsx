@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { getRole, listApplications } from "@/lib/portal/db";
 import type { ApplicationRow, ParsedRole } from "@/lib/portal/types";
 import { tryGetPortalDb } from "../../admin-db";
-import { BackToDashboard, DbUnavailableNotice, StatusBadge } from "../../ui";
+import { BackToRoles, DbUnavailableNotice, StatusBadge } from "../../ui";
 import { ActionErrorBanner } from "../../ui";
 import { ApplicationsSection } from "../applications";
 import { RoleForm } from "../role-form";
@@ -27,7 +27,7 @@ export default async function EditRolePage({
   if (!db) {
     return (
       <div className="mx-auto max-w-3xl space-y-6">
-        <BackToDashboard />
+        <BackToRoles />
         <DbUnavailableNotice />
       </div>
     );
@@ -47,7 +47,7 @@ export default async function EditRolePage({
   if (failed) {
     return (
       <div className="mx-auto max-w-3xl space-y-6">
-        <BackToDashboard />
+        <BackToRoles />
         <DbUnavailableNotice />
       </div>
     );
@@ -59,14 +59,14 @@ export default async function EditRolePage({
   return (
     <div className="mx-auto max-w-3xl space-y-8">
       <div>
-        <BackToDashboard />
+        <BackToRoles />
         {error && (
           <div className="mt-3">
             <ActionErrorBanner code={error} />
           </div>
         )}
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          <h2 className="text-2xl font-semibold">{role.title}</h2>
+          <h2 className="font-display text-2xl">{role.title}</h2>
           <StatusBadge status={role.status} />
         </div>
         <p className="mt-2 flex flex-wrap items-center gap-2 text-sm text-on-surface-variant">

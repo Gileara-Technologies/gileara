@@ -3,6 +3,7 @@ import {
   createSessionToken,
   readSessionToken,
   isAllowedHrEmail,
+  isAllowedContentEditorEmail,
   createSessionPayload,
   SESSION_EXPIRY_DAYS,
 } from '@/lib/portal/session';
@@ -148,6 +149,42 @@ describe('session', () => {
     it('handles empty/invalid inputs', () => {
       expect(isAllowedHrEmail('')).toBe(false);
       expect(isAllowedHrEmail('   ')).toBe(false);
+    });
+  });
+
+  describe('isAllowedContentEditorEmail', () => {
+    it('allows a single-segment name under the gileara convention', () => {
+      expect(isAllowedContentEditorEmail('jude.gileara@gmail.com')).toBe(true);
+      expect(isAllowedContentEditorEmail('JUDE.GILEARA@GMAIL.COM')).toBe(true);
+      expect(isAllowedContentEditorEmail('  jude.gileara@gmail.com  ')).toBe(true);
+    });
+
+    it('allows a multi-segment name (e.g. first.last)', () => {
+      expect(isAllowedContentEditorEmail('mary.jane.gileara@gmail.com')).toBe(true);
+    });
+
+    it('allows digits in the name segment', () => {
+      expect(isAllowedContentEditorEmail('jude2.gileara@gmail.com')).toBe(true);
+    });
+
+    it('is a separate permission tier from HR -- does not allow @gileara.org', () => {
+      expect(isAllowedContentEditorEmail('hr@gileara.org')).toBe(false);
+      expect(isAllowedContentEditorEmail('jude.gileara@gileara.org')).toBe(false);
+    });
+
+    it('rejects an email with no name segment before "gileara"', () => {
+      expect(isAllowedContentEditorEmail('gileara@gmail.com')).toBe(false);
+    });
+
+    it('rejects a different domain or local part shape', () => {
+      expect(isAllowedContentEditorEmail('jude.gileara@yahoo.com')).toBe(false);
+      expect(isAllowedContentEditorEmail('jude@gmail.com')).toBe(false);
+      expect(isAllowedContentEditorEmail('judegileara@gmail.com')).toBe(false);
+    });
+
+    it('handles empty/invalid inputs', () => {
+      expect(isAllowedContentEditorEmail('')).toBe(false);
+      expect(isAllowedContentEditorEmail('   ')).toBe(false);
     });
   });
 

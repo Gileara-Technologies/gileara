@@ -3,185 +3,276 @@
 @tailwind utilities;
 
 @layer base {
+  /**
+   * Operator theme — Gileara's teal↔black brand gradient, Vercel/Linear
+   * structure.
+   *
+   * Philosophy: the canvas is never flat #000 — it's a deep teal-black
+   * that blends into the brand's bright teal at a few deliberate points
+   * per section. Mono is the display face. Borders everywhere. One
+   * accent (teal), used generously in the background wash, precisely
+   * in foreground UI.
+   */
   :root {
-    color-scheme: light;
-
-    --primary: 0 77 89;
-    --on-primary: #ffffff;
-    --primary-container: #aaecf0;
-    --on-primary-container: #005056;
-    --secondary: 0 104 116;
-    --on-secondary: #ffffff;
-    --secondary-container: #b1edf7;
-    --on-secondary-container: #002024;
-    --tertiary: #1b3b5c;
-    --on-tertiary: #ffffff;
-    --tertiary-container: #d4e3ff;
-    --on-tertiary-container: #001e35;
-    --background: #faf8f3;
-    --on-background: #1a1c1e;
-    --surface: #faf8f3;
-    --on-surface: #1a1c1e;
-    --surface-variant: #e0e2e0;
-    --on-surface-variant: #44474e;
-    --outline: 0 77 89;
-    --outline-variant: 0 77 89;
-    --error: #ba1a1a;
-    --on-error: #ffffff;
-    --error-container: #ffdad6;
-    --on-error-container: #93000a;
-    --surface-container-lowest: #f4f1eb;
-    --surface-container-low: #eeebe3;
-    --surface-container: #e8e5dd;
-    --surface-container-high: #e2dfd7;
-    --surface-container-highest: #dcd9d1;
-    --surface-dim: #d3d0c8;
-    --surface-bright: #faf8f3;
-    --surface-tint: #004d59;
-    --inverse-surface: #2e3133;
-    --inverse-on-surface: #f0f2ed;
-    --inverse-primary: #48d5df;
-
-    --hero-mesh-bg: radial-gradient(circle at 10% 20%, rgba(77, 213, 223, 0.1) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(0, 77, 89, 0.08) 0%, transparent 40%),
-                    radial-gradient(circle at 50% 50%, rgba(26, 59, 92, 0.05) 0%, transparent 50%);
-    --scroll-behavior: smooth;
-  }
-
-  .dark {
     color-scheme: dark;
 
-    --primary: 68 221 193;
-    --on-primary: #00382f;
-    --primary-container: #00bfa5;
-    --on-primary-container: #00473c;
-    --secondary: 187 198 226;
-    --on-secondary: #263046;
-    --secondary-container: #3e4960;
-    --on-secondary-container: #adb8d3;
-    --tertiary: #afc9ea;
-    --on-tertiary: #17324d;
-    --tertiary-container: #92accc;
-    --on-tertiary-container: #26405c;
-    --background: #081420;
-    --on-background: #d8e3f5;
-    --surface: #081420;
-    --on-surface: #d8e3f5;
-    --surface-variant: #2a3643;
-    --on-surface-variant: #bbcac4;
-    --outline: 68 221 193;
-    --outline-variant: 68 221 193;
-    --surface-container-lowest: #040f1b;
-    --surface-container-low: #111c29;
-    --surface-container: #15202d;
-    --surface-container-high: #1f2b38;
-    --surface-container-highest: #2a3643;
-    --surface-dim: #081420;
-    --surface-bright: #2f3a47;
-    --surface-tint: #44ddc1;
-    --inverse-surface: #d8e3f5;
-    --inverse-on-surface: #26313e;
-    --inverse-primary: #006b5c;
-    --error: #ffb4ab;
-    --on-error: #690005;
-    --error-container: #93000a;
-    --on-error-container: #ffdad6;
+    /* ── Core palette — deep teal-black, not pure #000 ─────────────────── */
+    --background: 3 10 12;
+    --on-background: 230 240 237;
 
-    --hero-mesh-bg: radial-gradient(circle at 10% 20%, rgba(68, 221, 193, 0.15) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(175, 201, 234, 0.15) 0%, transparent 40%),
-                    radial-gradient(circle at 50% 50%, rgba(0, 191, 165, 0.1) 0%, transparent 50%);
+    --surface: 3 10 12;
+    --on-surface: 230 240 237;
+    --surface-variant: 16 28 29;
+    --on-surface-variant: 148 172 167;
+
+    --surface-container-lowest: 1 6 7;
+    --surface-container-low: 7 17 18;
+    --surface-container: 11 23 24;
+    --surface-container-high: 17 31 32;
+    --surface-container-highest: 25 41 42;
+    --surface-dim: 1 6 7;
+    --surface-bright: 32 48 49;
+
+    /* Borders — teal-tinted, not neutral gray */
+    --outline: 40 62 60;
+    --outline-variant: 20 36 35;
+
+    /* Primary = brand teal */
+    --primary: 94 234 212;
+    --on-primary: 3 10 12;
+    --primary-container: 10 48 44;
+    --on-primary-container: 125 240 222;
+
+    /* Secondary = cooler teal-gray, used for less urgent UI (role badges) */
+    --secondary: 150 214 204;
+    --on-secondary: 3 14 13;
+    --secondary-container: 12 30 29;
+    --on-secondary-container: 180 224 216;
+
+    /* Tertiary = warm amber, the one deliberate second temperature — used
+       sparingly (paused-state badges) so the palette isn't monochrome teal */
+    --tertiary: 224 186 120;
+    --on-tertiary: 24 16 4;
+    --tertiary-container: 34 26 12;
+    --on-tertiary-container: 232 202 150;
+
+    /* Error */
+    --error: 255 138 120;
+    --on-error: 20 6 4;
+    --error-container: 40 14 12;
+    --on-error-container: 255 190 180;
+
+    /* Inverse */
+    --inverse-surface: 230 240 237;
+    --inverse-on-surface: 8 18 19;
+    --inverse-primary: 2 92 80;
+
+    --surface-tint: 94 234 212;
+
+    /* Brand gradient stops — used by .bg-brand / .bg-brand-soft below.
+       Kept as discrete vars so any section can reference them directly. */
+    --brand-teal: 94 234 212;
+    --brand-teal-deep: 10 90 80;
+    --brand-navy: 4 14 18;
+
+    /* ── Section rhythm ───────────────────────────────────────────────── */
+    --space-section-tight: 72px;
+    --space-section: 96px;
+    --space-section-loose: 128px;
+
+    caret-color: #5EEAD4;
   }
 
+  @media (min-width: 768px) {
+    :root {
+      --space-section-tight: 96px;
+      --space-section: 128px;
+      --space-section-loose: 160px;
+    }
+  }
+
+  /* ── Base resets ────────────────────────────────────────────────── */
   body {
-    @apply bg-background text-on-background font-sans overflow-x-hidden transition-colors duration-300;
+    @apply bg-background text-on-background font-sans overflow-x-hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Headings use the display (mono) font by default */
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
+
+  a {
+    transition: color 150ms ease;
+  }
+
+  :focus-visible {
+    outline: 1.5px solid #5EEAD4;
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
 }
 
-/* Lenis smooth-scroll foundation */
+/* ── Lenis smooth scroll ──────────────────────────────────────────────── */
 html.lenis,
 html.lenis body {
   height: auto;
 }
-
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;
 }
-
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
-
 .lenis.lenis-stopped {
   overflow: hidden;
 }
-
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
 
-/* GSAP / ScrollTrigger initial states (prevent flash of un-animated content) */
-.gsap-init-hidden {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.gsap-reveal-text .word {
-  display: inline-block;
-  transform: translateY(100%);
-  will-change: transform;
-}
-
-.gsap-reveal-text .char {
-  display: inline-block;
-  transform: translateY(100%);
-  will-change: transform;
-}
-
-/* Scrollbar styling — keep minimal, consistent with dark theme */
+/* ── Scrollbar ────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--surface-container);
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: var(--outline-variant);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: rgba(94, 234, 212, 0.4);
 }
 
-/* Selection */
+/* ── Selection ────────────────────────────────────────────────────────── */
 ::selection {
-  background: var(--primary);
-  color: var(--on-primary);
+  background: rgba(94, 234, 212, 0.25);
+  color: #ffffff;
 }
 
-/* Material Symbols Outlined (the icon font behind every .material-symbols-outlined span).
-   This used to load as a separate render-blocking stylesheet from fonts.googleapis.com
-   inside layout.tsx, which blocked first paint on every page and tripped the
-   @next/next/no-page-custom-font lint warning. The Google Fonts rules are inlined here
-   instead so icons arrive with the site's own stylesheet. The rules stay at the very end
-   of this file: the old external sheet loaded after the site CSS, so keeping these rules
-   last preserves the exact same cascade (and the same font-display: swap and woff2 from
-   fonts.gstatic.com) as before. */
+/* ── Grain overlay ────────────────────────────────────────────────────── */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+}
+
+/* ── Cursor spotlight ─────────────────────────────────────────────────── */
+.cursor-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 39;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* ── Grid lines ───────────────────────────────────────────────────────── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* ── Brand gradient backgrounds ──────────────────────────────────────────
+   Two strengths:
+   - .bg-brand       expressive — hero, footer, CTA bands. Strong teal bloom.
+   - .bg-brand-soft  content-dense sections — a single calm top glow so
+                     body text and tables stay legible.
+   Both sit on the deep teal-black base (--background), never pure black. */
+.bg-brand {
+  background-color: rgb(var(--background));
+  background-image:
+    radial-gradient(ellipse 70% 55% at 18% -5%, rgba(94,234,212,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 100% 105%, rgba(16,120,105,0.22) 0%, transparent 65%),
+    linear-gradient(165deg, rgba(3,10,12,0) 0%, rgba(6,26,24,0.75) 100%);
+}
+.bg-brand-soft {
+  background-color: rgb(var(--background));
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(94,234,212,0.09) 0%, transparent 65%),
+    linear-gradient(180deg, rgba(3,10,12,0) 0%, rgba(5,18,18,0.5) 100%);
+}
+/* Reversed anchor for visual rhythm between adjacent sections */
+.bg-brand-soft-alt {
+  background-color: rgb(var(--background));
+  background-image:
+    radial-gradient(ellipse 70% 45% at 85% 0%, rgba(94,234,212,0.07) 0%, transparent 65%),
+    linear-gradient(200deg, rgba(3,10,12,0) 0%, rgba(5,18,18,0.45) 100%);
+}
+
+/* ── Operator card ────────────────────────────────────────────────────── */
+.op-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(94, 234, 212, 0.025);
+  transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+.op-card:hover {
+  border-color: rgba(94, 234, 212, 0.3);
+  background: rgba(94, 234, 212, 0.05);
+  box-shadow: 0 0 30px rgba(94, 234, 212, 0.08), inset 0 1px 0 rgba(94, 234, 212, 0.08);
+}
+
+/* ── Hairline divider ─────────────────────────────────────────────────── */
+.hairline {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Terminal prompt prefix ───────────────────────────────────────────── */
+.prompt::before {
+  content: '▸';
+  color: #5EEAD4;
+  margin-right: 0.5rem;
+  font-size: 0.6em;
+  vertical-align: middle;
+}
+
+/* ── Typewriter cursor ────────────────────────────────────────────────── */
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: #5EEAD4;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  animation: blink 1.1s step-end infinite;
+}
+
+/* ── Shimmer on the white CTA pill ───────────────────────────────────── */
+@keyframes shimmer-white {
+  from { background-position: -300px 0; }
+  to   { background-position: 300px 0; }
+}
+.btn-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.12) 50%,
+    transparent 100%
+  );
+  background-size: 300px 100%;
+  background-repeat: no-repeat;
+  animation: shimmer-white 3s ease-in-out infinite;
+}
+
+/* ── Material Symbols ─────────────────────────────────────────────────── */
 @font-face {
   font-family: 'Material Symbols Outlined';
   font-style: normal;
   font-weight: 100 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v375/kJEPBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzBwG-RpA6RzaxHMPdY40KH8nGzv3fzfVJO1Q.woff2) format('woff2');
+  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v375/kJEPBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzBwG-RpA6RzaxHMPdY40KH8nGzv3fzfVJO1Q.woff2?text=arrow_upward%7Ccheck_circle%7Cerror%7Ccloud_upload%7Cclose%7Csend%7Clocation_on%7Carrow_forward%7Cmail%7Cschedule%7Ccheck%7Carrow_back%7Cbuild%7Ccalendar_month%7Cchevron_left%7Cchevron_right%7Cmenu%7Carrow_downward%7Cpause%7Cplay_arrow%7Cwork%7Cgroups%7Cperson%7Caccount_tree%7Cbadge%7Ccloud_off%7Cadd%7Cedit%7Cwork_outline%7Cexpand_more%7Cdownload%7Crestart_alt%7Cdashboard%7Cinbox%7Csearch%7Clogout%7Chelp%7Cvisibility_off%7Carticle) format('woff2');
 }
-
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
   font-weight: normal;
@@ -197,3 +288,18 @@ html.lenis body {
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+
+/* ── GSAP initial states ──────────────────────────────────────────────── */
+.gsap-init-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.gsap-reveal-text .word {
+  display: inline-block;
+  transform: translateY(100%);
+}
+.gsap-reveal-text .char {
+  display: inline-block;
+  transform: translateY(100%);
+}
+

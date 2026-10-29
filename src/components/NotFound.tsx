@@ -83,7 +83,7 @@ export default function NotFound() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="inline-block"
             >
-              <span className="text-8xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+              <span className="text-8xl md:text-9xl font-black text-primary">
                 404
               </span>
             </motion.div>
@@ -113,7 +113,7 @@ export default function NotFound() {
             {/* Primary Button - Back to Home */}
             <Link
               href="/"
-              className="teal-gradient-btn px-8 py-4 rounded-lg text-center font-semibold shadow-lg text-white dark:text-on-primary inline-flex items-center justify-center gap-2 group"
+              className="bg-accent-bright text-background hover:bg-accent-bright/90 hover:text-background px-8 py-4 rounded-lg text-center font-semibold shadow-lg inline-flex items-center justify-center gap-2 group"
             >
               <span className="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform duration-200" aria-hidden="true">arrow_back</span>
               Back to Home

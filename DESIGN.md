@@ -50,19 +50,19 @@ colors:
   surface-variant: '#e0e3e5'
 typography:
   display-lg:
-    fontFamily: Hanken Grotesk
+    fontFamily: IBM Plex Serif
     fontSize: 48px
     fontWeight: '700'
     lineHeight: 56px
     letterSpacing: -0.02em
   display-lg-mobile:
-    fontFamily: Hanken Grotesk
+    fontFamily: IBM Plex Serif
     fontSize: 32px
     fontWeight: '700'
     lineHeight: 40px
     letterSpacing: -0.01em
   headline-md:
-    fontFamily: Hanken Grotesk
+    fontFamily: IBM Plex Serif
     fontSize: 24px
     fontWeight: '600'
     lineHeight: 32px
@@ -112,7 +112,9 @@ The palette is rooted in the deep navy of the logo to establish authority, balan
 - **Neutral:** A cool-toned grayscale palette that ensures the interface feels airy and modern. Surfaces use subtle shifts in off-white to create logical containment without visual noise.
 
 ## Typography
-The typography strategy employs a trio of fonts to delineate hierarchy and function. **Hanken Grotesk** is used for headlines to provide a sharp, contemporary edge. **Inter** serves as the workhorse for body content, chosen for its supreme legibility in digital environments. **JetBrains Mono** is introduced for labels, metadata, and technical readouts to reinforce the technological "Gileara" identity.
+The typography strategy employs a trio of fonts to delineate hierarchy and function. **IBM Plex Serif** carries the editorial display headings, which is what gives the marketing pages their editorial voice. **Inter** serves as the workhorse for body content, interface text, and the smaller utility headings. **JetBrains Mono** is introduced for labels, metadata, and technical readouts to reinforce the technological "Gileara" identity.
+
+The shipped theme loads these three through `next/font/google` and defines them as the `serif`, `sans`, `mono` and `display` tokens in `tailwind.config.js`. The `sans` and `display` tokens intentionally resolve to the same Inter stack, so one family covers both body and display roles.
 
 For display text, utilize a tight letter-spacing to create a more impactful, "locked-in" professional look. Ensure body text maintains generous line heights to facilitate long-form reading of technical documentation.
 

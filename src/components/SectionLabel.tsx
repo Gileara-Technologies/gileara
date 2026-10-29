@@ -1,26 +1,19 @@
 interface SectionLabelProps {
-  number?: string; // "01", "02", "03"
-  label: string;    // "THE REALITY"
+  number?: string;
+  label: string;
   className?: string;
 }
 
 /**
- * Oversized numbered section label. The number is huge (96–120px)
- * and low-opacity, the label is small uppercase mono. Together they
- * anchor the section in the Andela-style "editorial numbered" rhythm.
+ * SectionLabel — Terminal / Operator style.
+ * Renders as a mono "prompt" line: ▸ LABEL
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function SectionLabel({ number, label, className = "" }: SectionLabelProps) {
   return (
-    <div className={`flex items-baseline gap-4 md:gap-6 ${className}`}>
-      {number && (
-        <span
-          className="font-serif text-display-md leading-none text-on-background/[0.08] select-none"
-          aria-hidden="true"
-        >
-          {number}
-        </span>
-      )}
-      <span className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant">
+    <div className={`flex items-center gap-2 ${className}`}>
+      <span className="font-mono text-accent-bright/50 text-[10px]" aria-hidden="true">▸</span>
+      <span className="font-mono text-[11px] text-white/40 tracking-widest uppercase">
         {label}
       </span>
     </div>
