@@ -1,4 +1,5 @@
 // Admin layout - server component that checks auth
+import { isAllowedContentEditorEmail } from '@/lib/portal/session';
 import { requireAdminSession } from './session-guard';
 import AdminShell from './AdminShell';
 
@@ -14,6 +15,11 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }>) {
   const payload = await requireAdminSession();
+  const isContentEditor = isAllowedContentEditorEmail(payload.email);
 
-  return <AdminShell email={payload.email}>{children}</AdminShell>;
+  return (
+    <AdminShell email={payload.email} isContentEditor={isContentEditor}>
+      {children}
+    </AdminShell>
+  );
 }

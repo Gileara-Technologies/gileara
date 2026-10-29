@@ -9,7 +9,7 @@ import { listAllApplications, listRoles } from "@/lib/portal/db";
 import type { ApplicationRow, ApplicationStatus, ParsedRole } from "@/lib/portal/types";
 import { tryGetPortalDb } from "./admin-db";
 import { applicationStatusLabel, parseDbTimestampMs } from "./form-logic";
-import { ApplicationStatusBadge, DbUnavailableNotice } from "./ui";
+import { ActionErrorBanner, ApplicationStatusBadge, DbUnavailableNotice } from "./ui";
 
 export const dynamic = "force-dynamic";
 
@@ -149,12 +149,18 @@ function RecentActivity({
   );
 }
 
-export default async function AdminDashboardPage() {
+interface AdminDashboardPageProps {
+  searchParams: Promise<{ error?: string }>;
+}
+
+export default async function AdminDashboardPage({ searchParams }: AdminDashboardPageProps) {
+  const { error } = await searchParams;
   const db = tryGetPortalDb();
   if (!db) {
     return (
       <div className="space-y-6">
         <PageHeader />
+        <ActionErrorBanner code={error} />
         <DbUnavailableNotice />
       </div>
     );
@@ -172,6 +178,7 @@ export default async function AdminDashboardPage() {
     return (
       <div className="space-y-6">
         <PageHeader />
+        <ActionErrorBanner code={error} />
         <DbUnavailableNotice />
       </div>
     );
@@ -192,6 +199,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader />
+      <ActionErrorBanner code={error} />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

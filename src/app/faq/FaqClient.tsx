@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { faqs } from "@/content/faqs";
+import type { PublicFaq } from "@/lib/cms/public-faqs";
 import PageHero from "@/components/PageHero";
 import ContactBand from "@/components/ContactBand";
 
-export default function FaqClient() {
+export default function FaqClient({ faqs }: { faqs: PublicFaq[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (

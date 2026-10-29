@@ -1,4 +1,5 @@
-// Admin session guard shared by the layout and every server action.
+// Admin session guards shared by the layout, the content area, and every
+// server action.
 //
 // The layout guard alone is NOT enough for server actions: with middleware
 // parked (Node runtime breaks the Cloudflare build), an action POST executes
@@ -7,7 +8,11 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { readSessionToken, type SessionPayload } from "@/lib/portal/session";
+import {
+  isAllowedContentEditorEmail,
+  readSessionToken,
+  type SessionPayload,
+} from "@/lib/portal/session";
 
 export const ADMIN_SESSION_COOKIE = "admin_session";
 
@@ -34,5 +39,21 @@ export async function requireAdminSession(): Promise<SessionPayload> {
     redirect("/admin/login");
   }
 
+  return payload;
+}
+
+/**
+ * Validate the admin_session cookie AND that the signed-in email matches
+ * the content-editor convention (isAllowedContentEditorEmail). Content
+ * editing is a separate permission tier from HR: a valid, signed-in HR
+ * session that doesn't match redirects to /admin rather than /admin/login
+ * -- the user IS authenticated, just not authorized for this specific
+ * area, so bouncing them to the sign-in screen would be misleading.
+ */
+export async function requireContentEditorSession(): Promise<SessionPayload> {
+  const payload = await requireAdminSession();
+  if (!isAllowedContentEditorEmail(payload.email)) {
+    redirect("/admin?error=content-forbidden");
+  }
   return payload;
 }

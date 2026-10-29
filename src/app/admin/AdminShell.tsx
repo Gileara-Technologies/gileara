@@ -12,11 +12,15 @@ interface NavItem {
   icon: string;
 }
 
-const NAV_ITEMS: readonly NavItem[] = [
+const BASE_NAV_ITEMS: readonly NavItem[] = [
   { href: "/admin", label: "Dashboard", icon: "dashboard" },
   { href: "/admin/roles", label: "Roles", icon: "work" },
   { href: "/admin/applications", label: "Applications", icon: "inbox" },
 ];
+
+/** Shown only to signed-in users who pass isAllowedContentEditorEmail --
+ *  HR and content editing are separate permission tiers. */
+const CONTENT_NAV_ITEM: NavItem = { href: "/admin/content/faqs", label: "FAQs", icon: "help" };
 
 /** `/admin` matches only the dashboard itself; every other item also
  *  matches its own sub-routes (e.g. /admin/roles/new, /admin/roles/abc). */
@@ -78,21 +82,25 @@ function SignOutButton() {
 /**
  * AdminShell — the dashboard chrome shared by every /admin/* page.
  *
- * A fixed left sidebar on desktop (Dashboard / Roles / Applications,
- * active-route highlighted), collapsing to a top bar + full-screen drawer
- * on mobile. The actual session check stays server-side in layout.tsx —
- * this component only renders navigation around whatever children it's
- * given `email` for display.
+ * A fixed left sidebar on desktop (Dashboard / Roles / Applications, plus
+ * FAQs for signed-in content editors, active-route highlighted), collapsing
+ * to a top bar + full-screen drawer on mobile. The actual session checks
+ * stay server-side in layout.tsx — this component only renders navigation
+ * around whatever children it's given, using `isContentEditor` purely to
+ * decide which nav items to show (not a security boundary by itself).
  */
 export default function AdminShell({
   email,
+  isContentEditor,
   children,
 }: {
   email: string;
+  isContentEditor: boolean;
   children: ReactNode;
 }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navItems = isContentEditor ? [...BASE_NAV_ITEMS, CONTENT_NAV_ITEM] : BASE_NAV_ITEMS;
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -112,7 +120,7 @@ export default function AdminShell({
           </Link>
         </div>
         <nav className="flex-1 space-y-1 px-3 py-4" aria-label="Admin sections">
-          {NAV_ITEMS.map((item) => (
+          {navItems.map((item) => (
             <NavLink key={item.href} item={item} active={isActiveRoute(pathname, item.href)} />
           ))}
         </nav>
@@ -151,7 +159,7 @@ export default function AdminShell({
             className="md:hidden fixed inset-0 z-30 flex flex-col bg-background px-4 pt-20 pb-6"
           >
             <nav className="space-y-1" aria-label="Admin sections">
-              {NAV_ITEMS.map((item) => (
+              {navItems.map((item) => (
                 <NavLink
                   key={item.href}
                   item={item}
