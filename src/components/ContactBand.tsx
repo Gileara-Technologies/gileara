@@ -10,8 +10,6 @@ interface ContactBandProps {
   headline: React.ReactNode;
   body?: string;
   align?: "start" | "center";
-  /** Background token — retained for API compat, visual always uses the brand gradient wash */
-  bg?: "background" | "surface-container" | "surface-container-lowest";
   showChannels?: boolean;
   secondaryLink?: { href: string; label: string };
 }
@@ -30,7 +28,6 @@ export default function ContactBand({
   headline,
   body = "Thirty minutes, free. Tell us what's hard about running your business today and we'll help you think through it.",
   align = "start",
-  bg: _bg = "surface-container-lowest",
   showChannels = true,
   secondaryLink,
 }: ContactBandProps) {

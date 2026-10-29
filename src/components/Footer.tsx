@@ -1,17 +1,18 @@
-"use client";
-
 import Link from "next/link";
-import { FaLinkedin, FaWhatsapp } from "react-icons/fa6";
-import { motion } from "framer-motion";
+import { FaLinkedin } from "react-icons/fa6";
 import { siteConfig } from "@/content/site-config";
 import NewsletterForm from "@/components/NewsletterForm";
 
 /**
  * Footer — Terminal / Operator aesthetic.
  *
- * Vercel-style: clean link grid above a minimal legal strip.
- * The top section carries a large mono headline with a teal
- * accent word — the last thing a visitor reads before leaving.
+ * Vercel-style: clean link grid above a minimal legal strip. No CTA
+ * statement of its own — Footer is global chrome rendered on every page,
+ * and most pages already place a page-tailored ContactBand immediately
+ * above it, so a second "book a call" block here duplicated the one
+ * visitors just saw. The handful of pages without a ContactBand (legal
+ * pages, careers — which has its own apply-flow CTA) still reach contact
+ * through the plain "Contact" link in the nav grid below.
  */
 export default function Footer() {
   const columns = [
@@ -49,57 +50,8 @@ export default function Footer() {
       {/* Grid bg */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" aria-hidden="true" />
 
-      {/* ── Statement section — the strongest brand-gradient moment ───────── */}
-      <div className="relative bg-brand border-b border-white/[0.06] px-6 md:px-12 py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="font-mono text-[11px] text-accent-bright/50 tracking-widest uppercase mb-8">
-            gileara.technologies
-          </div>
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="font-display text-[clamp(2.5rem,6vw,7rem)] leading-[0.92] tracking-tight text-on-background mb-10 max-w-4xl"
-          >
-            Let&apos;s build
-            <br />
-            what&apos;s{" "}
-            <span className="text-accent-bright">next.</span>
-          </motion.h2>
-
-          <div className="flex flex-col sm:flex-row items-start gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-white text-black text-sm font-sans font-medium hover:bg-white/90 transition-colors duration-150"
-            >
-              Book a Free Consultation
-              <span className="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
-            </Link>
-            <a
-              href="https://www.linkedin.com/company/gileara"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-white/10 text-white/50 text-sm font-sans hover:border-white/20 hover:text-white/70 transition-colors duration-150"
-            >
-              <FaLinkedin className="w-4 h-4" />
-              LinkedIn
-            </a>
-            <a
-              href={`https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-white/10 text-white/50 text-sm font-sans hover:border-white/20 hover:text-white/70 transition-colors duration-150"
-            >
-              <FaWhatsapp className="w-4 h-4" />
-              WhatsApp
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* ── Newsletter ─────────────────────────────────────────────────── */}
-      <div className="relative border-b border-white/[0.06] px-6 md:px-12 py-10">
+      <div className="relative border-b border-white/[0.06] px-6 md:px-12 py-12 md:py-14">
         <div className="max-w-[1200px] mx-auto max-w-lg">
           <NewsletterForm source="footer" variant="dark" />
         </div>
@@ -116,9 +68,18 @@ export default function Footer() {
             <p className="font-sans text-xs text-white/30 leading-relaxed mb-4">
               We build the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone.
             </p>
-            <p className="font-mono text-[11px] text-white/20">
+            <p className="font-mono text-[11px] text-white/20 mb-4">
               {siteConfig.location}<br />{siteConfig.timezone}
             </p>
+            <a
+              href="https://www.linkedin.com/company/gileara"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-white/30 hover:text-accent-bright transition-colors duration-150"
+            >
+              <FaLinkedin className="w-4 h-4" />
+              <span className="font-mono text-[11px]">LinkedIn</span>
+            </a>
           </div>
 
           {columns.map((col) => (
