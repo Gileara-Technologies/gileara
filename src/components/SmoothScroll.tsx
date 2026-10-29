@@ -32,10 +32,25 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     }
     rafId = requestAnimationFrame(raf);
 
+    // Cursor spotlight: track mouse position and update CSS custom properties
+    // on the root so the .cursor-glow radial gradient follows the mouse.
+    const glowEl = document.getElementById("cursor-glow");
+    function handleMouseMove(e: MouseEvent) {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      document.documentElement.style.setProperty("--cursor-x", `${x}%`);
+      document.documentElement.style.setProperty("--cursor-y", `${y}%`);
+      if (glowEl) {
+        glowEl.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(94, 234, 212, 0.045) 0%, transparent 70%)`;
+      }
+    }
+    document.addEventListener("mousemove", handleMouseMove, { passive: true });
+
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
       lenisRef.current = null;
+      document.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 

@@ -160,7 +160,7 @@ export function ApplicationsSection({
   return (
     <section aria-labelledby="applications-heading" className="space-y-4">
       <div className="flex items-center gap-3">
-        <h3 id="applications-heading" className="text-lg font-semibold">
+        <h3 id="applications-heading" className="font-display text-lg">
           Applications
         </h3>
         <span className="inline-flex items-center rounded-pill bg-surface-container-highest px-2.5 py-0.5 text-xs font-medium text-on-surface-variant">

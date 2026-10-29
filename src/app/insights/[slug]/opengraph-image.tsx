@@ -1,17 +1,17 @@
 import { renderOg, OG_SIZE, OG_CONTENT_TYPE } from "@/components/OgImage";
 import { renderPostOg } from "@/components/OgPostImage";
-import { posts } from "@/content/posts";
+import { getPublicPost } from "@/lib/cms/public-posts";
 
 export const alt = "Insights | Gileara Technologies";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
-export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
-}
+// No generateStaticParams -- same move as the main [slug]/page.tsx: a
+// CMS-created post has no build-time-known slug, so every slug (seeded
+// or CMS-created) resolves on demand via getPublicPost.
 
 export async function generateImageMetadata({ params }: { params: { slug: string } }) {
-  const post = posts.find((p) => p.slug === params.slug);
+  const post = await getPublicPost(params.slug);
   if (!post) return [];
   return [
     {
@@ -24,7 +24,7 @@ export async function generateImageMetadata({ params }: { params: { slug: string
 }
 
 export default async function Image({ params }: { params: { slug: string } }) {
-  const post = posts.find((p) => p.slug === params.slug);
+  const post = await getPublicPost(params.slug);
   if (!post) {
     return renderOg({
       eyebrow: "Insights",

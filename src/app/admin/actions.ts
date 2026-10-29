@@ -6,8 +6,8 @@
  * createRoleAction / updateRoleAction run under useActionState in the client
  * form and return an error string instead of throwing, so failures (including
  * an unreachable D1 binding under plain `next dev`) surface in the UI without
- * crashing. setRoleStatusAction is posted from plain dashboard forms and
- * redirects back to /admin, carrying an ?error= code when nothing changed.
+ * crashing. setRoleStatusAction is posted from plain roles-board forms and
+ * redirects back to /admin/roles, carrying an ?error= code when nothing changed.
  *
  * Every action starts with await requireAdminSession(): server actions run
  * without rendering the layout, so the layout guard alone would let
@@ -66,7 +66,7 @@ export async function createRoleAction(
   if (!created) {
     return { error: CREATE_FAILED_MESSAGE };
   }
-  redirect("/admin");
+  redirect("/admin/roles");
 }
 
 export async function updateRoleAction(
@@ -107,18 +107,18 @@ export async function updateRoleAction(
   if (!updated) {
     return { error: "That role could not be found." };
   }
-  redirect("/admin");
+  redirect("/admin/roles");
 }
 
 export async function setRoleStatusAction(formData: FormData): Promise<void> {
   await requireAdminSession();
   const parsed = validateStatusActionForm(formData);
   if (!parsed) {
-    redirect("/admin?error=invalid");
+    redirect("/admin/roles?error=invalid");
   }
   const db = tryGetPortalDb();
   if (!db) {
-    redirect("/admin?error=unavailable");
+    redirect("/admin/roles?error=unavailable");
   }
   let saved = false;
   try {
@@ -128,16 +128,18 @@ export async function setRoleStatusAction(formData: FormData): Promise<void> {
     saved = false;
   }
   if (!saved) {
-    redirect("/admin?error=save");
+    redirect("/admin/roles?error=save");
   }
-  redirect("/admin");
+  redirect("/admin/roles");
 }
 
 /**
  * Move one application to a new status (Phase 7) and record session.email as
  * the actor. Posted by the plain select+button form inside the application
- * detail, so it redirects back to the role page HR was already on — with an
- * ?error= code the page banners when nothing changed.
+ * detail — on the per-role page by default, or on the global applications
+ * board when that form sets a `returnTo` hidden field — so it redirects back
+ * to wherever HR was, with an ?error= code the page banners when nothing
+ * changed.
  */
 export async function setApplicationStatusAction(
   formData: FormData,
@@ -145,11 +147,11 @@ export async function setApplicationStatusAction(
   const session = await requireAdminSession();
   const parsed = validateApplicationStatusForm(formData);
   if (!parsed) {
-    redirect("/admin?error=invalid");
+    redirect("/admin/roles?error=invalid");
   }
   const db = tryGetPortalDb();
   if (!db) {
-    redirect(`/admin/roles/${parsed.roleId}?error=unavailable`);
+    redirect(`${parsed.returnTo}?error=unavailable`);
   }
   let saved = false;
   try {
@@ -163,9 +165,8 @@ export async function setApplicationStatusAction(
   } catch {
     saved = false;
   }
-  const back = `/admin/roles/${parsed.roleId}`;
   if (!saved) {
-    redirect(`${back}?error=save`);
+    redirect(`${parsed.returnTo}?error=save`);
   }
-  redirect(back);
+  redirect(parsed.returnTo);
 }

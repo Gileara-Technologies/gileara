@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InsightsListClient from "./InsightsListClient";
-import { posts, postReadTime } from "@/content/posts";
+import { postReadTime } from "@/content/posts";
+import { absoluteImageUrl, getPublicPosts } from "@/lib/cms/public-posts";
+
+// D1 is read per request (D1 first, src/content/posts.ts fallback -- same
+// hybrid rule as /faq and the careers portal), so this route is not
+// prerenderable.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Insights | Gileara Technologies",
@@ -27,62 +33,64 @@ export const metadata: Metadata = {
   },
 };
 
-const postMeta = [...posts]
-  .sort((a, b) => b.date.localeCompare(a.date))
-  .map((p) => ({
-    slug: p.slug,
-    title: p.title,
-    excerpt: p.excerpt,
-    date: p.date,
-    author: p.author,
-    tag: p.tag,
-    readTime: postReadTime(p),
-    image: p.image,
-  }));
+export default async function InsightsPage() {
+  const posts = await getPublicPosts();
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": "https://gileara.org/insights/#webpage",
-      name: "Insights | Gileara Technologies",
-      description: "Practical insights for small and growing businesses going digital, currently informed by our Ghana pilot and applicable globally.",
-      url: "https://gileara.org/insights",
-      publisher: { "@type": "Organization", name: "Gileara Technologies", url: "https://gileara.org", logo: "https://gileara.org/assets/gileara/logo-icon.png" },
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://gileara.org/insights/#breadcrumb",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
-        { "@type": "ListItem", position: 2, name: "Insights", item: "https://gileara.org/insights" },
-      ],
-    },
-    ...posts.map((p) => ({
-      "@type": "BlogPosting",
-      "@id": `https://gileara.org/insights/${p.slug}/#post`,
-      headline: p.title,
-      description: p.excerpt,
-      datePublished: p.date,
-      author: { "@type": "Person", name: p.author },
-      publisher: { "@type": "Organization", name: "Gileara Technologies" },
-      url: `https://gileara.org/insights/${p.slug}`,
-      ...(p.image
-        ? {
-            image: {
-              "@type": "ImageObject",
-              url: `https://gileara.org${p.image}`,
-              width: 1200,
-              height: 630,
-            },
-          }
-        : {}),
-    })),
-  ],
-};
+  const postMeta = [...posts]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      excerpt: p.excerpt,
+      date: p.date,
+      author: p.author,
+      tag: p.tag,
+      readTime: postReadTime(p),
+      image: p.image,
+    }));
 
-export default function InsightsPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://gileara.org/insights/#webpage",
+        name: "Insights | Gileara Technologies",
+        description: "Practical insights for small and growing businesses going digital, currently informed by our Ghana pilot and applicable globally.",
+        url: "https://gileara.org/insights",
+        publisher: { "@type": "Organization", name: "Gileara Technologies", url: "https://gileara.org", logo: "https://gileara.org/assets/gileara/logo-icon.png" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://gileara.org/insights/#breadcrumb",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://gileara.org" },
+          { "@type": "ListItem", position: 2, name: "Insights", item: "https://gileara.org/insights" },
+        ],
+      },
+      ...posts.map((p) => ({
+        "@type": "BlogPosting",
+        "@id": `https://gileara.org/insights/${p.slug}/#post`,
+        headline: p.title,
+        description: p.excerpt,
+        datePublished: p.date,
+        author: { "@type": "Person", name: p.author },
+        publisher: { "@type": "Organization", name: "Gileara Technologies" },
+        url: `https://gileara.org/insights/${p.slug}`,
+        ...(p.image
+          ? {
+              image: {
+                "@type": "ImageObject",
+                url: absoluteImageUrl(p.image),
+                width: 1200,
+                height: 630,
+              },
+            }
+          : {}),
+      })),
+    ],
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

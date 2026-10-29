@@ -7,6 +7,7 @@ import {
   applicationStatusLabel,
   canClose,
   formatDbTimestamp,
+  formatRelativeTime,
   isApplicationStatus,
   statusActionFor,
   statusLabel,
@@ -220,7 +221,7 @@ describe("validateStatusActionForm", () => {
 });
 
 describe("validateApplicationStatusForm", () => {
-  it("accepts a numeric id, a known status and the owning role id", () => {
+  it("accepts a numeric id, a known status and the owning role id, defaulting returnTo to the role page", () => {
     const formData = new FormData();
     formData.set("id", "7");
     formData.set("status", "shortlisted");
@@ -229,7 +230,26 @@ describe("validateApplicationStatusForm", () => {
       id: 7,
       status: "shortlisted",
       roleId: "full-stack-engineer",
+      returnTo: "/admin/roles/full-stack-engineer",
     });
+  });
+
+  it("honors an explicit internal returnTo (e.g. the global applications board)", () => {
+    const formData = new FormData();
+    formData.set("id", "7");
+    formData.set("status", "shortlisted");
+    formData.set("roleId", "full-stack-engineer");
+    formData.set("returnTo", "/admin/applications");
+    expect(validateApplicationStatusForm(formData)?.returnTo).toBe("/admin/applications");
+  });
+
+  it("ignores a returnTo that isn't an internal /admin/ path and falls back to the role page", () => {
+    const formData = new FormData();
+    formData.set("id", "7");
+    formData.set("status", "shortlisted");
+    formData.set("roleId", "full-stack-engineer");
+    formData.set("returnTo", "https://evil.example.com");
+    expect(validateApplicationStatusForm(formData)?.returnTo).toBe("/admin/roles/full-stack-engineer");
   });
 
   it("rejects a non-integer or non-positive id", () => {
@@ -319,5 +339,58 @@ describe("formatDbTimestamp", () => {
   it("returns an empty string for blank input", () => {
     expect(formatDbTimestamp("")).toBe("");
     expect(formatDbTimestamp("   ")).toBe("");
+  });
+});
+
+describe("formatRelativeTime", () => {
+  const now = new Date("2026-10-08T14:23:01.000Z");
+
+  it("renders seconds-old timestamps as 'just now'", () => {
+    expect(formatRelativeTime("2026-10-08 14:22:50", now)).toBe("just now");
+  });
+
+  it("renders minutes ago", () => {
+    expect(formatRelativeTime("2026-10-08 14:00:01", now)).toBe("23m ago");
+  });
+
+  it("renders hours ago", () => {
+    expect(formatRelativeTime("2026-10-08 10:23:01", now)).toBe("4h ago");
+  });
+
+  it("renders days ago", () => {
+    expect(formatRelativeTime("2026-10-05 14:23:01", now)).toBe("3d ago");
+  });
+
+  it("renders weeks ago", () => {
+    expect(formatRelativeTime("2026-09-17 14:23:01", now)).toBe("3w ago");
+  });
+
+  it("renders months ago", () => {
+    expect(formatRelativeTime("2026-06-08 14:23:01", now)).toBe("4mo ago");
+  });
+
+  it("renders years ago", () => {
+    expect(formatRelativeTime("2024-10-08 14:23:01", now)).toBe("2y ago");
+  });
+
+  it("parses D1's bare UTC timestamp as UTC, not local time", () => {
+    // If this were misread as local time on a UTC+5 machine, the diff would
+    // be negative; explicit Z-handling in formatRelativeTime keeps it at 0.
+    expect(formatRelativeTime("2026-10-08 14:23:00", now)).toBe("just now");
+  });
+
+  it("tolerates an already-ISO timestamp with trailing Z", () => {
+    expect(formatRelativeTime("2026-10-08T14:00:01.000Z", now)).toBe("23m ago");
+  });
+
+  it("returns an empty string for blank or unparseable input", () => {
+    expect(formatRelativeTime("", now)).toBe("");
+    expect(formatRelativeTime("   ", now)).toBe("");
+    expect(formatRelativeTime("not a date", now)).toBe("");
+  });
+
+  it("defaults to the real clock when now is omitted", () => {
+    const result = formatRelativeTime(new Date().toISOString());
+    expect(result).toBe("just now");
   });
 });

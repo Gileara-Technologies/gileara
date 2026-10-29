@@ -7,11 +7,12 @@ import { ImageResponse } from "next/og";
  * client-side code, no Tailwind. Renders a 1200x630 PNG suitable for
  * LinkedIn, Twitter, WhatsApp, Slack, iMessage, etc.
  *
- * Brand colors mirror `globals.css` Velocity Dark tokens:
- *   background   #0A0F1A  (Velocity Navy)
+ * `ImageResponse` cannot read CSS custom properties, so the palette is
+ * inlined below as literals. `ACCENT` matches `accent.bright` in
+ * tailwind.config.js (#5EEAD4) — the site's single accent:
+ *   background   #0A0F1A
  *   surface-2    #131B2A
- *   accent-cyan  #4FE3C1
- *   accent-bright #5EF0D0
+ *   accent       #5EEAD4  (accent-bright)
  *   on-bg        #F5F7FA
  *   on-bg-muted  rgba(245,247,250,0.7)
  *   rule         rgba(245,247,250,0.12)
@@ -29,8 +30,7 @@ export type OgVariant = {
 
 const BG = "#0A0F1A";
 const SURFACE = "#131B2A";
-const CYAN = "#4FE3C1";
-const BRIGHT = "#5EF0D0";
+const ACCENT = "#5EEAD4";
 const ON = "#F5F7FA";
 const ON_MUTED = "rgba(245,247,250,0.7)";
 const RULE = "rgba(245,247,250,0.12)";
@@ -50,7 +50,7 @@ export function renderOg({ eyebrow, title, titleAccent, description, badge }: Og
           width: "100%",
           height: "100%",
           backgroundColor: BG,
-          backgroundImage: `radial-gradient(ellipse 80% 60% at 80% 20%, rgba(79,227,193,0.10), transparent 60%)`,
+          backgroundImage: `radial-gradient(ellipse 80% 60% at 80% 20%, rgba(94,234,212,0.10), transparent 60%)`,
           color: ON,
           fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif",
           display: "flex",
@@ -76,7 +76,7 @@ export function renderOg({ eyebrow, title, titleAccent, description, badge }: Og
                 width: 44,
                 height: 44,
                 borderRadius: 10,
-                backgroundColor: CYAN,
+                backgroundColor: ACCENT,
                 color: BG,
                 display: "flex",
                 alignItems: "center",
@@ -105,7 +105,7 @@ export function renderOg({ eyebrow, title, titleAccent, description, badge }: Og
                 fontWeight: 600,
                 letterSpacing: 3,
                 textTransform: "uppercase",
-                color: BRIGHT,
+                color: ACCENT,
                 border: `1px solid ${RULE}`,
                 backgroundColor: SURFACE,
                 padding: "10px 18px",
@@ -128,11 +128,11 @@ export function renderOg({ eyebrow, title, titleAccent, description, badge }: Og
             fontWeight: 600,
             letterSpacing: 4,
             textTransform: "uppercase",
-            color: BRIGHT,
+            color: ACCENT,
             fontFamily: "ui-monospace, 'SF Mono', Menlo, monospace",
           }}
         >
-          <div style={{ width: 36, height: 2, backgroundColor: BRIGHT }} />
+          <div style={{ width: 36, height: 2, backgroundColor: ACCENT }} />
           <div>{eyebrow}</div>
         </div>
 
@@ -152,7 +152,7 @@ export function renderOg({ eyebrow, title, titleAccent, description, badge }: Og
         >
           <span>{title}</span>
           {titleAccent ? (
-            <span style={{ color: CYAN, fontStyle: "italic", marginLeft: 16 }}>{titleAccent}</span>
+            <span style={{ color: ACCENT, fontStyle: "italic", marginLeft: 16 }}>{titleAccent}</span>
           ) : null}
         </div>
 
@@ -188,7 +188,7 @@ export function renderOg({ eyebrow, title, titleAccent, description, badge }: Og
           }}
         >
           <div>gileara.org</div>
-          <div style={{ color: BRIGHT }}>We build the systems your business runs on.</div>
+          <div style={{ color: ACCENT }}>We build the systems your business runs on.</div>
         </div>
       </div>
     ),

@@ -1,101 +1,107 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaLinkedin } from "react-icons/fa6";
 import { siteConfig } from "@/content/site-config";
 import NewsletterForm from "@/components/NewsletterForm";
 
 /**
- * Footer — typographic statement, not a sitemap.
+ * Footer — Terminal / Operator aesthetic.
  *
- * The footer is the last thing a visitor sees. Andela treats it as a
- * design object: huge "Let's build what's next" + CTA, then a thin
- * column-based link group, then a small legal line. We do the same.
- *
- * Padding: 200px top (Andela-scale breathing room).
- * Typography: 96–120px serif for the statement.
+ * Vercel-style: clean link grid above a minimal legal strip. No CTA
+ * statement of its own — Footer is global chrome rendered on every page,
+ * and most pages already place a page-tailored ContactBand immediately
+ * above it, so a second "book a call" block here duplicated the one
+ * visitors just saw. The handful of pages without a ContactBand (legal
+ * pages, careers — which has its own apply-flow CTA) still reach contact
+ * through the plain "Contact" link in the nav grid below.
  */
 export default function Footer() {
   const columns = [
     {
-      title: "Solutions",
+      title: "Product",
       links: [
-        { name: "Operations", href: "/services" },
-        { name: "Customer Engagement", href: "/services" },
-        { name: "Commerce", href: "/services" },
-        { name: "Growth", href: "/services" },
-        { name: "Bespoke", href: "/services" },
+        { name: "Packages",       href: "/services" },
+        { name: "How We Transform", href: "/how-we-transform" },
+        { name: "Operations Audit", href: "/#audit" },
+        { name: "Pricing",        href: "/services" },
       ],
     },
     {
       title: "Company",
       links: [
-        { name: "About", href: "/about" },
-        { name: "How We Transform", href: "/how-we-transform" },
-        { name: "Careers", href: "/careers" },
+        { name: "About",    href: "/about" },
+        { name: "Careers",  href: "/careers" },
         { name: "Insights", href: "/insights" },
-        { name: "Contact", href: "/contact" },
+        { name: "Contact",  href: "/contact" },
       ],
     },
     {
-      title: "Connect",
+      title: "Legal",
       links: [
-        { name: "LinkedIn", href: "https://www.linkedin.com/company/gileara", external: true },
-        { name: "WhatsApp", href: `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}`, external: true },
-        { name: "Email", href: `mailto:${siteConfig.email}` },
-        { name: "FAQ", href: "/faq" },
+        { name: "Privacy",  href: "/privacy" },
+        { name: "Terms",    href: "/terms" },
+        { name: "Security", href: "/security" },
+        { name: "FAQ",      href: "/faq" },
       ],
     },
   ];
 
   return (
-    <footer className="bg-background pt-24 md:pt-32 pb-12 px-6 md:px-12 text-on-background overflow-hidden border-t border-on-background/10">
-      <div className="max-w-[1440px] mx-auto">
-        {/* Newsletter strip — sits above the link columns */}
-        <div className="mb-16 border-t border-on-background/10 pt-12">
-          <div className="max-w-2xl">
-            <NewsletterForm source="footer" />
-          </div>
-        </div>
+    <footer className="relative bg-background border-t border-white/[0.06] overflow-hidden">
+      {/* Grid bg */}
+      <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" aria-hidden="true" />
 
-        {/* Middle: link columns */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 mb-20 border-t border-on-background/10 pt-16">
-          {/* Brand column */}
-          <div className="col-span-2 md:col-span-1">
-            <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
-              Gileara
-            </div>
-            <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs">
-              We build the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone. Currently piloting in Ghana, designed to scale worldwide.
+      {/* ── Newsletter ─────────────────────────────────────────────────── */}
+      <div className="relative border-b border-white/[0.06] px-6 md:px-12 py-12 md:py-14">
+        <div className="max-w-[1200px] mx-auto max-w-lg">
+          <NewsletterForm source="footer" variant="dark" />
+        </div>
+      </div>
+
+      {/* ── Link grid ──────────────────────────────────────────────────── */}
+      <div className="relative px-6 md:px-12 pt-12 pb-8">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+          {/* Brand col */}
+          <div>
+            <Image
+              src="/assets/gileara/logo-ui.png"
+              alt="Gileara"
+              width={664}
+              height={246}
+              sizes="180px"
+              className="h-11 w-auto mb-5"
+            />
+            <p className="font-sans text-xs text-white/30 leading-relaxed mb-4">
+              We build the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone.
             </p>
-            <p className="text-on-surface-variant text-xs font-mono mt-6">
-              {siteConfig.location} · {siteConfig.timezone}
+            <p className="font-mono text-[11px] text-white/20 mb-4">
+              {siteConfig.location}<br />{siteConfig.timezone}
             </p>
+            <a
+              href="https://www.linkedin.com/company/gileara"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-white/30 hover:text-accent-bright transition-colors duration-150"
+            >
+              <FaLinkedin className="w-4 h-4" />
+              <span className="font-mono text-[11px]">LinkedIn</span>
+            </a>
           </div>
 
           {columns.map((col) => (
             <div key={col.title}>
-              <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-5">
+              <div className="font-mono text-[11px] text-white/25 tracking-widest uppercase mb-4">
                 {col.title}
               </div>
-              <ul className="space-y-3">
+              <ul className="space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.name}>
-                    {"external" in link && link.external ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-on-surface hover:text-accent-bright transition-colors duration-200"
-                      >
-                        {link.name}
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="text-on-surface hover:text-accent-bright transition-colors duration-200"
-                      >
-                        {link.name}
-                      </Link>
-                    )}
+                    <Link
+                      href={link.href}
+                      className="font-sans text-sm text-white/40 hover:text-white/70 transition-colors duration-150"
+                    >
+                      {link.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -103,31 +109,14 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom: legal + socials */}
-        <div className="pt-8 border-t border-on-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <p className="text-on-surface-variant text-sm">
+        {/* Legal strip */}
+        <div className="border-t border-white/[0.04] pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <p className="font-mono text-[11px] text-white/20">
             © {new Date().getFullYear()} Gileara Technologies. All rights reserved.
           </p>
-          <div className="flex items-center gap-6 text-sm">
-            <Link href="/privacy" className="text-on-surface-variant hover:text-accent-bright transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms" className="text-on-surface-variant hover:text-accent-bright transition-colors">
-              Terms
-            </Link>
-            <Link href="/security" className="text-on-surface-variant hover:text-accent-bright transition-colors">
-              Security
-            </Link>
-            <a
-              href="https://www.linkedin.com/company/gileara"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Gileara on LinkedIn"
-              className="text-on-surface-variant hover:text-accent-bright transition-colors"
-            >
-              <FaLinkedin className="w-4 h-4" />
-            </a>
-          </div>
+          <p className="font-mono text-[11px] text-white/15">
+            Piloting in Accra, Ghana · Building for global scale
+          </p>
         </div>
       </div>
     </footer>

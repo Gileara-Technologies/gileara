@@ -13,6 +13,10 @@ import { ImageResponse } from "next/og";
  * next/og can't load next/image, so we pass a remote/local URL that
  * `ImageResponse` will fetch directly. The cover photos are served
  * from /public at the route's base URL.
+ *
+ * `ImageResponse` cannot read CSS custom properties, so the palette is
+ * inlined below as literals. `ACCENT` matches `accent.bright` in
+ * tailwind.config.js (#5EEAD4) — the site's single accent.
  */
 
 export type PostOgVariant = {
@@ -36,8 +40,7 @@ export type PostOgVariant = {
 };
 
 const BG = "#0A0F1A";
-const CYAN = "#4FE3C1";
-const BRIGHT = "#5EF0D0";
+const ACCENT = "#5EEAD4";
 const ON = "#F5F7FA";
 const ON_MUTED = "rgba(245,247,250,0.75)";
 
@@ -115,7 +118,7 @@ export function renderPostOg({ brand, tag, title, excerpt, cover, baseUrl }: Pos
                 width: 36,
                 height: 36,
                 borderRadius: 8,
-                backgroundColor: CYAN,
+                backgroundColor: ACCENT,
                 color: BG,
                 display: "flex",
                 alignItems: "center",
@@ -135,7 +138,7 @@ export function renderPostOg({ brand, tag, title, excerpt, cover, baseUrl }: Pos
               fontWeight: 600,
               letterSpacing: 3,
               textTransform: "uppercase",
-              color: BRIGHT,
+              color: ACCENT,
               border: "1px solid rgba(245,247,250,0.20)",
               backgroundColor: "rgba(19,27,42,0.70)",
               padding: "8px 16px",

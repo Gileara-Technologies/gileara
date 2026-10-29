@@ -132,13 +132,13 @@ export default function ContactPage() {
           headline={
             <>
               Tell us what&apos;s hard about{" "}
-              <span className="italic text-accent-cyan">running your business.</span>
+              <span className="italic text-accent-bright">running your business.</span>
             </>
           }
           subtitle="Thirty minutes, free. Bring the mess: sales, stock, customers, cashflow, all of it. We'll help you think through it."
         />
 
-        <section className="bg-background py-20 md:py-28 px-6 md:px-12 border-t border-on-background/10">
+        <section className="bg-brand-soft py-section px-6 md:px-12 border-t border-on-background/10">
           <div className="max-w-[1440px] mx-auto">
             <div className="grid lg:grid-cols-12 gap-x-8 gap-y-16 items-start">
               {/* Left: contact rails */}
@@ -157,7 +157,7 @@ export default function ContactPage() {
                       <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
                         Send an Email
                       </div>
-                      <span className="font-serif text-2xl text-on-background group-hover:text-accent-bright transition-colors">
+                      <span className="font-display text-2xl text-on-background group-hover:text-accent-bright transition-colors">
                         {siteConfig.email}
                       </span>
                     </div>
@@ -175,7 +175,7 @@ export default function ContactPage() {
                         <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
                           Call or WhatsApp
                         </div>
-                        <span className="font-serif text-2xl text-on-background group-hover:text-accent-bright transition-colors">
+                        <span className="font-display text-2xl text-on-background group-hover:text-accent-bright transition-colors">
                           {whatsappReady ? siteConfig.whatsapp : siteConfig.phone}
                         </span>
                       </div>

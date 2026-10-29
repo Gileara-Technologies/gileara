@@ -4,10 +4,10 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import PageHero from "@/components/PageHero";
 import ContactBand from "@/components/ContactBand";
-import DisplayHeading from "@/components/DisplayHeading";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
-import { foundation, leaders, memberGroups } from "@/content/team";
+import { foundation, roster } from "@/content/team";
+import Roster from "@/components/about/Roster";
 
 /**
  * /about page structure:
@@ -15,10 +15,8 @@ import { foundation, leaders, memberGroups } from "@/content/team";
  *   02 — Scripture & Name Origin (Jeremiah 8:22, the Gilead reference)
  *   03 — Our values (four principles, professional + faith-rooted)
  *   04 — Foundation: the 3 founding partners
- *   05 — Leaders: department heads who report into Julian
- *   06 — Company members: unified list, grouped by reporting line
- *        (Engineering under Rodney, Finance & Admin under Julian)
- *   07 — Join us contact band
+ *   05 — Roster: everyone else, one uniform list tagged by department
+ *   06 — Join us contact band
  */
 const values = [
   {
@@ -54,34 +52,24 @@ export default function AboutPageClient() {
         headline={
           <>
             A small team, called to a specific{" "}
-            <span className="italic text-accent-cyan">work.</span>
+            <span className="italic text-accent-bright">work.</span>
           </>
         }
         subtitle="We build the systems your business runs on. The work began with a question, and the question came from a scripture. This page is the story of how the two are connected."
       />
 
       {/* 02 — SCRIPTURE & NAME ORIGIN */}
-      <section className="bg-surface-container-lowest py-32 md:py-48 px-6 md:px-12 relative overflow-hidden">
-        {/* Ambient teal glow on the left, like the other dark sections */}
-        <div
-          className="absolute inset-x-0 -top-40 h-[600px] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at 30% 30%, rgba(94, 234, 212, 0.10) 0%, transparent 65%)",
-          }}
-          aria-hidden="true"
-        />
-
+      <section className="bg-brand-soft-alt py-section-tight px-6 md:px-12 relative overflow-hidden">
         <div className="max-w-[1440px] mx-auto relative z-10">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16 md:mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel number="02" label="WHERE THE NAME COMES FROM" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 A name carried out of{" "}
-                <span className="italic text-accent-cyan">Gilead.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">Gilead.</span>
+              </h2>
             </div>
           </div>
 
@@ -105,16 +93,16 @@ export default function AboutPageClient() {
 
             <div className="col-span-12 lg:col-span-5">
               <RevealText delay={0.1}>
-                <p className="text-body-lg text-on-surface-variant leading-relaxed mb-6">
+                <p className="text-body-lg text-on-surface-variant leading-relaxed mb-6 max-w-[72ch]">
                   Gileara is from the name <em className="text-on-surface not-italic">Gilead</em>.
                 </p>
-                <p className="text-on-surface-variant leading-relaxed mb-6">
+                <p className="text-on-surface-variant leading-relaxed mb-6 max-w-[72ch]">
                   In the old scripture, Gilead was where the healing balm came from, and the prophet&apos;s question was sharp: the medicine exists, the healer exists, so why are the people still in pain?
                 </p>
-                <p className="text-on-surface-variant leading-relaxed mb-6">
+                <p className="text-on-surface-variant leading-relaxed mb-6 max-w-[72ch]">
                   That question is the reason this company exists. We see the same situation in the small businesses around us every day. The work that should be invisible (stock, sales, customers, cashflow) still eats the whole week. The owners have run out of answers. The technology is there, the help is there, and still the business does not get better.
                 </p>
-                <p className="text-on-surface-variant leading-relaxed">
+                <p className="text-on-surface-variant leading-relaxed max-w-[72ch]">
                   We are not the balm. We are the physician who sits down with the business owner, diagnoses what is actually wrong, and builds the system that makes the recovery visible. Gileara is rooted in Christ and in the conviction that honest, practical work in this area is a calling.
                 </p>
               </RevealText>
@@ -124,17 +112,17 @@ export default function AboutPageClient() {
       </section>
 
       {/* 03 — VALUES */}
-      <section className="bg-background py-32 md:py-48 px-6 md:px-12">
+      <section className="bg-brand-soft py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel number="03" label="WHAT WE BELIEVE" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 Four principles,{" "}
-                <span className="italic text-accent-cyan">lived out.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">lived out.</span>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
                   Standards we hold ourselves to, especially when the easy thing and the right thing are not the same.
@@ -153,11 +141,11 @@ export default function AboutPageClient() {
                 transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 className="grid grid-cols-12 gap-x-6 md:gap-x-8 items-start border-t border-on-background/10 pt-10"
               >
-                <div className="col-span-2 md:col-span-1 font-serif text-display-sm text-on-background/[0.15] leading-none">
+                <div className="col-span-2 md:col-span-1 font-mono text-display-sm text-on-background/[0.15] leading-none">
                   {v.num}
                 </div>
                 <div className="col-span-10 md:col-span-7">
-                  <h3 className="font-serif text-3xl md:text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-3">
+                  <h3 className="font-display text-2xl md:text-display-sm text-on-background leading-tight tracking-[-0.01em] mb-3">
                     {v.title}
                   </h3>
                 </div>
@@ -173,17 +161,17 @@ export default function AboutPageClient() {
       </section>
 
       {/* 04 — FOUNDATION (the 3 founding partners) */}
-      <section className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
+      <section className="bg-brand-soft-alt py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
                 <SectionLabel number="04" label="THE FOUNDATION" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 The three who{" "}
-                <span className="italic text-accent-cyan">started this.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">started this.</span>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
                   When you work with Gileara, you work with the people who decided the company should exist in the first place. There are no hand-offs and no account managers between you and the founders.
@@ -220,7 +208,7 @@ export default function AboutPageClient() {
                       <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
                         0{i + 1}
                       </div>
-                      <h3 className="font-serif text-display-sm text-on-background leading-tight tracking-[-0.02em] mb-3">
+                      <h3 className="font-display text-display-sm text-on-background leading-tight tracking-[-0.01em] mb-3">
                         {f.name}
                       </h3>
                       <div className="font-mono text-xs uppercase tracking-wider text-on-surface-variant mb-8">
@@ -240,136 +228,37 @@ export default function AboutPageClient() {
         </div>
       </section>
 
-      {/* 05 — LEADERS (department heads, report into Julian) */}
-      <section className="bg-background py-32 md:py-48 px-6 md:px-12">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
+      {/* 05 — ROSTER (everyone else, one uniform list tagged by department) */}
+      <section className="bg-brand-soft py-section px-6 md:px-12">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16 md:mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel number="05" label="THE LEADERS" className="mb-8" />
+                <SectionLabel number="05" label="THE ROSTER" className="mb-8" />
               </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
-                The people running{" "}
-                <span className="italic text-accent-cyan">the day-to-day.</span>
-              </DisplayHeading>
-              <RevealText delay={0.15}>
-                <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  Three department heads who report into the COO and own marketing, communication, and people operations across every engagement.
-                </p>
-              </RevealText>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-            {leaders.map((m, idx) => (
-              <motion.div
-                key={m.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="border-t border-on-background/10 pt-8"
-              >
-                {m.image ? (
-                  <div className="relative aspect-[4/5] max-w-[240px] bg-surface-container-high rounded-xl overflow-hidden mb-6 group">
-                    <Image
-                      src={m.image}
-                      alt={m.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 240px"
-                      className="object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
-                    />
-                  </div>
-                ) : null}
-                <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-4">
-                  0{idx + 1}
-                </div>
-                <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em] mb-3">
-                  {m.name}
-                </h3>
-                <p className="text-on-surface-variant text-sm leading-relaxed">
-                  {m.role}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 06 — COMPANY MEMBERS (unified list, grouped by reporting line) */}
-      <section className="bg-surface-container py-32 md:py-48 px-6 md:px-12">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
-            <div className="col-span-12 lg:col-span-7">
-              <RevealText>
-                <SectionLabel number="06" label="THE TEAM" className="mb-8" />
-              </RevealText>
-              <DisplayHeading size="lg" as="h2" className="mb-8">
+              <h2 className="font-display text-display-lg text-on-background mb-8">
                 The people who{" "}
-                <span className="italic text-accent-cyan">do the work.</span>
-              </DisplayHeading>
+                <span className="italic text-accent-bright">do the work.</span>
+              </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  Engineering, finance, and operations are all in one list, so you can see the whole group at a glance.
+                  Marketing, communication, finance, and engineering — one list, so you can see the whole group at a glance.
                 </p>
               </RevealText>
             </div>
           </div>
 
-          <div className="space-y-20 md:space-y-24">
-            {memberGroups.map((g, gIdx) => (
-              <motion.div
-                key={g.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: gIdx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {/* Subgroup header */}
-                <div className="flex flex-col sm:flex-row sm:items-baseline gap-3 sm:gap-6 mb-10 md:mb-12 border-t border-on-background/10 pt-8">
-                  <div className="flex items-baseline gap-4">
-                    <span className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright">
-                      0{gIdx + 1}
-                    </span>
-                    <h3 className="font-serif text-2xl md:text-3xl text-on-background leading-tight tracking-[-0.02em]">
-                      {g.label}
-                    </h3>
-                  </div>
-                  <span className="text-xs text-on-surface-variant font-mono">
-                    {g.lead}
-                  </span>
-                </div>
-
-                {/* Members grid — 4 columns on desktop, 2 on tablet, 1 on mobile */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {g.members.map((m, idx) => (
-                    <div
-                      key={m.name}
-                      className="border-t border-on-background/10 pt-6"
-                    >
-                      <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
-                        0{idx + 1}
-                      </div>
-                      <h4 className="font-serif text-2xl text-on-background leading-tight tracking-[-0.02em] mb-2">
-                        {m.name}
-                      </h4>
-                      <p className="text-on-surface-variant text-sm">{m.role}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <Roster members={roster} />
         </div>
       </section>
 
-      {/* 07 — In-page contact band — placed just above the footer. */}
+      {/* 06 — In-page contact band — placed just above the footer. */}
       <ContactBand
         eyebrow="JOIN US"
         headline={
           <>
             Think you&apos;d be{" "}
-            <span className="italic text-accent-cyan">a fit?</span>
+            <span className="italic text-accent-bright">a fit?</span>
           </>
         }
         body="We're always looking for engineers and designers who want to build for small businesses in Ghana. See the open roles and apply, or get in touch and tell us what you work on."

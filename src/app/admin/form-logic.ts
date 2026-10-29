@@ -204,6 +204,8 @@ export interface ApplicationStatusFormValue {
   id: number;
   status: ApplicationStatus;
   roleId: string;
+  /** Where to redirect after a successful save; defaults to the role page. */
+  returnTo: string;
 }
 
 /**
@@ -211,6 +213,13 @@ export interface ApplicationStatusFormValue {
  * status, and the role to redirect back to). Returns null when anything is
  * missing or malformed — the action then bounces to /admin?error=invalid
  * instead of writing a bad row.
+ *
+ * `returnTo` is optional: the per-role applications list doesn't set it
+ * (falls back to `/admin/roles/{roleId}`), but the global applications
+ * board does, so a status change made there redirects back to the board
+ * instead of away to that one role's page. Only an internal /admin/ path
+ * is accepted — anything else is ignored rather than trusted, since this
+ * value arrives as a plain hidden form field.
  */
 export function validateApplicationStatusForm(
   formData: FormData,
@@ -225,7 +234,9 @@ export function validateApplicationStatusForm(
   if (!roleId || !isApplicationStatus(status)) {
     return null;
   }
-  return { id, status, roleId };
+  const returnToRaw = String(formData.get("returnTo") ?? "").trim();
+  const returnTo = returnToRaw.startsWith("/admin/") ? returnToRaw : `/admin/roles/${roleId}`;
+  return { id, status, roleId, returnTo };
 }
 
 /**
@@ -238,4 +249,45 @@ export function formatDbTimestamp(raw: string): string {
     return "";
   }
   return trimmed.slice(0, 16);
+}
+
+/**
+ * Epoch milliseconds for a D1 timestamp. D1's datetime('now') is UTC with
+ * no timezone suffix, so the raw string is explicitly parsed as UTC
+ * (appending 'Z') rather than left to the platform default, which reads a
+ * bare 'YYYY-MM-DD HH:MM:SS' as local time and would skew the result by the
+ * server's offset. Returns NaN for blank/unparseable input — check with
+ * Number.isNaN before using the result.
+ */
+export function parseDbTimestampMs(raw: string): number {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    return NaN;
+  }
+  const iso = trimmed.endsWith("Z") ? trimmed : `${trimmed.replace(" ", "T")}Z`;
+  return new Date(iso).getTime();
+}
+
+/**
+ * "2h ago" / "3d ago" style relative time for a D1 timestamp, used on the
+ * dashboard's recent-activity feed. `now` is injectable so tests don't
+ * depend on the clock.
+ */
+export function formatRelativeTime(raw: string, now: Date = new Date()): string {
+  const thenMs = parseDbTimestampMs(raw);
+  if (Number.isNaN(thenMs)) {
+    return "";
+  }
+  const then = new Date(thenMs);
+  const diffSec = Math.round((now.getTime() - then.getTime()) / 1000);
+  if (diffSec < 60) return "just now";
+  const diffMin = Math.round(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHour = Math.round(diffMin / 60);
+  if (diffHour < 24) return `${diffHour}h ago`;
+  const diffDay = Math.round(diffHour / 24);
+  if (diffDay < 7) return `${diffDay}d ago`;
+  if (diffDay < 30) return `${Math.round(diffDay / 7)}w ago`;
+  if (diffDay < 365) return `${Math.round(diffDay / 30)}mo ago`;
+  return `${Math.round(diffDay / 365)}y ago`;
 }

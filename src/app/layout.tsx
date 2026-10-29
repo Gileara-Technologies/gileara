@@ -96,7 +96,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0A0F1A" },
+    { media: "(prefers-color-scheme: dark)", color: "#030A0C" },
     { media: "(prefers-color-scheme: light)", color: "#F5F7FA" },
   ],
   colorScheme: "dark light",
@@ -113,7 +113,11 @@ export default function RootLayout({
     <html lang="en" className={`dark ${inter.variable} ${displaySerif.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="antialiased bg-background text-on-background">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preload" href="/assets/gileara/logo-full.png" as="image" />
+        <link rel="preload" href="/assets/gileara/logo-ui.png" as="image" />
+        {/* Grain overlay — analogue warmth, pointer-events: none */}
+        <div className="grain-overlay" aria-hidden="true" />
+        {/* Cursor spotlight — low-opacity teal radial glow */}
+        <div className="cursor-glow" aria-hidden="true" id="cursor-glow" />
         <MotionProvider>
           <SmoothScroll>
             <div className="flex flex-col min-h-screen">
