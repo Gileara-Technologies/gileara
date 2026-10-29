@@ -277,7 +277,7 @@ export function RoleForm({ mode, roleId, initial }: RoleFormProps) {
           {submitLabel}
         </button>
         <Link
-          href="/admin"
+          href="/admin/roles"
           className="text-sm text-on-surface-variant transition-colors hover:text-on-surface"
         >
           Cancel

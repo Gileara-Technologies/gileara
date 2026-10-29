@@ -109,6 +109,8 @@ const SELECT_ROLE_BY_ID = "SELECT * FROM roles WHERE id = ?";
 const SELECT_ROLE_IDS = "SELECT id FROM roles";
 const SELECT_APPLICATIONS_BY_ROLE =
   "SELECT * FROM applications WHERE role_id = ? ORDER BY created_at DESC, id DESC";
+const SELECT_ALL_APPLICATIONS =
+  "SELECT * FROM applications ORDER BY created_at DESC, id DESC";
 const SELECT_APPLICATION_BY_ID = "SELECT * FROM applications WHERE id = ?";
 const COUNT_APPLICATIONS_BY_ROLE =
   "SELECT role_id, COUNT(*) AS count FROM applications GROUP BY role_id";
@@ -371,6 +373,20 @@ export async function listApplications(
   roleId: string,
 ): Promise<ApplicationRow[]> {
   const { results } = await db.prepare(SELECT_APPLICATIONS_BY_ROLE).bind(roleId).all();
+  return results
+    .map(toApplicationRow)
+    .filter((row): row is ApplicationRow => row !== null);
+}
+
+/**
+ * Every application across every role, newest first. Powers the admin
+ * dashboard overview and the global /admin/applications pipeline view —
+ * `listApplications` above stays role-scoped for the per-role edit page.
+ */
+export async function listAllApplications(
+  db: D1Like,
+): Promise<ApplicationRow[]> {
+  const { results } = await db.prepare(SELECT_ALL_APPLICATIONS).all();
   return results
     .map(toApplicationRow)
     .filter((row): row is ApplicationRow => row !== null);

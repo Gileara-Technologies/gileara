@@ -4,6 +4,7 @@ import {
   createApplication,
   createRole,
   getRole,
+  listAllApplications,
   listApplications,
   listRoles,
   parseRoleRow,
@@ -132,6 +133,9 @@ function makeFakeD1(seeded: { roles?: RoleRow[]; applications?: ApplicationRow[]
     if (sql.startsWith("SELECT * FROM applications WHERE id")) {
       const [id] = binds as unknown as [number];
       return { results: state.applications.filter((a) => a.id === id) };
+    }
+    if (sql.startsWith("SELECT * FROM applications ORDER")) {
+      return { results: [...state.applications].sort(byAppDesc) };
     }
     if (sql.startsWith("INSERT INTO applications")) {
       const [roleId, name, email, phone, resumeKey, resumeFilename, coverLetter, whyThisRole] =
@@ -600,6 +604,36 @@ describe("listApplications", () => {
   it("returns [] for a role without applications", async () => {
     const fake = makeFakeD1();
     expect(await listApplications(fake.db, "devops-engineer")).toEqual([]);
+  });
+});
+
+describe("listAllApplications", () => {
+  it("returns every application across every role, newest first", async () => {
+    const fake = makeFakeD1({
+      applications: [
+        application({ id: 1, role_id: "role-a", created_at: "2026-01-02 00:00:00" }),
+        application({ id: 2, role_id: "role-b", created_at: "2026-01-04 00:00:00" }),
+        application({ id: 3, role_id: "role-a", created_at: "2026-01-03 00:00:00" }),
+      ],
+    });
+    const apps = await listAllApplications(fake.db);
+    expect(apps.map((a) => a.id)).toEqual([2, 3, 1]);
+  });
+
+  it("breaks same-timestamp ties by id descending", async () => {
+    const fake = makeFakeD1({
+      applications: [
+        application({ id: 1, created_at: "2026-01-02 00:00:00" }),
+        application({ id: 2, created_at: "2026-01-02 00:00:00" }),
+      ],
+    });
+    const apps = await listAllApplications(fake.db);
+    expect(apps.map((a) => a.id)).toEqual([2, 1]);
+  });
+
+  it("returns [] when there are no applications at all", async () => {
+    const fake = makeFakeD1();
+    expect(await listAllApplications(fake.db)).toEqual([]);
   });
 });
 

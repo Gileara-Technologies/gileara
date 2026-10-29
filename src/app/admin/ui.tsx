@@ -101,16 +101,21 @@ export function ActionErrorBanner({ code }: { code?: string }) {
   );
 }
 
-export function BackToDashboard() {
+/**
+ * Back to the roles board. Named (and routed) for where role-centric pages
+ * actually came from — /admin is the dashboard overview now, not the
+ * roles list, so "Dashboard" here would silently skip past it.
+ */
+export function BackToRoles() {
   return (
     <Link
-      href="/admin"
+      href="/admin/roles"
       className="inline-flex items-center gap-1 text-sm text-on-surface-variant transition-colors hover:text-on-surface"
     >
       <span className="material-symbols-outlined text-base" aria-hidden="true">
         arrow_back
       </span>
-      Dashboard
+      Roles
     </Link>
   );
 }
