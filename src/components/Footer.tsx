@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaLinkedin } from "react-icons/fa6";
 import { siteConfig } from "@/content/site-config";
@@ -62,9 +63,14 @@ export default function Footer() {
         <div className="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
           {/* Brand col */}
           <div>
-            <div className="font-mono text-[11px] text-accent-bright/60 tracking-widest uppercase mb-4">
-              Gileara
-            </div>
+            <Image
+              src="/assets/gileara/logo-full.png"
+              alt="Gileara"
+              width={160}
+              height={87}
+              sizes="140px"
+              className="h-9 w-auto mb-5"
+            />
             <p className="font-sans text-xs text-white/30 leading-relaxed mb-4">
               We build the operations, sales, customer, and reporting infrastructure small business can&apos;t build alone.
             </p>
