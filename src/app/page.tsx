@@ -7,7 +7,6 @@ import Pricing from "@/components/Pricing";
 import Approach from "@/components/Approach";
 import AuditSection from "@/components/audit/AuditSection";
 import Positioning from "@/components/Positioning";
-import FoundersTeaser from "@/components/FoundersTeaser";
 import FoundingClient from "@/components/FoundingClient";
 import ContactBand from "@/components/ContactBand";
 import Footer from "@/components/Footer";
@@ -205,7 +204,6 @@ export default function Home() {
         <Approach />
         <AuditSection />
         <Positioning />
-        <FoundersTeaser />
         <FoundingClient />
         <ContactBand
           headline={

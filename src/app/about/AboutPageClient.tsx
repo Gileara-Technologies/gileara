@@ -6,8 +6,7 @@ import PageHero from "@/components/PageHero";
 import ContactBand from "@/components/ContactBand";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
-import { foundation, orgChart, roster } from "@/content/team";
-import OrgChart from "@/components/about/OrgChart";
+import { foundation, roster } from "@/content/team";
 import Roster from "@/components/about/Roster";
 
 /**
@@ -16,9 +15,8 @@ import Roster from "@/components/about/Roster";
  *   02 — Scripture & Name Origin (Jeremiah 8:22, the Gilead reference)
  *   03 — Our values (four principles, professional + faith-rooted)
  *   04 — Foundation: the 3 founding partners
- *   05 — Org chart: who reports to whom (CEO → COO/CTO → their reports)
- *   06 — Roster: everyone else, one uniform list tagged by department
- *   07 — Join us contact band
+ *   05 — Roster: everyone else, one uniform list tagged by department
+ *   06 — Join us contact band
  */
 const values = [
   {
@@ -230,37 +228,13 @@ export default function AboutPageClient() {
         </div>
       </section>
 
-      {/* 05 — ORG CHART (who reports to whom) */}
+      {/* 05 — ROSTER (everyone else, one uniform list tagged by department) */}
       <section className="bg-brand-soft py-section px-6 md:px-12">
         <div className="max-w-[1200px] mx-auto">
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16 md:mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel number="05" label="REPORTING STRUCTURE" className="mb-8" />
-              </RevealText>
-              <h2 className="font-display text-display-lg text-on-background mb-8">
-                How the company{" "}
-                <span className="italic text-accent-bright">is organised.</span>
-              </h2>
-              <RevealText delay={0.15}>
-                <p className="text-body-lg text-on-surface-variant max-w-xl leading-relaxed">
-                  A small, flat structure. Everyone below the founders reports into either the COO or the CTO.
-                </p>
-              </RevealText>
-            </div>
-          </div>
-
-          <OrgChart root={orgChart} />
-        </div>
-      </section>
-
-      {/* 06 — ROSTER (everyone else, one uniform list tagged by department) */}
-      <section className="bg-brand-soft-alt py-section px-6 md:px-12">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16 md:mb-20">
-            <div className="col-span-12 lg:col-span-7">
-              <RevealText>
-                <SectionLabel number="06" label="THE ROSTER" className="mb-8" />
+                <SectionLabel number="05" label="THE ROSTER" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 The people who{" "}
@@ -278,7 +252,7 @@ export default function AboutPageClient() {
         </div>
       </section>
 
-      {/* 07 — In-page contact band — placed just above the footer. */}
+      {/* 06 — In-page contact band — placed just above the footer. */}
       <ContactBand
         eyebrow="JOIN US"
         headline={

@@ -303,35 +303,3 @@ html.lenis body {
   transform: translateY(100%);
 }
 
-/* ── Org chart connectors (About page) ───────────────────────────────── */
-/* Pure-CSS tree connectors, mobile-first: a left border acts as the
-   vertical trunk, overridden to top-border fan-out at md+. */
-.org-branch {
-  position: relative;
-  border-left: 1px solid rgba(94, 234, 212, 0.25);
-  padding-left: 1.5rem;
-}
-.org-branch::before {
-  content: '';
-  position: absolute;
-  left: -1px;
-  top: 1.25rem;
-  width: 1rem;
-  height: 1px;
-  background: rgba(94, 234, 212, 0.25);
-}
-@media (min-width: 768px) {
-  .org-branch {
-    border-left: none;
-    border-top: 1px solid rgba(94, 234, 212, 0.25);
-    padding-left: 0;
-    padding-top: 1.75rem;
-  }
-  .org-branch::before {
-    left: 50%;
-    top: -1px;
-    width: 1px;
-    height: 1rem;
-    transform: translateX(-50%);
-  }
-}

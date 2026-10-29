@@ -1,16 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { foundation, orgChart, roster } from "@/content/team";
+import { foundation, roster } from "@/content/team";
 
 /**
  * Validates the team content module:
  *  - 3 founding partners (Amos, Julian, Rodney) with images and quotes
- *  - roster: 7 people, one flat list tagged by department (no section
- *    grouping) — Wisdom Segbedzi and Lawrence Adusu have been removed
- *  - orgChart: CEO root, COO/CTO branches, their direct reports as leaves
+ *  - roster: 8 people, one flat list tagged by department (no section
+ *    grouping) — Wisdom Segbedzi and Lawrence Adusu have been removed,
+ *    Owusu Joe (Creative Director) has been added
  *  - Removed members (Garnett Dussey, Kelvin, Wisdom Segbedzi,
  *    Lawrence Adusu) are not present anywhere
  *  - All foundation members have a portrait image
  *  - Founders point at the canonical portrait files (Julian.jpg, rodney.jpg)
+ *
+ * The reporting-structure org chart (previously tested here too) has been
+ * removed from the page and from this content module — see git history
+ * if it needs to come back.
  */
 describe("team content", () => {
   it("foundation has the 3 founding partners in the expected order", () => {
@@ -41,10 +45,11 @@ describe("team content", () => {
     }
   });
 
-  it("roster has exactly 7 people (3 ex-leaders + 4 ex-engineering, Wisdom and Lawrence removed)", () => {
-    expect(roster).toHaveLength(7);
+  it("roster has exactly 8 people, including the newly added Creative Director", () => {
+    expect(roster).toHaveLength(8);
     expect(roster.map((m) => m.name)).toEqual([
       "Jude Elorm Agbesinyale",
+      "Owusu Joe",
       "Daniel Akpabli",
       "Theophilus Bruce",
       "Mekitonima Aliodi",
@@ -52,6 +57,12 @@ describe("team content", () => {
       "Gyening Patrick Nyarko",
       "Samuel Quansah",
     ]);
+  });
+
+  it("Owusu Joe is the Creative Director, tagged with the Creative department", () => {
+    const joe = roster.find((m) => m.name === "Owusu Joe");
+    expect(joe?.role).toBe("Creative Director");
+    expect(joe?.department).toBe("Creative");
   });
 
   it("every roster member has a name, role, and department", () => {
@@ -72,13 +83,16 @@ describe("team content", () => {
   it("roster members without a photo on file have no image field (render initials)", () => {
     const theophilus = roster.find((m) => m.name === "Theophilus Bruce");
     const mekitonima = roster.find((m) => m.name === "Mekitonima Aliodi");
+    const joe = roster.find((m) => m.name === "Owusu Joe");
     expect(theophilus?.image).toBeUndefined();
     expect(mekitonima?.image).toBeUndefined();
+    expect(joe?.image).toBeUndefined();
   });
 
   it("roster is tagged with the right departments", () => {
     const byName = (name: string) => roster.find((m) => m.name === name)?.department;
     expect(byName("Jude Elorm Agbesinyale")).toBe("Marketing");
+    expect(byName("Owusu Joe")).toBe("Creative");
     expect(byName("Daniel Akpabli")).toBe("Communication");
     expect(byName("Theophilus Bruce")).toBe("Finance");
     for (const name of ["Mekitonima Aliodi", "Mohammed Murshid", "Gyening Patrick Nyarko", "Samuel Quansah"]) {
@@ -86,41 +100,8 @@ describe("team content", () => {
     }
   });
 
-  it("orgChart root is the CEO with exactly two branches (COO, CTO)", () => {
-    expect(orgChart.name).toBe("Amos Frederick Hughes");
-    expect(orgChart.role).toBe("Founder & CEO");
-    expect(orgChart.children).toHaveLength(2);
-    expect(orgChart.children?.map((c) => c.name)).toEqual(["Julian Hagan", "Rodney Hagan"]);
-  });
-
-  it("orgChart's COO branch has 3 direct reports (Marketing, Communication, Finance)", () => {
-    const coo = orgChart.children?.find((c) => c.name === "Julian Hagan");
-    expect(coo?.children).toHaveLength(3);
-    expect(coo?.children?.map((c) => c.name)).toEqual([
-      "Jude Elorm Agbesinyale",
-      "Daniel Akpabli",
-      "Theophilus Bruce",
-    ]);
-  });
-
-  it("orgChart's CTO branch has 4 direct reports (the engineering team)", () => {
-    const cto = orgChart.children?.find((c) => c.name === "Rodney Hagan");
-    expect(cto?.children).toHaveLength(4);
-    expect(cto?.children?.map((c) => c.name)).toEqual([
-      "Mekitonima Aliodi",
-      "Mohammed Murshid",
-      "Gyening Patrick Nyarko",
-      "Samuel Quansah",
-    ]);
-  });
-
   it("removed members (Garnett Dussey, Kelvin, Wisdom Segbedzi, Lawrence Adusu) are not present anywhere", () => {
-    const allNames = [
-      ...foundation.map((f) => f.name),
-      ...roster.map((m) => m.name),
-      orgChart.name,
-      ...(orgChart.children ?? []).flatMap((c) => [c.name, ...(c.children ?? []).map((l) => l.name)]),
-    ];
+    const allNames = [...foundation.map((f) => f.name), ...roster.map((m) => m.name)];
     expect(allNames.some((n) => n.includes("Garnett"))).toBe(false);
     expect(allNames.some((n) => /^Kelvin\b/.test(n) || n.includes("Kelvin "))).toBe(false);
     expect(allNames.some((n) => n.includes("Wisdom"))).toBe(false);
