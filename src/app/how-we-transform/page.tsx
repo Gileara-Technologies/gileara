@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HowWeTransformClient from "./HowWeTransformClient";
-import { scenarios } from "@/content/scenarios";
+import { getPublicScenarios } from "@/lib/cms/public-scenarios";
+
+// D1 is read per request (D1 first, src/content/scenarios.ts fallback --
+// same hybrid rule as /faq and /insights), so this route is not
+// prerenderable.
+export const dynamic = "force-dynamic";
 
 const base = "https://gileara.org";
 
@@ -30,56 +35,58 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "CollectionPage",
-      "@id": `${base}/how-we-transform/#webpage`,
-      url: `${base}/how-we-transform`,
-      name: "How We Transform | Gileara Technologies",
-      description:
-        "Vertical transformation playbooks for small and growing businesses. Each one is a scenario we're ready to implement, with every outcome stated as a goal.",
-      isPartOf: { "@id": `${base}/#website` },
-      breadcrumb: { "@id": `${base}/how-we-transform/#breadcrumb` },
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${base}/how-we-transform/#breadcrumb`,
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: base },
-        { "@type": "ListItem", position: 2, name: "How we solve it", item: `${base}/how-we-transform` },
-      ],
-    },
-    {
-      "@type": "ItemList",
-      "@id": `${base}/how-we-transform/#playbook-list`,
-      name: "Vertical transformation playbooks",
-      description:
-        "Playbooks for the verticals we serve. Each one is a scenario we're ready to implement, never a client claim.",
-      numberOfItems: scenarios.length,
-      itemListOrder: "https://schema.org/ItemListOrderAscending",
-      itemListElement: scenarios.map((s, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        item: {
-          "@type": "Article",
-          "@id": `${base}/how-we-transform/${s.id}/#playbook`,
-          headline: s.headline,
-          name: `${s.vertical} Playbook`,
-          description: s.ghanaContext,
-          articleSection: s.vertical,
-          about: s.painPoints[0],
-          author: { "@id": `${base}/#organization` },
-          publisher: { "@id": `${base}/#organization` },
-          url: `${base}/how-we-transform/${s.id}`,
-        },
-      })),
-    },
-  ],
-};
+export default async function HowWeTransformPage() {
+  const scenarios = await getPublicScenarios();
 
-export default function HowWeTransformPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${base}/how-we-transform/#webpage`,
+        url: `${base}/how-we-transform`,
+        name: "How We Transform | Gileara Technologies",
+        description:
+          "Vertical transformation playbooks for small and growing businesses. Each one is a scenario we're ready to implement, with every outcome stated as a goal.",
+        isPartOf: { "@id": `${base}/#website` },
+        breadcrumb: { "@id": `${base}/how-we-transform/#breadcrumb` },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${base}/how-we-transform/#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: base },
+          { "@type": "ListItem", position: 2, name: "How we solve it", item: `${base}/how-we-transform` },
+        ],
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${base}/how-we-transform/#playbook-list`,
+        name: "Vertical transformation playbooks",
+        description:
+          "Playbooks for the verticals we serve. Each one is a scenario we're ready to implement, never a client claim.",
+        numberOfItems: scenarios.length,
+        itemListOrder: "https://schema.org/ItemListOrderAscending",
+        itemListElement: scenarios.map((s, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          item: {
+            "@type": "Article",
+            "@id": `${base}/how-we-transform/${s.id}/#playbook`,
+            headline: s.headline,
+            name: `${s.vertical} Playbook`,
+            description: s.ghanaContext,
+            articleSection: s.vertical,
+            about: s.painPoints[0],
+            author: { "@id": `${base}/#organization` },
+            publisher: { "@id": `${base}/#organization` },
+            url: `${base}/how-we-transform/${s.id}`,
+          },
+        })),
+      },
+    ],
+  };
+
   return (
     <>
       <script
@@ -88,7 +95,7 @@ export default function HowWeTransformPage() {
       />
       <Navbar />
       <main>
-        <HowWeTransformClient />
+        <HowWeTransformClient scenarios={scenarios} />
       </main>
       <Footer />
     </>

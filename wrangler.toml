@@ -90,3 +90,13 @@ database_id = "a028a5ba-588e-46aa-936c-e3ee1a87fd98"
 [[r2_buckets]]
 binding = "gileara_resumes"
 bucket_name = "gileara-careers-resumes"
+
+# CMS media (docs/CMS-PLAN.md design question 4) — public content images
+# (Insights covers, Playbook photos), served through /api/cms/media/[...key],
+# NOT the gileara_resumes bucket above: that one is private and
+# session-gated, this one must be fetchable by anonymous site visitors.
+# Object keys are {prefix}/{timestamp}-{random}.{ext}, prefix is
+# "insights" or "playbooks".
+[[r2_buckets]]
+binding = "gileara_cms_media"
+bucket_name = "gileara-cms-media"
