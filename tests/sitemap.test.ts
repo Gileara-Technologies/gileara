@@ -2,13 +2,15 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 import type { MetadataRoute } from "next";
 import sitemap from "@/app/sitemap";
 import { servicePackages } from "@/content/packages";
-import { scenarios } from "@/content/scenarios";
 import { fallbackPosts } from "@/lib/cms/public-posts";
+import { fallbackScenarios } from "@/lib/cms/public-scenarios";
 
-// getPublicPosts() falls back to src/content/posts.ts in this environment
-// (no Cloudflare context) and logs a warning when it does -- expected
-// here, not a real problem, so it's silenced for the whole file.
+// getPublicPosts()/getPublicScenarios() fall back to their respective
+// src/content/*.ts modules in this environment (no Cloudflare context)
+// and log a warning when they do -- expected here, not a real problem,
+// so it's silenced for the whole file.
 const posts = fallbackPosts();
+const scenarios = fallbackScenarios();
 
 /**
  * Validates that the generated sitemap:

@@ -1,11 +1,12 @@
 /**
  * Row and domain shapes for the CMS data layer. Content types so far:
- * FAQs (migrations/0004_create-cms-faqs.sql) and Insight posts
- * (migrations/0005_create-cms-posts.sql). Playbooks follow the same shape
- * once this slice is proven.
+ * FAQs (migrations/0004_create-cms-faqs.sql), Insight posts
+ * (migrations/0005_create-cms-posts.sql), and playbooks
+ * (migrations/0006_create-cms-scenarios.sql).
  */
 
 import type { PostTag } from "@/content/posts";
+import type { ImplementationStep, ScenarioStatus } from "@/content/scenarios";
 
 export type ContentStatus = "draft" | "published";
 
@@ -77,4 +78,81 @@ export interface PostPatch {
   tag?: PostTag;
   image?: string;
   body?: string;
+}
+
+/** Raw `cms_scenarios` row as stored in D1. The four list fields are
+ *  serialized JSON (same convention as roles.responsibilities etc.);
+ *  `implementation` is a JSON array of {phase, detail} objects, not a
+ *  flat string array. `status` (draft/published, the CMS's own
+ *  visibility workflow) is distinct from `scenario_status`
+ *  (scenario/pilot/case-study, the honesty-contract label). */
+export interface ScenarioRow {
+  id: number;
+  slug: string;
+  vertical: string;
+  icon: string;
+  headline: string;
+  pain_points: string;
+  package_ids: string;
+  implementation: string;
+  target_outcomes: string;
+  ghana_context: string;
+  image: string | null;
+  scenario_status: ScenarioStatus;
+  status: ContentStatus;
+  created_at: string;
+  updated_at: string;
+  updated_by: string | null;
+}
+
+/** `ScenarioRow` with the JSON columns parsed to their real shapes --
+ *  the form/domain shape, mirroring ParsedRole vs RoleRow. */
+export interface ParsedScenario {
+  id: number;
+  slug: string;
+  vertical: string;
+  icon: string;
+  headline: string;
+  painPoints: string[];
+  packageIds: string[];
+  implementation: ImplementationStep[];
+  targetOutcomes: string[];
+  ghanaContext: string;
+  image: string | null;
+  scenarioStatus: ScenarioStatus;
+  status: ContentStatus;
+  createdAt: string;
+  updatedAt: string;
+  updatedBy: string | null;
+}
+
+/** Input for createScenario. `slug` is resolved via uniqueSlug against
+ *  existing slugs (from `vertical`) when omitted, same convention as
+ *  CreateRoleInput/CreatePostInput. */
+export interface CreateScenarioInput {
+  slug?: string;
+  vertical: string;
+  icon: string;
+  headline: string;
+  painPoints: string[];
+  packageIds: string[];
+  implementation: ImplementationStep[];
+  targetOutcomes: string[];
+  ghanaContext: string;
+  image?: string;
+  scenarioStatus?: ScenarioStatus;
+}
+
+/** Partial update for updateScenario. `slug` is fixed after creation. */
+export interface ScenarioPatch {
+  vertical?: string;
+  icon?: string;
+  headline?: string;
+  painPoints?: string[];
+  packageIds?: string[];
+  implementation?: ImplementationStep[];
+  targetOutcomes?: string[];
+  ghanaContext?: string;
+  image?: string;
+  scenarioStatus?: ScenarioStatus;
 }

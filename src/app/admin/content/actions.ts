@@ -1,8 +1,8 @@
 "use server";
 
 /**
- * Server actions for the content-admin area (FAQs first; Insights and
- * Playbooks will follow the same shape). Every action starts with
+ * Server actions for the content-admin area: FAQs, Insight posts, and
+ * playbooks, all the same shape. Every action starts with
  * requireContentEditorSession() -- server actions run without rendering
  * the layout, so the layout guard alone would let an authenticated-but-
  * unauthorized HR session (or an unauthenticated POST) mutate D1.
@@ -12,18 +12,24 @@ import { redirect } from "next/navigation";
 import {
   createFaq,
   createPost,
+  createScenario,
   deleteFaq,
   deletePost,
+  deleteScenario,
   setFaqStatus,
   setPostStatus,
+  setScenarioContentStatus,
+  setScenarioStage,
   updateFaq,
   updatePost,
+  updateScenario,
 } from "@/lib/cms/db";
 import type { ContentStatus } from "@/lib/cms/types";
+import type { ScenarioStatus } from "@/content/scenarios";
 import { tryGetPortalDb, DB_UNAVAILABLE_MESSAGE } from "../admin-db";
 import type { ActionState } from "../form-logic";
 import { requireContentEditorSession } from "../session-guard";
-import { validateFaqForm, validatePostForm } from "./form-logic";
+import { validateFaqForm, validatePostForm, validateScenarioForm } from "./form-logic";
 
 const CREATE_FAILED_MESSAGE = "The FAQ could not be created. Nothing was saved.";
 const UPDATE_FAILED_MESSAGE = "That change could not be saved, so nothing changed.";
@@ -281,4 +287,181 @@ export async function deletePostAction(formData: FormData): Promise<void> {
     redirect("/admin/content/insights?error=save");
   }
   redirect("/admin/content/insights");
+}
+
+// ---------------------------------------------------------------------------
+// Playbooks
+// ---------------------------------------------------------------------------
+
+const SCENARIO_CREATE_FAILED_MESSAGE = "The playbook could not be created. Nothing was saved.";
+const SCENARIO_UPDATE_FAILED_MESSAGE = "That change could not be saved, so nothing changed.";
+
+function isScenarioStatusValue(value: unknown): value is ScenarioStatus {
+  return value === "scenario" || value === "pilot" || value === "case-study";
+}
+
+export async function createScenarioAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const session = await requireContentEditorSession();
+  const parsed = validateScenarioForm(formData);
+  if (!parsed.ok) {
+    return { error: parsed.error };
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    return { error: DB_UNAVAILABLE_MESSAGE };
+  }
+  let created;
+  try {
+    created = await createScenario(
+      db,
+      {
+        vertical: parsed.value.vertical,
+        icon: parsed.value.icon,
+        headline: parsed.value.headline,
+        painPoints: parsed.value.painPoints,
+        packageIds: parsed.value.packageIds,
+        implementation: parsed.value.implementation,
+        targetOutcomes: parsed.value.targetOutcomes,
+        ghanaContext: parsed.value.ghanaContext,
+        image: parsed.value.image,
+        scenarioStatus: parsed.value.scenarioStatus,
+      },
+      session.email,
+    );
+  } catch {
+    return { error: SCENARIO_CREATE_FAILED_MESSAGE };
+  }
+  if (!created) {
+    return { error: SCENARIO_CREATE_FAILED_MESSAGE };
+  }
+  redirect("/admin/content/playbooks");
+}
+
+export async function updateScenarioAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const session = await requireContentEditorSession();
+  const idRaw = String(formData.get("scenarioId") ?? "").trim();
+  const id = Number(idRaw);
+  if (!idRaw || !Number.isInteger(id) || id < 1) {
+    return { error: "That playbook could not be found." };
+  }
+  const parsed = validateScenarioForm(formData);
+  if (!parsed.ok) {
+    return { error: parsed.error };
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    return { error: DB_UNAVAILABLE_MESSAGE };
+  }
+  let updated;
+  try {
+    updated = await updateScenario(
+      db,
+      id,
+      {
+        vertical: parsed.value.vertical,
+        icon: parsed.value.icon,
+        headline: parsed.value.headline,
+        painPoints: parsed.value.painPoints,
+        packageIds: parsed.value.packageIds,
+        implementation: parsed.value.implementation,
+        targetOutcomes: parsed.value.targetOutcomes,
+        ghanaContext: parsed.value.ghanaContext,
+        image: parsed.value.image,
+        scenarioStatus: parsed.value.scenarioStatus,
+      },
+      session.email,
+    );
+  } catch {
+    return { error: SCENARIO_UPDATE_FAILED_MESSAGE };
+  }
+  if (!updated) {
+    return { error: "That playbook could not be found." };
+  }
+  redirect("/admin/content/playbooks");
+}
+
+/** Posted from the plain publish/unpublish buttons on the Playbooks list. */
+export async function setScenarioContentStatusAction(formData: FormData): Promise<void> {
+  const session = await requireContentEditorSession();
+  const idRaw = String(formData.get("id") ?? "").trim();
+  const id = Number(idRaw);
+  const status = formData.get("status");
+  if (!idRaw || !Number.isInteger(id) || id < 1 || !isContentStatus(status)) {
+    redirect("/admin/content/playbooks?error=invalid");
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    redirect("/admin/content/playbooks?error=unavailable");
+  }
+  let saved = false;
+  try {
+    const updated = await setScenarioContentStatus(db, id, status, session.email);
+    saved = updated !== null;
+  } catch {
+    saved = false;
+  }
+  if (!saved) {
+    redirect("/admin/content/playbooks?error=save");
+  }
+  redirect("/admin/content/playbooks");
+}
+
+/**
+ * Posted from the quick scenario_status control (scenario -> pilot ->
+ * case-study) on the Playbooks list -- the one action this whole slice
+ * exists for, since it used to require a code change and a deploy.
+ */
+export async function setScenarioStageAction(formData: FormData): Promise<void> {
+  const session = await requireContentEditorSession();
+  const idRaw = String(formData.get("id") ?? "").trim();
+  const id = Number(idRaw);
+  const stage = formData.get("scenarioStatus");
+  if (!idRaw || !Number.isInteger(id) || id < 1 || !isScenarioStatusValue(stage)) {
+    redirect("/admin/content/playbooks?error=invalid");
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    redirect("/admin/content/playbooks?error=unavailable");
+  }
+  let saved = false;
+  try {
+    const updated = await setScenarioStage(db, id, stage, session.email);
+    saved = updated !== null;
+  } catch {
+    saved = false;
+  }
+  if (!saved) {
+    redirect("/admin/content/playbooks?error=save");
+  }
+  redirect("/admin/content/playbooks");
+}
+
+/** Posted from the plain delete button on the Playbooks list. */
+export async function deleteScenarioAction(formData: FormData): Promise<void> {
+  await requireContentEditorSession();
+  const idRaw = String(formData.get("id") ?? "").trim();
+  const id = Number(idRaw);
+  if (!idRaw || !Number.isInteger(id) || id < 1) {
+    redirect("/admin/content/playbooks?error=invalid");
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    redirect("/admin/content/playbooks?error=unavailable");
+  }
+  let saved = false;
+  try {
+    saved = await deleteScenario(db, id);
+  } catch {
+    saved = false;
+  }
+  if (!saved) {
+    redirect("/admin/content/playbooks?error=save");
+  }
+  redirect("/admin/content/playbooks");
 }
