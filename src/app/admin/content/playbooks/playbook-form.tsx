@@ -14,6 +14,7 @@ import { SCENARIO_STATUS_LEGEND, type ScenarioStatus } from "@/content/scenarios
 import type { ParsedScenario } from "@/lib/cms/types";
 import { createScenarioAction, updateScenarioAction } from "../actions";
 import type { ActionState } from "../../form-logic";
+import { MediaUploadField } from "../media-upload-field";
 
 const fieldClass =
   "w-full rounded-md border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface transition-colors placeholder:text-on-surface-variant focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/50";
@@ -354,23 +355,14 @@ export function PlaybookForm({ mode, scenarioId, initial }: PlaybookFormProps) {
         />
       </div>
 
-      <div>
-        <label htmlFor="scenario-image" className={labelClass}>
-          Photo
-        </label>
-        <input
-          id="scenario-image"
-          type="text"
-          name="image"
-          defaultValue={initial?.image ?? ""}
-          placeholder="/assets/gileara/photos/pharmacy.jpg (optional)"
-          className={fieldClass}
-        />
-        <p className="mt-1 text-xs text-on-surface-variant">
-          Optional. Real photography of the actual business context only -- never Western/AI stock. Leave blank
-          until that exists.
-        </p>
-      </div>
+      <MediaUploadField
+        prefix="playbooks"
+        name="image"
+        label="Photo"
+        defaultValue={initial?.image ?? ""}
+        placeholder="/assets/gileara/photos/pharmacy.jpg (optional)"
+        hint="Optional. Real photography of the actual business context only -- never Western/AI stock. Leave blank until that exists."
+      />
 
       <div className="flex items-center gap-4 border-t border-outline-variant pt-5">
         <button type="submit" disabled={pending} className={submitClass}>
