@@ -6,19 +6,22 @@ import Footer from "@/components/Footer";
 import ContactBand from "@/components/ContactBand";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
-import { scenarios, scenarioPackages } from "@/content/scenarios";
+import { scenarioPackages } from "@/content/scenarios";
+import { getPublicScenario } from "@/lib/cms/public-scenarios";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return scenarios.map((s) => ({ slug: s.id }));
-}
+// D1 is read per request (D1 first, src/content/scenarios.ts fallback --
+// same hybrid rule as /insights/[slug]), so this route is not
+// prerenderable -- generateStaticParams is gone, every slug (including
+// ones created through the CMS after the last build) resolves on demand.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const scenario = scenarios.find((s) => s.id === slug);
+  const scenario = await getPublicScenario(slug);
   if (!scenario) return {};
   return {
     title: `${scenario.vertical} Playbook | How We Transform | Gileara Technologies`,
@@ -47,7 +50,7 @@ const base = "https://gileara.org";
 
 export default async function ScenarioPage({ params }: PageProps) {
   const { slug } = await params;
-  const scenario = scenarios.find((s) => s.id === slug);
+  const scenario = await getPublicScenario(slug);
   if (!scenario) notFound();
 
   const pkgs = scenarioPackages(scenario);

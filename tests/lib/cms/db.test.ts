@@ -2,19 +2,26 @@ import { describe, expect, it } from "vitest";
 import {
   createFaq,
   createPost,
+  createScenario,
   deleteFaq,
   deletePost,
+  deleteScenario,
   getFaq,
   getPost,
+  getScenario,
   listFaqs,
   listPosts,
+  listScenarios,
   setFaqStatus,
   setPostStatus,
+  setScenarioContentStatus,
+  setScenarioStage,
   updateFaq,
   updatePost,
+  updateScenario,
 } from "@/lib/cms/db";
 import type { D1Like } from "@/lib/portal/db";
-import type { FaqRow, PostRow } from "@/lib/cms/types";
+import type { FaqRow, ParsedScenario, PostRow } from "@/lib/cms/types";
 
 // ---------------------------------------------------------------------------
 // Tiny in-memory fake D1 for cms_faqs: implements exactly the surface
@@ -517,5 +524,425 @@ describe("deletePost", () => {
     const ok = await deletePost(fake.db, 1);
     expect(ok).toBe(true);
     expect(await getPost(fake.db, 1)).toBeNull();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Playbooks (migrations/0006_create-cms-scenarios.sql)
+//
+// Unlike FaqRow/PostRow, cms_scenarios has JSON-string columns that
+// toParsedScenario() parses internally -- so the fake's stored rows stay
+// in the RAW (JSON-as-string) shape, exactly like a real D1 row, and
+// every assertion below is against the PARSED (array-shaped) result
+// db.ts actually returns.
+// ---------------------------------------------------------------------------
+
+interface RawScenarioRow {
+  id: number;
+  slug: string;
+  vertical: string;
+  icon: string;
+  headline: string;
+  pain_points: string;
+  package_ids: string;
+  implementation: string;
+  target_outcomes: string;
+  ghana_context: string;
+  image: string | null;
+  scenario_status: ParsedScenario["scenarioStatus"];
+  status: ParsedScenario["status"];
+  created_at: string;
+  updated_at: string;
+  updated_by: string | null;
+}
+
+function rawScenario(overrides: Partial<RawScenarioRow> = {}): RawScenarioRow {
+  return {
+    id: 1,
+    slug: "pharmacy",
+    vertical: "Pharmacy",
+    icon: "medication",
+    headline: "The pharmacy that always knows its stock",
+    pain_points: JSON.stringify(["Stock counts live in notebooks"]),
+    package_ids: JSON.stringify(["business-operations"]),
+    implementation: JSON.stringify([{ phase: "Diagnose", detail: "Map how stock flows today." }]),
+    target_outcomes: JSON.stringify(["Reorder alerts arrive before stockouts"]),
+    ghana_context: "Sales arrive over the counter through several channels.",
+    image: null,
+    scenario_status: "scenario",
+    status: "draft",
+    created_at: "2026-01-01 00:00:00",
+    updated_at: "2026-01-01 00:00:00",
+    updated_by: null,
+    ...overrides,
+  };
+}
+
+function makeFakeScenariosD1(seeded: { scenarios?: RawScenarioRow[] } = {}) {
+  const state = {
+    scenarios: [...(seeded.scenarios ?? [])],
+    nextId: (seeded.scenarios?.length ?? 0) + 1,
+    now: (): string => "2026-06-01 12:00:00",
+  };
+
+  const byVertical = (a: RawScenarioRow, b: RawScenarioRow): number =>
+    a.vertical < b.vertical ? -1 : a.vertical > b.vertical ? 1 : a.id - b.id;
+
+  const execute = (sql: string, binds: unknown[]): { results: unknown[]; lastRowId?: number } => {
+    if (sql.startsWith("UPDATE cms_scenarios SET status")) {
+      const [status, actorEmail, id] = binds as [RawScenarioRow["status"], string, number];
+      const row = state.scenarios.find((s) => s.id === id);
+      if (row) {
+        row.status = status;
+        row.updated_at = state.now();
+        row.updated_by = actorEmail;
+      }
+      return { results: [] };
+    }
+    if (sql.startsWith("UPDATE cms_scenarios SET scenario_status")) {
+      const [scenarioStatus, actorEmail, id] = binds as [RawScenarioRow["scenario_status"], string, number];
+      const row = state.scenarios.find((s) => s.id === id);
+      if (row) {
+        row.scenario_status = scenarioStatus;
+        row.updated_at = state.now();
+        row.updated_by = actorEmail;
+      }
+      return { results: [] };
+    }
+    if (sql.startsWith("UPDATE cms_scenarios SET vertical")) {
+      const [
+        vertical,
+        icon,
+        headline,
+        painPoints,
+        packageIds,
+        implementation,
+        targetOutcomes,
+        ghanaContext,
+        image,
+        scenarioStatus,
+        actorEmail,
+        id,
+      ] = binds as [
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string | null,
+        RawScenarioRow["scenario_status"],
+        string,
+        number,
+      ];
+      const row = state.scenarios.find((s) => s.id === id);
+      if (row) {
+        row.vertical = vertical;
+        row.icon = icon;
+        row.headline = headline;
+        row.pain_points = painPoints;
+        row.package_ids = packageIds;
+        row.implementation = implementation;
+        row.target_outcomes = targetOutcomes;
+        row.ghana_context = ghanaContext;
+        row.image = image;
+        row.scenario_status = scenarioStatus;
+        row.updated_at = state.now();
+        row.updated_by = actorEmail;
+      }
+      return { results: [] };
+    }
+    if (sql.startsWith("INSERT INTO cms_scenarios")) {
+      const [
+        slug,
+        vertical,
+        icon,
+        headline,
+        painPoints,
+        packageIds,
+        implementation,
+        targetOutcomes,
+        ghanaContext,
+        image,
+        scenarioStatus,
+        actorEmail,
+      ] = binds as [
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string | null,
+        RawScenarioRow["scenario_status"],
+        string,
+      ];
+      const row: RawScenarioRow = {
+        id: state.nextId,
+        slug,
+        vertical,
+        icon,
+        headline,
+        pain_points: painPoints,
+        package_ids: packageIds,
+        implementation,
+        target_outcomes: targetOutcomes,
+        ghana_context: ghanaContext,
+        image,
+        scenario_status: scenarioStatus,
+        status: "draft",
+        created_at: state.now(),
+        updated_at: state.now(),
+        updated_by: actorEmail,
+      };
+      state.nextId += 1;
+      state.scenarios.push(row);
+      return { results: [], lastRowId: row.id };
+    }
+    if (sql.startsWith("DELETE FROM cms_scenarios")) {
+      const [id] = binds as [number];
+      const before = state.scenarios.length;
+      state.scenarios = state.scenarios.filter((s) => s.id !== id);
+      return { results: [], lastRowId: state.scenarios.length < before ? 1 : undefined };
+    }
+    if (sql.startsWith("SELECT * FROM cms_scenarios WHERE status")) {
+      const [status] = binds as [RawScenarioRow["status"]];
+      return { results: state.scenarios.filter((s) => s.status === status).sort(byVertical) };
+    }
+    if (sql.startsWith("SELECT * FROM cms_scenarios WHERE id")) {
+      const [id] = binds as [number];
+      return { results: state.scenarios.filter((s) => s.id === id) };
+    }
+    if (sql.startsWith("SELECT slug FROM cms_scenarios")) {
+      return { results: state.scenarios.map((s) => ({ slug: s.slug })) };
+    }
+    if (sql.startsWith("SELECT * FROM cms_scenarios ORDER")) {
+      return { results: [...state.scenarios].sort(byVertical) };
+    }
+    throw new Error(`fake D1: unhandled query: ${sql}`);
+  };
+
+  const db: D1Like = {
+    prepare(sql: string) {
+      const binds: unknown[] = [];
+      const statement = {
+        bind(...values: unknown[]) {
+          binds.splice(0, binds.length, ...values);
+          return statement;
+        },
+        async all<T = unknown>() {
+          const { results } = execute(sql, binds);
+          return { results: results as T[] };
+        },
+        async first<T = unknown>() {
+          const { results } = execute(sql, binds);
+          return (results[0] as T) ?? null;
+        },
+        async run() {
+          const { lastRowId } = execute(sql, binds);
+          return { success: true, meta: { last_row_id: lastRowId ?? null } };
+        },
+      };
+      return statement;
+    },
+  };
+
+  return { db, state };
+}
+
+describe("listScenarios", () => {
+  it("returns playbooks ordered by vertical then id", async () => {
+    const fake = makeFakeScenariosD1({
+      scenarios: [
+        rawScenario({ id: 1, vertical: "School", slug: "school" }),
+        rawScenario({ id: 2, vertical: "Pharmacy", slug: "pharmacy" }),
+      ],
+    });
+    const rows = await listScenarios(fake.db);
+    expect(rows.map((r) => r.vertical)).toEqual(["Pharmacy", "School"]);
+  });
+
+  it("filters by (content) status when given", async () => {
+    const fake = makeFakeScenariosD1({
+      scenarios: [
+        rawScenario({ id: 1, status: "draft" }),
+        rawScenario({ id: 2, status: "published", slug: "p2" }),
+      ],
+    });
+    const published = await listScenarios(fake.db, "published");
+    expect(published.map((r) => r.id)).toEqual([2]);
+  });
+
+  it("parses the JSON list columns into real arrays", async () => {
+    const fake = makeFakeScenariosD1({ scenarios: [rawScenario()] });
+    const [row] = await listScenarios(fake.db);
+    expect(row.painPoints).toEqual(["Stock counts live in notebooks"]);
+    expect(row.packageIds).toEqual(["business-operations"]);
+    expect(row.implementation).toEqual([{ phase: "Diagnose", detail: "Map how stock flows today." }]);
+    expect(row.targetOutcomes).toEqual(["Reorder alerts arrive before stockouts"]);
+  });
+
+  it("returns [] when there are no playbooks", async () => {
+    const fake = makeFakeScenariosD1();
+    expect(await listScenarios(fake.db)).toEqual([]);
+  });
+});
+
+describe("getScenario", () => {
+  it("returns the matching, parsed row", async () => {
+    const fake = makeFakeScenariosD1({ scenarios: [rawScenario({ id: 7, vertical: "Specific" })] });
+    const row = await getScenario(fake.db, 7);
+    expect(row?.vertical).toBe("Specific");
+  });
+
+  it("returns null for an unknown id", async () => {
+    const fake = makeFakeScenariosD1();
+    expect(await getScenario(fake.db, 999)).toBeNull();
+  });
+});
+
+describe("createScenario", () => {
+  it("inserts a new playbook as draft/scenario, generating a slug from vertical", async () => {
+    const fake = makeFakeScenariosD1();
+    const created = await createScenario(
+      fake.db,
+      {
+        vertical: "Restaurant",
+        icon: "restaurant",
+        headline: "Headline",
+        painPoints: ["Pain one"],
+        packageIds: ["business-operations"],
+        implementation: [{ phase: "Diagnose", detail: "Detail" }],
+        targetOutcomes: ["Outcome one"],
+        ghanaContext: "Context",
+      },
+      "jude.gileara@gmail.com",
+    );
+    expect(created?.slug).toBe("restaurant");
+    expect(created?.status).toBe("draft");
+    expect(created?.scenarioStatus).toBe("scenario");
+    expect(created?.updatedBy).toBe("jude.gileara@gmail.com");
+    expect(created?.painPoints).toEqual(["Pain one"]);
+    expect(created?.implementation).toEqual([{ phase: "Diagnose", detail: "Detail" }]);
+  });
+
+  it("appends a numeric suffix when the generated slug collides", async () => {
+    const fake = makeFakeScenariosD1({ scenarios: [rawScenario({ id: 1, slug: "pharmacy", vertical: "Pharmacy" })] });
+    const created = await createScenario(
+      fake.db,
+      {
+        vertical: "Pharmacy",
+        icon: "medication",
+        headline: "H",
+        painPoints: [],
+        packageIds: [],
+        implementation: [],
+        targetOutcomes: [],
+        ghanaContext: "C",
+      },
+      "x@gmail.com",
+    );
+    expect(created?.slug).toBe("pharmacy-2");
+  });
+
+  it("accepts an explicit scenarioStatus override", async () => {
+    const fake = makeFakeScenariosD1();
+    const created = await createScenario(
+      fake.db,
+      {
+        vertical: "Salon",
+        icon: "content_cut",
+        headline: "H",
+        painPoints: [],
+        packageIds: [],
+        implementation: [],
+        targetOutcomes: [],
+        ghanaContext: "C",
+        scenarioStatus: "pilot",
+      },
+      "x@gmail.com",
+    );
+    expect(created?.scenarioStatus).toBe("pilot");
+  });
+});
+
+describe("updateScenario", () => {
+  it("updates only the given fields, keeping the rest, and stamps the actor", async () => {
+    const fake = makeFakeScenariosD1({
+      scenarios: [rawScenario({ id: 1, headline: "Old headline" })],
+    });
+    const updated = await updateScenario(fake.db, 1, { headline: "New headline" }, "mary.gileara@gmail.com");
+    expect(updated?.headline).toBe("New headline");
+    expect(updated?.vertical).toBe("Pharmacy");
+    expect(updated?.painPoints).toEqual(["Stock counts live in notebooks"]);
+    expect(updated?.updatedBy).toBe("mary.gileara@gmail.com");
+  });
+
+  it("does not touch the slug (it is fixed after creation)", async () => {
+    const fake = makeFakeScenariosD1({ scenarios: [rawScenario({ id: 1, slug: "fixed-slug" })] });
+    await updateScenario(fake.db, 1, { headline: "New" }, "x@gmail.com");
+    const row = await getScenario(fake.db, 1);
+    expect(row?.slug).toBe("fixed-slug");
+  });
+
+  it("replaces list fields wholesale when patched", async () => {
+    const fake = makeFakeScenariosD1({ scenarios: [rawScenario({ id: 1 })] });
+    const updated = await updateScenario(
+      fake.db,
+      1,
+      { painPoints: ["New pain"], implementation: [{ phase: "Run", detail: "New detail" }] },
+      "x@gmail.com",
+    );
+    expect(updated?.painPoints).toEqual(["New pain"]);
+    expect(updated?.implementation).toEqual([{ phase: "Run", detail: "New detail" }]);
+  });
+
+  it("returns null for an unknown id", async () => {
+    const fake = makeFakeScenariosD1();
+    expect(await updateScenario(fake.db, 999, { headline: "H" }, "x@gmail.com")).toBeNull();
+  });
+});
+
+describe("setScenarioContentStatus", () => {
+  it("moves a playbook from draft to published (visibility) without touching scenario_status", async () => {
+    const fake = makeFakeScenariosD1({
+      scenarios: [rawScenario({ id: 1, status: "draft", scenario_status: "scenario" })],
+    });
+    const updated = await setScenarioContentStatus(fake.db, 1, "published", "jude.gileara@gmail.com");
+    expect(updated?.status).toBe("published");
+    expect(updated?.scenarioStatus).toBe("scenario");
+    expect(updated?.updatedBy).toBe("jude.gileara@gmail.com");
+  });
+});
+
+describe("setScenarioStage", () => {
+  it("moves a playbook from scenario to pilot (the honesty-contract label) without touching status", async () => {
+    const fake = makeFakeScenariosD1({
+      scenarios: [rawScenario({ id: 1, status: "published", scenario_status: "scenario" })],
+    });
+    const updated = await setScenarioStage(fake.db, 1, "pilot", "jude.gileara@gmail.com");
+    expect(updated?.scenarioStatus).toBe("pilot");
+    expect(updated?.status).toBe("published");
+    expect(updated?.updatedBy).toBe("jude.gileara@gmail.com");
+  });
+
+  it("moves all the way to case-study", async () => {
+    const fake = makeFakeScenariosD1({ scenarios: [rawScenario({ id: 1, scenario_status: "pilot" })] });
+    const updated = await setScenarioStage(fake.db, 1, "case-study", "x@gmail.com");
+    expect(updated?.scenarioStatus).toBe("case-study");
+  });
+});
+
+describe("deleteScenario", () => {
+  it("removes the row and returns true", async () => {
+    const fake = makeFakeScenariosD1({ scenarios: [rawScenario({ id: 1 })] });
+    const ok = await deleteScenario(fake.db, 1);
+    expect(ok).toBe(true);
+    expect(await getScenario(fake.db, 1)).toBeNull();
   });
 });

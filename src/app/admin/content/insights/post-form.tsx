@@ -10,6 +10,7 @@ import { POST_TAGS } from "@/content/posts";
 import type { PostRow } from "@/lib/cms/types";
 import { createPostAction, updatePostAction } from "../actions";
 import type { ActionState } from "../../form-logic";
+import { MediaUploadField } from "../media-upload-field";
 
 const fieldClass =
   "w-full rounded-md border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface transition-colors placeholder:text-on-surface-variant focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/50";
@@ -137,23 +138,14 @@ export function PostForm({ mode, postId, initial }: PostFormProps) {
         </div>
       </div>
 
-      <div>
-        <label htmlFor="post-image" className={labelClass}>
-          Cover image
-        </label>
-        <input
-          id="post-image"
-          type="text"
-          name="image"
-          defaultValue={initial?.image ?? ""}
-          placeholder="/assets/insights/your-cover.jpg (optional)"
-          className={fieldClass}
-        />
-        <p className="mt-1 text-xs text-on-surface-variant">
-          Optional. A path under /public or a full URL. Leave blank for a gradient placeholder. There&apos;s no
-          upload yet — a developer needs to add the file first.
-        </p>
-      </div>
+      <MediaUploadField
+        prefix="insights"
+        name="image"
+        label="Cover image"
+        defaultValue={initial?.image ?? ""}
+        placeholder="/assets/insights/your-cover.jpg (optional)"
+        hint="Optional. Upload an image, paste a /public path, or paste a full external URL. Leave blank for a gradient placeholder."
+      />
 
       <div>
         <label htmlFor="post-body" className={labelClass}>

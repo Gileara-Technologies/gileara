@@ -22,6 +22,7 @@ const BASE_NAV_ITEMS: readonly NavItem[] = [
  *  HR and content editing are separate permission tiers. */
 const CONTENT_NAV_ITEMS: readonly NavItem[] = [
   { href: "/admin/content/insights", label: "Insights", icon: "article" },
+  { href: "/admin/content/playbooks", label: "Playbooks", icon: "account_tree" },
   { href: "/admin/content/faqs", label: "FAQs", icon: "help" },
 ];
 

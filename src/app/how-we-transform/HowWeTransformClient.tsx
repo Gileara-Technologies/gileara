@@ -3,7 +3,12 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { scenarios, SCENARIO_STATUS_LEGEND, scenarioPackages, type ScenarioStatus } from "@/content/scenarios";
+import {
+  SCENARIO_STATUS_LEGEND,
+  scenarioPackages,
+  type ScenarioStatus,
+  type TransformationScenario,
+} from "@/content/scenarios";
 import PageHero from "@/components/PageHero";
 import ContactBand from "@/components/ContactBand";
 import SectionLabel from "@/components/SectionLabel";
@@ -33,7 +38,7 @@ function StatusChip({ status }: { status: ScenarioStatus }) {
   );
 }
 
-export default function HowWeTransformClient() {
+export default function HowWeTransformClient({ scenarios }: { scenarios: TransformationScenario[] }) {
   return (
     <div className="bg-brand-soft-alt">
       <PageHero

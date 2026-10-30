@@ -1,11 +1,11 @@
 /**
  * Typed helpers for the CMS D1 tables. Schema: migrations/0004_create-cms-faqs.sql,
- * migrations/0005_create-cms-posts.sql. Same binding as the careers portal
- * (gileara_careers_db) and the same D1Like structural type from
- * src/lib/portal/db.ts -- reusing it here rather than redefining it keeps
- * one contract for "the D1 binding this app talks to," even though CMS
- * and careers are separate bounded contexts living in the same physical
- * database.
+ * migrations/0005_create-cms-posts.sql, migrations/0006_create-cms-scenarios.sql.
+ * Same binding as the careers portal (gileara_careers_db) and the same
+ * D1Like structural type from src/lib/portal/db.ts -- reusing it here
+ * rather than redefining it keeps one contract for "the D1 binding this
+ * app talks to," even though CMS and careers are separate bounded
+ * contexts living in the same physical database.
  *
  * ---- Testing ----
  * Every function takes the binding as its first argument, so tests inject
@@ -15,15 +15,19 @@
 
 import type { D1Like } from "@/lib/portal/db";
 import { POST_TAGS, type PostTag } from "@/content/posts";
+import type { ImplementationStep, ScenarioStatus } from "@/content/scenarios";
 import { uniqueSlug } from "@/lib/portal/slug";
 import type {
   ContentStatus,
   CreateFaqInput,
   CreatePostInput,
+  CreateScenarioInput,
   FaqPatch,
   FaqRow,
+  ParsedScenario,
   PostPatch,
   PostRow,
+  ScenarioPatch,
 } from "./types";
 
 const SELECT_FAQS = "SELECT * FROM cms_faqs ORDER BY display_order ASC, id ASC";
@@ -272,5 +276,230 @@ export async function setPostStatus(
 /** Hard delete. */
 export async function deletePost(db: D1Like, id: number): Promise<boolean> {
   const result = await db.prepare(DELETE_POST).bind(id).run();
+  return result.success;
+}
+
+// ---------------------------------------------------------------------------
+// Playbooks (migrations/0006_create-cms-scenarios.sql)
+// ---------------------------------------------------------------------------
+
+const SELECT_SCENARIOS = "SELECT * FROM cms_scenarios ORDER BY vertical ASC, id ASC";
+const SELECT_SCENARIOS_BY_STATUS =
+  "SELECT * FROM cms_scenarios WHERE status = ? ORDER BY vertical ASC, id ASC";
+const SELECT_SCENARIO_BY_ID = "SELECT * FROM cms_scenarios WHERE id = ?";
+const SELECT_SCENARIO_SLUGS = "SELECT slug FROM cms_scenarios";
+const INSERT_SCENARIO =
+  "INSERT INTO cms_scenarios (slug, vertical, icon, headline, pain_points, package_ids, implementation, target_outcomes, ghana_context, image, scenario_status, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+const UPDATE_SCENARIO_CONTENT_STATUS =
+  "UPDATE cms_scenarios SET status = ?, updated_at = datetime('now'), updated_by = ? WHERE id = ?";
+const UPDATE_SCENARIO_STAGE =
+  "UPDATE cms_scenarios SET scenario_status = ?, updated_at = datetime('now'), updated_by = ? WHERE id = ?";
+const DELETE_SCENARIO = "DELETE FROM cms_scenarios WHERE id = ?";
+
+const isScenarioStatus = (value: unknown): value is ScenarioStatus =>
+  value === "scenario" || value === "pilot" || value === "case-study";
+
+/** Tolerant JSON-array parse: anything that isn't a valid JSON array of
+ *  strings safely falls back to [], same convention as portal/db.ts's
+ *  private parseJsonList. */
+function parseJsonStringList(value: unknown): string[] {
+  if (typeof value !== "string" || value.trim() === "") {
+    return [];
+  }
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+    return parsed.filter((item): item is string => typeof item === "string");
+  } catch {
+    return [];
+  }
+}
+
+/** Tolerant JSON-array parse for the implementation column -- an array
+ *  of {phase, detail} objects rather than plain strings. */
+function parseImplementationList(value: unknown): ImplementationStep[] {
+  if (typeof value !== "string" || value.trim() === "") {
+    return [];
+  }
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+    return parsed.filter(
+      (item): item is ImplementationStep =>
+        typeof item === "object" &&
+        item !== null &&
+        typeof (item as Record<string, unknown>).phase === "string" &&
+        typeof (item as Record<string, unknown>).detail === "string",
+    );
+  } catch {
+    return [];
+  }
+}
+
+/** Tolerant row coercion + JSON-column parsing in one step -- scenarios
+ *  have JSON list columns, so (unlike FAQs/posts) the raw row shape
+ *  isn't exposed at all; every caller gets the parsed domain shape. */
+function toParsedScenario(value: unknown): ParsedScenario | null {
+  const row = asRecord(value);
+  if (!row || typeof row.id !== "number" || typeof row.slug !== "string") {
+    return null;
+  }
+  return {
+    id: row.id,
+    slug: row.slug,
+    vertical: typeof row.vertical === "string" ? row.vertical : "",
+    icon: typeof row.icon === "string" ? row.icon : "business_center",
+    headline: typeof row.headline === "string" ? row.headline : "",
+    painPoints: parseJsonStringList(row.pain_points),
+    packageIds: parseJsonStringList(row.package_ids),
+    implementation: parseImplementationList(row.implementation),
+    targetOutcomes: parseJsonStringList(row.target_outcomes),
+    ghanaContext: typeof row.ghana_context === "string" ? row.ghana_context : "",
+    image: typeof row.image === "string" ? row.image : null,
+    scenarioStatus: isScenarioStatus(row.scenario_status) ? row.scenario_status : "scenario",
+    status: isContentStatus(row.status) ? row.status : "draft",
+    createdAt: typeof row.created_at === "string" ? row.created_at : "",
+    updatedAt: typeof row.updated_at === "string" ? row.updated_at : "",
+    updatedBy: typeof row.updated_by === "string" ? row.updated_by : null,
+  };
+}
+
+async function listScenarioSlugs(db: D1Like): Promise<string[]> {
+  const { results } = await db.prepare(SELECT_SCENARIO_SLUGS).all();
+  return results
+    .map((row) => {
+      const record = asRecord(row);
+      return typeof record?.slug === "string" ? record.slug : "";
+    })
+    .filter((slug) => slug !== "");
+}
+
+/** All playbooks, optionally filtered by (content) status. Ordered by vertical, id. */
+export async function listScenarios(db: D1Like, status?: ContentStatus): Promise<ParsedScenario[]> {
+  const statement = status
+    ? db.prepare(SELECT_SCENARIOS_BY_STATUS).bind(status)
+    : db.prepare(SELECT_SCENARIOS);
+  const { results } = await statement.all();
+  return results.map(toParsedScenario).filter((row): row is ParsedScenario => row !== null);
+}
+
+/** One playbook by id, or null if it doesn't exist. */
+export async function getScenario(db: D1Like, id: number): Promise<ParsedScenario | null> {
+  const raw = await db.prepare(SELECT_SCENARIO_BY_ID).bind(id).first();
+  return toParsedScenario(raw);
+}
+
+/**
+ * Insert a playbook (starts as 'draft', scenario_status defaults to
+ * 'scenario' -- no client yet, the honest default). Resolves the slug
+ * via uniqueSlug against existing slugs when input.slug is omitted,
+ * same convention as createRole/createPost.
+ */
+export async function createScenario(
+  db: D1Like,
+  input: CreateScenarioInput,
+  actorEmail: string,
+): Promise<ParsedScenario | null> {
+  const slug = input.slug ?? uniqueSlug(input.vertical, await listScenarioSlugs(db));
+  const result = await db
+    .prepare(INSERT_SCENARIO)
+    .bind(
+      slug,
+      input.vertical,
+      input.icon,
+      input.headline,
+      JSON.stringify(input.painPoints),
+      JSON.stringify(input.packageIds),
+      JSON.stringify(input.implementation),
+      JSON.stringify(input.targetOutcomes),
+      input.ghanaContext,
+      input.image ?? null,
+      input.scenarioStatus ?? "scenario",
+      actorEmail,
+    )
+    .run();
+  const { last_row_id: lastRowId } = result.meta;
+  if (lastRowId === null) {
+    return null;
+  }
+  return getScenario(db, lastRowId);
+}
+
+/** Partial update. `slug` is fixed after creation. Returns null if the id doesn't exist. */
+export async function updateScenario(
+  db: D1Like,
+  id: number,
+  patch: ScenarioPatch,
+  actorEmail: string,
+): Promise<ParsedScenario | null> {
+  const existing = await getScenario(db, id);
+  if (!existing) {
+    return null;
+  }
+  const vertical = patch.vertical ?? existing.vertical;
+  const icon = patch.icon ?? existing.icon;
+  const headline = patch.headline ?? existing.headline;
+  const painPoints = patch.painPoints ?? existing.painPoints;
+  const packageIds = patch.packageIds ?? existing.packageIds;
+  const implementation = patch.implementation ?? existing.implementation;
+  const targetOutcomes = patch.targetOutcomes ?? existing.targetOutcomes;
+  const ghanaContext = patch.ghanaContext ?? existing.ghanaContext;
+  const image = patch.image !== undefined ? patch.image : existing.image;
+  const scenarioStatus = patch.scenarioStatus ?? existing.scenarioStatus;
+  await db
+    .prepare(
+      "UPDATE cms_scenarios SET vertical = ?, icon = ?, headline = ?, pain_points = ?, package_ids = ?, implementation = ?, target_outcomes = ?, ghana_context = ?, image = ?, scenario_status = ?, updated_at = datetime('now'), updated_by = ? WHERE id = ?",
+    )
+    .bind(
+      vertical,
+      icon,
+      headline,
+      JSON.stringify(painPoints),
+      JSON.stringify(packageIds),
+      JSON.stringify(implementation),
+      JSON.stringify(targetOutcomes),
+      ghanaContext,
+      image,
+      scenarioStatus,
+      actorEmail,
+      id,
+    )
+    .run();
+  return getScenario(db, id);
+}
+
+/** Move a playbook between draft and published (visibility). Returns null if the id doesn't exist. */
+export async function setScenarioContentStatus(
+  db: D1Like,
+  id: number,
+  status: ContentStatus,
+  actorEmail: string,
+): Promise<ParsedScenario | null> {
+  await db.prepare(UPDATE_SCENARIO_CONTENT_STATUS).bind(status, actorEmail, id).run();
+  return getScenario(db, id);
+}
+
+/**
+ * Move a playbook along scenario -> pilot -> case-study (the honesty-
+ * contract label, not visibility). This is the edit the whole slice
+ * exists for -- it used to require a code change and a deploy.
+ */
+export async function setScenarioStage(
+  db: D1Like,
+  id: number,
+  scenarioStatus: ScenarioStatus,
+  actorEmail: string,
+): Promise<ParsedScenario | null> {
+  await db.prepare(UPDATE_SCENARIO_STAGE).bind(scenarioStatus, actorEmail, id).run();
+  return getScenario(db, id);
+}
+
+/** Hard delete. */
+export async function deleteScenario(db: D1Like, id: number): Promise<boolean> {
+  const result = await db.prepare(DELETE_SCENARIO).bind(id).run();
   return result.success;
 }
