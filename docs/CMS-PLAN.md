@@ -1,6 +1,6 @@
 # CMS Plan — Content Management Foundation
 
-**Status**: FAQ and Insights slices shipped. Playbooks not started. Insights' cover-image field is a plain text path/URL -- the public R2 bucket for an actual upload pipeline (design question 4) still hasn't been provisioned.
+**Status**: FAQ, Insights, and Playbooks slices all shipped -- the full v1 scope from design question 1. Insights' and Playbooks' image fields are plain text path/URLs -- the public R2 bucket for an actual upload pipeline (design question 4) still hasn't been provisioned. That's the one piece of named scope still open.
 
 ## Goal
 
@@ -47,9 +47,17 @@ Plan changed slightly on implementation: rather than a `remark`/`rehype`-based M
 - `/insights`, `/insights/[slug]`, `sitemap.ts` — swapped to the D1-first source, `force-dynamic`, `generateStaticParams` removed (a CMS-created post has no build-time-known slug).
 - **Cover image is a plain text path/URL for this pass** — the public R2 bucket (design question 4) still hasn't been provisioned. Building the actual upload pipeline (bucket binding, a public serve route, an authenticated upload route, a client-side upload control) is the clear next piece of remaining scope here.
 
-### 3. How We Transform (playbooks) — not started
+### 3. How We Transform (playbooks) — shipped
 
-`status` (`scenario → pilot → case-study`) is itself a content-editing action that currently requires a code change and a deploy — exactly the friction this CMS exists to remove. Schema is more complex (`painPoints[]`, `implementation[]` steps, `packageIds[]` referencing `packages.ts`) but still fully structured.
+The most structurally complex of the three: four list-shaped fields (`painPoints[]`, `targetOutcomes[]`, `packageIds[]`, and `implementation[]` — the last a list of `{phase, detail}` objects, not flat strings), stored as JSON TEXT columns matching the convention `roles.responsibilities` etc. already used. `packageIds` is constrained to checkboxes built from the real `servicePackages` list rather than freeform text, since pricing/services stayed out of CMS scope — a typo here can't produce a dead reference.
+
+The actual reason this slice exists: `cms_scenarios` has two independent status concepts kept as separate columns — `status` (draft/published, visibility) and `scenario_status` (`scenario → pilot → case-study`, the honesty-contract label). The Playbooks admin list gives `scenario_status` a first-class quick control (a `<select>` + submit, same shape as the applications status control), so that transition — which used to need a code change and a deploy — is now two clicks.
+
+- `migrations/0006_create-cms-scenarios.sql` — `cms_scenarios` table.
+- `src/lib/cms/db.ts` — `listScenarios`, `getScenario`, `createScenario`, `updateScenario`, `setScenarioContentStatus` (visibility), `setScenarioStage` (the honesty-contract label), `deleteScenario`. Unlike FAQs/posts, these return the parsed (array-shaped) `ParsedScenario` directly — every JSON column needs parsing on every read anyway.
+- `src/lib/cms/public-scenarios.ts` — `getPublicScenarios()` / `getPublicScenario(slug)`, D1-first with `src/content/scenarios.ts` fallback, mapping onto the exact `TransformationScenario` shape a fallback entry already has — `scenarioPackages()` and every renderer needed zero changes.
+- `src/app/admin/content/playbooks/` — list (with the stage control), create, edit. The form reuses the role form's `ListField` dynamic-row pattern for the two flat-string lists, plus a new paired phase+detail dynamic list for implementation steps.
+- `/how-we-transform`, `/how-we-transform/[slug]`, its OG image route, `sitemap.ts` — swapped to the D1-first source, `force-dynamic`, `generateStaticParams` removed.
 
 ### Deliberately excluded
 
@@ -59,7 +67,7 @@ Plan changed slightly on implementation: rather than a `remark`/`rehype`-based M
 
 ## Recommended Next Action
 
-Two independent pieces of remaining work, either order:
+All three v1 content types are shipped. What's left before any of this is actually usable in production:
 
-1. **Provision the public R2 bucket** (design question 4) and build the actual image-upload pipeline for Insights' cover-image field (bucket binding, a public serve route, an authenticated upload route, a small client-side upload control) — the field works today as a plain path/URL, this just removes the "a developer needs to add the file first" caveat.
-2. **How We Transform (playbooks) next**, same migration → data layer → admin CRUD → public-page-swap shape the FAQ and Insights slices both proved. The `status` transition (`scenario → pilot → case-study`) is the most valuable part — it currently requires a code change and a deploy, which is exactly the friction this CMS exists to remove.
+1. **Apply the migrations.** `migrations/0004_create-cms-faqs.sql`, `0005_create-cms-posts.sql`, and `0006_create-cms-scenarios.sql` exist in the repo but haven't run against the real D1 database yet (`npx wrangler d1 migrations apply gileara-careers-db --remote`). Until that happens, every admin content page shows "database unavailable" and every public page keeps serving its `src/content/*.ts` fallback — nothing is broken, nothing is editable yet either.
+2. **Provision the public R2 bucket** (design question 4) and build the actual image-upload pipeline for Insights' and Playbooks' image fields (bucket binding, a public serve route, an authenticated upload route, a small client-side upload control) — both fields work today as a plain path/URL, this just removes the "a developer needs to add the file first" caveat.
