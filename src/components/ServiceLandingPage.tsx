@@ -149,7 +149,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel label="THE PROBLEM" className="mb-8" />
+                <SectionLabel label="The problem" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 What we hear from{" "}
@@ -199,7 +199,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-12">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel label="WHAT WE SEE" className="mb-8" />
+                <SectionLabel label="What we see" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 When we walk into a business{" "}
@@ -239,7 +239,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel label="HOW WE HELP" className="mb-8" />
+                <SectionLabel label="How we help" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 What we build{" "}
@@ -295,7 +295,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-16">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel label="WHAT YOU GET" className="mb-8" />
+                <SectionLabel label="What you get" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 What to expect{" "}
@@ -338,7 +338,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12 mb-16">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel label="PRICING" className="mb-8" />
+                <SectionLabel label="Pricing" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 All-inclusive{" "}
@@ -398,7 +398,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
 
       {/* ── 8. CONTACT BAND — the universal in-page contact section ── */}
       <ContactBand
-        eyebrow="READY TO START?"
+        eyebrow="Ready to start?"
         headline={
           <>
             Let&apos;s talk about your{" "}
@@ -414,7 +414,7 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel label="OTHER SERVICES" className="mb-8" />
+                <SectionLabel label="Other services" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-md text-on-background">
                 Explore{" "}

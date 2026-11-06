@@ -57,7 +57,7 @@ export default function WhyJoinUs() {
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
           <div className="col-span-12 lg:col-span-7">
             <RevealText>
-              <SectionLabel number="03" label="PERKS & CULTURE" className="mb-8" />
+              <SectionLabel number="03" label="Perks & culture" className="mb-8" />
             </RevealText>
             <h2 className="font-display text-display-lg text-on-background mb-8">
               Why build{" "}

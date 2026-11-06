@@ -24,8 +24,7 @@ export default function Pricing() {
       <div className="max-w-[1200px] mx-auto relative z-10">
         {/* Header */}
         <div className="mb-16 md:mb-20">
-          <div className="font-mono text-[11px] text-accent-bright tracking-widest uppercase mb-5 flex items-center gap-2">
-            <span className="text-accent-bright/50">▸</span>
+          <div className="font-mono text-[13px] text-accent-bright mb-5">
             packages.ts
           </div>
           <h2 className="font-display text-display-lg text-on-background mb-5 max-w-2xl">

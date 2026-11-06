@@ -31,8 +31,7 @@ export default function Approach() {
         {/* Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 md:mb-20">
           <div className="lg:col-span-6">
-            <div className="font-mono text-[11px] text-accent-bright tracking-widest uppercase mb-5 flex items-center gap-2">
-              <span className="text-accent-bright/40">▸</span>
+            <div className="font-mono text-[13px] text-accent-bright mb-5">
               how we work
             </div>
             <h2 className="font-display text-display-md text-on-background mb-5">

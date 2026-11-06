@@ -70,8 +70,7 @@ export default function FoundingClient() {
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8">
           <div className="col-span-12 lg:col-span-9">
             {/* Eyebrow */}
-            <div className="font-mono text-[11px] text-accent-bright tracking-widest uppercase mb-8 flex items-center gap-2">
-              <span className="text-accent-bright/40">▸</span>
+            <div className="font-mono text-[13px] text-accent-bright mb-8">
               founding clients
             </div>
 

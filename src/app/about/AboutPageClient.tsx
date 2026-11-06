@@ -48,7 +48,7 @@ export default function AboutPageClient() {
       <PageHero
         number="01"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About", href: "/about" }]}
-        eyebrow="ABOUT GILEARA"
+        eyebrow="About Gileara"
         headline={
           <>
             A small team, called to a specific{" "}
@@ -64,7 +64,7 @@ export default function AboutPageClient() {
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16 md:mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel number="02" label="WHERE THE NAME COMES FROM" className="mb-8" />
+                <SectionLabel number="02" label="Where the name comes from" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 A name carried out of{" "}
@@ -117,7 +117,7 @@ export default function AboutPageClient() {
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel number="03" label="WHAT WE BELIEVE" className="mb-8" />
+                <SectionLabel number="03" label="What we believe" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 Four principles,{" "}
@@ -166,7 +166,7 @@ export default function AboutPageClient() {
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20 md:mb-28">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel number="04" label="THE FOUNDATION" className="mb-8" />
+                <SectionLabel number="04" label="The foundation" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 The three who{" "}
@@ -234,7 +234,7 @@ export default function AboutPageClient() {
           <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-16 md:mb-20">
             <div className="col-span-12 lg:col-span-7">
               <RevealText>
-                <SectionLabel number="05" label="THE ROSTER" className="mb-8" />
+                <SectionLabel number="05" label="The roster" className="mb-8" />
               </RevealText>
               <h2 className="font-display text-display-lg text-on-background mb-8">
                 The people who{" "}
@@ -254,7 +254,7 @@ export default function AboutPageClient() {
 
       {/* 06 — In-page contact band — placed just above the footer. */}
       <ContactBand
-        eyebrow="JOIN US"
+        eyebrow="Join us"
         headline={
           <>
             Think you&apos;d be{" "}

@@ -13,7 +13,7 @@ export default function FaqClient({ faqs }: { faqs: PublicFaq[] }) {
     <>
       <PageHero
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "FAQ", href: "/faq" }]}
-        eyebrow="QUESTIONS?"
+        eyebrow="Questions?"
         headline={
           <>
             Frequently asked{" "}
@@ -79,7 +79,7 @@ export default function FaqClient({ faqs }: { faqs: PublicFaq[] }) {
       </section>
 
       <ContactBand
-        eyebrow="STILL CURIOUS?"
+        eyebrow="Still curious?"
         headline={
           <>
             Have a question{" "}

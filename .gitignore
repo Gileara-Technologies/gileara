@@ -63,3 +63,6 @@ _accenture_*.html
 .commitmsg.txt
 .git-commit-msg.txt
 
+# Hallmark skill audit artifacts (sloplint --before records + screenshots)
+.hallmark/
+

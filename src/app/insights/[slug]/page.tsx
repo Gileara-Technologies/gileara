@@ -139,7 +139,7 @@ export default async function InsightsPostPage({ params }: Props) {
       <main>
         <InsightsPostClient post={post} />
         <ContactBand
-          eyebrow="WANT TO GO DEEPER?"
+          eyebrow="Want to go deeper?"
           headline={
             <>
               Have a question about{" "}

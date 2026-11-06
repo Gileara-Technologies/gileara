@@ -77,7 +77,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
       <PageHero
         number="01"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Insights", href: "/insights" }]}
-        eyebrow="INSIGHTS"
+        eyebrow="Insights"
         headline={
           <>
             Practical insights for{" "}
@@ -92,7 +92,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
         <section className="bg-brand-soft-alt py-section-tight px-6 md:px-12 border-t border-on-background/10">
           <div className="max-w-[1440px] mx-auto">
             <RevealText>
-              <SectionLabel number="02" label="FEATURED" className="mb-10" />
+              <SectionLabel number="02" label="Featured" className="mb-10" />
             </RevealText>
             <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-10 items-center">
               <Link
@@ -139,7 +139,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
       <section className="bg-brand-soft py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <RevealText>
-            <SectionLabel number="03" label="ALL ARTICLES" className="mb-10" />
+            <SectionLabel number="03" label="All articles" className="mb-10" />
           </RevealText>
 
           {/* Tag filter */}
@@ -179,7 +179,7 @@ export default function InsightsListClient({ posts }: { posts: PostMeta[] }) {
 
       {/* In-page contact band — placed just above the footer. */}
       <ContactBand
-        eyebrow="STILL CURIOUS?"
+        eyebrow="Still curious?"
         headline={
           <>
             Questions these{" "}

@@ -44,12 +44,15 @@ export default function IndustryStrip() {
   return (
     <section className="relative bg-background border-t border-b border-white/[0.06] py-10 md:py-12 overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 mb-7 flex items-center justify-between gap-4">
-        <div className="font-mono text-[11px] text-white/30 tracking-widest uppercase flex items-center gap-2">
-          <span className="text-accent-bright/40">▸</span>
+        <div className="font-mono text-[13px] text-white/40">
           built across industries
         </div>
-        <div className="font-mono text-[11px] text-white/20 hidden sm:block">
-          retail · hospitality · sales · distribution · services
+        <div className="font-mono text-[11px] text-white/20 hidden sm:block space-x-3">
+          <span>retail</span>
+          <span>hospitality</span>
+          <span>sales</span>
+          <span>distribution</span>
+          <span>services</span>
         </div>
       </div>
 

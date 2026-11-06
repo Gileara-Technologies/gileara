@@ -46,7 +46,7 @@ export default function ServicesPageClient() {
       {/* ── HERO — minimal, just sets the page context ──────────── */}
       <PageHero
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "What we build", href: "/services" }]}
-        eyebrow="WHAT WE BUILD"
+        eyebrow="What we build"
         headline={
           <>
             Five problems,{" "}
@@ -160,7 +160,7 @@ export default function ServicesPageClient() {
         <div className="max-w-[1200px] mx-auto">
           <div className="mb-16">
             <RevealText>
-              <SectionLabel label="THE FULL PRICING SHEET" className="mb-8" />
+              <SectionLabel label="The full pricing sheet" className="mb-8" />
             </RevealText>
             <h2 className="font-display text-display-md text-on-background">
               All five services,{" "}
@@ -213,7 +213,7 @@ export default function ServicesPageClient() {
       <section className="bg-brand-soft py-section-loose px-6 md:px-12 border-t border-on-background/10">
         <div className="max-w-3xl mx-auto">
           <RevealText>
-            <SectionLabel label="WHAT'S INCLUDED" className="mb-8" />
+            <SectionLabel label="What's included" className="mb-8" />
           </RevealText>
           <h2 className="font-display text-display-sm text-on-background mb-8">
             <span className="italic text-accent-bright">Every service</span> includes:
@@ -226,7 +226,7 @@ export default function ServicesPageClient() {
 
       {/* ── CONTACT BAND — universal in-page contact section ── */}
       <ContactBand
-        eyebrow="NOT SURE WHERE TO START?"
+        eyebrow="Not sure where to start?"
         headline={
           <>
             Let&apos;s pick the{" "}
