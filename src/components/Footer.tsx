@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaLinkedin } from "react-icons/fa6";
 import { siteConfig } from "@/content/site-config";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -14,8 +17,17 @@ import NewsletterForm from "@/components/NewsletterForm";
  * visitors just saw. The handful of pages without a ContactBand (legal
  * pages, careers — which has its own apply-flow CTA) still reach contact
  * through the plain "Contact" link in the nav grid below.
+ *
+ * The newsletter sign-up is the same story one layer down: a mailing
+ * list is native to the articles section (/insights), not to a pricing
+ * page or a legal page, so it only renders there — everywhere else the
+ * footer would otherwise read as closing on "subscribe" right under a
+ * page that just asked the visitor to book, apply, or get in touch.
  */
 export default function Footer() {
+  const pathname = usePathname();
+  const showNewsletter = pathname === "/insights" || pathname.startsWith("/insights/");
+
   const columns = [
     {
       title: "Product",
@@ -51,12 +63,14 @@ export default function Footer() {
       {/* Grid bg */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" aria-hidden="true" />
 
-      {/* ── Newsletter ─────────────────────────────────────────────────── */}
-      <div className="relative border-b border-white/[0.06] px-6 md:px-12 py-12 md:py-14">
-        <div className="max-w-[1200px] mx-auto max-w-lg">
-          <NewsletterForm source="footer" variant="dark" />
+      {/* ── Newsletter — only where a mailing list is native (/insights) ── */}
+      {showNewsletter && (
+        <div className="relative border-b border-white/[0.06] px-6 md:px-12 py-12 md:py-14">
+          <div className="max-w-[1200px] mx-auto max-w-lg">
+            <NewsletterForm source="footer" variant="dark" />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ── Link grid ──────────────────────────────────────────────────── */}
       <div className="relative px-6 md:px-12 pt-12 pb-8">
