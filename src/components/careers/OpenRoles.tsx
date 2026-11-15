@@ -34,7 +34,7 @@ export default function OpenRoles({ roles }: OpenRolesProps) {
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 mb-20">
           <div className="col-span-12 lg:col-span-7">
             <RevealText>
-              <SectionLabel number="02" label="CURRENT OPENINGS" className="mb-8" />
+              <SectionLabel number="02" label="Current openings" className="mb-8" />
             </RevealText>
           </div>
         </div>

@@ -203,7 +203,7 @@ export default async function ScenarioPage({ params }: PageProps) {
       {/* In-page contact band — placed just above the footer.
          Founding-client positioning lives inside the playbook card above. */}
       <ContactBand
-        eyebrow="YOUR BUSINESS COULD BE THE REAL STORY"
+        eyebrow="Your business could be the real story"
         headline={
           <>
             Be the founding client for your{" "}

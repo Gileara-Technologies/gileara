@@ -44,7 +44,7 @@ export default function HowWeTransformClient({ scenarios }: { scenarios: Transfo
       <PageHero
         number="01"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "How we solve it", href: "/how-we-transform" }]}
-        eyebrow="HOW WE SOLVE IT"
+        eyebrow="How we solve it"
         headline={
           <>
             What we&apos;d change,{" "}
@@ -74,7 +74,7 @@ export default function HowWeTransformClient({ scenarios }: { scenarios: Transfo
       <section className="bg-brand-soft py-section px-6 md:px-12">
         <div className="max-w-[1440px] mx-auto">
           <RevealText>
-            <SectionLabel number="02" label="VERTICAL PLAYBOOKS" className="mb-10" />
+            <SectionLabel number="02" label="Vertical playbooks" className="mb-10" />
           </RevealText>
 
           <motion.div
@@ -165,7 +165,7 @@ export default function HowWeTransformClient({ scenarios }: { scenarios: Transfo
          The founding-client card above already covers the contact ask;
          this band is the universal channel row (book, email, phone/WhatsApp). */}
       <ContactBand
-        eyebrow="GET IN TOUCH"
+        eyebrow="Get in touch"
         headline={
           <>
             Let&apos;s build your{" "}

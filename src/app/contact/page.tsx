@@ -128,7 +128,7 @@ export default function ContactPage() {
       <main>
         <PageHero
           breadcrumbs={[{ label: "Home", href: "/" }, { label: "Talk to us", href: "/contact" }]}
-          eyebrow="LET'S TALK"
+          eyebrow="Let's talk"
           headline={
             <>
               Tell us what&apos;s hard about{" "}
@@ -140,10 +140,10 @@ export default function ContactPage() {
 
         <section className="bg-brand-soft py-section px-6 md:px-12 border-t border-on-background/10">
           <div className="max-w-[1440px] mx-auto">
-            <div className="grid lg:grid-cols-12 gap-x-8 gap-y-16 items-start">
+            <div className="grid grid-cols-12 gap-x-0 lg:gap-x-8 gap-y-16 items-start">
               {/* Left: contact rails */}
-              <div className="col-span-12 lg:col-span-5">
-                <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-6">
+              <div className="col-span-12 lg:col-span-5 min-w-0">
+                <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-6 break-words">
                   All times {siteConfig.timezone} · {siteConfig.location}
                 </div>
 
@@ -153,11 +153,11 @@ export default function ContactPage() {
                     className="flex items-start gap-5 py-8 border-t border-on-background/10 group"
                   >
                     <span className="material-symbols-outlined text-2xl text-accent-bright shrink-0 mt-1">mail</span>
-                    <div>
+                    <div className="min-w-0 break-words">
                       <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
                         Send an Email
                       </div>
-                      <span className="font-display text-2xl text-on-background group-hover:text-accent-bright transition-colors">
+                      <span className="font-display text-2xl text-on-background group-hover:text-accent-bright transition-colors break-all">
                         {siteConfig.email}
                       </span>
                     </div>
@@ -171,11 +171,11 @@ export default function ContactPage() {
                       className="flex items-start gap-5 py-8 border-t border-on-background/10 group"
                     >
                       <FaWhatsapp className="w-6 h-6 text-accent-bright shrink-0 mt-1" />
-                      <div>
+                      <div className="min-w-0 break-words">
                         <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
                           Call or WhatsApp
                         </div>
-                        <span className="font-display text-2xl text-on-background group-hover:text-accent-bright transition-colors">
+                        <span className="font-display text-2xl text-on-background group-hover:text-accent-bright transition-colors break-all">
                           {whatsappReady ? siteConfig.whatsapp : siteConfig.phone}
                         </span>
                       </div>
@@ -184,7 +184,7 @@ export default function ContactPage() {
 
                   <div className="flex items-start gap-5 py-8 border-t border-b border-on-background/10">
                     <span className="material-symbols-outlined text-2xl text-accent-bright shrink-0 mt-1">schedule</span>
-                    <div>
+                    <div className="min-w-0 break-words">
                       <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">
                         Response time
                       </div>
@@ -201,7 +201,7 @@ export default function ContactPage() {
               </div>
 
               {/* Right: stepper */}
-              <div className="col-span-12 lg:col-span-7 lg:col-start-7">
+              <div className="col-span-12 lg:col-span-7 lg:col-start-7 min-w-0">
                 <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-6">
                   Or pick a time
                 </div>

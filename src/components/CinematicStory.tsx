@@ -39,8 +39,7 @@ export default function CinematicStory() {
           {/* Left: problems + changes */}
           <div className="lg:col-span-7">
             {/* Section label */}
-            <div className="font-mono text-[11px] text-accent-bright tracking-widest uppercase mb-8 flex items-center gap-2">
-              <span className="text-accent-bright/40">▸</span>
+            <div className="font-mono text-[13px] text-accent-bright mb-8">
               the problem
             </div>
 

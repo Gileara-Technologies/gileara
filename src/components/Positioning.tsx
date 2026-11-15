@@ -96,8 +96,7 @@ export default function Positioning() {
       <div className="max-w-[1200px] mx-auto relative z-10">
         {/* Section header */}
         <div className="mb-16 md:mb-20">
-          <div className="font-mono text-[11px] text-accent-bright tracking-widest uppercase mb-5 flex items-center gap-2">
-            <span className="text-accent-bright/40">▸</span>
+          <div className="font-mono text-[13px] text-accent-bright mb-5">
             why gileara
           </div>
           <h2 className="font-display text-display-md text-on-background mb-5 max-w-2xl">

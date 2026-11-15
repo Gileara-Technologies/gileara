@@ -21,8 +21,7 @@ export default function AuditSection() {
         <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 gap-y-12">
           {/* Left: editorial header + intro */}
           <div className="col-span-12 lg:col-span-5">
-            <div className="font-mono text-[11px] text-accent-bright tracking-widest uppercase mb-8 flex items-center gap-2">
-              <span className="text-accent-bright/40">▸</span>
+            <div className="font-mono text-[13px] text-accent-bright mb-8">
               operations audit
             </div>
             <h2 id="operations-audit-heading" className="font-display text-display-md text-on-background mb-6 max-w-xl">
