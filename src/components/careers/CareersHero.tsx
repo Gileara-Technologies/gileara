@@ -9,7 +9,7 @@ export default function CareersHero() {
       <PageHero
         number="01"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Careers", href: "/careers" }]}
-        eyebrow="CAREERS AT GILEARA"
+        eyebrow="Careers at Gileara"
         headline={
           <>
             Join the team building{" "}

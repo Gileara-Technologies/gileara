@@ -46,9 +46,12 @@ export default function NewsletterForm({
   const isDark = variant === "dark";
   const labelClass = isDark ? "text-accent-bright" : "text-accent-bright";
   const headlineClass = isDark ? "text-on-background" : "text-on-surface";
+  // /15 opacity measured at ~1.4:1 contrast against the input's own
+  // background (Hallmark gate 40, Floor: needs 3:1+); /40 of the same
+  // token clears ~3.4:1 without introducing a new colour.
   const inputBg = isDark
-    ? "bg-surface-container-low border-on-background/15"
-    : "bg-surface-container border-on-surface/15";
+    ? "bg-surface-container-low border-on-background/40"
+    : "bg-surface-container border-on-surface/40";
   const buttonClass =
     "bg-accent-bright text-background hover:bg-accent-bright/90 transition-colors duration-200";
 
@@ -70,9 +73,11 @@ export default function NewsletterForm({
       });
 
       if (res.status === 404) {
-        // Feature disabled. Show success anyway to avoid tipping off
-        // anyone that the form is gated.
-        setState("success");
+        // Feature disabled. Nothing was stored -- say so plainly rather
+        // than claiming a subscription that doesn't exist (Hallmark
+        // gate 70: a fake send is as dishonest as an invented metric).
+        setError("Sign-ups aren't open right now. Try again soon.");
+        setState("error");
         return;
       }
 

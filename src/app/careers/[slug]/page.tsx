@@ -157,7 +157,7 @@ export default async function CareerRolePage({ params }: Props) {
       <Navbar variant="careers" />
       <main>
         <PageHero
-          eyebrow="OPEN ROLE"
+          eyebrow="Open role"
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Careers", href: "/careers" },
