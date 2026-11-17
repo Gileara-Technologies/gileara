@@ -23,7 +23,9 @@ const BASE_NAV_ITEMS: readonly NavItem[] = [
 const CONTENT_NAV_ITEMS: readonly NavItem[] = [
   { href: "/admin/content/insights", label: "Insights", icon: "article" },
   { href: "/admin/content/playbooks", label: "Playbooks", icon: "account_tree" },
+  { href: "/admin/content/people", label: "People", icon: "groups" },
   { href: "/admin/content/faqs", label: "FAQs", icon: "help" },
+  { href: "/admin/content/instagram", label: "Instagram", icon: "photo_camera" },
 ];
 
 /** `/admin` matches only the dashboard itself; every other item also

@@ -27,11 +27,13 @@
 ## Architecture
 
 ### Routes (`src/app/`)
-- `/` — Section-scroll homepage in `src/app/page.tsx`: Navbar, Hero (six-slide background carousel), CinematicStory (MSME pains → package links), Pricing (five packages rendered from `src/content/packages.ts`), Approach, Positioning, Founders, FoundingClient, AuditSection, ContactBand (slim band → `/contact`), Footer; JSON-LD generated from the same content modules
-- `/about`, `/services`, `/faq` — Static marketing pages; `/services` renders all five packages with full tier tables from `src/content/packages.ts` (anchored sections per package); `/faq` renders `src/content/faqs.ts` + matching FAQPage JSON-LD
+- `/` — Section-scroll homepage in `src/app/page.tsx` (`force-dynamic`, since InstagramFeed reads D1 per request): Navbar, Hero (six-slide background carousel), IndustryStrip, InstagramFeed (cached Instagram posts — see `docs/INSTAGRAM-CONNECTOR-PLAN.md`; renders a "Follow us" link when the cache is empty, never fake post tiles), CinematicStory (MSME pains → package links), Pricing (five packages rendered from `src/content/packages.ts`), Approach, Positioning, Founders, FoundingClient, AuditSection, ContactBand (slim band → `/contact`), Footer; JSON-LD generated from the same content modules
+- `/about` — Foundation and Roster sections read the D1-backed People CMS (`force-dynamic`, D1-first with `src/content/team.ts` fallback — see `docs/CMS-PLAN.md`); the founders' JSON-LD Person schema still reads the separate, narrower `src/content/founders.ts` (deliberately decoupled from the People CMS — different fields, different purpose)
+- `/services`, `/faq` — `/services` is a static marketing page rendering all five packages with full tier tables from `src/content/packages.ts` (anchored sections per package); `/faq` is `force-dynamic`, D1-first with `src/content/faqs.ts` fallback, + matching FAQPage JSON-LD
 - `/contact` — Dedicated booking page hosting the ContactStepper; canonical target for every "Book a Free Consultation" CTA
 - `/careers` (+ `/careers/[slug]`) — Careers portal: `Navbar variant="careers"`, CareersHero, OpenRoles, WhyJoinUs, ApplicationForm; open roles render from `src/content/roles.ts` (Stage-1 plan: Full-Stack ×2, UI/UX, DevOps, PM; QA parked) and JobPosting JSON-LD derives from the same module
 - `/admin` (+ `/admin/login`, `/admin/roles/new`, `/admin/roles/[id]`) — HR portal for the careers pipeline: Google OAuth sign-in limited to `HR_EMAILS` plus the `@gileara.org` domain, a D1-backed roster of roles and applications, status changes and resume downloads from R2. Every page and server action checks the `admin_session` cookie through `src/app/admin/session-guard.ts`
+- `/admin/content/*` — Content-editor area, a separate permission tier from HR (`isAllowedContentEditorEmail`, `requireContentEditorSession` — see `docs/CMS-PLAN.md`): `faqs`, `insights`, `playbooks`, `people` (the `/about` Foundation/Roster sections), each with `list` / `new` / `[id]` pages and a shared `{type}-form.tsx`; `instagram` is a status page, not a content form (see `docs/INSTAGRAM-CONNECTOR-PLAN.md`) — a "Sync now" action plus a per-post show/hide toggle, no authored content
 - `/how-we-transform` (+ `/how-we-transform/[slug]`) — Vertical transformation playbooks rendered from `src/content/scenarios.ts`; every entry carries a status label (`scenario | pilot | case-study`) and goals-not-results framing. `/case-studies/*` permanently redirects here (fabricated stories removed)
 - `/insights` (+ `/insights/[slug]`) — Articles list and detail pages from `src/content/posts.ts`, with tag filter (Packages / Operations / Growth / Automation / Ghana-market)
 - `/privacy`, `/terms`, `/security` — Static legal pages (Navbar + Footer layout)
@@ -55,7 +57,7 @@ Security headers (HSTS, nosniff, DENY framing, referrer policy) are applied via 
 - **Motion**: Framer Motion scroll reveals in client components, Lenis smooth scroll, CSS transitions elsewhere. No tilt or WebGL layer ships: there is no `src/components/Tilt3D.tsx` and no `src/components/three/OrbitScene.tsx`, nothing under `src/` imports `three` or `@react-three/*`, and those `package.json` entries are unused today
 - **CSS**: Tailwind utility classes + CSS custom properties in `globals.css` (light/dark `:root` / `.dark` blocks)
 - **Tests live in `tests/`**, mirror `src/` layout, use the `@/` alias; no DOM environment needed yet
-- **Content modules** are the only sources for copy shown in UI or schema: `packages.ts`, `site-config.ts`, `faqs.ts`, `posts.ts`, `scenarios.ts`, `roles.ts` — never duplicate their data elsewhere; JSON-LD is generated from them
+- **Content modules** are the only sources for copy shown in UI or schema: `packages.ts`, `site-config.ts`, `faqs.ts`, `posts.ts`, `scenarios.ts`, `roles.ts`, `team.ts` (Foundation/Roster — fallback for the People CMS), `founders.ts` (JSON-LD Person schema + homepage `<Founders />`, deliberately separate from `team.ts`) — never duplicate their data elsewhere; JSON-LD is generated from them. `faqs.ts`/`posts.ts`/`scenarios.ts`/`team.ts` are specifically the **fallback** half of a D1-first read (see `docs/CMS-PLAN.md`) — content editors' real edits live in D1, not in these files
 - **Icons**: Material Symbols (`material-symbols-outlined`) is the single system for all UI glyphs — svg width/height classes don't apply to it (translate to `text-*` font sizes); react-icons remains ONLY for brand glyphs with no Material equivalent (`FaLinkedin`, `FaWhatsapp`). No other icon libraries (lucide-react removed)
 - **Imagery**: optional photo slots on playbook/insight cards come from content-module `image` fields and fall back to a gradient when unset (all six insight posts set one, no scenario does); see `docs/IMAGERY.md` (real Ghanaian and African contexts only, never Western or AI stock)
 - **Design references**: `DESIGN.md` (light) + `stitch_gileara_technologies_website/gileara_velocity_dark/DESIGN.md` (dark, authoritative for the shipped theme); homepage follows Promise → Proof → Objection → Ask section order; pricing renders numbered full-width rows from `src/components/Pricing.tsx`. No marquee ships: the `marquee` keyframes and `animate-marquee` animation in `tailwind.config.js` have no call site under `src/`
@@ -74,8 +76,10 @@ CONTACT_EMAIL=tech.gileara@gmail.com
 
 Optional vars:
 ```
-MAINTENANCE_MODE=          # non-empty takes the whole site down
-MAINTENANCE_BYPASS_SECRET= # enables the ?__mbp= bypass cookie exchange
+MAINTENANCE_MODE=            # non-empty takes the whole site down
+MAINTENANCE_BYPASS_SECRET=   # enables the ?__mbp= bypass cookie exchange
+INSTAGRAM_ACCESS_TOKEN=      # long-lived IG user token; connector is dormant (shows an empty state) until set
+INSTAGRAM_BUSINESS_ACCOUNT_ID= # the IG professional account's numeric id -- see docs/INSTAGRAM-CONNECTOR-PLAN.md
 ```
 
 > `.env*.local` is gitignored. **All secrets live in Cloudflare Secrets (encrypted) or `.env.local` (gitignored) — never in `wrangler.toml` `[vars]`, never in any tracked file.** See `docs/SECRETS.md` for the full policy. A pre-commit hook + GitHub Action scan every change for secret patterns; rotations are tracked in `docs/SECRETS-INCIDENTS.md`.
