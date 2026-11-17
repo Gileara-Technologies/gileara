@@ -39,6 +39,25 @@ regular env vars). They never appear in `wrangler.toml`.
 
 When in doubt: **it is a secret.**
 
+## Instagram connector (docs/INSTAGRAM-CONNECTOR-PLAN.md)
+
+Two more names follow the same rule as everything else above:
+
+- `INSTAGRAM_ACCESS_TOKEN` — a long-lived Instagram User access token
+- `INSTAGRAM_BUSINESS_ACCOUNT_ID` — not itself sensitive (it is a public
+  account id), but kept alongside the token for one reason: there is no
+  admin-UI text field for entering either value, so both are set the
+  same way, in the same place, by the same human operator action
+  (`wrangler secret put NAME` or the Cloudflare dashboard), per the
+  table above. Setting a non-secret value as a Cloudflare Secret instead
+  of a plain `[vars]` entry costs nothing and keeps the two values
+  rotating together.
+
+Neither value is ever typed into this app — there is no "paste your
+Instagram token here" admin page, deliberately, so the token never
+transits anywhere this codebase could accidentally log, store in D1, or
+echo back to a browser.
+
 ## Verification — how do I know my file has no secret?
 
 Run the local scanner before committing:

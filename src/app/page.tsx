@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import IndustryStrip from "@/components/IndustryStrip";
+import InstagramFeed from "@/components/InstagramFeed";
 import CinematicStory from "@/components/CinematicStory";
 import Pricing from "@/components/Pricing";
 import Approach from "@/components/Approach";
@@ -13,6 +14,17 @@ import Footer from "@/components/Footer";
 import { servicePackages, customServices, MANAGED_SERVICES_NOTE } from "@/content/packages";
 import { siteConfig } from "@/content/site-config";
 import { founders } from "@/content/founders";
+import { getPublicInstagramPosts } from "@/lib/instagram/public-instagram";
+
+// The Instagram strip reads cms_instagram_posts per request (D1, no
+// fallback -- docs/INSTAGRAM-CONNECTOR-PLAN.md), so this route is no
+// longer prerenderable at build time -- same reasoning as /faq,
+// /insights, /how-we-transform, and /about's force-dynamic. Without
+// this, Next would have statically baked in whatever
+// getPublicInstagramPosts() resolved to at build time (always [], since
+// there is no Cloudflare context during `next build`) and the homepage
+// would show the empty state forever, even after a real sync.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   description:
@@ -188,7 +200,8 @@ const jsonLd = {
   ],
 };
 
-export default function Home() {
+export default async function Home() {
+  const instagramPosts = await getPublicInstagramPosts();
   return (
     <>
       <script
@@ -199,6 +212,7 @@ export default function Home() {
       <main>
         <Hero />
         <IndustryStrip />
+        <InstagramFeed posts={instagramPosts} />
         <CinematicStory />
         <Pricing />
         <Approach />
