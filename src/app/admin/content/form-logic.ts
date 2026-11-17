@@ -1,12 +1,14 @@
 /**
- * Pure helpers for the content-admin UI: FAQ, Insight-post, and playbook
- * form validation. No I/O, no React, no Cloudflare context -- unit
- * tested in tests/app/admin/content/form-logic.test.ts.
+ * Pure helpers for the content-admin UI: FAQ, Insight-post, playbook, and
+ * person form validation. No I/O, no React, no Cloudflare context --
+ * unit tested in tests/app/admin/content/form-logic.test.ts.
  */
 
 import { POST_TAGS, type PostTag } from "@/content/posts";
 import { servicePackages } from "@/content/packages";
 import type { ImplementationStep, ScenarioStatus } from "@/content/scenarios";
+import { DEPARTMENTS, type Department } from "@/content/team";
+import type { PersonGroup } from "@/lib/cms/types";
 import { formList } from "../form-logic";
 
 export interface FaqFormValue {
@@ -194,6 +196,88 @@ export function validateScenarioForm(formData: FormData): ScenarioFormResult {
       ghanaContext,
       image: imageRaw || undefined,
       scenarioStatus: isScenarioStatus(statusRaw) ? statusRaw : "scenario",
+    },
+  };
+}
+
+function isPersonGroupValue(value: unknown): value is PersonGroup {
+  return value === "foundation" || value === "roster";
+}
+
+function isDepartmentValue(value: unknown): value is Department {
+  return typeof value === "string" && (DEPARTMENTS as readonly string[]).includes(value);
+}
+
+export interface PersonFormValue {
+  personGroup: PersonGroup;
+  name: string;
+  role: string;
+  department?: Department;
+  quote?: string;
+  image?: string;
+  displayOrder: number;
+}
+
+export type PersonFormResult =
+  | { ok: true; value: PersonFormValue }
+  | { ok: false; error: string };
+
+/**
+ * Validate the create/edit Person form. `department` is required (and
+ * must be a real DEPARTMENTS value) when personGroup is "roster";
+ * `quote` and `image` are required when personGroup is "foundation" --
+ * every founder has always had a photo and a quote on /about, and a
+ * roster member without a photo renders initials instead, which is a
+ * supported look, not a missing field.
+ */
+export function validatePersonForm(formData: FormData): PersonFormResult {
+  const groupRaw = formData.get("personGroup");
+  if (!isPersonGroupValue(groupRaw)) {
+    return { ok: false, error: "Choose which section this person belongs to." };
+  }
+  const name = String(formData.get("name") ?? "").trim();
+  if (!name) {
+    return { ok: false, error: "Give this person a name." };
+  }
+  const role = String(formData.get("role") ?? "").trim();
+  if (!role) {
+    return { ok: false, error: "Add a role." };
+  }
+
+  const isFoundation = groupRaw === "foundation";
+
+  const departmentRaw = formData.get("department");
+  if (!isFoundation && !isDepartmentValue(departmentRaw)) {
+    return { ok: false, error: "Choose a department for a roster entry." };
+  }
+  const department = isDepartmentValue(departmentRaw) ? departmentRaw : undefined;
+
+  const quote = String(formData.get("quote") ?? "").trim();
+  if (isFoundation && !quote) {
+    return { ok: false, error: "Add a quote for a foundation entry." };
+  }
+
+  const imageRaw = String(formData.get("image") ?? "").trim();
+  if (isFoundation && !imageRaw) {
+    return { ok: false, error: "Add a portrait for a foundation entry." };
+  }
+
+  const displayOrderRaw = String(formData.get("displayOrder") ?? "").trim();
+  const displayOrder = displayOrderRaw === "" ? 0 : Number(displayOrderRaw);
+  if (!Number.isInteger(displayOrder)) {
+    return { ok: false, error: "Display order must be a whole number." };
+  }
+
+  return {
+    ok: true,
+    value: {
+      personGroup: groupRaw,
+      name,
+      role,
+      department: isFoundation ? undefined : department,
+      quote: isFoundation ? quote : undefined,
+      image: imageRaw || undefined,
+      displayOrder,
     },
   };
 }

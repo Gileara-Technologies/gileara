@@ -6,7 +6,7 @@ import PageHero from "@/components/PageHero";
 import ContactBand from "@/components/ContactBand";
 import SectionLabel from "@/components/SectionLabel";
 import RevealText from "@/components/RevealText";
-import { foundation, roster } from "@/content/team";
+import type { FoundationMember, RosterMember } from "@/content/team";
 import Roster from "@/components/about/Roster";
 
 /**
@@ -14,9 +14,14 @@ import Roster from "@/components/about/Roster";
  *   01 — Hero
  *   02 — Scripture & Name Origin (Jeremiah 8:22, the Gilead reference)
  *   03 — Our values (four principles, professional + faith-rooted)
- *   04 — Foundation: the 3 founding partners
+ *   04 — Foundation: the founding partners
  *   05 — Roster: everyone else, one uniform list tagged by department
  *   06 — Join us contact band
+ *
+ * `foundation` and `roster` are passed in from page.tsx, which reads
+ * them from the People CMS (src/lib/cms/public-people.ts, D1-first with
+ * src/content/team.ts fallback) -- this component has no content-module
+ * import of its own, same shape as HowWeTransformClient's `scenarios` prop.
  */
 const values = [
   {
@@ -41,7 +46,12 @@ const values = [
   },
 ];
 
-export default function AboutPageClient() {
+interface AboutPageClientProps {
+  foundation: readonly FoundationMember[];
+  roster: readonly RosterMember[];
+}
+
+export default function AboutPageClient({ foundation, roster }: AboutPageClientProps) {
   return (
     <>
       {/* 01 — HERO */}

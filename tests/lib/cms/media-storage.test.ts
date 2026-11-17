@@ -20,9 +20,10 @@ function makeFile(name: string, bytes: string, type = "image/jpeg"): File {
 }
 
 describe("isMediaPrefix", () => {
-  it("accepts the two known content types", () => {
+  it("accepts the known content types", () => {
     expect(isMediaPrefix("insights")).toBe(true);
     expect(isMediaPrefix("playbooks")).toBe(true);
+    expect(isMediaPrefix("team")).toBe(true);
   });
 
   it("rejects anything else", () => {

@@ -1,8 +1,8 @@
 "use server";
 
 /**
- * Server actions for the content-admin area: FAQs, Insight posts, and
- * playbooks, all the same shape. Every action starts with
+ * Server actions for the content-admin area: FAQs, Insight posts,
+ * playbooks, and people, all the same shape. Every action starts with
  * requireContentEditorSession() -- server actions run without rendering
  * the layout, so the layout guard alone would let an authenticated-but-
  * unauthorized HR session (or an unauthenticated POST) mutate D1.
@@ -11,16 +11,20 @@
 import { redirect } from "next/navigation";
 import {
   createFaq,
+  createPerson,
   createPost,
   createScenario,
   deleteFaq,
+  deletePerson,
   deletePost,
   deleteScenario,
   setFaqStatus,
+  setPersonStatus,
   setPostStatus,
   setScenarioContentStatus,
   setScenarioStage,
   updateFaq,
+  updatePerson,
   updatePost,
   updateScenario,
 } from "@/lib/cms/db";
@@ -29,7 +33,7 @@ import type { ScenarioStatus } from "@/content/scenarios";
 import { tryGetPortalDb, DB_UNAVAILABLE_MESSAGE } from "../admin-db";
 import type { ActionState } from "../form-logic";
 import { requireContentEditorSession } from "../session-guard";
-import { validateFaqForm, validatePostForm, validateScenarioForm } from "./form-logic";
+import { validateFaqForm, validatePersonForm, validatePostForm, validateScenarioForm } from "./form-logic";
 
 const CREATE_FAILED_MESSAGE = "The FAQ could not be created. Nothing was saved.";
 const UPDATE_FAILED_MESSAGE = "That change could not be saved, so nothing changed.";
@@ -464,4 +468,141 @@ export async function deleteScenarioAction(formData: FormData): Promise<void> {
     redirect("/admin/content/playbooks?error=save");
   }
   redirect("/admin/content/playbooks");
+}
+
+// ---------------------------------------------------------------------------
+// People
+// ---------------------------------------------------------------------------
+
+const PERSON_CREATE_FAILED_MESSAGE = "This person could not be added. Nothing was saved.";
+const PERSON_UPDATE_FAILED_MESSAGE = "That change could not be saved, so nothing changed.";
+
+export async function createPersonAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const session = await requireContentEditorSession();
+  const parsed = validatePersonForm(formData);
+  if (!parsed.ok) {
+    return { error: parsed.error };
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    return { error: DB_UNAVAILABLE_MESSAGE };
+  }
+  let created;
+  try {
+    created = await createPerson(
+      db,
+      {
+        personGroup: parsed.value.personGroup,
+        name: parsed.value.name,
+        role: parsed.value.role,
+        department: parsed.value.department,
+        quote: parsed.value.quote,
+        image: parsed.value.image,
+        displayOrder: parsed.value.displayOrder,
+      },
+      session.email,
+    );
+  } catch {
+    return { error: PERSON_CREATE_FAILED_MESSAGE };
+  }
+  if (!created) {
+    return { error: PERSON_CREATE_FAILED_MESSAGE };
+  }
+  redirect("/admin/content/people");
+}
+
+export async function updatePersonAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const session = await requireContentEditorSession();
+  const idRaw = String(formData.get("personId") ?? "").trim();
+  const id = Number(idRaw);
+  if (!idRaw || !Number.isInteger(id) || id < 1) {
+    return { error: "That person could not be found." };
+  }
+  const parsed = validatePersonForm(formData);
+  if (!parsed.ok) {
+    return { error: parsed.error };
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    return { error: DB_UNAVAILABLE_MESSAGE };
+  }
+  let updated;
+  try {
+    updated = await updatePerson(
+      db,
+      id,
+      {
+        personGroup: parsed.value.personGroup,
+        name: parsed.value.name,
+        role: parsed.value.role,
+        department: parsed.value.department,
+        quote: parsed.value.quote,
+        image: parsed.value.image,
+        displayOrder: parsed.value.displayOrder,
+      },
+      session.email,
+    );
+  } catch {
+    return { error: PERSON_UPDATE_FAILED_MESSAGE };
+  }
+  if (!updated) {
+    return { error: "That person could not be found." };
+  }
+  redirect("/admin/content/people");
+}
+
+/** Posted from the plain publish/unpublish buttons on the People list. */
+export async function setPersonStatusAction(formData: FormData): Promise<void> {
+  const session = await requireContentEditorSession();
+  const idRaw = String(formData.get("id") ?? "").trim();
+  const id = Number(idRaw);
+  const status = formData.get("status");
+  if (!idRaw || !Number.isInteger(id) || id < 1 || !isContentStatus(status)) {
+    redirect("/admin/content/people?error=invalid");
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    redirect("/admin/content/people?error=unavailable");
+  }
+  let saved = false;
+  try {
+    const updated = await setPersonStatus(db, id, status, session.email);
+    saved = updated !== null;
+  } catch {
+    saved = false;
+  }
+  if (!saved) {
+    redirect("/admin/content/people?error=save");
+  }
+  redirect("/admin/content/people");
+}
+
+/** Posted from the plain delete button on the People list. */
+export async function deletePersonAction(formData: FormData): Promise<void> {
+  await requireContentEditorSession();
+  const idRaw = String(formData.get("id") ?? "").trim();
+  const id = Number(idRaw);
+  if (!idRaw || !Number.isInteger(id) || id < 1) {
+    redirect("/admin/content/people?error=invalid");
+  }
+  const db = tryGetPortalDb();
+  if (!db) {
+    redirect("/admin/content/people?error=unavailable");
+  }
+  let saved = false;
+  try {
+    saved = await deletePerson(db, id);
+  } catch {
+    saved = false;
+  }
+  if (!saved) {
+    redirect("/admin/content/people?error=save");
+  }
+  redirect("/admin/content/people");
 }

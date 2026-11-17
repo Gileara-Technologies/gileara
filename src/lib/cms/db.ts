@@ -1,6 +1,7 @@
 /**
  * Typed helpers for the CMS D1 tables. Schema: migrations/0004_create-cms-faqs.sql,
- * migrations/0005_create-cms-posts.sql, migrations/0006_create-cms-scenarios.sql.
+ * migrations/0005_create-cms-posts.sql, migrations/0006_create-cms-scenarios.sql,
+ * migrations/0007_create-cms-people.sql.
  * Same binding as the careers portal (gileara_careers_db) and the same
  * D1Like structural type from src/lib/portal/db.ts -- reusing it here
  * rather than redefining it keeps one contract for "the D1 binding this
@@ -16,15 +17,20 @@
 import type { D1Like } from "@/lib/portal/db";
 import { POST_TAGS, type PostTag } from "@/content/posts";
 import type { ImplementationStep, ScenarioStatus } from "@/content/scenarios";
+import { DEPARTMENTS, type Department } from "@/content/team";
 import { uniqueSlug } from "@/lib/portal/slug";
 import type {
   ContentStatus,
   CreateFaqInput,
+  CreatePersonInput,
   CreatePostInput,
   CreateScenarioInput,
   FaqPatch,
   FaqRow,
   ParsedScenario,
+  PersonGroup,
+  PersonPatch,
+  PersonRow,
   PostPatch,
   PostRow,
   ScenarioPatch,
@@ -501,5 +507,156 @@ export async function setScenarioStage(
 /** Hard delete. */
 export async function deleteScenario(db: D1Like, id: number): Promise<boolean> {
   const result = await db.prepare(DELETE_SCENARIO).bind(id).run();
+  return result.success;
+}
+
+// ---------------------------------------------------------------------------
+// People (migrations/0007_create-cms-people.sql)
+// ---------------------------------------------------------------------------
+
+const SELECT_PEOPLE = "SELECT * FROM cms_people ORDER BY person_group ASC, display_order ASC, id ASC";
+const SELECT_PEOPLE_BY_STATUS =
+  "SELECT * FROM cms_people WHERE status = ? ORDER BY person_group ASC, display_order ASC, id ASC";
+const SELECT_PEOPLE_BY_GROUP =
+  "SELECT * FROM cms_people WHERE person_group = ? ORDER BY display_order ASC, id ASC";
+const SELECT_PEOPLE_BY_GROUP_STATUS =
+  "SELECT * FROM cms_people WHERE person_group = ? AND status = ? ORDER BY display_order ASC, id ASC";
+const SELECT_PERSON_BY_ID = "SELECT * FROM cms_people WHERE id = ?";
+const INSERT_PERSON =
+  "INSERT INTO cms_people (person_group, name, role, department, quote, image, display_order, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+const UPDATE_PERSON_STATUS =
+  "UPDATE cms_people SET status = ?, updated_at = datetime('now'), updated_by = ? WHERE id = ?";
+const DELETE_PERSON = "DELETE FROM cms_people WHERE id = ?";
+
+const isPersonGroup = (value: unknown): value is PersonGroup =>
+  value === "foundation" || value === "roster";
+
+const isDepartment = (value: unknown): value is Department =>
+  typeof value === "string" && (DEPARTMENTS as readonly string[]).includes(value);
+
+/** Tolerant row coercion: missing/scalar-typed fields get safe defaults. */
+function toPersonRow(value: unknown): PersonRow | null {
+  const row = asRecord(value);
+  if (!row || typeof row.id !== "number" || !isPersonGroup(row.person_group)) {
+    return null;
+  }
+  return {
+    id: row.id,
+    person_group: row.person_group,
+    name: typeof row.name === "string" ? row.name : "",
+    role: typeof row.role === "string" ? row.role : "",
+    department: isDepartment(row.department) ? row.department : null,
+    quote: typeof row.quote === "string" ? row.quote : null,
+    image: typeof row.image === "string" ? row.image : null,
+    display_order: typeof row.display_order === "number" ? row.display_order : 0,
+    status: isContentStatus(row.status) ? row.status : "draft",
+    created_at: typeof row.created_at === "string" ? row.created_at : "",
+    updated_at: typeof row.updated_at === "string" ? row.updated_at : "",
+    updated_by: typeof row.updated_by === "string" ? row.updated_by : null,
+  };
+}
+
+/** Every person, optionally filtered by status. Foundation sorts before
+ *  roster (ORDER BY person_group ASC: "foundation" < "roster"), then by
+ *  display_order within the group. Used by the admin list, which shows
+ *  both groups at once. */
+export async function listPeople(db: D1Like, status?: ContentStatus): Promise<PersonRow[]> {
+  const statement = status
+    ? db.prepare(SELECT_PEOPLE_BY_STATUS).bind(status)
+    : db.prepare(SELECT_PEOPLE);
+  const { results } = await statement.all();
+  return results.map(toPersonRow).filter((row): row is PersonRow => row !== null);
+}
+
+/** Every person in one group, optionally filtered by status. This is
+ *  what the public /about page reads -- getPublicFoundation/getPublicRoster
+ *  in src/lib/cms/public-people.ts each call this once. */
+export async function listPeopleByGroup(
+  db: D1Like,
+  group: PersonGroup,
+  status?: ContentStatus,
+): Promise<PersonRow[]> {
+  const statement = status
+    ? db.prepare(SELECT_PEOPLE_BY_GROUP_STATUS).bind(group, status)
+    : db.prepare(SELECT_PEOPLE_BY_GROUP).bind(group);
+  const { results } = await statement.all();
+  return results.map(toPersonRow).filter((row): row is PersonRow => row !== null);
+}
+
+/** One person by id, or null if it doesn't exist. */
+export async function getPerson(db: D1Like, id: number): Promise<PersonRow | null> {
+  const raw = await db.prepare(SELECT_PERSON_BY_ID).bind(id).first();
+  return toPersonRow(raw);
+}
+
+/** Insert a person (starts as 'draft') and return the stored row. */
+export async function createPerson(
+  db: D1Like,
+  input: CreatePersonInput,
+  actorEmail: string,
+): Promise<PersonRow | null> {
+  const result = await db
+    .prepare(INSERT_PERSON)
+    .bind(
+      input.personGroup,
+      input.name,
+      input.role,
+      input.department ?? null,
+      input.quote ?? null,
+      input.image ?? null,
+      input.displayOrder ?? 0,
+      actorEmail,
+    )
+    .run();
+  const { last_row_id: lastRowId } = result.meta;
+  if (lastRowId === null) {
+    return null;
+  }
+  return getPerson(db, lastRowId);
+}
+
+/** Partial update. `personGroup` IS patchable (unlike a slug) -- moving
+ *  someone from roster to foundation, or back, is a legitimate edit, not
+ *  a re-creation. Returns null if the id doesn't exist. */
+export async function updatePerson(
+  db: D1Like,
+  id: number,
+  patch: PersonPatch,
+  actorEmail: string,
+): Promise<PersonRow | null> {
+  const existing = await getPerson(db, id);
+  if (!existing) {
+    return null;
+  }
+  const personGroup = patch.personGroup ?? existing.person_group;
+  const name = patch.name ?? existing.name;
+  const role = patch.role ?? existing.role;
+  const department = patch.department !== undefined ? patch.department : existing.department;
+  const quote = patch.quote !== undefined ? patch.quote : existing.quote;
+  const image = patch.image !== undefined ? patch.image : existing.image;
+  const displayOrder = patch.displayOrder ?? existing.display_order;
+  await db
+    .prepare(
+      "UPDATE cms_people SET person_group = ?, name = ?, role = ?, department = ?, quote = ?, image = ?, display_order = ?, updated_at = datetime('now'), updated_by = ? WHERE id = ?",
+    )
+    .bind(personGroup, name, role, department, quote, image, displayOrder, actorEmail, id)
+    .run();
+  return getPerson(db, id);
+}
+
+/** Move a person between draft and published. Returns null if the id doesn't exist. */
+export async function setPersonStatus(
+  db: D1Like,
+  id: number,
+  status: ContentStatus,
+  actorEmail: string,
+): Promise<PersonRow | null> {
+  await db.prepare(UPDATE_PERSON_STATUS).bind(status, actorEmail, id).run();
+  return getPerson(db, id);
+}
+
+/** Hard delete. */
+export async function deletePerson(db: D1Like, id: number): Promise<boolean> {
+  const result = await db.prepare(DELETE_PERSON).bind(id).run();
   return result.success;
 }

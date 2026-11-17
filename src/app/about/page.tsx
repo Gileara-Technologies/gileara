@@ -3,6 +3,12 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AboutPageClient from "./AboutPageClient";
 import { founders } from "@/content/founders";
+import { getPublicFoundation, getPublicRoster } from "@/lib/cms/public-people";
+
+// The Foundation/Roster sections now read the People CMS (D1 first,
+// src/content/team.ts fallback -- same hybrid rule as /faq, /insights,
+// /how-we-transform), so this route is not prerenderable.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "About Us | Gileara Technologies",
@@ -74,7 +80,9 @@ const jsonLd = {
   ],
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [foundation, roster] = await Promise.all([getPublicFoundation(), getPublicRoster()]);
+
   return (
     <>
       <script
@@ -83,7 +91,7 @@ export default function AboutPage() {
       />
       <Navbar />
       <main>
-        <AboutPageClient />
+        <AboutPageClient foundation={foundation} roster={roster} />
       </main>
       <Footer />
     </>

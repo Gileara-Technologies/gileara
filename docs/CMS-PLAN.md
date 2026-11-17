@@ -1,6 +1,6 @@
 # CMS Plan — Content Management Foundation
 
-**Status**: Done. All three v1 content types (FAQs, Insights, Playbooks) are shipped, the migrations are applied to the real D1 database, and the R2 media-upload pipeline (design question 4) is built and wired into both image fields. Nothing named in this plan is still open.
+**Status**: v1 (FAQs, Insights, Playbooks) shipped and in production. People (the /about Foundation and Roster sections) added as a fourth content type -- see below.
 
 ## Goal
 
@@ -59,9 +59,23 @@ The actual reason this slice exists: `cms_scenarios` has two independent status 
 - `src/app/admin/content/playbooks/` — list (with the stage control), create, edit. The form reuses the role form's `ListField` dynamic-row pattern for the two flat-string lists, plus a new paired phase+detail dynamic list for implementation steps.
 - `/how-we-transform`, `/how-we-transform/[slug]`, its OG image route, `sitemap.ts` — swapped to the D1-first source, `force-dynamic`, `generateStaticParams` removed.
 
+### 4. People (the /about Foundation and Roster sections) — shipped
+
+Replaces `src/content/team.ts`'s two hand-maintained arrays (`foundation`, `roster`) with one table, `cms_people`, distinguished by a `person_group` column (`"foundation" | "roster"`) rather than two separate tables — a person is the same kind of record in both places (name, role, optional portrait); which group they're in is a rendering choice (Foundation gets a full quote + portrait; Roster gets a department-tagged grid card), not a schema one. `department` is free TEXT rather than a CHECK-constrained enum: the admin form's `<select>` is built from `src/content/team.ts`'s new `DEPARTMENTS` export, so a sixth department is a one-line change there, not a migration. `quote` and `image` are required by **form validation**, not the schema, when `personGroup` is `"foundation"` — every founder has always had a photo and a quote; a roster member without a photo renders initials, a supported look.
+
+Unlike every other slice, `personGroup` itself is patchable after creation (moving someone from roster to foundation, or back, is a legitimate edit) — there's no slug-style "fixed after creation" field here at all.
+
+- `migrations/0007_create-cms-people.sql` — `cms_people` table.
+- `src/lib/cms/db.ts` — `listPeople` (both groups, for the admin list), `listPeopleByGroup` (one group, what the public page reads), `getPerson`, `createPerson`, `updatePerson`, `setPersonStatus`, `deletePerson`.
+- `src/lib/cms/public-people.ts` — `getPublicFoundation()` / `getPublicRoster()`, D1-first with `src/content/team.ts` fallback, each mapping a `PersonRow` onto the exact `FoundationMember`/`RosterMember` shape a fallback entry already has.
+- `src/app/admin/content/people/` — one list (both groups, with two "Add founder" / "Add roster member" entry points that pre-select the group via `?group=`), create, edit; `person-form.tsx` toggles its conditional fields (department vs. quote+portrait) on a client-side radio rather than being two separate forms.
+- `/about/page.tsx` — swapped to fetch both groups server-side and pass them into `AboutPageClient` as props (same shape as `HowWeTransformClient`'s `scenarios` prop), `force-dynamic`.
+- Portrait uploads reuse the existing media pipeline with a third prefix, `"team"` (see below) — one line in `media-storage.ts`, since both routes already dispatch on `isMediaPrefix()` generically.
+- **Deliberately decoupled**: `src/content/founders.ts` (the JSON-LD Person schema + homepage `<Founders />` section) is a separate, narrower thing that needs fields (`linkedin`, `cred`) this slice has no use for. Editing a CMS person does not, and should not, change structured SEO data — the two stay independent on purpose.
+
 ### Media pipeline (design question 4)
 
-- `src/lib/cms/media-storage.ts` — structural R2 typing and key building mirror `src/lib/portal/resume-storage.ts` (never imports an R2 SDK; a pure, tested key builder: `{prefix}/{timestampMs}-{random}.{ext}`, `prefix` constrained to `"insights" | "playbooks"`).
+- `src/lib/cms/media-storage.ts` — structural R2 typing and key building mirror `src/lib/portal/resume-storage.ts` (never imports an R2 SDK; a pure, tested key builder: `{prefix}/{timestampMs}-{random}.{ext}`, `prefix` constrained to `"insights" | "playbooks" | "team"`).
 - `GET /api/cms/media/[...key]` — public, no auth, streams the R2 object with a one-year immutable `Cache-Control` (safe: keys are content-addressed and never reused).
 - `POST /api/admin/content/media` — authenticated upload. Does its own cookie/session/`isAllowedContentEditorEmail` check rather than `requireContentEditorSession()`, since that helper redirects on failure (built for page renders, not a `fetch()`-based JSON API). 5MB size limit, JPEG/PNG/WebP/GIF allowlist — same ceiling and dual MIME-or-extension check style as the resume upload route.
 - `src/app/admin/content/media-upload-field.tsx` — one shared client component used by both forms: the manual text input stays (existing `/public` paths and external URLs keep working unchanged), with a file picker next to it that uploads on selection and fills the text input with the returned path.
@@ -72,8 +86,10 @@ The actual reason this slice exists: `cms_scenarios` has two independent status 
 - **Legal pages** (privacy/terms/security). Low edit frequency, high correctness stakes.
 - **Services/pricing** (`packages.ts`). Feeds `Offer`/`Service` JSON-LD directly; a later phase at most, with stricter validation than content editing needs elsewhere.
 
-## Status: complete
+## Status
 
-All three v1 content types are shipped, the migrations are applied to the real D1 database (confirmed: `cms_faqs`, `cms_posts`, `cms_scenarios` all exist in production), and the R2 media pipeline is live. HR and content editors can create, edit, publish, and (for Playbooks) move the honesty-contract stage — all without a code change or a deploy, which was the entire point.
+All four content types (FAQs, Insights, Playbooks, People) are built and the R2 media pipeline is live. HR and content editors can create, edit, publish, and (for Playbooks) move the honesty-contract stage, and (for People) move someone between the Foundation and Roster sections — all without a code change or a deploy, which was the entire point.
+
+**Migration note**: `migrations/0007_create-cms-people.sql` exists in the repo. Apply it the same way the first three were (`npx wrangler d1 migrations apply gileara-careers-db --remote`) before the People admin pages or the /about D1 read path will work against the real database — until then, `/about` keeps rendering `src/content/team.ts`, same as every other slice's pre-migration state.
 
 What's NOT in this plan, should a future round want it: a Markdown/rich-text upgrade beyond the three-construct subset in `src/lib/cms/markdown.ts`, deleting the `src/content/*.ts` fallback modules once D1 has run in production long enough to trust (design question 5's stated long-term intent), and the three deliberately-excluded areas above if priorities ever change.

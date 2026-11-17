@@ -13,8 +13,8 @@
  * through src/app/api/cms/media/[...key]/route.ts.
  *
  * Object key: {prefix}/{timestampMs}-{random}.{ext}. `prefix` is
- * constrained to a known content type ("insights" | "playbooks"), not
- * arbitrary caller input -- see isMediaPrefix.
+ * constrained to a known content type ("insights" | "playbooks" |
+ * "team"), not arbitrary caller input -- see isMediaPrefix.
  *
  * Size/MIME-type validation happens at the route (same convention as
  * src/app/api/apply/route.ts's resume validation), not in this module.
@@ -24,8 +24,8 @@
 
 import { slugify } from "@/lib/portal/slug";
 
-/** The two known content types that can own an uploaded image today. */
-const MEDIA_PREFIXES = ["insights", "playbooks"] as const;
+/** The known content types that can own an uploaded image today. */
+const MEDIA_PREFIXES = ["insights", "playbooks", "team"] as const;
 export type MediaPrefix = (typeof MEDIA_PREFIXES)[number];
 
 export function isMediaPrefix(value: string): value is MediaPrefix {

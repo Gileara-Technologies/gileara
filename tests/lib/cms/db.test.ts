@@ -1,27 +1,34 @@
 import { describe, expect, it } from "vitest";
 import {
   createFaq,
+  createPerson,
   createPost,
   createScenario,
   deleteFaq,
+  deletePerson,
   deletePost,
   deleteScenario,
   getFaq,
+  getPerson,
   getPost,
   getScenario,
   listFaqs,
+  listPeople,
+  listPeopleByGroup,
   listPosts,
   listScenarios,
   setFaqStatus,
+  setPersonStatus,
   setPostStatus,
   setScenarioContentStatus,
   setScenarioStage,
   updateFaq,
+  updatePerson,
   updatePost,
   updateScenario,
 } from "@/lib/cms/db";
 import type { D1Like } from "@/lib/portal/db";
-import type { FaqRow, ParsedScenario, PostRow } from "@/lib/cms/types";
+import type { FaqRow, ParsedScenario, PersonRow, PostRow } from "@/lib/cms/types";
 
 // ---------------------------------------------------------------------------
 // Tiny in-memory fake D1 for cms_faqs: implements exactly the surface
@@ -944,5 +951,311 @@ describe("deleteScenario", () => {
     const ok = await deleteScenario(fake.db, 1);
     expect(ok).toBe(true);
     expect(await getScenario(fake.db, 1)).toBeNull();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// People (migrations/0007_create-cms-people.sql)
+// ---------------------------------------------------------------------------
+
+function person(overrides: Partial<PersonRow> = {}): PersonRow {
+  return {
+    id: 1,
+    person_group: "roster",
+    name: "A Roster Member",
+    role: "Frontend Developer",
+    department: "Engineering",
+    quote: null,
+    image: null,
+    display_order: 0,
+    status: "draft",
+    created_at: "2026-01-01 00:00:00",
+    updated_at: "2026-01-01 00:00:00",
+    updated_by: null,
+    ...overrides,
+  };
+}
+
+function makeFakePeopleD1(seeded: { people?: PersonRow[] } = {}) {
+  const state = {
+    people: [...(seeded.people ?? [])],
+    nextId: (seeded.people?.length ?? 0) + 1,
+    now: (): string => "2026-06-01 12:00:00",
+  };
+
+  const byGroupThenOrder = (a: PersonRow, b: PersonRow): number =>
+    a.person_group.localeCompare(b.person_group) || a.display_order - b.display_order || a.id - b.id;
+
+  const byOrder = (a: PersonRow, b: PersonRow): number =>
+    a.display_order - b.display_order || a.id - b.id;
+
+  const execute = (sql: string, binds: unknown[]): { results: unknown[]; lastRowId?: number } => {
+    if (sql.startsWith("UPDATE cms_people SET status")) {
+      const [status, actorEmail, id] = binds as [PersonRow["status"], string, number];
+      const row = state.people.find((p) => p.id === id);
+      if (row) {
+        row.status = status;
+        row.updated_at = state.now();
+        row.updated_by = actorEmail;
+      }
+      return { results: [] };
+    }
+    if (sql.startsWith("UPDATE cms_people SET person_group")) {
+      const [personGroup, name, role, department, quote, image, displayOrder, actorEmail, id] = binds as [
+        PersonRow["person_group"],
+        string,
+        string,
+        string | null,
+        string | null,
+        string | null,
+        number,
+        string,
+        number,
+      ];
+      const row = state.people.find((p) => p.id === id);
+      if (row) {
+        row.person_group = personGroup;
+        row.name = name;
+        row.role = role;
+        row.department = department as PersonRow["department"];
+        row.quote = quote;
+        row.image = image;
+        row.display_order = displayOrder;
+        row.updated_at = state.now();
+        row.updated_by = actorEmail;
+      }
+      return { results: [] };
+    }
+    if (sql.startsWith("INSERT INTO cms_people")) {
+      const [personGroup, name, role, department, quote, image, displayOrder, actorEmail] = binds as [
+        PersonRow["person_group"],
+        string,
+        string,
+        string | null,
+        string | null,
+        string | null,
+        number,
+        string,
+      ];
+      const row: PersonRow = {
+        id: state.nextId,
+        person_group: personGroup,
+        name,
+        role,
+        department: department as PersonRow["department"],
+        quote,
+        image,
+        display_order: displayOrder,
+        status: "draft",
+        created_at: state.now(),
+        updated_at: state.now(),
+        updated_by: actorEmail,
+      };
+      state.nextId += 1;
+      state.people.push(row);
+      return { results: [], lastRowId: row.id };
+    }
+    if (sql.startsWith("DELETE FROM cms_people")) {
+      const [id] = binds as [number];
+      const before = state.people.length;
+      state.people = state.people.filter((p) => p.id !== id);
+      return { results: [], lastRowId: state.people.length < before ? 1 : undefined };
+    }
+    if (sql.startsWith("SELECT * FROM cms_people WHERE person_group = ? AND status")) {
+      const [group, status] = binds as [PersonRow["person_group"], PersonRow["status"]];
+      return {
+        results: state.people
+          .filter((p) => p.person_group === group && p.status === status)
+          .sort(byOrder),
+      };
+    }
+    if (sql.startsWith("SELECT * FROM cms_people WHERE person_group")) {
+      const [group] = binds as [PersonRow["person_group"]];
+      return { results: state.people.filter((p) => p.person_group === group).sort(byOrder) };
+    }
+    if (sql.startsWith("SELECT * FROM cms_people WHERE status")) {
+      const [status] = binds as [PersonRow["status"]];
+      return { results: state.people.filter((p) => p.status === status).sort(byGroupThenOrder) };
+    }
+    if (sql.startsWith("SELECT * FROM cms_people WHERE id")) {
+      const [id] = binds as [number];
+      return { results: state.people.filter((p) => p.id === id) };
+    }
+    if (sql.startsWith("SELECT * FROM cms_people ORDER")) {
+      return { results: [...state.people].sort(byGroupThenOrder) };
+    }
+    throw new Error(`fake D1: unhandled query: ${sql}`);
+  };
+
+  const db: D1Like = {
+    prepare(sql: string) {
+      const binds: unknown[] = [];
+      const statement = {
+        bind(...values: unknown[]) {
+          binds.splice(0, binds.length, ...values);
+          return statement;
+        },
+        async all<T = unknown>() {
+          const { results } = execute(sql, binds);
+          return { results: results as T[] };
+        },
+        async first<T = unknown>() {
+          const { results } = execute(sql, binds);
+          return (results[0] as T) ?? null;
+        },
+        async run() {
+          const { lastRowId } = execute(sql, binds);
+          return { success: true, meta: { last_row_id: lastRowId ?? null } };
+        },
+      };
+      return statement;
+    },
+  };
+
+  return { db, state };
+}
+
+describe("listPeople", () => {
+  it("sorts foundation before roster, then by display_order", async () => {
+    const fake = makeFakePeopleD1({
+      people: [
+        person({ id: 1, person_group: "roster", display_order: 0 }),
+        person({ id: 2, person_group: "foundation", display_order: 1 }),
+        person({ id: 3, person_group: "foundation", display_order: 0 }),
+      ],
+    });
+    const rows = await listPeople(fake.db);
+    expect(rows.map((r) => r.id)).toEqual([3, 2, 1]);
+  });
+
+  it("filters by status when given", async () => {
+    const fake = makeFakePeopleD1({
+      people: [person({ id: 1, status: "draft" }), person({ id: 2, status: "published" })],
+    });
+    const published = await listPeople(fake.db, "published");
+    expect(published.map((r) => r.id)).toEqual([2]);
+  });
+
+  it("returns [] when there are no people", async () => {
+    const fake = makeFakePeopleD1();
+    expect(await listPeople(fake.db)).toEqual([]);
+  });
+});
+
+describe("listPeopleByGroup", () => {
+  it("returns only the requested group, ordered by display_order", async () => {
+    const fake = makeFakePeopleD1({
+      people: [
+        person({ id: 1, person_group: "foundation", display_order: 1 }),
+        person({ id: 2, person_group: "roster", display_order: 0 }),
+        person({ id: 3, person_group: "foundation", display_order: 0 }),
+      ],
+    });
+    const foundation = await listPeopleByGroup(fake.db, "foundation");
+    expect(foundation.map((r) => r.id)).toEqual([3, 1]);
+  });
+
+  it("filters by group AND status when status is given", async () => {
+    const fake = makeFakePeopleD1({
+      people: [
+        person({ id: 1, person_group: "roster", status: "draft" }),
+        person({ id: 2, person_group: "roster", status: "published" }),
+        person({ id: 3, person_group: "foundation", status: "published" }),
+      ],
+    });
+    const rows = await listPeopleByGroup(fake.db, "roster", "published");
+    expect(rows.map((r) => r.id)).toEqual([2]);
+  });
+
+  it("returns [] for a group with no members", async () => {
+    const fake = makeFakePeopleD1();
+    expect(await listPeopleByGroup(fake.db, "foundation")).toEqual([]);
+  });
+});
+
+describe("getPerson", () => {
+  it("returns the matching row", async () => {
+    const fake = makeFakePeopleD1({ people: [person({ id: 7, name: "Specific" })] });
+    const row = await getPerson(fake.db, 7);
+    expect(row?.name).toBe("Specific");
+  });
+
+  it("returns null for an unknown id", async () => {
+    const fake = makeFakePeopleD1();
+    expect(await getPerson(fake.db, 999)).toBeNull();
+  });
+});
+
+describe("createPerson", () => {
+  it("inserts a new foundation person as draft", async () => {
+    const fake = makeFakePeopleD1();
+    const created = await createPerson(
+      fake.db,
+      {
+        personGroup: "foundation",
+        name: "Nina Osei",
+        role: "Co-Founder & CPO",
+        quote: "We ship what we promise.",
+        image: "/assets/images/nina.jpg",
+      },
+      "edith.gileara@gmail.com",
+    );
+    expect(created?.status).toBe("draft");
+    expect(created?.person_group).toBe("foundation");
+    expect(created?.quote).toBe("We ship what we promise.");
+    expect(created?.updated_by).toBe("edith.gileara@gmail.com");
+  });
+
+  it("inserts a new roster person with a department and no quote", async () => {
+    const fake = makeFakePeopleD1();
+    const created = await createPerson(
+      fake.db,
+      { personGroup: "roster", name: "Kojo Mensah", role: "QA Engineer", department: "Engineering" },
+      "edith.gileara@gmail.com",
+    );
+    expect(created?.department).toBe("Engineering");
+    expect(created?.quote).toBeNull();
+  });
+});
+
+describe("updatePerson", () => {
+  it("applies a partial patch and leaves other fields untouched", async () => {
+    const fake = makeFakePeopleD1({ people: [person({ id: 1, name: "Old Name" })] });
+    const updated = await updatePerson(fake.db, 1, { name: "New Name" }, "edith.gileara@gmail.com");
+    expect(updated?.name).toBe("New Name");
+    expect(updated?.role).toBe("Frontend Developer");
+  });
+
+  it("allows moving a person between groups", async () => {
+    const fake = makeFakePeopleD1({ people: [person({ id: 1, person_group: "roster" })] });
+    const updated = await updatePerson(
+      fake.db,
+      1,
+      { personGroup: "foundation", quote: "New here.", image: "/x.jpg" },
+      "edith.gileara@gmail.com",
+    );
+    expect(updated?.person_group).toBe("foundation");
+  });
+
+  it("returns null for an unknown id", async () => {
+    const fake = makeFakePeopleD1();
+    expect(await updatePerson(fake.db, 999, { name: "X" }, "edith.gileara@gmail.com")).toBeNull();
+  });
+});
+
+describe("setPersonStatus", () => {
+  it("moves a person from draft to published", async () => {
+    const fake = makeFakePeopleD1({ people: [person({ id: 1, status: "draft" })] });
+    const updated = await setPersonStatus(fake.db, 1, "published", "edith.gileara@gmail.com");
+    expect(updated?.status).toBe("published");
+  });
+});
+
+describe("deletePerson", () => {
+  it("removes the row and returns true", async () => {
+    const fake = makeFakePeopleD1({ people: [person({ id: 1 })] });
+    const ok = await deletePerson(fake.db, 1);
+    expect(ok).toBe(true);
+    expect(await getPerson(fake.db, 1)).toBeNull();
   });
 });

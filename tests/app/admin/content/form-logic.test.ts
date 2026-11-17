@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   formImplementationSteps,
   validateFaqForm,
+  validatePersonForm,
   validatePostForm,
   validateScenarioForm,
 } from "@/app/admin/content/form-logic";
@@ -308,5 +309,141 @@ describe("validateScenarioForm", () => {
 
   it("rejects an empty form", () => {
     expect(validateScenarioForm(new FormData()).ok).toBe(false);
+  });
+});
+
+describe("validatePersonForm", () => {
+  it("accepts a roster entry with a department, no quote/image required", () => {
+    const result = validatePersonForm(
+      formData({ personGroup: "roster", name: "Kojo Mensah", role: "QA Engineer", department: "Engineering" }),
+    );
+    expect(result).toEqual({
+      ok: true,
+      value: {
+        personGroup: "roster",
+        name: "Kojo Mensah",
+        role: "QA Engineer",
+        department: "Engineering",
+        quote: undefined,
+        image: undefined,
+        displayOrder: 0,
+      },
+    });
+  });
+
+  it("accepts a foundation entry with a quote and image, no department required", () => {
+    const result = validatePersonForm(
+      formData({
+        personGroup: "foundation",
+        name: "Nina Osei",
+        role: "Co-Founder & CPO",
+        quote: "We ship what we promise.",
+        image: "/assets/images/nina.jpg",
+      }),
+    );
+    expect(result).toEqual({
+      ok: true,
+      value: {
+        personGroup: "foundation",
+        name: "Nina Osei",
+        role: "Co-Founder & CPO",
+        department: undefined,
+        quote: "We ship what we promise.",
+        image: "/assets/images/nina.jpg",
+        displayOrder: 0,
+      },
+    });
+  });
+
+  it("rejects a missing or invalid personGroup", () => {
+    expect(validatePersonForm(formData({ name: "X", role: "Y" }))).toEqual({
+      ok: false,
+      error: "Choose which section this person belongs to.",
+    });
+    expect(
+      validatePersonForm(formData({ personGroup: "nonsense", name: "X", role: "Y" })),
+    ).toEqual({ ok: false, error: "Choose which section this person belongs to." });
+  });
+
+  it("rejects a missing name or role", () => {
+    expect(
+      validatePersonForm(formData({ personGroup: "roster", role: "Y", department: "Finance" })),
+    ).toEqual({ ok: false, error: "Give this person a name." });
+    expect(
+      validatePersonForm(formData({ personGroup: "roster", name: "X", department: "Finance" })),
+    ).toEqual({ ok: false, error: "Add a role." });
+  });
+
+  it("rejects a roster entry with no department, or an unknown department", () => {
+    expect(validatePersonForm(formData({ personGroup: "roster", name: "X", role: "Y" }))).toEqual({
+      ok: false,
+      error: "Choose a department for a roster entry.",
+    });
+    expect(
+      validatePersonForm(formData({ personGroup: "roster", name: "X", role: "Y", department: "Legal" })),
+    ).toEqual({ ok: false, error: "Choose a department for a roster entry." });
+  });
+
+  it("rejects a foundation entry with no quote", () => {
+    expect(
+      validatePersonForm(
+        formData({ personGroup: "foundation", name: "X", role: "Y", image: "/x.jpg" }),
+      ),
+    ).toEqual({ ok: false, error: "Add a quote for a foundation entry." });
+  });
+
+  it("rejects a foundation entry with no portrait", () => {
+    expect(
+      validatePersonForm(
+        formData({ personGroup: "foundation", name: "X", role: "Y", quote: "A quote." }),
+      ),
+    ).toEqual({ ok: false, error: "Add a portrait for a foundation entry." });
+  });
+
+  it("accepts an explicit displayOrder and rejects a non-integer one", () => {
+    const ok = validatePersonForm(
+      formData({ personGroup: "roster", name: "X", role: "Y", department: "Finance", displayOrder: "3" }),
+    );
+    expect(ok.ok && ok.value.displayOrder).toBe(3);
+
+    const bad = validatePersonForm(
+      formData({
+        personGroup: "roster",
+        name: "X",
+        role: "Y",
+        department: "Finance",
+        displayOrder: "not-a-number",
+      }),
+    );
+    expect(bad).toEqual({ ok: false, error: "Display order must be a whole number." });
+  });
+
+  it("ignores a roster-only department sent alongside a foundation group", () => {
+    const result = validatePersonForm(
+      formData({
+        personGroup: "foundation",
+        name: "X",
+        role: "Y",
+        quote: "A quote.",
+        image: "/x.jpg",
+        department: "Finance",
+      }),
+    );
+    expect(result).toEqual({
+      ok: true,
+      value: {
+        personGroup: "foundation",
+        name: "X",
+        role: "Y",
+        department: undefined,
+        quote: "A quote.",
+        image: "/x.jpg",
+        displayOrder: 0,
+      },
+    });
+  });
+
+  it("rejects an empty form", () => {
+    expect(validatePersonForm(new FormData()).ok).toBe(false);
   });
 });

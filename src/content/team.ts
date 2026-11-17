@@ -1,18 +1,30 @@
 /**
  * The team behind Gileara — rendered on the /about page as two things:
  *
- *  - foundation: the 3 founding partners (Amos, Julian, Rodney), full
- *    portrait + quote treatment.
+ *  - foundation: the founding partners, full portrait + quote treatment.
  *  - roster:     one flat, uniform list of everyone who isn't a founder,
  *    each tagged with a department instead of being grouped under a
  *    department heading. This replaces the old leaders/memberGroups
  *    split — see docs/CHANGELOG or git history for that shape.
  *
- * Founders are duplicated from src/content/founders.ts (their portraits
- * and quotes are required there for JSON-LD/homepage use).
+ * Founders are ALSO duplicated in src/content/founders.ts — that module
+ * is a deliberately separate, narrower thing: the JSON-LD Person schema
+ * and the homepage <Founders /> section, which need fields (linkedin,
+ * cred) this module has no use for. Editing a CMS person here does not
+ * and should not change SEO structured data; the two stay decoupled.
  *
- * To add a portrait later, drop the file at /public/assets/images/{slug}.jpg
- * and add an `image` field on the roster entry.
+ * ---- CMS (migrations/0007_create-cms-people.sql) ----
+ * These two arrays are now the FALLBACK for the People CMS slice
+ * (src/lib/cms/public-people.ts): the /about page reads published people
+ * from D1 first and only falls back to this file when D1 is empty or
+ * unreachable, same hybrid rule as every other CMS content type (D1
+ * proven in production → this file is deleted, docs/CMS-PLAN.md design
+ * question 5). `DEPARTMENTS` is the one list the admin form's <select>
+ * and this file both read, so adding a sixth department is a one-line
+ * change here, not a migration.
+ *
+ * To add a portrait by hand (bypassing the CMS), drop the file at
+ * /public/assets/images/{slug}.jpg and add an `image` field on the entry.
  */
 
 export interface FoundationMember {
@@ -46,6 +58,17 @@ export const foundation: readonly FoundationMember[] = [
 ] as const;
 
 export type Department = "Marketing" | "Communication" | "Finance" | "Engineering" | "Creative";
+
+/** The authoritative department list -- the admin People form's
+ *  <select> is built from this array, so a new department is a
+ *  one-line edit here, not a migration or a form-logic change. */
+export const DEPARTMENTS: readonly Department[] = [
+  "Marketing",
+  "Communication",
+  "Finance",
+  "Engineering",
+  "Creative",
+] as const;
 
 export interface RosterMember {
   name: string;

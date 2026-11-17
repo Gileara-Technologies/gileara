@@ -1,12 +1,14 @@
 /**
  * Row and domain shapes for the CMS data layer. Content types so far:
  * FAQs (migrations/0004_create-cms-faqs.sql), Insight posts
- * (migrations/0005_create-cms-posts.sql), and playbooks
- * (migrations/0006_create-cms-scenarios.sql).
+ * (migrations/0005_create-cms-posts.sql), playbooks
+ * (migrations/0006_create-cms-scenarios.sql), and people
+ * (migrations/0007_create-cms-people.sql).
  */
 
 import type { PostTag } from "@/content/posts";
 import type { ImplementationStep, ScenarioStatus } from "@/content/scenarios";
+import type { Department } from "@/content/team";
 
 export type ContentStatus = "draft" | "published";
 
@@ -155,4 +157,56 @@ export interface ScenarioPatch {
   ghanaContext?: string;
   image?: string;
   scenarioStatus?: ScenarioStatus;
+}
+
+// ---------------------------------------------------------------------------
+// People (migrations/0007_create-cms-people.sql)
+// ---------------------------------------------------------------------------
+
+/** Which /about section a person renders in. Foundation gets a full
+ *  portrait + quote treatment; Roster gets a uniform department-tagged
+ *  grid card. A rendering choice, not two different kinds of record. */
+export type PersonGroup = "foundation" | "roster";
+
+/** Raw `cms_people` row as stored in D1. `department` and `quote` are
+ *  free TEXT at the schema level (see migration comment) -- `department`
+ *  is form-constrained to Department via the admin UI's <select>, and
+ *  `quote` is only ever populated for the foundation group today. */
+export interface PersonRow {
+  id: number;
+  person_group: PersonGroup;
+  name: string;
+  role: string;
+  department: Department | null;
+  quote: string | null;
+  image: string | null;
+  display_order: number;
+  status: ContentStatus;
+  created_at: string;
+  updated_at: string;
+  updated_by: string | null;
+}
+
+/** Input for createPerson. `image` is required by form validation (not
+ *  the schema) when personGroup is "foundation" -- every founder has
+ *  always had a photo; a roster member without one renders initials. */
+export interface CreatePersonInput {
+  personGroup: PersonGroup;
+  name: string;
+  role: string;
+  department?: Department;
+  quote?: string;
+  image?: string;
+  displayOrder?: number;
+}
+
+/** Partial update for updatePerson. */
+export interface PersonPatch {
+  personGroup?: PersonGroup;
+  name?: string;
+  role?: string;
+  department?: Department;
+  quote?: string;
+  image?: string;
+  displayOrder?: number;
 }
