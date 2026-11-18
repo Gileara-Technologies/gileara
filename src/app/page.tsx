@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import IndustryStrip from "@/components/IndustryStrip";
 import InstagramFeed from "@/components/InstagramFeed";
+import HomeScene from "@/components/scene/HomeScene";
 import CinematicStory from "@/components/CinematicStory";
 import Pricing from "@/components/Pricing";
 import Approach from "@/components/Approach";
@@ -213,8 +214,13 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <HomeScene />
       <Navbar />
-      <main>
+      {/* data-scene-root: each direct child is one "station" of the 3D
+          scene (src/components/scene/pieces.tsx lists the set piece for
+          each, in this order). Reordering sections here reorders the
+          journey; keep the two lists aligned. */}
+      <main data-scene-root>
         <Hero />
         <IndustryStrip />
         <InstagramFeed posts={instagramPosts} />

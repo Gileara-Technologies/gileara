@@ -289,6 +289,73 @@ html.lenis body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Immersive homepage scene (src/components/scene/) ─────────────────────
+   .scene-stage is the fixed WebGL layer behind the homepage. It fades in
+   once the first frame is ready. `html.scene-active` is only set after
+   that, so sections stay fully opaque until there is actually something
+   behind them, and fall back to opaque if WebGL fails or is lost.
+
+   When active, each homepage section ([data-scene-root] > *) drops its
+   opaque brand background for a translucent scrim: darker on the left,
+   where the text column sits, and clear on the right, where the set
+   pieces sit. Phones get a heavier, even scrim because text there spans
+   the full width. */
+.scene-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+.scene-stage--ready {
+  opacity: 1;
+}
+html.scene-active [data-scene-root] {
+  position: relative;
+  z-index: 1;
+}
+html.scene-active [data-scene-root] > * {
+  background-color: rgb(var(--background) / 0.35) !important;
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--background) / 0.7) 0%,
+    rgb(var(--background) / 0.45) 45%,
+    rgb(var(--background) / 0.15) 80%
+  ) !important;
+}
+/* Decorative elements that the scene replaces while it runs (e.g. the
+   Hero's dashboard mock, where the crystal core now sits). */
+html.scene-active [data-scene-hide] {
+  visibility: hidden;
+}
+html.scene-active [data-scene-root] > *:first-child {
+  background-color: transparent !important;
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--background) / 0.55) 0%,
+    rgb(var(--background) / 0.2) 50%,
+    rgb(var(--background) / 0) 75%
+  ) !important;
+}
+@media (max-width: 767px) {
+  html.scene-active [data-scene-root] > *,
+  html.scene-active [data-scene-root] > *:first-child {
+    background-color: rgb(var(--background) / 0.72) !important;
+    background-image: none !important;
+  }
+}
+/* Film grain over the whole page while the scene runs. */
+html.scene-active body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 /* ── GSAP initial states ──────────────────────────────────────────────── */
 .gsap-init-hidden {
   opacity: 0;

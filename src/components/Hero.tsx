@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import DashboardMock from "@/components/DashboardMock";
-import HeroBackdrop from "@/components/three/HeroBackdrop";
 
 // ── Typewriter hook ──────────────────────────────────────────────────────
 function useTypewriter(text: string, speed = 38, startDelay = 600) {
@@ -58,12 +57,9 @@ export default function Hero() {
     <section ref={heroRef} className="relative min-h-screen bg-brand overflow-hidden flex flex-col">
       {/* ── Structural grid bg ──────────────────────────────────────── */}
       <div className="absolute inset-0 grid-bg pointer-events-none" aria-hidden="true" />
-
-      {/* ── 3D depth layer — desktop/fine-pointer/motion-ok only ──────
-          See src/hooks/useCanRender3D.ts: touch devices and
-          reduced-motion visitors render nothing here, at zero bundle
-          cost, and keep exactly the flat grid-bg above. */}
-      <HeroBackdrop />
+      {/* The 3D scene behind this section is page-level (HomeScene in
+          src/app/page.tsx), not part of the Hero, so it persists while
+          scrolling through every section. */}
 
       {/* ── Content row: headline left, dashboard mock right ─────────── */}
       <div className="relative z-10 flex-1 flex items-center px-6 md:px-12 pt-28 pb-16">
@@ -132,7 +128,10 @@ export default function Hero() {
           </motion.div>
 
           {/* Right: dashboard mock */}
+          {/* data-scene-hide: when the 3D scene is live, its crystal core
+              occupies this column, so the mock steps aside (globals.css). */}
           <motion.div
+            data-scene-hide
             className="hidden lg:block lg:col-span-5"
             style={{ y: mockY }}
             initial={{ opacity: 0, x: 24 }}
