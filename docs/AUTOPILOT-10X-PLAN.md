@@ -19,7 +19,7 @@ so the tree is always in a shippable state between rounds.
 |---|---|---|---|
 | 1 | Services data overhaul (new pricing source) | **done** (round 1) | Type-checked (`npx tsc --noEmit` clean), lint clean, 485/485 tests passing, `npm run build` green (all 5 service landing pages still prerender statically). Committed. See "Workstream 1" below for the full decision log. |
 | 2 | Humanizer pass on site copy | not started | |
-| 3 | 3D + mobile-optimized visual pass | not started | `three`, `@react-three/fiber`, `@react-three/drei`, `gsap` are already real `dependencies` in `package.json` (not devDependencies) — this was clearly staged for this exact task. AGENTS.md's note that these are "unused today" will be stale the moment workstream 3 ships; update it then. |
+| 3 | 3D + mobile-optimized visual pass | **started** (round 1) | First deliverable shipped: a WebGL point-field depth layer behind the Hero, gated to fine-pointer/motion-ok visitors only. See "Workstream 3" below. More 3D touches (other sections) are a candidate for a future round, not required to call this workstream "done" — one tasteful, fully-verified element beats several rushed ones. |
 
 ## Workstream 1 — Services data overhaul
 
@@ -132,18 +132,79 @@ copy first (homepage, /about, /services, /faq) rather than trying every
 page in one round. Re-check Business Operations' problem/observation copy
 against its revised sales framing while in there (flagged above).
 
-## Workstream 3 — 3D + mobile-optimized visual pass (not started)
+## Workstream 3 — 3D + mobile-optimized visual pass
 
-`three` / `@react-three/fiber` / `@react-three/drei` / `gsap` are real
-`dependencies` already (not devDependencies — someone staged this on
-purpose). Plan: one tasteful, brand-consistent 3D element (likely the
-Hero, given the "Terminal/Operator" aesthetic — an abstract low-poly
-network/grid reacting subtly to pointer movement), built with:
-- Dynamic import (`next/dynamic`, `ssr: false`) so the WebGL canvas never
-  blocks LCP.
-- A hard `prefers-reduced-motion` and `(pointer: coarse)` fallback to a
-  static/CSS version — mobile and reduced-motion users get a cheap
-  fallback, not a stripped-down WebGL scene.
-- Capped `dpr` and a low polygon/particle budget.
-- Must update AGENTS.md's "No tilt or WebGL layer ships" line once this
-  exists, and reconcile `docs/DESIGN.md` if it says otherwise.
+`three` / `@react-three/fiber` / `@react-three/drei` / `gsap` were
+already real `dependencies` in `package.json` (not devDependencies —
+staged for exactly this task before this round started).
+
+### Shipped (round 1): Hero WebGL point-field depth layer
+
+- `src/hooks/useCanRender3D.ts` — the one gate every 3D component on
+  this site should use: `true` only for a fine pointer (desktop/laptop)
+  with no `prefers-reduced-motion`. Implemented with
+  `useSyncExternalStore` (not `useState`+`useEffect`) because this
+  repo's lint config flags a synchronous `setState` call inside an
+  effect — subscribing this way is also strictly better: the gate
+  updates live if a visitor's OS motion setting or input device changes
+  mid-session, not just once on mount.
+- `src/components/three/HeroPointField.tsx` — the actual scene: ~160
+  points in a flattened disc, teal (`#5EEAD4`, the one brand accent),
+  transparent canvas so the existing `.bg-brand`/`.grid-bg` CSS layers
+  stay visible underneath (this adds depth, it doesn't replace the
+  brand treatment). Slow constant drift plus a gentle pointer-parallax
+  lerp. Point positions are computed ONCE at module-evaluation time
+  (not inside `useMemo`) — this repo's lint config enforces React
+  Compiler purity rules, which flag `Math.random()` as impure even
+  inside `useMemo`; module-scope, computed-once data has no such
+  restriction and the geometry never needs to change after load anyway.
+  The mutable pointer-tracking object is a plain `useMemo`-held object,
+  not a `useRef`, because the lint config also flags reading
+  `ref.current` during render (passing it as a prop counts) — same
+  mutate-outside-render/read-every-frame technique, just not shaped like
+  a "ref."
+- `src/components/three/HeroBackdrop.tsx` — wraps `HeroPointField` in a
+  `next/dynamic(..., { ssr: false })` import (so the Three.js chunk is
+  never part of the server-rendered HTML) behind the `useCanRender3D()`
+  gate (so touch/reduced-motion visitors never even trigger the chunk
+  fetch), plus a small class-based error boundary so a WebGL failure
+  (disabled WebGL, a sandboxed/unsupported browser) silently resolves
+  to nothing rather than breaking the Hero.
+- Wired into `src/components/Hero.tsx` as a sibling of the existing
+  flat `.grid-bg` div, right before the content row.
+
+**Verification — real browser, not just type-checks**: `npx tsc
+--noEmit` and `npx eslint src/` clean, 485/485 tests passing, `npm run
+build` green. Beyond that, since this is new, unproven visual/runtime
+territory for the codebase, verified against a real production server
+(`npm run start`, not `next dev` — dev mode's Turbopack prefetching
+turned out to eagerly fetch the dynamic chunk regardless of render path,
+which would have been a false "it works" signal) with Playwright:
+  - Desktop/fine-pointer context: exactly one `<canvas>` mounts inside
+    the Hero section, correct non-zero size.
+  - A real touch-emulated context (`hasTouch: true, isMobile: true`,
+    not a mock): zero `<canvas>` elements, and zero network requests
+    matching `three`/`fiber`/`HeroPointField` — the mobile-optimization
+    claim ("mobile never pays for this") is proven against the actual
+    shipped bundle, not asserted.
+  - A `prefers-reduced-motion: reduce` context via Playwright's real
+    `page.emulateMedia`: zero `<canvas>` elements.
+- One known, harmless console warning not from this code: `THREE.Clock:
+  This module has been deprecated` — emitted by `@react-three/fiber`
+  v9.7.0's internal default render-loop clock against the pinned `three`
+  0.185.x, not from anything in `HeroPointField.tsx`. Cosmetic; no
+  functional impact observed.
+
+**AGENTS.md updated** to drop the stale "no tilt or WebGL layer ships...
+those package.json entries are unused today" line, which is no longer
+true.
+
+### Not done yet (future round candidates, not required for "done")
+
+- More 3D touches elsewhere on the site (e.g. a tilt/depth effect on
+  the services tier cards, or a 3D element on `/about` or
+  `/how-we-transform`) — one tasteful, fully-verified element this
+  round was the deliberate scope; more can follow.
+- `docs/DESIGN.md` (and the dark-theme DESIGN.md under
+  `stitch_gileara_technologies_website/`) were not audited for a
+  conflicting "no 3D" statement — worth a quick check in a future round.
