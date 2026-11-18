@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { FaInstagram } from "react-icons/fa6";
 import type { InstagramPost } from "@/lib/instagram/public-instagram";
-import { INSTAGRAM_PROFILE_URL } from "@/lib/instagram/public-instagram";
+import { instagramAccounts } from "@/content/site-config";
 
 /**
  * InstagramFeed — a small grid of recent Instagram posts, reusing this
@@ -27,17 +28,20 @@ function EmptyState() {
       <p className="text-sm text-on-surface-variant max-w-xs">
         Our latest work in progress, behind the scenes, and client moments live on Instagram.
       </p>
-      <a
-        href={INSTAGRAM_PROFILE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-accent-bright hover:opacity-80 transition-opacity"
-      >
-        Follow us on Instagram
-        <span className="material-symbols-outlined text-sm" aria-hidden="true">
-          arrow_forward
-        </span>
-      </a>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        {instagramAccounts.map((account) => (
+          <a
+            key={account.handle}
+            href={account.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-md border border-white/10 px-4 py-2.5 font-mono text-[13px] text-accent-bright transition-colors hover:border-accent-bright/40"
+          >
+            <FaInstagram className="h-4 w-4" aria-hidden="true" />
+            Follow @{account.handle}
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
@@ -76,10 +80,13 @@ function PostCard({ post, index }: { post: InstagramPost; index: number }) {
           {post.mediaType === "VIDEO" ? "play_arrow" : "account_tree"}
         </span>
       )}
-      {caption && (
-        <p className="absolute bottom-2.5 left-3 right-3 line-clamp-2 text-xs text-white/85 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          {caption}
-        </p>
+      {(caption || post.accountHandle) && (
+        <div className="absolute bottom-2.5 left-3 right-3 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200">
+          {post.accountHandle && (
+            <p className="font-mono text-[11px] text-accent-bright">@{post.accountHandle}</p>
+          )}
+          {caption && <p className="line-clamp-2 text-xs text-white/85">{caption}</p>}
+        </div>
       )}
     </motion.a>
   );
@@ -91,14 +98,19 @@ export default function InstagramFeed({ posts }: { posts: InstagramPost[] }) {
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         <div className="mb-7 flex items-center justify-between gap-4">
           <div className="font-mono text-[13px] text-white/40">on instagram</div>
-          <a
-            href={INSTAGRAM_PROFILE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-[11px] text-white/30 hover:text-accent-bright transition-colors duration-150"
-          >
-            @gileara.tech
-          </a>
+          <div className="flex items-center gap-4">
+            {instagramAccounts.map((account) => (
+              <a
+                key={account.handle}
+                href={account.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-[12px] text-white/40 hover:text-accent-bright transition-colors duration-150"
+              >
+                @{account.handle}
+              </a>
+            ))}
+          </div>
         </div>
 
         {posts.length === 0 ? (

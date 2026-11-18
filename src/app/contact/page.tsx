@@ -5,7 +5,7 @@ import PageHero from "@/components/PageHero";
 import ContactStepper from "@/components/scheduling/ContactStepper";
 
 import { FaWhatsapp } from "react-icons/fa6";
-import { siteConfig } from "@/content/site-config";
+import { siteConfig, socialProfiles } from "@/content/site-config";
 
 export const metadata: Metadata = {
   title: "Talk to Gileara | Gileara Technologies",
@@ -112,7 +112,7 @@ const jsonLd = {
         { "@type": "Place", name: "Worldwide" },
       ],
       contactPoint,
-      sameAs: ["https://www.linkedin.com/company/gileara"],
+      sameAs: socialProfiles.map((p) => p.url),
     },
   ],
 };

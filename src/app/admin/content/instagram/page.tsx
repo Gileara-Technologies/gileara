@@ -11,6 +11,8 @@
 
 import { listInstagramPosts } from "@/lib/instagram/db";
 import type { InstagramPostRow } from "@/lib/instagram/db";
+import { instagramSecretNames, readInstagramCredentials } from "@/lib/instagram/accounts";
+import { instagramAccounts } from "@/content/site-config";
 import { tryGetCloudflareEnv, tryGetPortalDb } from "../../admin-db";
 import { requireContentEditorSession } from "../../session-guard";
 import { DbUnavailableNotice } from "../../ui";
@@ -19,7 +21,7 @@ import { setInstagramPostVisibleAction, syncInstagramPostsAction } from "../inst
 export const dynamic = "force-dynamic";
 
 interface InstagramPageProps {
-  searchParams: Promise<{ error?: string; synced?: string }>;
+  searchParams: Promise<{ error?: string; synced?: string; partial?: string }>;
 }
 
 const rowButtonClass =
@@ -37,10 +39,10 @@ const ERROR_MESSAGES: Record<string, string> = {
   invalid: "That action was not valid, so nothing changed.",
   save: "That change could not be saved, so nothing changed.",
   "sync-failed":
-    "Instagram sync failed. Check that INSTAGRAM_ACCESS_TOKEN and INSTAGRAM_BUSINESS_ACCOUNT_ID are set (Cloudflare Secrets) and that the access token has not expired.",
+    "Instagram sync failed. Check that each account's access token and account id are set as Cloudflare Secrets (see the account list below) and that the tokens have not expired.",
 };
 
-function StatusBanner({ error, synced }: { error?: string; synced?: string }) {
+function StatusBanner({ error, synced, partial }: { error?: string; synced?: string; partial?: string }) {
   if (error) {
     const message = ERROR_MESSAGES[error] ?? "Something went wrong, so nothing changed.";
     return (
@@ -68,11 +70,47 @@ function StatusBanner({ error, synced }: { error?: string; synced?: string }) {
         </span>
         <p>
           Synced {label} post{label === 1 ? "" : "s"} from Instagram.
+          {partial === "1" && " One account failed to sync, so its posts were not refreshed. Check its token."}
         </p>
       </div>
     );
   }
   return null;
+}
+
+function AccountStatusList({ env }: { env: Record<string, unknown> }) {
+  return (
+    <div className="op-card rounded-lg p-4">
+      <p className="text-xs uppercase tracking-wide text-on-surface-variant mb-3">Accounts</p>
+      <ul className="space-y-2">
+        {instagramAccounts.map((account) => {
+          const configured = readInstagramCredentials(env, account) !== null;
+          const names = instagramSecretNames(account);
+          return (
+            <li key={account.handle} className="flex flex-wrap items-center justify-between gap-2 text-sm">
+              <a href={account.url} target="_blank" rel="noopener noreferrer" className="font-medium hover:text-primary">
+                @{account.handle}
+              </a>
+              <span className="flex items-center gap-2">
+                <code className="font-mono text-xs text-on-surface-variant">
+                  {names.token} + {names.accountId}
+                </code>
+                <span
+                  className={`inline-flex items-center rounded-pill px-2.5 py-0.5 text-xs font-medium ${
+                    configured
+                      ? "bg-secondary-container text-on-secondary-container"
+                      : "bg-tertiary-container text-on-tertiary-container"
+                  }`}
+                >
+                  {configured ? "Configured" : "Not set"}
+                </span>
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
 }
 
 function InstagramHeader() {
@@ -155,7 +193,10 @@ function PostRowItem({ post }: { post: InstagramPostRow }) {
         >
           {caption || post.id}
         </a>
-        <p className="mt-0.5 line-clamp-1 text-xs text-on-surface-variant">{post.media_type}</p>
+        <p className="mt-0.5 line-clamp-1 text-xs text-on-surface-variant">
+          {post.account_handle ? `@${post.account_handle} · ` : ""}
+          {post.media_type}
+        </p>
       </td>
       <td className="px-4 py-3 font-mono text-xs text-on-surface-variant">{post.posted_at}</td>
       <td className="px-4 py-3">
@@ -177,7 +218,7 @@ function PostRowItem({ post }: { post: InstagramPostRow }) {
 }
 
 export default async function InstagramAdminPage({ searchParams }: InstagramPageProps) {
-  const { error, synced } = await searchParams;
+  const { error, synced, partial } = await searchParams;
   await requireContentEditorSession();
 
   const db = tryGetPortalDb();
@@ -191,11 +232,7 @@ export default async function InstagramAdminPage({ searchParams }: InstagramPage
   }
 
   const env = tryGetCloudflareEnv() ?? {};
-  const configured =
-    typeof env.INSTAGRAM_ACCESS_TOKEN === "string" &&
-    env.INSTAGRAM_ACCESS_TOKEN !== "" &&
-    typeof env.INSTAGRAM_BUSINESS_ACCOUNT_ID === "string" &&
-    env.INSTAGRAM_BUSINESS_ACCOUNT_ID !== "";
+  const configured = instagramAccounts.some((a) => readInstagramCredentials(env, a) !== null);
 
   let posts: InstagramPostRow[] = [];
   let failed = false;
@@ -216,7 +253,7 @@ export default async function InstagramAdminPage({ searchParams }: InstagramPage
   return (
     <div className="space-y-6">
       <InstagramHeader />
-      <StatusBanner error={error} synced={synced} />
+      <StatusBanner error={error} synced={synced} partial={partial} />
       {!configured && (
         <div
           role="status"
@@ -226,12 +263,13 @@ export default async function InstagramAdminPage({ searchParams }: InstagramPage
             cloud_off
           </span>
           <p>
-            INSTAGRAM_ACCESS_TOKEN and INSTAGRAM_BUSINESS_ACCOUNT_ID are not set in this
-            environment. &ldquo;Sync now&rdquo; will fail until a human operator sets both as
-            Cloudflare Secrets -- see docs/INSTAGRAM-CONNECTOR-PLAN.md.
+            No Instagram account has its secrets set in this environment. &ldquo;Sync now&rdquo;
+            will fail until a human operator sets at least one account&apos;s pair as Cloudflare
+            Secrets -- see docs/INSTAGRAM-CONNECTOR-PLAN.md.
           </p>
         </div>
       )}
+      <AccountStatusList env={env} />
       <StatsRow posts={posts} />
       {posts.length === 0 ? (
         <div className="rounded-lg border border-dashed border-outline-variant p-10 text-center">

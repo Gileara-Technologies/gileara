@@ -58,7 +58,7 @@ Security headers (HSTS, nosniff, DENY framing, referrer policy) are applied via 
 - **CSS**: Tailwind utility classes + CSS custom properties in `globals.css` (light/dark `:root` / `.dark` blocks)
 - **Tests live in `tests/`**, mirror `src/` layout, use the `@/` alias; no DOM environment needed yet
 - **Content modules** are the only sources for copy shown in UI or schema: `packages.ts`, `site-config.ts`, `faqs.ts`, `posts.ts`, `scenarios.ts`, `roles.ts`, `team.ts` (Foundation/Roster — fallback for the People CMS), `founders.ts` (JSON-LD Person schema + homepage `<Founders />`, deliberately separate from `team.ts`) — never duplicate their data elsewhere; JSON-LD is generated from them. `faqs.ts`/`posts.ts`/`scenarios.ts`/`team.ts` are specifically the **fallback** half of a D1-first read (see `docs/CMS-PLAN.md`) — content editors' real edits live in D1, not in these files
-- **Icons**: Material Symbols (`material-symbols-outlined`) is the single system for all UI glyphs — svg width/height classes don't apply to it (translate to `text-*` font sizes); react-icons remains ONLY for brand glyphs with no Material equivalent (`FaLinkedin`, `FaWhatsapp`). No other icon libraries (lucide-react removed)
+- **Icons**: Material Symbols (`material-symbols-outlined`) is the single system for all UI glyphs — svg width/height classes don't apply to it (translate to `text-*` font sizes); react-icons remains ONLY for brand glyphs with no Material equivalent (`FaLinkedin`, `FaWhatsapp`, `FaInstagram`). Social profiles (LinkedIn, @gileara, @ins.gileara) live once in `src/content/site-config.ts` (`socialProfiles`, `instagramAccounts`) and feed the footer, the Instagram feed, and Organization JSON-LD `sameAs`. No other icon libraries (lucide-react removed)
 - **Imagery**: optional photo slots on playbook/insight cards come from content-module `image` fields and fall back to a gradient when unset (all six insight posts set one, no scenario does); see `docs/IMAGERY.md` (real Ghanaian and African contexts only, never Western or AI stock)
 - **Design references**: `DESIGN.md` (light) + `stitch_gileara_technologies_website/gileara_velocity_dark/DESIGN.md` (dark, authoritative for the shipped theme); homepage follows Promise → Proof → Objection → Ask section order; pricing renders numbered full-width rows from `src/components/Pricing.tsx`. No marquee ships: the `marquee` keyframes and `animate-marquee` animation in `tailwind.config.js` have no call site under `src/`
 
@@ -78,8 +78,10 @@ Optional vars:
 ```
 MAINTENANCE_MODE=            # non-empty takes the whole site down
 MAINTENANCE_BYPASS_SECRET=   # enables the ?__mbp= bypass cookie exchange
-INSTAGRAM_ACCESS_TOKEN=      # long-lived IG user token; connector is dormant (shows an empty state) until set
-INSTAGRAM_BUSINESS_ACCOUNT_ID= # the IG professional account's numeric id -- see docs/INSTAGRAM-CONNECTOR-PLAN.md
+INSTAGRAM_ACCESS_TOKEN=      # @gileara: long-lived IG user token; connector is dormant (shows follow links) until set
+INSTAGRAM_BUSINESS_ACCOUNT_ID= # @gileara: the IG professional account's numeric id -- see docs/INSTAGRAM-CONNECTOR-PLAN.md
+INSTAGRAM_ACCESS_TOKEN_INS=      # @ins.gileara: same pair, second account
+INSTAGRAM_BUSINESS_ACCOUNT_ID_INS=
 ```
 
 > `.env*.local` is gitignored. **All secrets live in Cloudflare Secrets (encrypted) or `.env.local` (gitignored) — never in `wrangler.toml` `[vars]`, never in any tracked file.** See `docs/SECRETS.md` for the full policy. A pre-commit hook + GitHub Action scan every change for secret patterns; rotations are tracked in `docs/SECRETS-INCIDENTS.md`.

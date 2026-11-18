@@ -41,9 +41,14 @@ When in doubt: **it is a secret.**
 
 ## Instagram connector (docs/INSTAGRAM-CONNECTOR-PLAN.md)
 
-Two more names follow the same rule as everything else above:
+Four more names follow the same rule as everything else above, one pair
+per Instagram account (Instagram Login issues a token per account):
 
+- `INSTAGRAM_ACCESS_TOKEN_INS` / `INSTAGRAM_BUSINESS_ACCOUNT_ID_INS` —
+  the same pair for the second account, **@ins.gileara**. Everything
+  below about the first pair applies to these too.
 - `INSTAGRAM_ACCESS_TOKEN` — a long-lived Instagram User access token
+  for **@gileara**
 - `INSTAGRAM_BUSINESS_ACCOUNT_ID` — not itself sensitive (it is a public
   account id), but kept alongside the token for one reason: there is no
   admin-UI text field for entering either value, so both are set the

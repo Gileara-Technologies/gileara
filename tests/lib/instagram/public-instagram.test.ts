@@ -18,6 +18,7 @@ function row(overrides: Partial<InstagramPostRow> = {}): InstagramPostRow {
     display_order: null,
     visible: true,
     synced_at: "2026-01-01T00:00:00.000Z",
+    account_handle: null,
     ...overrides,
   };
 }
@@ -60,7 +61,7 @@ describe("selectVisibleInstagramPosts", () => {
 
   it("maps D1 column names to the public camelCase shape", () => {
     const result = selectVisibleInstagramPosts(
-      [row({ id: "1", media_type: "VIDEO", thumbnail_url: "https://example.com/thumb.jpg" })],
+      [row({ id: "1", media_type: "VIDEO", thumbnail_url: "https://example.com/thumb.jpg", account_handle: "gileara" })],
       10,
     );
     expect(result[0]).toEqual({
@@ -71,6 +72,7 @@ describe("selectVisibleInstagramPosts", () => {
       caption: "caption",
       thumbnailUrl: "https://example.com/thumb.jpg",
       postedAt: "2026-01-01T00:00:00+0000",
+      accountHandle: "gileara",
     });
   });
 });
@@ -84,7 +86,7 @@ describe("getPublicInstagramPosts without a Cloudflare context", () => {
 });
 
 describe("INSTAGRAM_PROFILE_URL", () => {
-  it("is a well-formed instagram.com URL", () => {
-    expect(INSTAGRAM_PROFILE_URL).toMatch(/^https:\/\/www\.instagram\.com\//);
+  it("points at the primary account, @gileara", () => {
+    expect(INSTAGRAM_PROFILE_URL).toBe("https://www.instagram.com/gileara/");
   });
 });

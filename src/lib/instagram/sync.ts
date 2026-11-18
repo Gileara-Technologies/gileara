@@ -103,8 +103,8 @@ function toCacheRow(value: unknown): CacheRow | null {
 
 const UPSERT_INSTAGRAM_POST = `
   INSERT INTO cms_instagram_posts
-    (id, media_type, media_url, permalink, caption, thumbnail_url, posted_at, synced_at)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    (id, media_type, media_url, permalink, caption, thumbnail_url, posted_at, synced_at, account_handle)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   ON CONFLICT(id) DO UPDATE SET
     media_type = excluded.media_type,
     media_url = excluded.media_url,
@@ -112,7 +112,8 @@ const UPSERT_INSTAGRAM_POST = `
     caption = excluded.caption,
     thumbnail_url = excluded.thumbnail_url,
     posted_at = excluded.posted_at,
-    synced_at = excluded.synced_at
+    synced_at = excluded.synced_at,
+    account_handle = excluded.account_handle
 `;
 
 export interface SyncInstagramPostsDeps {
@@ -123,6 +124,9 @@ export interface SyncInstagramPostsDeps {
   accessToken: string | undefined;
   /** `INSTAGRAM_BUSINESS_ACCOUNT_ID` from the caller's env. */
   businessAccountId: string | undefined;
+  /** Which account these posts belong to, e.g. "gileara" (no "@").
+   *  Stored on every upserted row so the public feed can label it. */
+  accountHandle?: string;
   /** How many of the most recent media objects to request. Defaults to 25. */
   limit?: number;
   /** Injectable clock for `synced_at`, defaulting to the real time. */
@@ -219,6 +223,7 @@ export async function syncInstagramPosts(
           row.thumbnailUrl,
           row.postedAt,
           syncedAt,
+          deps.accountHandle ?? null,
         )
         .run();
     }

@@ -3,8 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaLinkedin } from "react-icons/fa6";
-import { siteConfig } from "@/content/site-config";
+import { FaInstagram, FaLinkedin } from "react-icons/fa6";
+import { siteConfig, socialProfiles, type SocialPlatform } from "@/content/site-config";
+
+const SOCIAL_ICONS: Record<SocialPlatform, typeof FaLinkedin> = {
+  linkedin: FaLinkedin,
+  instagram: FaInstagram,
+};
 import NewsletterForm from "@/components/NewsletterForm";
 
 /**
@@ -91,15 +96,24 @@ export default function Footer() {
             <p className="font-mono text-[11px] text-white/20 mb-4">
               {siteConfig.location}<br />{siteConfig.timezone}
             </p>
-            <a
-              href="https://www.linkedin.com/company/gileara"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white/30 hover:text-accent-bright transition-colors duration-150"
-            >
-              <FaLinkedin className="w-4 h-4" />
-              <span className="font-mono text-[11px]">LinkedIn</span>
-            </a>
+            <ul className="space-y-1" aria-label="Gileara on social media">
+              {socialProfiles.map((profile) => {
+                const Icon = SOCIAL_ICONS[profile.platform];
+                return (
+                  <li key={profile.url}>
+                    <a
+                      href={profile.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 py-1 text-white/40 hover:text-accent-bright transition-colors duration-150"
+                    >
+                      <Icon className="w-4 h-4" aria-hidden="true" />
+                      <span className="font-mono text-[12px]">{profile.label}</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           {columns.map((col) => (

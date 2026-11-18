@@ -20,6 +20,7 @@ interface FakeRow {
   display_order: number | null;
   visible: number;
   synced_at: string;
+  account_handle?: string | null;
 }
 
 function makeFakeD1(seeded: FakeRow[] = []) {
@@ -41,8 +42,8 @@ function makeFakeD1(seeded: FakeRow[] = []) {
         },
         async run() {
           if (sql.includes("INSERT INTO cms_instagram_posts")) {
-            const [id, mediaType, mediaUrl, permalink, caption, thumbnailUrl, postedAt, syncedAt] =
-              binds as [string, string, string, string, string | null, string | null, string, string];
+            const [id, mediaType, mediaUrl, permalink, caption, thumbnailUrl, postedAt, syncedAt, accountHandle] =
+              binds as [string, string, string, string, string | null, string | null, string, string, string | null];
             const existing = rows.find((r) => r.id === id);
             if (existing) {
               existing.media_type = mediaType;
@@ -52,6 +53,7 @@ function makeFakeD1(seeded: FakeRow[] = []) {
               existing.thumbnail_url = thumbnailUrl;
               existing.posted_at = postedAt;
               existing.synced_at = syncedAt;
+              existing.account_handle = accountHandle;
               // display_order / visible are deliberately untouched.
             } else {
               rows.push({
@@ -65,6 +67,7 @@ function makeFakeD1(seeded: FakeRow[] = []) {
                 display_order: null,
                 visible: 1,
                 synced_at: syncedAt,
+                account_handle: accountHandle,
               });
             }
             return { success: true, meta: { last_row_id: null } };
@@ -187,6 +190,28 @@ describe("syncInstagramPosts", () => {
     expect(result.fetched).toBe(1);
     expect(rows).toHaveLength(1);
     expect(rows[0].id).toBe("ok1");
+  });
+
+  it("stores the account handle on every upserted row, and null when none is given", async () => {
+    const item = { id: "p1", media_type: "IMAGE", media_url: "https://x/a.jpg", permalink: "https://x/p/a", timestamp: "2026-01-01T00:00:00+0000" };
+    const withHandle = makeFakeD1();
+    await syncInstagramPosts({
+      db: withHandle.db,
+      fetchFn: vi.fn().mockResolvedValue(jsonResponse(200, { data: [item] })),
+      accessToken: "t",
+      businessAccountId: "1",
+      accountHandle: "ins.gileara",
+    });
+    expect(withHandle.rows[0].account_handle).toBe("ins.gileara");
+
+    const withoutHandle = makeFakeD1();
+    await syncInstagramPosts({
+      db: withoutHandle.db,
+      fetchFn: vi.fn().mockResolvedValue(jsonResponse(200, { data: [item] })),
+      accessToken: "t",
+      businessAccountId: "1",
+    });
+    expect(withoutHandle.rows[0].account_handle).toBeNull();
   });
 
   it("returns ok:false with the Graph API's own error message on a non-OK response", async () => {

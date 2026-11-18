@@ -26,6 +26,8 @@ export interface InstagramPostRow {
   display_order: number | null;
   visible: boolean;
   synced_at: string;
+  /** "gileara" / "ins.gileara" (no "@"); null for rows synced before migration 0009. */
+  account_handle: string | null;
 }
 
 const SELECT_INSTAGRAM_POSTS =
@@ -62,6 +64,7 @@ function toInstagramPostRow(value: unknown): InstagramPostRow | null {
     // test fake may already use a boolean -- accept either.
     visible: row.visible === 1 || row.visible === true,
     synced_at: typeof row.synced_at === "string" ? row.synced_at : "",
+    account_handle: typeof row.account_handle === "string" && row.account_handle !== "" ? row.account_handle : null,
   };
 }
 

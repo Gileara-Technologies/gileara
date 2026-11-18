@@ -12,7 +12,7 @@ import FoundingClient from "@/components/FoundingClient";
 import ContactBand from "@/components/ContactBand";
 import Footer from "@/components/Footer";
 import { servicePackages, customServices, MANAGED_SERVICES_NOTE } from "@/content/packages";
-import { siteConfig } from "@/content/site-config";
+import { siteConfig, socialProfiles } from "@/content/site-config";
 import { founders } from "@/content/founders";
 import { getPublicInstagramPosts } from "@/lib/instagram/public-instagram";
 
@@ -76,7 +76,7 @@ const jsonLd = {
         email: siteConfig.email,
         contactType: "sales",
       },
-      sameAs: ["https://www.linkedin.com/company/gileara"],
+      sameAs: socialProfiles.map((p) => p.url),
       address: {
         "@type": "PostalAddress",
         addressCountry: "GH",
@@ -94,7 +94,7 @@ const jsonLd = {
         "We build the systems your business runs on — the operations, sales, customer, and reporting infrastructure small business can't build alone. Currently piloting in Ghana, designed to scale globally.",
       foundingDate: "2024",
       email: siteConfig.email,
-      sameAs: ["https://www.linkedin.com/company/gileara"],
+      sameAs: socialProfiles.map((p) => p.url),
       address: {
         "@type": "PostalAddress",
         addressCountry: "GH",

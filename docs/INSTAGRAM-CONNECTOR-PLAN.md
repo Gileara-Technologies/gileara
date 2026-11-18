@@ -1,18 +1,35 @@
 # Instagram Connector Plan
 
-**Status**: Built, wired, and **dormant**. Every file in this plan is in the
-tree as uncommitted changes: the migration, the sync/public-read data
-layer, the homepage component, and the admin status page all exist and
-compile/lint/test clean. Nothing has run against the real Instagram API
-yet because that requires two secrets only a human operator can produce
-(a Meta Developer App and a completed Business Login for Instagram flow)
-— there is no API access in this environment to provision them, unlike
-Cloudflare, which had real `wrangler` auth available in earlier work on
-this project. Until `INSTAGRAM_ACCESS_TOKEN` and
-`INSTAGRAM_BUSINESS_ACCOUNT_ID` are set as Cloudflare Secrets, the
-homepage section renders its "Follow us on Instagram" empty state and
-the admin page shows an unconfigured notice — the site works correctly
-either way.
+**Status**: Built, committed, and **dormant**. Migrations 0008 and 0009
+are applied to the production D1 database. Nothing has run against the
+real Instagram API yet because that requires secrets only a human
+operator can produce (a Meta Developer App and a completed Business
+Login for Instagram flow per account) — there is no API access in this
+environment to provision them. Until they are set as Cloudflare Secrets,
+the homepage section renders "Follow @gileara" / "Follow @ins.gileara"
+links instead of posts and the admin page shows each account as "Not
+set" — the site works correctly either way.
+
+## Two accounts (added 2026-11-18)
+
+The site pulls from **@gileara** and **@ins.gileara**, listed once in
+`src/content/site-config.ts` (`instagramAccounts`) and reused by the
+footer, the homepage feed, the admin page, and Organization JSON-LD
+`sameAs`. Instagram Login issues a token per account, so each account
+has its own pair of Cloudflare Secrets:
+
+| Account | Token secret | Account-id secret |
+|---|---|---|
+| @gileara | `INSTAGRAM_ACCESS_TOKEN` | `INSTAGRAM_BUSINESS_ACCOUNT_ID` |
+| @ins.gileara | `INSTAGRAM_ACCESS_TOKEN_INS` | `INSTAGRAM_BUSINESS_ACCOUNT_ID_INS` |
+
+The original names were kept for @gileara so nothing already set
+breaks. Run the operator steps below once per account. "Sync now" syncs
+every account that has both secrets set, skips the rest, and reports a
+partial failure separately from a full one. Each cached row records its
+`account_handle` (migration 0009), shown as a label on the public feed.
+Wherever the rest of this document says "the two secrets," read "the two
+secrets for that account."
 
 ## Goal
 

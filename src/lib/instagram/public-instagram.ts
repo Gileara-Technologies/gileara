@@ -21,11 +21,11 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { D1Like } from "@/lib/portal/db";
 import { listInstagramPosts, type InstagramPostRow } from "@/lib/instagram/db";
+import { instagramAccounts } from "@/content/site-config";
 
-/** Placeholder until a human operator confirms the real handle -- same
- *  "TODO, replace with the real value" convention as src/content/site-config.ts's
- *  phone/WhatsApp placeholders. */
-export const INSTAGRAM_PROFILE_URL = "https://www.instagram.com/gileara.tech/"; // TODO: confirm real handle
+/** The primary account (@gileara) -- the default "follow us" link. Both
+ *  accounts are listed in src/content/site-config.ts's `instagramAccounts`. */
+export const INSTAGRAM_PROFILE_URL: string = instagramAccounts[0].url;
 
 export interface InstagramPost {
   id: string;
@@ -35,6 +35,8 @@ export interface InstagramPost {
   caption: string | null;
   thumbnailUrl: string | null;
   postedAt: string;
+  /** "gileara" / "ins.gileara" (no "@"), or null for rows synced before migration 0009. */
+  accountHandle: string | null;
 }
 
 function toPublicPost(row: InstagramPostRow): InstagramPost {
@@ -46,6 +48,7 @@ function toPublicPost(row: InstagramPostRow): InstagramPost {
     caption: row.caption,
     thumbnailUrl: row.thumbnail_url,
     postedAt: row.posted_at,
+    accountHandle: row.account_handle,
   };
 }
 
