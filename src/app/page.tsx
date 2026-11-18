@@ -175,14 +175,19 @@ const jsonLd = {
         { "@type": "Place", name: "Worldwide" },
       ],
       category: pkg.primaryGoal,
+      // Starter's monthly fee, not the setup fee: three of the five
+      // packages have no onboarding fee at all (setupFeeGhs: 0), which
+      // would read as "price: 0" (free) to a crawler -- the monthly
+      // subscription is the real, always-defined recurring price point.
       offers: {
         "@type": "Offer",
-        priceCurrency: "USD",
-        price: pkg.tiers[0].setupFeeUsd,
+        priceCurrency: "GHS",
+        price: pkg.tiers[0].monthlyFeeGhs,
         priceSpecification: {
-          "@type": "CompoundPriceSpecification",
-          price: pkg.tiers[0].setupFeeUsd,
-          priceCurrency: "USD",
+          "@type": "UnitPriceSpecification",
+          price: pkg.tiers[0].monthlyFeeGhs,
+          priceCurrency: "GHS",
+          unitText: "month",
           valueAddedTaxIncluded: true,
         },
       },

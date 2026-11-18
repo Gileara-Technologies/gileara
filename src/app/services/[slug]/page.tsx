@@ -67,20 +67,28 @@ export default async function ServicePage({
           { "@type": "Place", name: "Worldwide" },
         ],
         category: service.primaryGoal,
-        offers: service.tiers.map((tier) => ({
-          "@type": "Offer",
-          name: `Gileara ${service.name} — ${tier.name}`,
-          category: service.name,
-          priceCurrency: "USD",
-          price: tier.monthlyFeeUsd,
-          priceSpecification: {
-            "@type": "UnitPriceSpecification",
-            priceCurrency: "USD",
-            price: tier.monthlyFeeUsd,
-            unitText: "month",
-          },
-          description: `Setup $${tier.setupFeeUsd.toLocaleString("en-US")} + $${tier.monthlyFeeUsd}/month — ${tier.deliveryTime} delivery.`,
-        })),
+        // Premium has no published figure on any package ("Contact
+        // Sales") -- filtered out rather than emitting a schema.org
+        // Offer with a null price.
+        offers: service.tiers
+          .filter((tier): tier is typeof tier & { monthlyFeeGhs: number } => tier.monthlyFeeGhs !== null)
+          .map((tier) => ({
+            "@type": "Offer",
+            name: `Gileara ${service.name} — ${tier.name}`,
+            category: service.name,
+            priceCurrency: "GHS",
+            price: tier.monthlyFeeGhs,
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              priceCurrency: "GHS",
+              price: tier.monthlyFeeGhs,
+              unitText: "month",
+            },
+            description:
+              tier.setupFeeGhs && tier.setupFeeGhs > 0
+                ? `Setup GHS ${tier.setupFeeGhs.toLocaleString("en-US")} + GHS ${tier.monthlyFeeGhs}/month — ${tier.deliveryTime} delivery.`
+                : `No onboarding fee + GHS ${tier.monthlyFeeGhs}/month — ${tier.deliveryTime} delivery.`,
+          })),
       },
       {
         "@type": "FAQPage",

@@ -140,12 +140,20 @@ export default function ServicesPageClient() {
                     <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-2">
                       {t.name}
                     </div>
-                    <div className="font-mono text-2xl text-on-background leading-none">
-                      ${t.monthlyFeeUsd}
-                      <span className="text-xs font-sans text-on-surface-variant">/mo</span>
-                    </div>
+                    {t.monthlyFeeGhs === null ? (
+                      <div className="font-mono text-xl text-on-background leading-none">Contact Sales</div>
+                    ) : (
+                      <div className="font-mono text-2xl text-on-background leading-none">
+                        GHS {t.monthlyFeeGhs.toLocaleString("en-US")}
+                        <span className="text-xs font-sans text-on-surface-variant">/mo</span>
+                      </div>
+                    )}
                     <div className="text-[11px] text-on-surface-variant mt-2">
-                      ${t.setupFeeUsd.toLocaleString("en-US")} setup
+                      {t.monthlyFeeGhs === null
+                        ? "scoped at the discovery call"
+                        : t.setupFeeGhs
+                          ? `GHS ${t.setupFeeGhs.toLocaleString("en-US")} setup`
+                          : "no onboarding fee"}
                     </div>
                   </div>
                 ))}
@@ -305,11 +313,11 @@ function PricingRow({
         <div className="flex items-center gap-6 shrink-0">
           <div className="text-right hidden sm:block">
             <div className="font-mono text-lg text-on-background">
-              ${basic.monthlyFeeUsd.toLocaleString("en-US")}
+              GHS {basic.monthlyFeeGhs?.toLocaleString("en-US")}
               <span className="text-xs font-sans text-on-surface-variant">/mo</span>
             </div>
             <div className="font-mono text-[11px] text-on-surface-variant mt-0.5">
-              from ${basic.setupFeeUsd.toLocaleString("en-US")} setup
+              {basic.setupFeeGhs ? `from GHS ${basic.setupFeeGhs.toLocaleString("en-US")} setup` : "no onboarding fee"}
             </div>
           </div>
           <motion.span
@@ -351,21 +359,27 @@ function PricingRow({
                         </div>
                       )}
                     </div>
-                    <div className="font-mono text-3xl text-on-background leading-none mb-1">
-                      ${t.monthlyFeeUsd}
-                      <span className="text-sm font-sans text-on-surface-variant">/mo</span>
-                    </div>
-                    <div className="text-sm text-on-surface-variant mb-1">
-                      ${t.setupFeeUsd.toLocaleString("en-US")} one-time setup
-                    </div>
+                    {t.monthlyFeeGhs === null ? (
+                      <div className="font-mono text-2xl text-on-background leading-none mb-1">Contact Sales</div>
+                    ) : (
+                      <div className="font-mono text-3xl text-on-background leading-none mb-1">
+                        GHS {t.monthlyFeeGhs.toLocaleString("en-US")}
+                        <span className="text-sm font-sans text-on-surface-variant">/mo</span>
+                      </div>
+                    )}
+                    {t.monthlyFeeGhs !== null && (
+                      <div className="text-sm text-on-surface-variant mb-1">
+                        {t.setupFeeGhs ? `GHS ${t.setupFeeGhs.toLocaleString("en-US")} one-time setup` : "No onboarding fee"}
+                      </div>
+                    )}
                     <div className="text-xs text-on-surface-variant font-mono uppercase tracking-wider">
-                      {t.deliveryTime} delivery
+                      {t.monthlyFeeGhs === null ? t.deliveryTime : `${t.deliveryTime} delivery`}
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Feature matrix (or solutions list for Automation) */}
+              {/* Feature matrix */}
               {service.features && service.features.length > 0 && (
                 <div className="border border-on-background/15 rounded-lg overflow-hidden bg-surface mb-8">
                   <table className="w-full text-sm">
@@ -375,13 +389,13 @@ function PricingRow({
                           Feature
                         </th>
                         <th className="text-center px-3 py-4 font-mono text-label uppercase tracking-[0.15em] text-on-surface-variant">
-                          Basic
+                          Starter
                         </th>
                         <th className="text-center px-3 py-4 font-mono text-label uppercase tracking-[0.15em] text-accent-bright">
-                          Professional
+                          Growth
                         </th>
                         <th className="text-center px-3 py-4 font-mono text-label uppercase tracking-[0.15em] text-on-surface-variant">
-                          Enterprise
+                          Premium
                         </th>
                       </tr>
                     </thead>
@@ -390,13 +404,13 @@ function PricingRow({
                         <tr key={f.feature} className="border-b border-on-background/10 last:border-0">
                           <td className="px-5 py-3 text-on-background">{f.feature}</td>
                           <td className="text-center px-3 py-3 text-on-surface-variant">
-                            {f.basic ?? <span className="text-on-background/30">—</span>}
+                            {f.starter ?? <span className="text-on-background/30">—</span>}
                           </td>
                           <td className="text-center px-3 py-3 text-on-surface-variant">
-                            {f.professional ?? <span className="text-on-background/30">—</span>}
+                            {f.growth ?? <span className="text-on-background/30">—</span>}
                           </td>
                           <td className="text-center px-3 py-3 text-on-surface-variant">
-                            {f.enterprise ?? <span className="text-on-background/30">—</span>}
+                            {f.premium ?? <span className="text-on-background/30">—</span>}
                           </td>
                         </tr>
                       ))}
@@ -405,23 +419,34 @@ function PricingRow({
                 </div>
               )}
 
-              {service.solutions && service.solutions.length > 0 && (
+              {/* Add-ons */}
+              {service.addOns && service.addOns.length > 0 && (
                 <div className="border border-on-background/15 rounded-lg overflow-hidden bg-surface p-6 mb-8">
                   <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-4">
-                    Solutions included
+                    Add-ons
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                    {service.solutions.map((s) => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {service.addOns.map((a) => (
                       <div
-                        key={s}
-                        className="flex items-center gap-3 px-4 py-3 rounded-md bg-surface-container"
+                        key={a.name}
+                        className="flex items-center justify-between gap-3 px-4 py-3 rounded-md bg-surface-container"
                       >
-                        <span className="material-symbols-outlined text-accent-bright text-base">check_circle</span>
-                        <span className="text-on-background text-sm">{s}</span>
+                        <span className="text-on-background text-sm">{a.name}</span>
+                        <span className="text-on-surface-variant text-xs font-mono shrink-0">{a.price}</span>
                       </div>
                     ))}
                   </div>
                 </div>
+              )}
+
+              {service.pricingNote && (
+                <p className="text-on-surface-variant text-sm italic mb-4 max-w-[72ch]">{service.pricingNote}</p>
+              )}
+              {service.exclusionsNote && (
+                <p className="text-on-surface-variant text-xs mb-8 max-w-[72ch]">
+                  <span className="font-mono uppercase tracking-wider text-on-surface-variant/70">Not included: </span>
+                  {service.exclusionsNote}
+                </p>
               )}
 
               <div className="flex flex-col sm:flex-row gap-3">

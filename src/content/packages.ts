@@ -1,7 +1,13 @@
 /**
- * Single source of truth for Gileara's five recurring services, seeded
- * from Ideaverse Strategy §3 (tech-wing-consolidated-strategy.md,
- * service-catalogue v3.0, USD all-inclusive pricing).
+ * Single source of truth for Gileara's five recurring services.
+ *
+ * Commercial data (tiers, pricing, features, add-ons, exclusions) was
+ * replaced wholesale from the Ideaverse service-catalogue v9.0 packages
+ * (C:\Users\rodne\Documents\Ideaverse\Gileara\BusinessDevelopment\Packages\*.md,
+ * revised 2026-10-31 / 2026-11-17) — see docs/AUTOPILOT-10X-PLAN.md
+ * "Workstream 1" for the full decision log on what changed and why.
+ * Landing-page narrative content (problems/observations/howWeHelp/
+ * outcomes) was NOT in that source and is untouched here.
  *
  * Consumers: /services (pricing sheet), /services/[slug] (landing pages),
  * homepage Services section, booking-flow goals, FAQ answers, JSON-LD
@@ -14,20 +20,34 @@
 
 export type ServiceStatus = "available" | "rollout";
 
+export type ServiceTierName = "Starter" | "Growth" | "Premium";
+
 export interface ServiceTier {
-  name: "Basic" | "Professional" | "Enterprise";
-  setupFeeUsd: number;
-  monthlyFeeUsd: number;
-  /** Delivery duration, e.g. "4–6 weeks" */
+  name: ServiceTierName;
+  /**
+   * One-time setup/onboarding fee in GHS. `0` means "no onboarding fee"
+   * — a real, published fact for that tier (Business Operations,
+   * Customer Growth, and Business Intelligence are subscription-only).
+   * `null` means "Contact Sales": every package's Premium tier has no
+   * published figure, so there is nothing honest to show here — see
+   * PREMIUM_CONTACT_SALES_NOTE.
+   */
+  setupFeeGhs: number | null;
+  /** Monthly fee in GHS. `null` means "Contact Sales" (Premium only). */
+  monthlyFeeGhs: number | null;
+  /** Delivery duration, e.g. "14 days", or "Scoped at the discovery call" for Premium. */
   deliveryTime: string;
+  /** Customer Growth only: this tier's annual-prepay price and discount. */
+  annualPrepayGhs?: number;
+  annualPrepayDiscountPct?: number;
 }
 
 export interface ServiceFeatureRow {
   feature: string;
   /** undefined = not included at this tier; otherwise "Yes" or a specific value */
-  basic?: string;
-  professional?: string;
-  enterprise?: string;
+  starter?: string;
+  growth?: string;
+  premium?: string;
 }
 
 /** A single identified problem the service addresses. Shown on the landing page. */
@@ -60,6 +80,29 @@ export interface ServiceSolution {
   images?: { src: string; alt: string }[];
 }
 
+/** A one-time or recurring add-on that bolts onto Starter or Growth.
+ *  `price` is a prose string, not a typed number: add-ons mix one-time,
+ *  recurring, and "Quote on request" shapes too irregularly for one
+ *  numeric field to earn its keep. */
+export interface ServiceAddOn {
+  name: string;
+  price: string;
+}
+
+/** Automation & Efficiency only: outcome-based pricing for
+ *  customer-facing automation (chatbot/WhatsApp conversational work). */
+export interface OutcomePriceLine {
+  type: string;
+  priceLabel: string;
+}
+
+/** A usage allowance metered beyond a package's base subscription. */
+export interface MeteredAllowance {
+  usage: string;
+  includedAllowance: string;
+  overageRate: string;
+}
+
 export interface Service {
   id: string;
   slug: string;
@@ -75,10 +118,21 @@ export interface Service {
   targetCustomers: string[];
   status: ServiceStatus;
   tiers: ServiceTier[];
-  /** Tier comparison matrix; absent for Automation (solutions list instead) */
+  /** Tier comparison matrix — every package has one now (replaces the old solutions-list shape). */
   features?: ServiceFeatureRow[];
-  /** Automation-only solution list */
-  solutions?: string[];
+  /** Add-ons that bolt onto Starter or Growth. */
+  addOns?: ServiceAddOn[];
+  /** Prose line(s) on what this package does not include. */
+  exclusionsNote?: string;
+  /** A package-specific pricing callout shown near the tier cards (annual prepay, "no onboarding fee", an upsell-only notice, etc). */
+  pricingNote?: string;
+  /** True only for Business Intelligence: an expansion offer for existing Business Operations clients, never sold cold or standalone. */
+  expansionOnly?: boolean;
+  /** Automation & Efficiency only: outcome-based pricing lines for customer-facing automation. */
+  outcomePricing?: OutcomePriceLine[];
+  outcomePricingCapNote?: string;
+  /** Usage allowances metered beyond the base subscription (Customer Growth, Business Intelligence, Automation & Efficiency). */
+  meteredAllowances?: MeteredAllowance[];
 
   // ── Landing-page content (per-service) ───────────────────────────
   /** Hero image (large, right-side portrait) */
@@ -100,6 +154,15 @@ export interface Service {
 export const MANAGED_SERVICES_NOTE =
   "Every service includes managed services from day one: IT support, software updates, backups, security monitoring (tier-based), SLA support, and dedicated engineering (Enterprise). All of it is included, with no hidden costs.";
 
+/** Shown wherever a Premium tier has no published figure. */
+export const PREMIUM_CONTACT_SALES_NOTE =
+  "Premium is a scoping conversation — tell us what you need and we'll quote it after a free discovery call.";
+
+/** `GHS 1,234` — the one formatter every price in this file renders through. */
+export function formatGhs(amountGhs: number): string {
+  return `GHS ${amountGhs.toLocaleString("en-US")}`;
+}
+
 export const servicePackages: Service[] = [
   {
     id: "digital-foundation",
@@ -119,24 +182,34 @@ export const servicePackages: Service[] = [
     ],
     status: "available",
     tiers: [
-      { name: "Basic", setupFeeUsd: 550, monthlyFeeUsd: 85, deliveryTime: "2–3 weeks" },
-      { name: "Professional", setupFeeUsd: 1300, monthlyFeeUsd: 240, deliveryTime: "4–6 weeks" },
-      { name: "Enterprise", setupFeeUsd: 2700, monthlyFeeUsd: 705, deliveryTime: "6–10 weeks" },
+      { name: "Starter", setupFeeGhs: 3500, monthlyFeeGhs: 250, deliveryTime: "7 days" },
+      { name: "Growth", setupFeeGhs: 5500, monthlyFeeGhs: 400, deliveryTime: "30 days" },
+      { name: "Premium", setupFeeGhs: null, monthlyFeeGhs: null, deliveryTime: "Scoped at the discovery call" },
     ],
     features: [
-      { feature: "Business Website", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Mobile Responsive Design", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Domain Setup", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Business Email Setup", basic: "3 accounts", professional: "10 accounts", enterprise: "Unlimited" },
-      { feature: "Google Business Profile", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Analytics Setup", basic: "Basic", professional: "Advanced", enterprise: "Custom Dashboard" },
-      { feature: "SEO Setup", basic: "Basic", professional: "Standard", enterprise: "Advanced" },
-      { feature: "Content Management System", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Blog/News Section", basic: "Optional", professional: "Yes", enterprise: "Yes" },
-      { feature: "Online Booking", professional: "Yes", enterprise: "Yes" },
-      { feature: "Customer Portal", enterprise: "Yes" },
-      { feature: "Managed Services Level", basic: "Basic", professional: "Professional", enterprise: "Enterprise" },
+      { feature: "Website", starter: "5 pages", growth: "10 pages + blog", premium: "Contact Sales" },
+      { feature: "Mobile-responsive design", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Domain setup", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Google Business Profile", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Content management system", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "SEO setup", starter: "Basic", growth: "Standard", premium: "Yes" },
+      { feature: "Analytics", starter: "Basic", growth: "Advanced", premium: "Yes" },
+      { feature: "Online booking system", growth: "Yes", premium: "Yes" },
+      { feature: "FAQ / chat widget", growth: "Yes", premium: "Yes" },
+      { feature: "Customer portal, custom integrations, dedicated engineer", premium: "Yes" },
     ],
+    addOns: [
+      { name: "Google Workspace setup", price: "GHS 500" },
+      { name: "Online Booking System (if not in your tier)", price: "GHS 650" },
+      { name: "Customer Portal", price: "GHS 650" },
+      { name: "Advanced / Custom Analytics Dashboard", price: "GHS 500" },
+      { name: "Advanced SEO Upgrade", price: "GHS 700" },
+      { name: "Content Studio commerce (Growth only)", price: "GHS 4,500" },
+      { name: "Custom Integrations", price: "Quote on request" },
+    ],
+    exclusionsNote:
+      "Domain purchase, hosting charges beyond the retainer, professional photography, content writing, paid advertising budget, and social media management are not included.",
+    pricingNote: "The monthly retainer covers hosting, backups, and IT support — nothing extra to buy to keep the site running.",
 
     // Landing-page content
     heroImage: "/assets/services/digital-foundation-hero.jpg",
@@ -208,7 +281,7 @@ export const servicePackages: Service[] = [
       },
       {
         question: "How long until my site is live?",
-        answer: "Basic: 2–3 weeks. Professional: 4–6 weeks. Enterprise: 6–10 weeks. We share progress every week so you know exactly where things stand.",
+        answer: "Starter: 7 days. Growth: 30 days. Premium: scoped at the discovery call. We share progress every week so you know exactly where things stand.",
       },
     ],
   },
@@ -217,37 +290,48 @@ export const servicePackages: Service[] = [
     slug: "business-operations",
     order: 2,
     name: "Business Operations",
-    tagline: "Replace spreadsheets and paperwork with one system that runs the day-to-day.",
+    tagline: "Make sales, money, and stock add up every day — so you can trust the business without standing over it.",
     heroHeadline: "Run your operations from one place",
     heroAccent: "— not twenty.",
-    primaryGoal: "Digitise daily operations",
+    primaryGoal: "Make sales, money, and stock add up into one trustworthy picture",
     targetCustomers: [
-      "Retail businesses",
-      "Pharmacies",
-      "Schools",
-      "Restaurants",
-      "Distributors",
-      "Service companies",
+      "Retail shops & provision stores",
+      "Pharmacies & chemical shops",
+      "Distributors & wholesalers",
     ],
     status: "rollout",
     tiers: [
-      { name: "Basic", setupFeeUsd: 1625, monthlyFeeUsd: 140, deliveryTime: "4–6 weeks" },
-      { name: "Professional", setupFeeUsd: 3800, monthlyFeeUsd: 325, deliveryTime: "8–12 weeks" },
-      { name: "Enterprise", setupFeeUsd: 8150, monthlyFeeUsd: 870, deliveryTime: "3–6 months" },
+      { name: "Starter", setupFeeGhs: 0, monthlyFeeGhs: 275, deliveryTime: "14 days" },
+      { name: "Growth", setupFeeGhs: 0, monthlyFeeGhs: 385, deliveryTime: "30 days" },
+      { name: "Premium", setupFeeGhs: null, monthlyFeeGhs: null, deliveryTime: "Scoped at the discovery call" },
     ],
     features: [
-      { feature: "Sales Management", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Expense Tracking", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Customer Records", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Inventory Management", professional: "Yes", enterprise: "Yes" },
-      { feature: "Invoice Generation", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Reports Dashboard", basic: "Basic", professional: "Advanced", enterprise: "Custom" },
-      { feature: "Employee Accounts", basic: "5", professional: "25", enterprise: "Unlimited" },
-      { feature: "Multi-Branch Support", professional: "Yes", enterprise: "Yes" },
-      { feature: "Mobile Application", professional: "Optional", enterprise: "Yes" },
-      { feature: "API Integration", enterprise: "Yes" },
-      { feature: "Managed Services Level", basic: "Basic", professional: "Professional", enterprise: "Enterprise" },
+      { feature: "Checkout sales entry (phone, tablet, or computer)", starter: "Yes", growth: "Yes", premium: "Contact Sales — scoped to need" },
+      { feature: "Payment methods (cash, MoMo, transfer, card, credit)", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Mobile money reconciliation", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Daily match report (sales vs money vs stock/credit)", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Staff roles & permissions", starter: "Owner + cashier (5 seats)", growth: "Advanced roles (25 seats)", premium: "Yes" },
+      { feature: "Receipts & invoice generation", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Customer records & credit balances", starter: "Basic", growth: "Full + collections view", premium: "Yes" },
+      { feature: "Expense tracking", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Basic low-stock alert", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Inventory management (stock tied to sales & movements)", growth: "Yes", premium: "Yes" },
+      { feature: "Works on existing devices (no POS machine required)", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Multi-branch, mobile app, API integration, dedicated engineer", premium: "Yes" },
     ],
+    addOns: [
+      { name: "Inventory Management (if not in your tier)", price: "GHS 180/month" },
+      { name: "Data Migration (spreadsheets/notebooks)", price: "GHS 500 one-time (first basic import free)" },
+      { name: "Multi-Branch Support, per additional branch", price: "GHS 1,000 one-time setup + GHS 80/branch/month" },
+      { name: "Extra employee/user account (beyond tier allowance)", price: "GHS 25/user/month" },
+      { name: "API / Third-Party Integration", price: "Quote on request" },
+      { name: "Advanced Reports Dashboard", price: "GHS 400 one-time" },
+      { name: "Custom Reports Dashboard", price: "GHS 800 one-time" },
+      { name: "POS hardware setup support (client-owned devices)", price: "Quote on request" },
+    ],
+    exclusionsNote:
+      "Hardware procurement and POS devices (printers, scanners, cash drawers, terminals), full accounting/GRA filing or certification, and data migration beyond the Data Migration add-on's agreed scope are not included. Payment confirmation on Starter/Growth is staff-verified against cash, MoMo, bank, or card proof unless an integration is separately scoped.",
+    pricingNote: "No onboarding fee and no minimum term on Starter or Growth.",
 
     // Landing-page content
     heroImage: "/assets/services/business-operations-hero.jpg",
@@ -309,7 +393,7 @@ export const servicePackages: Service[] = [
       },
       {
         question: "Can you migrate my existing data?",
-        answer: "Yes. We import your current customer list, inventory, and historical sales, so you start with a complete picture, not an empty system.",
+        answer: "Yes. We import your current customer list, inventory, and historical sales, so you start with a complete picture, not an empty system. A first basic import is free; a larger migration is a one-time GHS 500 add-on.",
       },
       {
         question: "Does it work without internet?",
@@ -329,20 +413,35 @@ export const servicePackages: Service[] = [
     targetCustomers: ["Sales-driven businesses"],
     status: "rollout",
     tiers: [
-      { name: "Basic", setupFeeUsd: 2175, monthlyFeeUsd: 165, deliveryTime: "4 weeks" },
-      { name: "Professional", setupFeeUsd: 4900, monthlyFeeUsd: 380, deliveryTime: "8 weeks" },
-      { name: "Enterprise", setupFeeUsd: 10850, monthlyFeeUsd: 1085, deliveryTime: "3–5 months" },
+      { name: "Starter", setupFeeGhs: 0, monthlyFeeGhs: 275, deliveryTime: "14 days", annualPrepayGhs: 2805, annualPrepayDiscountPct: 15 },
+      { name: "Growth", setupFeeGhs: 0, monthlyFeeGhs: 400, deliveryTime: "30 days", annualPrepayGhs: 3936, annualPrepayDiscountPct: 18 },
+      { name: "Premium", setupFeeGhs: null, monthlyFeeGhs: null, deliveryTime: "Scoped at the discovery call" },
     ],
     features: [
-      { feature: "CRM System", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Customer Database", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Sales Pipeline", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Email Marketing", professional: "Yes", enterprise: "Yes" },
-      { feature: "Chat Channel Integration", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Loyalty Programme", professional: "Yes", enterprise: "Yes" },
-      { feature: "Customer Portal", professional: "Optional", enterprise: "Yes" },
-      { feature: "AI Recommendations", enterprise: "Yes" },
-      { feature: "Managed Services Level", basic: "Basic", professional: "Professional", enterprise: "Enterprise" },
+      { feature: "CRM system", starter: "Yes", growth: "Yes", premium: "Contact Sales — scoped to need" },
+      { feature: "Customer database", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Sales pipeline", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "WhatsApp Business-native messaging (fair-use allowance)", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Mobile Money-billed invoicing (MTN MoMo / Vodafone Cash)", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Basic feedback / review-request automation", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Email marketing", growth: "Yes", premium: "Yes" },
+      { feature: "Loyalty programme", growth: "Yes", premium: "Yes" },
+      { feature: "Customer portal, AI recommendations, dedicated engineer", premium: "Yes" },
+      { feature: "User seats included", starter: "Up to 3", growth: "Up to 5", premium: "Unlimited" },
+    ],
+    addOns: [
+      { name: "Email Marketing (if not in your tier)", price: "GHS 1,800" },
+      { name: "Loyalty Programme (if not in your tier)", price: "GHS 2,000" },
+      { name: "Customer Segmentation", price: "GHS 1,250" },
+      { name: "Customer Portal", price: "GHS 1,000" },
+      { name: "AI Recommendations", price: "GHS 4,000 (+ metered AI usage)" },
+    ],
+    exclusionsNote: "Advertising spend, customer acquisition campaigns, and social media content creation are not included.",
+    pricingNote: "Prepay annually for 15% off Starter or 18% off Growth — the only package with this option. No onboarding fee, month-to-month otherwise.",
+    meteredAllowances: [
+      { usage: "WhatsApp/SMS conversations", includedAllowance: "1,000/month", overageRate: "GHS 1.65/conversation thereafter" },
+      { usage: "AI/LLM calls (AI-enabled features only)", includedAllowance: "2,000,000 tokens/month", overageRate: "GHS 55/100,000 tokens thereafter" },
+      { usage: "Storage", includedAllowance: "25 GB", overageRate: "GHS 110/GB/month thereafter" },
     ],
 
     // Landing-page content
@@ -397,7 +496,7 @@ export const servicePackages: Service[] = [
     faqs: [
       {
         question: "Does it work with our existing chat and business number?",
-        answer: "Yes. We connect to the chat apps and business number you already use. No need to change your number or start a new account.",
+        answer: "Yes. Messaging runs through WhatsApp Business-native integration on the chat apps and business number you already use. No need to change your number or start a new account.",
       },
       {
         question: "Do my salespeople need to be tech-savvy?",
@@ -417,23 +516,35 @@ export const servicePackages: Service[] = [
     tagline: "Know your business. Predict your future.",
     heroHeadline: "See your business",
     heroAccent: "as clearly as we do.",
-    primaryGoal: "Make data-driven decisions",
-    targetCustomers: ["Established SMEs"],
+    primaryGoal: "Turn existing Business Operations data into decisions",
+    targetCustomers: ["Existing Business Operations clients"],
+    expansionOnly: true,
     status: "rollout",
     tiers: [
-      { name: "Basic", setupFeeUsd: 2725, monthlyFeeUsd: 215, deliveryTime: "4 weeks" },
-      { name: "Professional", setupFeeUsd: 6500, monthlyFeeUsd: 490, deliveryTime: "8 weeks" },
-      { name: "Enterprise", setupFeeUsd: 16300, monthlyFeeUsd: 1360, deliveryTime: "3–6 months" },
+      { name: "Starter", setupFeeGhs: 0, monthlyFeeGhs: 275, deliveryTime: "7 days" },
+      { name: "Growth", setupFeeGhs: 0, monthlyFeeGhs: 550, deliveryTime: "21 days" },
+      { name: "Premium", setupFeeGhs: null, monthlyFeeGhs: null, deliveryTime: "Scoped at the discovery call" },
     ],
     features: [
-      { feature: "Dashboard", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Sales Analytics", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Financial Analytics", basic: "Yes", professional: "Yes", enterprise: "Yes" },
-      { feature: "Automated Reports", professional: "Yes", enterprise: "Yes" },
-      { feature: "Predictive Analytics", enterprise: "Yes" },
-      { feature: "AI Insights", enterprise: "Yes" },
-      { feature: "Data Integration", basic: "Basic", professional: "Advanced", enterprise: "Enterprise" },
-      { feature: "Managed Services Level", basic: "Basic", professional: "Professional", enterprise: "Enterprise" },
+      { feature: "Pre-built dashboard pack (sales, inventory, cash flow)", starter: "Yes", growth: "Yes", premium: "Contact Sales — scoped to need" },
+      { feature: "Sales analytics", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Financial analytics", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Weekly KPI email digest", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Automated reports", growth: "Yes", premium: "Yes" },
+      { feature: "Predictive analytics, AI insights, dedicated engineer", premium: "Yes" },
+    ],
+    addOns: [
+      { name: "Automated + Scheduled Reports (if not in your tier)", price: "GHS 1,500" },
+      { name: "KPI Tuning Workshop", price: "GHS 800" },
+      { name: "Predictive Analytics", price: "GHS 3,500" },
+      { name: "AI Insights Layer", price: "GHS 4,000 (+ metered AI usage)" },
+      { name: "Additional Source-System Connector", price: "Quote on request" },
+    ],
+    exclusionsNote: "Source-system access must be provided by the client; third-party data-source licensing fees are pass-through.",
+    pricingNote:
+      "This is an expansion offer for existing Business Operations clients, not sold standalone or cold — the natural trigger is about six months of real Business Operations data to build the dashboards from.",
+    meteredAllowances: [
+      { usage: "AI/LLM calls (AI-enabled features only)", includedAllowance: "2,000,000 tokens/month", overageRate: "GHS 55/100,000 tokens thereafter" },
     ],
 
     // Landing-page content
@@ -487,6 +598,10 @@ export const servicePackages: Service[] = [
     ],
     faqs: [
       {
+        question: "Can I buy this without being a Business Operations client?",
+        answer: "No. Business Intelligence is an expansion built on data you're already collecting with us through Business Operations. If you're not yet a client there, that's where we'd start.",
+      },
+      {
         question: "What data sources can you connect?",
         answer: "Any system that exports data: your POS, your accounting software, your bank, mobile-money reports, spreadsheets, even other CRMs. We connect to all of them and normalise the data.",
       },
@@ -496,7 +611,7 @@ export const servicePackages: Service[] = [
       },
       {
         question: "How long until the dashboard is live?",
-        answer: "Basic: 4 weeks. Professional: 8 weeks. Enterprise (with predictive AI): 3–6 months. We share progress weekly.",
+        answer: "Starter: 7 days. Growth: 21 days. Premium: scoped at the discovery call. We share progress weekly.",
       },
     ],
   },
@@ -505,24 +620,45 @@ export const servicePackages: Service[] = [
     slug: "automation-efficiency",
     order: 5,
     name: "Automation & Efficiency",
-    tagline: "Automate the repetitive work your team keeps doing by hand.",
+    tagline: "Make your business work smarter.",
     heroHeadline: "Make the work that doesn't need you",
     heroAccent: "— disappear.",
     primaryGoal: "Reduce manual work",
     targetCustomers: ["Process-heavy businesses"],
     status: "rollout",
     tiers: [
-      { name: "Basic", setupFeeUsd: 1100, monthlyFeeUsd: 110, deliveryTime: "3–4 weeks" },
-      { name: "Professional", setupFeeUsd: 3800, monthlyFeeUsd: 325, deliveryTime: "8 weeks" },
-      { name: "Enterprise", setupFeeUsd: 10850, monthlyFeeUsd: 1085, deliveryTime: "3–6 months" },
+      { name: "Starter", setupFeeGhs: 2500, monthlyFeeGhs: 680, deliveryTime: "14 days" },
+      { name: "Growth", setupFeeGhs: 10000, monthlyFeeGhs: 1960, deliveryTime: "21 days" },
+      { name: "Premium", setupFeeGhs: null, monthlyFeeGhs: null, deliveryTime: "Scoped at the discovery call" },
     ],
-    solutions: [
-      "Workflow automation",
-      "Document processing",
-      "Approval systems",
-      "Notifications",
-      "AI assistants",
-      "System integrations",
+    features: [
+      { feature: "Process-mapping / discovery session", starter: "Yes", growth: "Yes", premium: "Contact Sales — scoped to need" },
+      { feature: "Workflow automations (n8n)", starter: "2–3 flows", growth: "6–8 flows", premium: "15+ flows" },
+      { feature: "Pre-built flow template library access", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Notifications + escalation", starter: "Yes", growth: "Yes", premium: "Yes" },
+      { feature: "Document processing", growth: "Yes", premium: "Yes" },
+      { feature: "Approval systems", growth: "Yes", premium: "Yes" },
+      { feature: "AI assistants", premium: "Yes" },
+    ],
+    addOns: [
+      { name: "Additional workflow (beyond your tier's included count)", price: "GHS 400/flow" },
+      { name: "Document Processing (if not in your tier)", price: "GHS 1,500" },
+      { name: "Approval Systems (if not in your tier)", price: "GHS 1,500" },
+      { name: "System Integration / Connector", price: "GHS 1,000" },
+      { name: "AI Assistants", price: "GHS 5,000 (+ metered AI usage)" },
+    ],
+    outcomePricing: [
+      { type: "Customer conversation handled", priceLabel: "GHS 2.50/conversation" },
+      { type: "Document processed (invoice, order form, receipt)", priceLabel: "GHS 3.50/document" },
+      { type: "Social post generated and scheduled", priceLabel: "GHS 60/post" },
+    ],
+    outcomePricingCapNote:
+      "For customer-facing automation only, capped at GHS 2,500/month per automated process — the flat Growth tier (GHS 1,960/mo) is already cheaper than that cap, so we'll always check the crossover before quoting outcome pricing.",
+    exclusionsNote: "Third-party API usage fees beyond included allowances, WhatsApp Business API verification fees (pass-through), and custom hardware/IoT integration are not included.",
+    pricingNote: "Priced like a real automation agency: a setup/build fee plus a smaller monthly fee capped per automated process, not a pure subscription.",
+    meteredAllowances: [
+      { usage: "WhatsApp/SMS conversations", includedAllowance: "1,000/month", overageRate: "GHS 1.65/conversation thereafter" },
+      { usage: "AI/LLM calls (AI-enabled features only)", includedAllowance: "2,000,000 tokens/month", overageRate: "GHS 55/100,000 tokens thereafter" },
     ],
 
     // Landing-page content
@@ -581,7 +717,7 @@ export const servicePackages: Service[] = [
       },
       {
         question: "Do you use off-the-shelf tools or custom code?",
-        answer: "Both, depending on the job. Most workflows run on proven platforms (Zapier, n8n, custom Node); for complex integrations we write code.",
+        answer: "Both, depending on the job. Most workflows run on n8n and other proven automation platforms; for complex integrations we write custom code.",
       },
       {
         question: "What if the process changes after you build it?",
@@ -604,7 +740,10 @@ export interface CustomService {
   startingPriceUsd: number;
 }
 
-/** Bespoke offerings outside the recurring services */
+/** Bespoke offerings outside the recurring services. No GHS source for
+ *  these exists in the v9.0 catalogue packages (they're scoped/quoted
+ *  per engagement, not catalogue items) — stays in USD until a GHS
+ *  figure is published for it. */
 export const customServices: CustomService[] = [
   { name: "Custom Software Development", startingPriceUsd: 2625 },
   { name: "Mobile Applications", startingPriceUsd: 2185 },
@@ -615,17 +754,17 @@ export interface JourneyStage {
   stage: number;
   packageName: string;
   packageId: string;
-  setupFeeUsd: number;
-  monthlyFeeUsd: number;
+  setupFeeGhs: number;
+  monthlyFeeGhs: number;
 }
 
-/** Recommended MSME growth ladder (§3.8) */
+/** Recommended MSME growth ladder — each stage mirrors its package's Starter tier. */
 export const customerJourney: JourneyStage[] = [
-  { stage: 1, packageName: "Digital Foundation", packageId: "digital-foundation", setupFeeUsd: 550, monthlyFeeUsd: 85 },
-  { stage: 2, packageName: "Business Operations", packageId: "business-operations", setupFeeUsd: 1625, monthlyFeeUsd: 140 },
-  { stage: 3, packageName: "Customer Growth", packageId: "customer-growth", setupFeeUsd: 2175, monthlyFeeUsd: 165 },
-  { stage: 4, packageName: "Business Intelligence", packageId: "business-intelligence", setupFeeUsd: 2725, monthlyFeeUsd: 215 },
-  { stage: 5, packageName: "Automation & Efficiency", packageId: "automation-efficiency", setupFeeUsd: 1100, monthlyFeeUsd: 110 },
+  { stage: 1, packageName: "Digital Foundation", packageId: "digital-foundation", setupFeeGhs: 3500, monthlyFeeGhs: 250 },
+  { stage: 2, packageName: "Business Operations", packageId: "business-operations", setupFeeGhs: 0, monthlyFeeGhs: 275 },
+  { stage: 3, packageName: "Customer Growth", packageId: "customer-growth", setupFeeGhs: 0, monthlyFeeGhs: 275 },
+  { stage: 4, packageName: "Business Intelligence", packageId: "business-intelligence", setupFeeGhs: 0, monthlyFeeGhs: 275 },
+  { stage: 5, packageName: "Automation & Efficiency", packageId: "automation-efficiency", setupFeeGhs: 2500, monthlyFeeGhs: 680 },
 ];
 
 /** Find a service by its URL slug (== id, but explicit for clarity) */

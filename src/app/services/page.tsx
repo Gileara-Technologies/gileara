@@ -74,12 +74,15 @@ const jsonLd = {
             { "@type": "Place", name: "Africa" },
             { "@type": "Place", name: "Worldwide" },
           ],
+          // lowPrice/highPrice span Starter..Growth only: Premium is
+          // "Contact Sales" on every package (no published figure), so
+          // it isn't a priced offer to aggregate.
           offers: {
             "@type": "AggregateOffer",
-            priceCurrency: "USD",
-            lowPrice: pkg.tiers[0].monthlyFeeUsd,
-            highPrice: pkg.tiers[pkg.tiers.length - 1].monthlyFeeUsd,
-            offerCount: pkg.tiers.length,
+            priceCurrency: "GHS",
+            lowPrice: pkg.tiers[0].monthlyFeeGhs,
+            highPrice: pkg.tiers[1].monthlyFeeGhs,
+            offerCount: 2,
             category: pkg.primaryGoal,
           },
         },

@@ -346,11 +346,20 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
               </h2>
               <RevealText delay={0.15}>
                 <p className="text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
-                  Three tiers, each with managed services included from the start. The monthly price is the full price, set in USD and payable in cedis at our published rate.
+                  {service.expansionOnly
+                    ? "Priced for existing Business Operations clients, in Ghana cedis, with managed services included from the start."
+                    : "Three tiers, priced in Ghana cedis, each with managed services included from the start."}
                 </p>
               </RevealText>
             </div>
           </div>
+
+          {service.expansionOnly && (
+            <div className="mb-12 rounded-xl border border-accent-bright/30 bg-surface-container p-6 max-w-2xl">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-2">Not a cold start</div>
+              <p className="text-on-surface-variant text-sm leading-relaxed">{service.pricingNote}</p>
+            </div>
+          )}
 
           {/* Tier cards (mobile-friendly stacked) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -366,13 +375,26 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
                 <div className="font-mono text-label uppercase tracking-[0.2em] text-accent-bright mb-3">
                   {t.name}
                 </div>
-                <div className="font-mono text-display-md text-on-background leading-none tracking-[-0.03em] mb-2">
-                  ${t.monthlyFeeUsd.toLocaleString("en-US")}
-                  <span className="text-base font-sans text-on-surface-variant">/mo</span>
+                {t.monthlyFeeGhs === null ? (
+                  <div className="font-mono text-display-sm text-on-background leading-none tracking-[-0.03em] mb-2">
+                    Contact Sales
+                  </div>
+                ) : (
+                  <div className="font-mono text-display-md text-on-background leading-none tracking-[-0.03em] mb-2">
+                    GHS {t.monthlyFeeGhs.toLocaleString("en-US")}
+                    <span className="text-base font-sans text-on-surface-variant">/mo</span>
+                  </div>
+                )}
+                <div className="text-sm text-on-surface-variant mb-2">
+                  {t.monthlyFeeGhs === null
+                    ? t.deliveryTime
+                    : `${t.setupFeeGhs ? `GHS ${t.setupFeeGhs.toLocaleString("en-US")} setup` : "No onboarding fee"} · ${t.deliveryTime} delivery`}
                 </div>
-                <div className="text-sm text-on-surface-variant mb-6">
-                  ${t.setupFeeUsd.toLocaleString("en-US")} setup · {t.deliveryTime} delivery
-                </div>
+                {t.annualPrepayGhs !== undefined && t.annualPrepayDiscountPct !== undefined && (
+                  <div className="text-xs text-accent-bright mb-4">
+                    {t.annualPrepayDiscountPct}% off on annual prepay — GHS {t.annualPrepayGhs.toLocaleString("en-US")}/yr
+                  </div>
+                )}
                 {i === 1 && (
                   <div className="text-xs font-mono uppercase tracking-[0.2em] text-accent-bright mb-6">
                     Most popular
@@ -383,11 +405,73 @@ export default function ServiceLandingPage({ service }: ServiceLandingPageProps)
                   variant={i === 1 ? "primary" : "secondary"}
                   size="md"
                 >
-                  Discuss {t.name}
+                  {t.monthlyFeeGhs === null ? "Talk to sales" : `Discuss ${t.name}`}
                 </MagneticButton>
               </div>
             ))}
           </div>
+
+          {service.addOns && service.addOns.length > 0 && (
+            <div className="mb-10">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-4">Add-ons</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl">
+                {service.addOns.map((a) => (
+                  <div
+                    key={a.name}
+                    className="flex items-center justify-between gap-3 px-4 py-3 rounded-md border border-on-background/10 bg-surface"
+                  >
+                    <span className="text-on-background text-sm">{a.name}</span>
+                    <span className="text-on-surface-variant text-xs font-mono shrink-0">{a.price}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {service.outcomePricing && service.outcomePricing.length > 0 && (
+            <div className="mb-10 max-w-3xl">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+                Outcome-based pricing (customer-facing automation)
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                {service.outcomePricing.map((o) => (
+                  <div key={o.type} className="rounded-md border border-on-background/10 bg-surface p-4">
+                    <div className="text-on-background text-sm mb-1">{o.type}</div>
+                    <div className="text-accent-bright text-sm font-mono">{o.priceLabel}</div>
+                  </div>
+                ))}
+              </div>
+              {service.outcomePricingCapNote && (
+                <p className="text-on-surface-variant text-xs leading-relaxed">{service.outcomePricingCapNote}</p>
+              )}
+            </div>
+          )}
+
+          {service.meteredAllowances && service.meteredAllowances.length > 0 && (
+            <div className="mb-10 max-w-3xl">
+              <div className="font-mono text-label uppercase tracking-[0.2em] text-on-surface-variant mb-4">Usage allowances</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {service.meteredAllowances.map((m) => (
+                  <div key={m.usage} className="rounded-md border border-on-background/10 bg-surface p-4">
+                    <div className="text-on-background text-sm mb-1">{m.usage}</div>
+                    <div className="text-on-surface-variant text-xs">
+                      {m.includedAllowance} included, then {m.overageRate}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {!service.expansionOnly && service.pricingNote && (
+            <p className="text-on-surface-variant text-sm italic mb-4 max-w-[72ch]">{service.pricingNote}</p>
+          )}
+          {service.exclusionsNote && (
+            <p className="text-on-surface-variant text-xs mb-6 max-w-[72ch]">
+              <span className="font-mono uppercase tracking-wider text-on-surface-variant/70">Not included: </span>
+              {service.exclusionsNote}
+            </p>
+          )}
 
           <p className="text-on-surface-variant text-sm italic max-w-[72ch]">{MANAGED_SERVICES_NOTE}</p>
         </div>

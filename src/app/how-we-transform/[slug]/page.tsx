@@ -173,7 +173,7 @@ export default async function ScenarioPage({ params }: PageProps) {
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container dark:bg-surface-container-high border border-outline-variant/20 dark:border-outline-variant/10 hover:border-primary/40 transition-colors"
                 >
                   <span className="font-semibold text-sm text-on-surface">{pkg.name}</span>
-                  <span className="font-mono text-xs text-outline">from ${pkg.tiers[0].monthlyFeeUsd}/mo</span>
+                  <span className="font-mono text-xs text-outline">from GHS {pkg.tiers[0].monthlyFeeGhs}/mo</span>
                 </Link>
               ))}
             </div>

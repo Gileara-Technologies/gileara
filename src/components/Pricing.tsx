@@ -97,11 +97,11 @@ export default function Pricing() {
                   <div className="flex items-center gap-6 shrink-0">
                     <div className="text-right hidden sm:block">
                       <div className="font-mono text-lg text-on-background">
-                        ${basic.monthlyFeeUsd.toLocaleString("en-US")}
+                        GHS {basic.monthlyFeeGhs?.toLocaleString("en-US")}
                         <span className="text-xs text-white/30 font-sans">/mo</span>
                       </div>
                       <div className="font-mono text-[11px] text-white/25 mt-0.5">
-                        +${basic.setupFeeUsd.toLocaleString("en-US")} setup
+                        {basic.setupFeeGhs ? `+GHS ${basic.setupFeeGhs.toLocaleString("en-US")} setup` : "no onboarding fee"}
                       </div>
                     </div>
                     <motion.span
