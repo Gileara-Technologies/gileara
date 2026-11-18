@@ -17,8 +17,8 @@ so the tree is always in a shippable state between rounds.
 
 | # | Workstream | Status | Notes |
 |---|---|---|---|
-| 1 | Services data overhaul (new pricing source) | **done** (round 1) | Type-checked (`npx tsc --noEmit` clean), lint clean, 485/485 tests passing, `npm run build` green (all 5 service landing pages still prerender statically). Committed. See "Workstream 1" below for the full decision log. |
-| 2 | Humanizer pass on site copy | not started | |
+| 1 | Services data overhaul (new pricing source) | **done** (round 1, + a follow-up fix same round) | Type-checked (`npx tsc --noEmit` clean), lint clean, 485/485 tests passing, `npm run build` green (all 5 service landing pages still prerender statically). Committed. See "Workstream 1" below for the full decision log, including a second pass that caught stale USD/Basic-Professional-Enterprise references left over in `faqs.ts`, `posts.ts`, and `/security` while starting workstream 2 — grep every content module for `$[0-9]`, `USD`, and the old tier names before considering this workstream truly closed. |
+| 2 | Humanizer pass on site copy | **done** (round 1) | Finding: already clean from prior session work, zero AI-tell matches across every content module and component. Real defect found instead was a pricing-accuracy issue, folded into workstream 1. See "Workstream 2" below. |
 | 3 | 3D + mobile-optimized visual pass | **started** (round 1) | First deliverable shipped: a WebGL point-field depth layer behind the Hero, gated to fine-pointer/motion-ok visitors only. See "Workstream 3" below. More 3D touches (other sections) are a candidate for a future round, not required to call this workstream "done" — one tasteful, fully-verified element beats several rushed ones. |
 
 ## Workstream 1 — Services data overhaul
@@ -125,12 +125,85 @@ stays in USD — no GHS figure was published for it in the new source, and
 inventing one would be exactly the kind of fabricated data this
 codebase's honesty conventions exist to prevent.
 
-## Workstream 2 — Humanizer pass (not started)
+### Follow-up fix (same round, found while starting workstream 2)
 
-Plan: run the `humanizer` skill's checklist against the highest-traffic
-copy first (homepage, /about, /services, /faq) rather than trying every
-page in one round. Re-check Business Operations' problem/observation copy
-against its revised sales framing while in there (flagged above).
+The initial pass only touched the five files above because `npx tsc
+--noEmit` surfaces type errors, not stale *prose* that happens to
+compile fine — a plain-string mention of "$550" or "Enterprise tier"
+inside a content module's copy is just a string, so the compiler has no
+opinion on it. Found by grepping every content module for `\$[0-9]`,
+`USD`, and the old tier names once workstream 2 started reading through
+site copy. Fixed, all in content modules (confirmed empty D1 tables
+first, via `wrangler d1 execute ... SELECT COUNT(*)`, so these files
+are exactly what's live in production, not a stale fallback nobody
+reads):
+
+- `src/content/faqs.ts` — the "How much do your packages cost?" answer
+  cited the old $550/$16,300 figures; rewritten to the real GHS range
+  (GHS 275/month floor up to Automation & Efficiency's GHS 10,000 +
+  GHS 1,960/month Growth tier — the actual highest published figure
+  now, confirmed by reading every tier). The mobile-money FAQ claimed
+  "we invoice in USD but settle in cedis," which directly contradicted
+  the new pricing model (packages are natively GHS now, no conversion
+  framing needed) — corrected, and clarified that the still-USD
+  `customServices` bespoke-engagement pricing is the one place USD
+  still legitimately applies. Two "Enterprise tier" mentions renamed
+  to "Premium."
+- `src/content/posts.ts` — two Insight-post CTAs cited old USD figures
+  ($550+$85/mo, $1,625+$140/mo) for Digital Foundation and Business
+  Operations; updated to their real GHS figures (GHS 3,500+250/mo; GHS
+  275/mo, no onboarding fee — Business Operations has none now). Two
+  more "Enterprise tier"/"Enterprise" mentions renamed to "Premium."
+- `src/content/packages.ts` — `MANAGED_SERVICES_NOTE` and one
+  Business-Intelligence `howWeHelp` entry title still said "Enterprise"
+  in prose even though the tier itself had already been renamed
+  everywhere else — missed in the first pass because these are plain
+  string literals, not the `ServiceTier["name"]` type the compiler
+  checks.
+- `src/app/security/page.tsx` — a hardcoded "what managed services
+  cover" table (a second, independent copy of the same coverage matrix
+  shown on each package, not read from `packages.ts`) still had
+  Basic/Professional/Enterprise column headers; renamed to
+  Starter/Growth/Premium.
+
+Re-verified after this fix: `npx tsc --noEmit` clean, lint clean,
+485/485 tests passing, `npm run build` green.
+
+## Workstream 2 — Humanizer pass
+
+**Finding (round 1): there is almost nothing to humanize.** Loaded the
+`humanizer` skill and grepped every strong, unambiguous AI-writing tell
+it lists (§1-§3, §12-§13, §16, §19 in its own numbering: "crucial,"
+"delve," "underscore," "robust," "tapestry," "testament," "pivotal,"
+"not just X but Y," "stands as a testament," "let's dive in," "here's
+the thing," travel-blog clichés like "nestled in the heart of," etc.)
+across `src/content/` and every `.tsx` under `src/components/`: **zero
+matches, every pattern, every file.** This isn't an oversight — the
+session history for this project shows multiple prior rounds explicitly
+titled "Humanize [X] copy" (homepage, FAQs/roles/founders/team,
+services/insights/faq, packages.ts, posts+scenarios, about/contact/
+careers) that already did this work, thoroughly, before this round's
+objective was given.
+
+Spot-checked by directly reading (not just grepping) `founders.ts`,
+`faqs.ts`'s full answer set, and a full Insight post (`building-
+scalable-mvps` in `posts.ts`) — plain, specific, varied-length prose,
+no staged contrasts, no one-line closers, no triads-by-rule. Reads like
+a person who runs this business wrote it, which is the actual goal, not
+"zero hits on a grep" as a target to game.
+
+What this round's humanizer work actually consisted of, then: the
+pricing-content-accuracy sweep documented above as "Workstream 1 follow-
+up" — found while reading through copy for tells, not a tell itself,
+but a real defect (stale prices/tier names in prose the grep for AI
+patterns doesn't catch, since a wrong number isn't a writing-style
+problem). Closing this workstream here rather than manufacturing edits
+to text that already reads well; a future round should re-run this
+same grep sweep after any substantial new copy is added (the "Workstream
+1" new package-specific prose — `pricingNote`, `exclusionsNote`, the
+outcome-pricing cap note — was written fresh this round and should get
+its own humanizer pass eventually, though a first read of it during
+writing didn't surface any obvious tells either).
 
 ## Workstream 3 — 3D + mobile-optimized visual pass
 

@@ -16,17 +16,17 @@ export const faqs: Faq[] = [
   {
     question: "How much do your packages cost?",
     answer:
-      "Every price is published on our Packages & Services page. Packages start at $550 setup + $85/month (Digital Foundation Basic) and scale up to enterprise tiers at $16,300 + $1,360/month (Business Intelligence). Each tier's full feature matrix is listed so you can compare before you ever talk to us.",
+      "Every price is published on our Packages & Services page, in Ghana cedis. Starter tiers run from GHS 275/month (no onboarding fee on most packages) up to GHS 10,000 setup + GHS 1,960/month for Automation & Efficiency's Growth tier. Premium is a scoping conversation, never a guessed number. Each tier's full feature matrix is listed so you can compare before you ever talk to us.",
   },
   {
     question: "Can I pay with mobile money?",
     answer:
-      "Yes. Mobile money is one of our standard billing rails, alongside card payments and bank transfer. We invoice in USD but settle in the way that suits your business. We'll confirm the available methods on the discovery call based on your bank and country.",
+      "Yes. Mobile money is one of our standard billing rails, alongside card payments and bank transfer. Package pricing is published in Ghana cedis; bespoke engagements outside the packages are quoted in USD. We'll confirm the available methods on the discovery call based on your bank and country.",
   },
   {
     question: "What does 'managed services included' actually mean?",
     answer:
-      "It means your monthly fee covers more than software access: IT support, software updates, backups, and security monitoring are built into every tier, with SLA-backed response times and dedicated engineering at the Enterprise tier. Support isn't billed separately.",
+      "It means your monthly fee covers more than software access: IT support, software updates, backups, and security monitoring are built into every tier, with SLA-backed response times and dedicated engineering at the Premium tier. Support isn't billed separately.",
   },
   {
     question: "Am I locked into a long contract?",

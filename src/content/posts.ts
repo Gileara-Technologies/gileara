@@ -52,7 +52,7 @@ export const posts: InsightPost[] = [
       { type: "paragraph", text: "Software has two costs: building it and keeping it alive. Many vendors sell you the first and rent you the second, line by line: support tickets, backups, security patches, \u201Cpremium maintenance tiers.\u201D By year two, the hidden half can exceed the original quote." },
       { type: "heading", text: "What all-inclusive has to cover" },
       { type: "paragraph", text: "If a provider says all-inclusive, hold them to this list: IT support when things break, software updates as platforms evolve, regular backups you can actually restore from, and security monitoring appropriate to your tier. If any of those appear as add-ons later, the promise was marketing." },
-      { type: "paragraph", text: "That list is written into every Gileara package as managed services from day one, including SLA-backed response and dedicated engineering at Enterprise tier. We publish what's included so you can compare us against quotes that aren't." },
+      { type: "paragraph", text: "That list is written into every Gileara package as managed services from day one, including SLA-backed response and dedicated engineering at Premium tier. We publish what's included so you can compare us against quotes that aren't." },
       { type: "heading", text: "Questions to ask any vendor" },
       { type: "paragraph", text: "Before signing anything: What happens when it breaks, and who pays? Are updates included forever or billed per release? Where are my backups and how often are they tested? What exactly does the monthly fee cover after launch? If the answers are vague, don't sign." },
       {
@@ -77,12 +77,12 @@ export const posts: InsightPost[] = [
       { type: "heading", text: "Stage one: being findable" },
       { type: "paragraph", text: "Digital Foundation starts with the basics done properly: a real website on your own domain, mobile-responsive because almost all your traffic will be phones, and Google Business Profile configured so nearby customers searching for what you sell find you and can call or get directions in one tap." },
       { type: "heading", text: "Stage two: being measurable" },
-      { type: "paragraph", text: "Analytics setup comes standard, scaled by tier, from basic traffic tracking to custom dashboards at Enterprise. The point is to answer practical questions: where do enquiries come from, what do people look at, did last week's push change anything?" },
+      { type: "paragraph", text: "Analytics setup comes standard, scaled by tier, from basic traffic tracking to custom dashboards at Premium. The point is to answer practical questions: where do enquiries come from, what do people look at, did last week's push change anything?" },
       { type: "heading", text: "What doesn't change" },
       { type: "paragraph", text: "Foundation is deliberately the entry rung: your operations stay as they are, and the market gets to find the work you already do. When you're ready for inventory, sales recording, and customer systems, Business Operations builds on top of it, and nothing you bought gets discarded." },
       {
         type: "cta",
-        text: "Digital Foundation starts at $550 setup + $85/month, all-inclusive.",
+        text: "Digital Foundation starts at GHS 3,500 setup + GHS 250/month, all-inclusive.",
         href: "/services#digital-foundation",
         label: "See the tier details",
       },
@@ -107,7 +107,7 @@ export const posts: InsightPost[] = [
       { type: "paragraph", text: "When channels are structured, closing is arithmetic: totals per channel, discrepancies flagged while they're still traceable, and a record your accountant will thank you for. Automation & Efficiency extends this further once you outgrow manual entry entirely." },
       {
         type: "cta",
-        text: "Business Operations starts at $1,625 setup + $140/month: inventory, sales, expenses, and structured payment capture included.",
+        text: "Business Operations starts at GHS 275/month, no onboarding fee: inventory, sales, expenses, and structured payment capture included.",
         href: "/services#business-operations",
         label: "See Business Operations",
       },

@@ -135,9 +135,9 @@ export default function SecurityPage() {
                 <thead>
                   <tr className="bg-surface-container dark:bg-surface-container-high text-left">
                     <th className="px-4 py-3 font-mono text-[11px] uppercase tracking-wider text-outline">Capability</th>
-                    <th className="px-4 py-3 font-display font-bold text-on-surface">Basic</th>
-                    <th className="px-4 py-3 font-display font-bold text-on-surface">Professional</th>
-                    <th className="px-4 py-3 font-display font-bold text-on-surface">Enterprise</th>
+                    <th className="px-4 py-3 font-display font-bold text-on-surface">Starter</th>
+                    <th className="px-4 py-3 font-display font-bold text-on-surface">Growth</th>
+                    <th className="px-4 py-3 font-display font-bold text-on-surface">Premium</th>
                   </tr>
                 </thead>
                 <tbody>

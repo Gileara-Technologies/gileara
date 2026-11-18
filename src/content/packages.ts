@@ -152,7 +152,7 @@ export interface Service {
 }
 
 export const MANAGED_SERVICES_NOTE =
-  "Every service includes managed services from day one: IT support, software updates, backups, security monitoring (tier-based), SLA support, and dedicated engineering (Enterprise). All of it is included, with no hidden costs.";
+  "Every service includes managed services from day one: IT support, software updates, backups, security monitoring (tier-based), SLA support, and dedicated engineering (Premium). All of it is included, with no hidden costs.";
 
 /** Shown wherever a Premium tier has no published figure. */
 export const PREMIUM_CONTACT_SALES_NOTE =
@@ -586,7 +586,7 @@ export const servicePackages: Service[] = [
         image: "/assets/services/business-intelligence-reports.jpg",
       },
       {
-        title: "Forecasting and AI insights (Enterprise)",
+        title: "Forecasting and AI insights (Premium)",
         description: "Predict next quarter's revenue, identify customers at risk of churning, and surface the products that are quietly losing you money, so you know what to do next.",
         image: "/assets/services/business-intelligence-ai.jpg",
       },
